@@ -77,9 +77,9 @@
   <div class="relative z-30 mt-12 w-full max-w-xl px-4 animate-fade-in delay-300">
     {% include "partials/fundraiser_meter.html" %}
     <p class="mt-3 text-center text-sm font-semibold text-white">
-      💰 <span class="text-yellow-300 font-bold" id="funds-raised">${{ raised }}</span>
+      💰 <span class="text-yellow-300 font-bold" id="funds-raised-hero">${{ raised }}</span>
       raised of
-      <span class="text-yellow-300 font-bold" id="funds-goal">${{ goal }}</span>
+      <span class="text-yellow-300 font-bold" id="funds-goal-hero">${{ goal }}</span>
     </p>
   </div>
 
@@ -98,3 +98,11 @@
   {% include "partials/hero_overlay_quote.html" %}
 </section>
 
+<div class="absolute left-0 top-16 w-full h-24 pointer-events-none select-none z-0 flex flex-row gap-3 opacity-60">
+  <div class="flex-1 bg-gradient-to-r from-red-600 via-gold/80 to-white rounded-r-full blur-xl"></div>
+  <div class="flex-1 bg-gradient-to-l from-gold via-black to-red-600 rounded-l-full blur-xl"></div>
+</div>
+<div class="absolute left-0 top-16 w-full h-24 pointer-events-none select-none z-0 flex flex-row gap-3 opacity-60">
+  <div class="flex-1 bg-gradient-to-r from-red-600 via-gold/80 to-white rounded-r-full blur-xl"></div>
+  <div class="flex-1 bg-gradient-to-l from-gold via-black to-red-600 rounded-l-full blur-xl"></div>
+</div>

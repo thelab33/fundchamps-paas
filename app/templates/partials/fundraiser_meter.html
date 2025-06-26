@@ -32,9 +32,11 @@
   <!-- 📈 Label with Milestone Emoji -->
   <div class="text-sm font-semibold text-yellow-300 whitespace-nowrap text-center sm:text-left">
     Raised:
-    $<span id="funds-raised">{{ raised }}</span> /
-    $<span id="funds-goal">{{ goal }}</span>
+    $<span id="funds-raised-meter">{{ raised }}</span> /
+    $<span id="funds-goal-meter">{{ goal }}</span>
     <span id="emoji-milestone" class="ml-2 text-xl" aria-hidden="true">💤</span>
   </div>
 </div>
+<span id="funds-goal" style="display:none"></span>
+<span id="funds-raised" style="display:none"></span>
 

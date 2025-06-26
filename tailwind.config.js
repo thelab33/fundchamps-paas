@@ -27,8 +27,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#facc15",
-        secondary: "#18181b",
+        // Brand/core palette
+        gold: "#facc15",
+        red: "#b91c1c",         // Deeper, bolder red for championship energy
+        black: "#18181b",
+        white: "#fff",
+        blue: {
+          DEFAULT: "#0a1f44",   // Signature blue
+          dark: "#061633",      // Optional: deeper blue
+        },
+
+        // Semantic naming for easy swapping in @apply/utilities
+        primary: "#facc15",       // Gold is primary!
+        secondary: "#0a1f44",     // Blue is secondary
+        neutral: "#18181b",       // Deep black for backgrounds
+
+        // Extra for gradients or fine-tuning
+        "red-light": "#f87171",
+        "red-dark": "#7f1d1d",
+        "gold-light": "#fde68a",
+        "gold-dark": "#bca004",
       },
       animation: {
         shine: "shine 2.5s linear infinite",

@@ -1,41 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="{{ request.cookies.get('theme', 'dark') }}">
 <head>
-  <!-- 🌐 Basic Meta -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}Connect ATX Elite · Empowering Youth{% endblock %}</title>
-  <meta name="description" content="Empowering youth through basketball, brotherhood, and academics. Join the Connect ATX Elite movement." />
-
-  <!-- 📱 Open Graph -->
-  <meta property="og:title" content="Connect ATX Elite" />
-  <meta property="og:description" content="Empowering youth through basketball, brotherhood, and academics." />
-  <meta property="og:image" content="{{ url_for('static', filename='images/social-card.jpg') }}" />
-  <meta property="og:url" content="{{ request.url }}" />
-  <meta property="og:type" content="website" />
-
-  <!-- 🐦 Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Connect ATX Elite" />
-  <meta name="twitter:description" content="Join the elite basketball brotherhood." />
-  <meta name="twitter:image" content="{{ url_for('static', filename='images/social-card.jpg') }}" />
-
-  <!-- 🖼 Favicons -->
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}" />
-
-  <!-- 🎨 Stylesheets -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/luxury.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/elevated.css') }}">
-
-  <!-- 🔄 Animations -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-
-  {% block extra_styles %}{% endblock %}
+  <!-- ... [unchanged head content] ... -->
 </head>
-
 <body class="bg-zinc-950 text-white antialiased scroll-smooth selection:bg-yellow-300 selection:text-black relative">
 
   <!-- ♿ Skip Link for Accessibility -->
@@ -48,7 +15,10 @@
 
   <!-- 🔧 Main Content Block -->
   <main id="main" class="container mx-auto px-4 py-8" role="main">
-    {% block content %}{% endblock %}
+    {% block content %}
+      <!-- 🎉 Sponsor Leaderboard Section (add here, or inside your home.html/content block as needed) -->
+      {% include "partials/sponsor_leaderboard.html" %}
+    {% endblock %}
   </main>
 
   <!-- 🔚 Footer -->

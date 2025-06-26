@@ -3,3 +3,29 @@
   <div class="absolute inset-0 opacity-5 pointer-events-none bg-center bg-no-repeat bg-contain" style="background-image: url('{{ url_for('static', filename='images/logo.webp') }}');"></div>
   <p>&copy; {{ 2024 }} Connect ATX Elite — All rights reserved.</p>
 </footer>
+<!-- Sponsor Spotlight Modal -->
+<div id="sponsor-spotlight-modal-footer" class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity opacity-0 pointer-events-none duration-300">
+  <div class="bg-gradient-to-br from-black via-red-900/90 to-gold rounded-3xl shadow-ambient border-4 border-gold max-w-lg w-full p-10 flex flex-col items-center text-center relative animate-pulse">
+    <button onclick="closeSpotlight()" class="absolute top-4 right-4 text-gold hover:text-red-500 text-3xl font-bold leading-none">&times;</button>
+    <img src="/static/images/logo.webp" alt="Logo" class="w-16 h-16 rounded-full shadow-inner-gold ring-2 ring-gold mb-4">
+    <h2 class="text-3xl font-extrabold text-gold mb-3">🔥 NEW SPONSOR ALERT! 🔥</h2>
+    <p class="text-xl text-white mb-4" id="sponsor-name-2">Thank you <span class="text-red-400 font-bold">[Sponsor Name]</span> for supporting the team!</p>
+    <div class="prestige-badge bg-gold text-black font-bold px-6 py-2 mt-2 border border-white/20 shadow-inner-gold">
+      🏆 Champion Sponsor!
+    </div>
+  </div>
+</div>
+
+
+<!-- Sponsor Spotlight Modal -->
+<div id="sponsor-spotlight-modal" class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity opacity-0 pointer-events-none duration-300">
+  <div class="bg-gradient-to-br from-black via-red-900/90 to-gold rounded-3xl shadow-ambient border-4 border-gold max-w-lg w-full p-10 flex flex-col items-center text-center relative animate-pulse">
+    <button onclick="closeSpotlight()" class="absolute top-4 right-4 text-gold hover:text-red-500 text-3xl font-bold leading-none">&times;</button>
+    <img src="/static/images/logo.webp" alt="Logo" class="w-16 h-16 rounded-full shadow-inner-gold ring-2 ring-gold mb-4">
+    <h2 class="text-3xl font-extrabold text-gold mb-3">🔥 NEW SPONSOR ALERT! 🔥</h2>
+    <p class="text-xl text-white mb-4" id="sponsor-name-3">Thank you <span class="text-red-400 font-bold">[Sponsor Name]</span> for supporting the team!</p>
+    <div class="prestige-badge bg-gold text-black font-bold px-6 py-2 mt-2 border border-white/20 shadow-inner-gold">
+      🏆 Champion Sponsor!
+    </div>
+  </div>
+</div>

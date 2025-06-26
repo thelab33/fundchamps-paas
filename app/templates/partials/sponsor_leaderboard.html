@@ -1,0 +1,33 @@
+<!-- Sponsor Leaderboard — Connect ATX Elite All-Star Edition 🏆 -->
+<section id="sponsor-leaderboard-section" class="my-12">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <h2 class="heading-gradient text-center mb-6 flex items-center justify-center gap-2">
+      🏆 Sponsor Leaderboard
+    </h2>
+    <p class="text-center text-lg text-gold/80 mb-8">
+      Thanks to our amazing sponsors for powering the Connect ATX Elite journey!<br>
+      <span class="text-white/70 text-sm">Want to join the wall? <button onclick="window.open('#become-sponsor-modal','_self')" class="btn-secondary btn-glow ml-1">Become a Sponsor</button></span>
+    </p>
+    <div id="sponsor-leaderboard-main" class="grid grid-cols-1 md:grid-cols-2 gap-6 transition-all">
+      <!-- JS will render sponsor cards here -->
+      <div class="col-span-2 text-center text-lg text-gold/80 font-semibold">
+        Be our first sponsor! 🏅
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sponsor Spotlight Modal -->
+<div id="sponsor-spotlight-modal-leaderboard" class="fixed inset-0 z-[9998] flex items-center justify-center bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+  <div class="bg-black rounded-2xl border-4 border-gold shadow-elevated px-10 py-7 max-w-xs w-full flex flex-col items-center animate-bounce-in">
+    <img src="/static/images/logo.webp" alt="Connect ATX Elite logo" class="w-14 h-14 mb-2 rounded-full border-2 border-gold shadow-gold-glow" />
+    <div id="sponsor-name-leaderboard" class="text-lg font-bold text-gold mb-3">Thank you <span class="text-red-400 font-bold">Sponsor</span> for supporting the team!</div>
+    <div class="prestige-badge mb-2 text-base">🏆 Champion Sponsor!</div>
+  </div>
+<span id="backToTop" style="display:none"></span>
+<span id="hero-quote-author" style="display:none"></span>
+<span id="hero-quote-avatar" style="display:none"></span>
+<span id="hero-quote-text" style="display:none"></span>
+<span id="hero-quote-title" style="display:none"></span>
+<span id="sponsor-name" style="display:none"></span>
+</div>
