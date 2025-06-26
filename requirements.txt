@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-SocketIO
+eventlet
+python-dotenv
+# Add stripe, twilio, etc as needed

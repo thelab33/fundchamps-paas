@@ -1,0 +1,51 @@
+<!-- ✨ Starforge Elevated Header Partial -->
+<header
+  class="sticky top-0 z-50 w-full bg-secondary/90 backdrop-blur-lg border-b border-primary/30 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.25)] transition-all"
+  role="banner"
+>
+  <div class="container mx-auto flex items-center justify-between px-4 py-4 lg:px-8">
+    <!-- Logo + Brand -->
+    <a
+      href="{{ url_for('main.home') }}"
+      class="flex items-center gap-3 focus-visible:ring-4 focus-visible:ring-yellow-400/70 rounded-2xl outline-none transition duration-150"
+    >
+      <img
+        src="{{ url_for('static', filename='images/logo.webp') }}"
+        alt="Connect ATX Elite logo"
+        class="h-12 w-12 rounded-full ring-4 ring-yellow-400 shadow-gold-glow bg-white/80"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="text-2xl font-extrabold tracking-tight text-primary animate-shine drop-shadow-lg">
+        Connect ATX Elite
+      </span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav
+      class="hidden lg:flex items-center gap-8 text-base font-semibold text-zinc-100"
+      aria-label="Main navigation"
+    >
+      <a href="{{ url_for('main.home') }}" class="nav-underline hover:text-primary transition">Home</a>
+      <a href="#about" class="nav-underline hover:text-primary transition">About</a>
+      <a href="#contact" class="nav-underline hover:text-primary transition">Contact</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button
+      id="hamburger"
+      class="lg:hidden inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-300/10 transition"
+      aria-label="Open mobile menu"
+    >
+      <svg
+        class="w-6 h-6 text-primary"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+</header>

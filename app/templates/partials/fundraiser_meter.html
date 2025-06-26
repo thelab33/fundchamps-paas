@@ -1,0 +1,40 @@
+<!-- 💰 Fundraising Meter with Percentage & Milestones -->
+<div
+  class="w-full bg-black/60 backdrop-blur rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 shadow-lg border border-yellow-400/10"
+  role="region"
+  aria-label="Fundraising Progress"
+>
+  <!-- 📊 Progress Bar -->
+  <div class="w-full sm:flex-1 relative">
+    <div
+      id="hero-meter-bar"
+      role="progressbar"
+      class="h-4 w-full rounded-full bg-zinc-800 overflow-hidden"
+      aria-valuemin="0"
+      aria-valuemax="{{ goal }}"
+      aria-valuenow="{{ raised }}"
+    >
+      <div
+        class="h-full bg-gradient-to-r from-yellow-400 to-yellow-200 transition-all duration-700 ease-out rounded-full"
+        style="width: 0%"
+      ></div>
+    </div>
+
+    <!-- 🌟 Percentage Label -->
+    <div
+      id="hero-meter-percent"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-black bg-yellow-300 px-2 py-0.5 rounded-full shadow-lg"
+    >
+      0%
+    </div>
+  </div>
+
+  <!-- 📈 Label with Milestone Emoji -->
+  <div class="text-sm font-semibold text-yellow-300 whitespace-nowrap text-center sm:text-left">
+    Raised:
+    $<span id="funds-raised">{{ raised }}</span> /
+    $<span id="funds-goal">{{ goal }}</span>
+    <span id="emoji-milestone" class="ml-2 text-xl" aria-hidden="true">💤</span>
+  </div>
+</div>
+
