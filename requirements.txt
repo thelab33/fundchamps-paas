@@ -1,7 +1,34 @@
-Flask
-Flask-SQLAlchemy
-Flask-Migrate
-Flask-SocketIO
-eventlet
-python-dotenv
-# Add stripe, twilio, etc as needed
+# ── Core ───────────────────────────────────────────────
+Flask==3.0.3
+python-dotenv==1.0.1
+
+# ── Database & migrations ─────────────────────────────
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.5
+SQLAlchemy==2.0.30
+psycopg2-binary==2.9.9          # remove if you stay on SQLite only
+
+# ── Realtime / WebSockets ─────────────────────────────
+Flask-SocketIO==5.3.6
+eventlet==0.35.2                # async worker for Socket.IO
+redis==5.0.4                    # message queue / caching
+
+# ── Payments / SMS / AI / Monitoring ──────────────────
+stripe==9.7.0
+twilio==9.0.3
+openai==1.30.1                  # AI thank-you notes
+sentry-sdk[flask]==2.3.0        # error reporting
+
+# ── CORS & rate limiting ──────────────────────────────
+Flask-Cors==4.0.1
+Flask-Limiter[redis]==3.12.0    # latest stable that supports Flask 3
+
+# ── Production server (async) ─────────────────────────
+gunicorn==22.0.0
+gevent==24.2.1
+gevent-websocket==0.10.1
+
+# ── Dev / tooling (optional) ──────────────────────────
+black==24.4.2
+ipython==8.25.0
+
