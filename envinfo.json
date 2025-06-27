@@ -1,0 +1,42 @@
+Need to install the following packages:
+envinfo@7.14.0
+Ok to proceed? (y) 
+{
+  "System": {
+    "OS": "Linux 6.6 Kali GNU/Linux Rolling 2025.2",
+    "CPU": "(2) x64 Intel(R) Core(TM) i5-1035G7 CPU @ 1.20GHz",
+    "Memory": "2.98 GB / 3.83 GB",
+    "Container": "Yes",
+    "Shell": {
+      "version": "5.9",
+      "path": "/usr/bin/zsh"
+    }
+  },
+  "Binaries": {
+    "Node": {
+      "version": "22.16.0",
+      "path": "~/.nvm/versions/node/v22.16.0/bin/node"
+    },
+    "Yarn": {
+      "version": "1.22.22",
+      "path": "~/.npm-global/bin/yarn"
+    },
+    "npm": {
+      "version": "11.4.2",
+      "path": "~/.npm-global/bin/npm"
+    },
+    "pnpm": {
+      "version": "10.12.1",
+      "path": "~/.npm-global/bin/pnpm"
+    },
+    "bun": {
+      "version": "1.2.16",
+      "path": "~/.bun/bin/bun"
+    }
+  },
+  "Browsers": {
+    "Chromium": {
+      "version": "136.0.7103.113"
+    }
+  }
+}

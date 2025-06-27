@@ -1,0 +1,21 @@
+<!-- templates/admin/dashboard.html -->
+<canvas id="leaderboardChart" width="400" height="150"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('leaderboardChart').getContext('2d');
+  fetch('/admin/api/leaderboard')
+    .then(res => res.json())
+    .then(data => {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.names,
+          datasets: [{
+            label: 'Top Sponsors',
+            data: data.amounts,
+            backgroundColor: '#facc15'
+          }]
+        }
+      });
+    });
+</script>

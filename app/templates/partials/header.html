@@ -7,7 +7,8 @@
     <!-- Logo + Brand -->
     <a
       href="{{ url_for('main.home') }}"
-      class="flex items-center gap-3 focus-visible:ring-4 focus-visible:ring-yellow-400/70 rounded-2xl outline-none transition duration-150"
+      class="flex items-center gap-3 rounded-2xl outline-none focus-visible:ring-4 focus-visible:ring-yellow-400/70 transition duration-150"
+      aria-label="Connect ATX Elite Home"
     >
       <img
         src="{{ url_for('static', filename='images/logo.webp') }}"
@@ -16,7 +17,7 @@
         loading="eager"
         decoding="async"
       />
-      <span class="text-2xl font-extrabold tracking-tight text-primary animate-shine drop-shadow-lg">
+      <span class="text-2xl font-extrabold tracking-tight text-primary animate-shine drop-shadow-lg select-none">
         Connect ATX Elite
       </span>
     </a>
@@ -24,11 +25,11 @@
     <!-- Desktop Navigation -->
     <nav
       class="hidden lg:flex items-center gap-8 text-base font-semibold text-zinc-100"
-      aria-label="Main navigation"
+      aria-label="Main site navigation"
     >
-      <a href="{{ url_for('main.home') }}" class="nav-underline hover:text-primary transition">Home</a>
-      <a href="#about" class="nav-underline hover:text-primary transition">About</a>
-      <a href="#contact" class="nav-underline hover:text-primary transition">Contact</a>
+      <a href="{{ url_for('main.home') }}" class="nav-underline hover:text-primary transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg px-2 py-1">Home</a>
+      <a href="#about" class="nav-underline hover:text-primary transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg px-2 py-1">About</a>
+      <a href="#contact" class="nav-underline hover:text-primary transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg px-2 py-1">Contact</a>
     </nav>
 
     <!-- Mobile Menu Button -->
@@ -36,6 +37,8 @@
       id="hamburger"
       class="lg:hidden inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-300/10 transition"
       aria-label="Open mobile menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
     >
       <svg
         class="w-6 h-6 text-primary"
@@ -43,9 +46,12 @@
         stroke="currentColor"
         stroke-width="2"
         viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
       >
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </div>
 </header>
+

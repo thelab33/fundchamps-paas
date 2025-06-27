@@ -17,13 +17,14 @@
       <div
         class="h-full bg-gradient-to-r from-yellow-400 to-yellow-200 transition-all duration-700 ease-out rounded-full"
         style="width: 0%"
+        aria-label="Current fundraising progress"
       ></div>
     </div>
 
     <!-- 🌟 Percentage Label -->
     <div
       id="hero-meter-percent"
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-black bg-yellow-300 px-2 py-0.5 rounded-full shadow-lg"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-zinc-900 bg-yellow-300 px-2 py-0.5 rounded-full shadow-lg"
     >
       0%
     </div>
@@ -37,6 +38,7 @@
     <span id="emoji-milestone" class="ml-2 text-xl" aria-hidden="true">💤</span>
   </div>
 </div>
-<span id="funds-goal" style="display:none"></span>
-<span id="funds-raised" style="display:none"></span>
+<!-- Hidden spans for JS (no duplicate IDs on visible elements) -->
+<span id="funds-goal-hero" style="display:none"></span>
+<span id="funds-raised-hero" style="display:none"></span>
 
