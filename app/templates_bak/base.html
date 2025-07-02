@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ request.cookies.get('theme', 'dark') }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>{% block title %}Connect ATX Elite{% endblock %}</title>
+  <meta name="description" content="Empowering youth through basketball, brotherhood, and academics. Support Connect ATX Elite and help us reach our goals!">
+  <meta property="og:title" content="Connect ATX Elite | Empowering Youth"/>
+  <meta property="og:description" content="Support our basketball journey and invest in our next generation of leaders."/>
+  <meta property="og:image" content="{{ url_for('static', filename='images/social-card.webp') }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#facc15" />
+
+  <!-- PWA + Favicon + Apple Touch -->
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  {% block extra_styles %}{% endblock %}
+  <style>
+    /* Extra touch: animated gradient border for accessibility focus */
+    :focus-visible {
+      outline: 2px solid #facc15;
+      outline-offset: 3px;
+      transition: outline-color 0.2s;
+    }
+    .animate-shine {
+      background: linear-gradient(90deg,#facc15,#fde68a 85%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 2s infinite linear;
+    }
+    @keyframes shine {
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 30% 40%,rgba(250,204,21,.15),transparent 60%),radial-gradient(circle at 70% 60%,rgba(245,158,11,.1),transparent 55%);z-index:-1;pointer-events:none;animation:bg-pan 20s linear infinite;}@keyframes bg-pan{to{background-position:80% 60%,20% 40%}}
+      0% { filter: brightness(1.1);}
+      50% { filter: brightness(1.4);}
+      100% { filter: brightness(1.1);}
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-white antialiased scroll-smooth selection:bg-yellow-300 selection:text-zinc-900 relative">
+
+  <!-- ♿ Skip Link for Accessibility -->
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-yellow-400 text-zinc-900 px-4 py-2 rounded z-50 shadow-lg">
+    Skip to main content
+  </a>
+  
+  <!-- 🔔 Live Announcement Bar (editable via admin/DB in SaaS) -->
+  <div id="announcement-bar" class="w-full bg-gradient-to-r from-yellow-400 via-red-600 to-black text-zinc-900 font-bold text-center py-2 px-4 animate-pulse shadow-lg">
+    🚨 Championship Fundraiser is LIVE! Help us reach our goal —
+    <a href="#tiers" class="underline hover:text-white">Join Our Champion Circle</a>
+  </div>
+  
+  <!-- Header Partial -->
+  <button id="theme-switch" class="fixed top-5 right-5 z-[9999] bg-zinc-800\/70 backdrop-blur-lg p-2 rounded-full border border-zinc-700 hover:scale-110 transition" aria-label="Toggle light / dark"><span id="theme-icon" class="text-yellow-300 text-xl">🌙</span></button>
+  {% include "partials/header.html" %}
+
+  <!-- VIP Toast Notifications (AI-powered, one per session, etc.) -->
+  <div id="vip-toast" class="hidden fixed bottom-6 right-6 z-[9999] bg-yellow-400 text-zinc-900 px-6 py-3 rounded-lg shadow-lg font-semibold border-2 border-yellow-300 animate-bounce-in"></div>
+
+  <!-- AI Concierge Chat Widget (future: can be powered by GPT-4, custom bot, WhatsApp, etc.) -->
+  <div id="chat-widget" class="fixed bottom-6 left-6 z-[9999] hidden md:block">
+    <button onclick="window.open('https://wa.me/15128200475?text=Hi%20Connect%20ATX%20Elite!')" class="bg-yellow-400 text-zinc-900 rounded-full shadow-xl w-16 h-16 flex items-center justify-center hover:scale-110 transition-all border-4 border-yellow-300 ring-2 ring-black ring-offset-2 ring-offset-yellow-200">
+      <span class="text-3xl">💬</span>
+      <span class="sr-only">Live Chat Help</span>
+    </button>
+  </div>
+
+  <!-- Main Content Block -->
+  <main id="main" class="container mx-auto px-4 py-8 min-h-[70vh]" role="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Floating Action Button for Quick Sponsor Action -->
+  <button
+    onclick="document.getElementById('become-sponsor-modal').classList.add('show')"
+    class="fixed bottom-7 right-7 z-[9001] bg-gradient-to-r from-yellow-400 to-red-500 text-zinc-900 font-bold px-6 py-3 rounded-full shadow-2xl uppercase tracking-wide border-2 border-yellow-300 animate-bounce"
+    style="min-width: 200px"
+  >
+    Join Our Champion Circle 🚀
+  </button>
+
+  <!-- Footer Partial -->
+  {% include "partials/footer.html" %}
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/quotes.js') }}"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 800 });
+(() => {const b=document.getElementById("theme-switch");if(!b)return;const i=document.getElementById("theme-icon"),r=document.documentElement,s=m=>{r.setAttribute("data-theme",m);document.cookie=`theme=${m};path=/;max-age=31536000`;i.textContent=m==="light"?"🌞":"🌙"};b.addEventListener("click",()=>s(r.getAttribute("data-theme")==="dark"?"light":"dark"));})();
+
+    // VIP Toast (one per session)
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!sessionStorage.getItem('vipToastShown')) {
+        document.getElementById('vip-toast').textContent = "🎉 Welcome! New sponsors will be spotlighted here — you could be next!";
+        document.getElementById('vip-toast').classList.remove('hidden');
+        setTimeout(() => {
+          document.getElementById('vip-toast').classList.add('hidden');
+        }, 6500);
+        sessionStorage.setItem('vipToastShown', '1');
+      }
+    });
+  </script>
+  {% block scripts %}{% endblock %}
+<script src="//unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+</body>
+</html>
+

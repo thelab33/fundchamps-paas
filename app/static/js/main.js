@@ -1,40 +1,50 @@
-// Starforge Elite — main.js
+// Starforge Elite — main.js (Elevated)
 document.addEventListener("DOMContentLoaded", () => {
   console.log("⚡ Starforge JS initializing…");
 
-  // Smooth Scroll to Top
+  // 1. Smooth Scroll to Top
   const backToTopBtn = document.getElementById("backToTop");
-  if (backToTopBtn)
+  if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () =>
       window.scrollTo({ top: 0, behavior: "smooth" })
     );
+  }
 
-  // Luxury Header Reveal
+  // 2. Luxury Header/Headline Reveal with rAF Throttle
+  let ticking = false;
   function fadeHeaders() {
-    document.querySelectorAll("h1, h2").forEach((el) => {
-      if (
-        !el.classList.contains("in-view") &&
-        el.getBoundingClientRect().top < window.innerHeight - 60
-      ) {
-        el.style.opacity = 1;
-        el.classList.add("in-view");
-      }
-    });
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        document.querySelectorAll("h1, h2").forEach((el) => {
+          if (
+            !el.classList.contains("in-view") &&
+            el.getBoundingClientRect().top < window.innerHeight - 60
+          ) {
+            el.style.opacity = 1;
+            el.classList.add("in-view");
+          }
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
   }
   document.querySelectorAll("h1, h2").forEach((el) => {
     el.style.opacity = 0;
     el.style.transition = "opacity 0.7s cubic-bezier(.4,0,.2,1)";
   });
-  window.addEventListener("scroll", fadeHeaders);
+  window.addEventListener("scroll", fadeHeaders, { passive: true });
   fadeHeaders();
 
-  // Animate Glass/Prestige Badges
+  // 3. Glass Badge/Prestige Micro-interactions
   if ("IntersectionObserver" in window) {
     const badgeObserver = new IntersectionObserver(
       (entries, obs) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in-view");
+            // Optional: micro-sparkle effect
+            entry.target.classList.add("animate-sparkle");
             obs.unobserve(entry.target);
           }
         });
@@ -46,13 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // Fundraising Meter
+  // 4. Fundraiser Meter Animation + Accessible Emoji
   function animateFundraiserMeter() {
     const bar = document.querySelector("#hero-meter-bar > div, .progress-bar");
     const percentLabel = document.getElementById("hero-meter-percent");
     const emojiLabel = document.getElementById("emoji-milestone");
-    const raisedEl = document.getElementById("funds-raised");
-    const goalEl = document.getElementById("funds-goal");
+    const raisedEl = document.getElementById("funds-raised") || document.getElementById("funds-raised-meter");
+    const goalEl = document.getElementById("funds-goal") || document.getElementById("funds-goal-meter");
     if (!bar || !raisedEl || !goalEl) return;
     const raised = parseFloat(raisedEl.textContent.replace(/[^0-9.]/g, "") || "0");
     const goal = parseFloat(goalEl.textContent.replace(/[^0-9.]/g, "") || "1");
@@ -68,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   animateFundraiserMeter();
 
-  // A11y Toast Example
+  // 5. A11y Toast Example
   const toast = document.getElementById("vip-toast");
   if (toast && !sessionStorage.getItem("vipToastShown")) {
     toast.textContent =
@@ -80,6 +90,37 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.setItem("vipToastShown", "1");
   }
 
+  // 6. Mobile Menu Toggle + Focus Trap (Bonus)
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobile-menu");
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener("click", () => {
+      const open = mobileMenu.classList.toggle("open");
+      hamburger.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) {
+        mobileMenu.querySelector("a,button,input")?.focus();
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    });
+  }
+
+  // 7. Confetti + Haptic (if available)
+  window.launchConfetti = function () {
+    if (window.navigator.vibrate) window.navigator.vibrate([22, 16, 6]);
+    // (insert confetti animation logic here, or use CanvasConfetti for pro)
+    // Example: confetti({
+    //   particleCount: 120, spread: 84, origin: { y: 0.65 }
+    // });
+  };
+
+  // 8. Alpine.js or htmx events for admin/future dynamic UX
+  document.addEventListener("alpine:init", () => {
+    // Alpine.data('admin', () => ({}));
+  });
+
+  // 9. Ready log
   console.log("✅ Connect ATX Elite JavaScript loaded.");
 });
 
@@ -131,6 +172,7 @@ window.renderSponsorLeaderboard = function (sponsors = []) {
     )
     .join("");
 };
+
 // Demo/test example:
 window.renderSponsorLeaderboard([
   { name: "Gold’s Gym", amount: 5000 },
@@ -160,25 +202,6 @@ window.sponsorAlert = function (name, tier = "Champion Sponsor") {
   document.body.appendChild(div);
   setTimeout(() => div.remove(), 4800);
 };
-// Test: window.sponsorAlert('Redline BBQ', 'Gold Sponsor');
 
-/*-----------------------------
-  Alpine.js Magic (Optional)
-------------------------------*/
-document.addEventListener("alpine:init", () => {
-  // Custom Alpine.js or htmx integrations here
-  // e.g. Alpine.data('admin', () => ({}));
-});
-
-/*-----------------------------
-  Confetti (Optional, Canvas or DOM)
-------------------------------*/
-// window.launchConfetti = function () { ... }
-
-/*-----------------------------
-  Socket.IO/Realtime (Future-Proof)
-------------------------------*/
-// window.socket = io(); // Uncomment for live updates
-
-// Starforge: Unstoppable production UI! Add features here for max interactivity.
+// Starforge: Unstoppable production UI! Add new UX magic here.
 

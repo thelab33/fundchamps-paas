@@ -1,0 +1,92 @@
+{# templates/partials/header.html — Connect ATX Elite · Starforge Header #}
+<header
+  class="sticky top-0 z-40 w-full backdrop-blur bg-black/85 border-b border-yellow-300/15 shadow-lg transition-all"
+  role="banner"
+  x-data="{ open:false }"
+>
+  <!-- ♿ Skip-link (for keyboard nav, also in base.html for global consistency) -->
+  <a
+    href="#main"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-4 bg-yellow-400 text-zinc-900 px-5 py-2 rounded-xl font-bold shadow-lg z-50"
+  >Skip to main</a>
+
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-4 lg:px-8">
+    <!-- Logo / Brand -->
+    <a
+      href="{{ url_for('main.home') }}"
+      class="flex items-center gap-3 focus-visible:ring-4 focus-visible:ring-yellow-400 rounded-lg"
+      aria-label="Connect ATX Elite – Home"
+    >
+      <img
+        src="{{ url_for('static', filename='images/logo.webp') }}"
+        alt="Connect ATX Elite logo"
+        class="h-10 w-10 rounded-full ring-2 ring-yellow-300 shadow-md transition-transform duration-200 hover:scale-110"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+      />
+      <span
+        class="text-xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-50 bg-clip-text text-transparent drop-shadow-sm"
+      >
+        Connect ATX Elite
+      </span>
+    </a>
+
+    <!-- Greet the user if logged in -->
+    {% if current_user.is_authenticated %}
+      <span class="hidden md:inline ml-4 px-3 py-1 rounded-full bg-yellow-100 text-zinc-900 font-semibold">
+        Hi, {{ current_user.name.split()[0] }}!
+      </span>
+    {% endif %}
+
+    <!-- Desktop Navigation -->
+    <nav
+      class="hidden lg:flex items-center gap-8 text-base font-semibold text-zinc-100"
+      aria-label="Main site navigation"
+    >
+      <a href="#about"    class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded transition">About</a>
+      <a href="#challenge" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded transition">Challenge</a>
+      <a href="#sponsor-wall-wrapper" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded transition">Sponsors</a>
+      <a href="#testimonials" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded transition">Testimonials</a>
+      <a href="#contact"  class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded transition">Contact</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button
+      @click="open = !open"
+      :aria-expanded="open.toString()"
+      class="lg:hidden inline-flex items-center justify-center p-2 rounded-lg border border-yellow-300/40 hover:bg-yellow-300/10 focus-visible:ring-2 ring-yellow-300 transition"
+      aria-controls="mobile-nav"
+      aria-label="Toggle menu"
+    >
+      <svg :class="{ 'rotate-90': open }" class="w-7 h-7 text-yellow-300 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Drawer Nav -->
+  <nav
+    id="mobile-nav"
+    x-show="open"
+    x-transition:enter="transition ease-out duration-250"
+    x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    @click.away="open=false"
+    class="lg:hidden bg-black/92 backdrop-blur border-t border-yellow-300/10 py-6 shadow-xl"
+    aria-label="Mobile navigation"
+    style="display:none;"
+  >
+    <ul class="flex flex-col items-center gap-7 text-lg font-semibold">
+      <li><a @click="open=false" href="#about"           class="hover:text-yellow-300 transition">About</a></li>
+      <li><a @click="open=false" href="#challenge"       class="hover:text-yellow-300 transition">Challenge</a></li>
+      <li><a @click="open=false" href="#sponsor-wall-wrapper" class="hover:text-yellow-300 transition">Sponsors</a></li>
+      <li><a @click="open=false" href="#testimonials"    class="hover:text-yellow-300 transition">Testimonials</a></li>
+      <li><a @click="open=false" href="#contact"         class="hover:text-yellow-300 transition">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+

@@ -50,8 +50,9 @@ def create_app(config_class: str | object | None = None) -> Flask:
     # ── Auto-import every model file so SQLAlchemy sees each table ──
     with app.app_context():
         models_path = Path(__file__).parent / "models"
-        for mod in pkgutil.iter_modules([str(models_path)]):
-            importlib.import_module(f"app.models.{mod.name}")
+        if models_path.exists():
+            for mod in pkgutil.iter_modules([str(models_path)]):
+                importlib.import_module(f"app.models.{mod.name}")
 
     # ── Blueprints ────────────────────────────────────────────────
     from app.routes import main_bp, api_bp, sms_bp
@@ -72,6 +73,15 @@ def create_app(config_class: str | object | None = None) -> Flask:
     @app.get("/healthz")
     def healthz():
         return {"status": "ok", "message": "Starforge Flask live!"}
+
+    # ── Inject Flask-Login current_user into every template ──
+    try:
+        from flask_login import current_user
+        @app.context_processor
+        def inject_user():
+            return dict(current_user=current_user)
+    except ImportError:
+        pass  # Flask-Login not used; skip
 
     return app
 
