@@ -1,28 +1,12 @@
-# ── Python ───────────────────────────────────
+# Python/Flask
+instance/
+*.pyc
 __pycache__/
-*.py[cod]
-instance/           # Flask SQLite + uploads
-
-# ── Node / Front-end ─────────────────────────
-node_modules/
-.vscode/
-*.log
-npm-debug.log*
-
-# ── Virtual-envs ─────────────────────────────
-.venv/
-env/
-ENV/
-
-# ── Builds / assets ──────────────────────────
-app/static/css/tailwind.min.css
-app/static/js/bundle.min.js*
-app/static/js/*.map
-
-# ── Backups / temp ───────────────────────────
-*.bak
-*~
-.DS_Store
-
-# ── Secrets (keep the template, not the real file)
 .env
+.env.*
+# Node
+node_modules/
+web-frontend/node_modules/
+*.log
+# VS Code
+.vscode/

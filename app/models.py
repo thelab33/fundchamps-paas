@@ -98,6 +98,20 @@ class Example(db.Model, TimestampMixin, SoftDeleteMixin):
         """Get by UUID (string or UUID obj)."""
         return cls.query.filter_by(uuid=str(uuid_)).first()
 
+# Add this after Example in models.py
+
+class Sponsor(db.Model, TimestampMixin, SoftDeleteMixin):
+    __tablename__ = 'sponsors'
+
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(32), nullable=False, index=True)
+    name = db.Column(db.String(120), nullable=False)
+    # Add any other fields you use in your routes!
+
+    def __repr__(self):
+        return f"<Sponsor {self.name}: {self.amount} ({self.status})>"
+
 # ──────────────────────────────────────────────────────────────
 # End Starforge Model Pack
 # ──────────────────────────────────────────────────────────────
