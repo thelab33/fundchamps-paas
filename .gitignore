@@ -10,3 +10,4 @@ web-frontend/node_modules/
 *.log
 # VS Code
 .vscode/
+node_modules/
