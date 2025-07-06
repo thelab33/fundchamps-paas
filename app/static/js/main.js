@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backToTopBtn = document.getElementById("backToTop");
   if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () =>
-      window.scrollTo({ top: 0, behavior: "smooth" })
+      window.scrollTo({ top: 0, behavior: "smooth" }),
     );
   }
 
@@ -49,11 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
-    document.querySelectorAll(".badge-glass, .prestige-badge").forEach((el) =>
-      badgeObserver.observe(el)
-    );
+    document
+      .querySelectorAll(".badge-glass, .prestige-badge")
+      .forEach((el) => badgeObserver.observe(el));
   }
 
   // 4. Fundraiser Meter Animation + Accessible Emoji
@@ -61,10 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const bar = document.querySelector("#hero-meter-bar > div, .progress-bar");
     const percentLabel = document.getElementById("hero-meter-percent");
     const emojiLabel = document.getElementById("emoji-milestone");
-    const raisedEl = document.getElementById("funds-raised") || document.getElementById("funds-raised-meter");
-    const goalEl = document.getElementById("funds-goal") || document.getElementById("funds-goal-meter");
+    const raisedEl =
+      document.getElementById("funds-raised") ||
+      document.getElementById("funds-raised-meter");
+    const goalEl =
+      document.getElementById("funds-goal") ||
+      document.getElementById("funds-goal-meter");
     if (!bar || !raisedEl || !goalEl) return;
-    const raised = parseFloat(raisedEl.textContent.replace(/[^0-9.]/g, "") || "0");
+    const raised = parseFloat(
+      raisedEl.textContent.replace(/[^0-9.]/g, "") || "0",
+    );
     const goal = parseFloat(goalEl.textContent.replace(/[^0-9.]/g, "") || "1");
     const pct = Math.min((raised / goal) * 100, 100).toFixed(1);
     setTimeout(() => {
@@ -72,7 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (percentLabel) percentLabel.textContent = `${pct}%`;
       if (emojiLabel)
         emojiLabel.textContent =
-          pct >= 100 ? "🏆" : pct >= 75 ? "💪" : pct >= 50 ? "🔥" : pct >= 25 ? "🚀" : "💤";
+          pct >= 100
+            ? "🏆"
+            : pct >= 75
+              ? "💪"
+              : pct >= 50
+                ? "🔥"
+                : pct >= 25
+                  ? "🚀"
+                  : "💤";
       bar.setAttribute("aria-valuenow", raised);
     }, 350);
   }
@@ -168,7 +182,7 @@ window.renderSponsorLeaderboard = function (sponsors = []) {
         }">$${s.amount.toLocaleString()}</span>
         ${i === 0 ? '<div class="prestige-badge mt-3">🏆 Top Champion</div>' : ""}
       </div>
-    `
+    `,
     )
     .join("");
 };
@@ -185,7 +199,9 @@ window.renderSponsorLeaderboard([
   Sponsor Alert (Championship Toast)
 ------------------------------*/
 window.sponsorAlert = function (name, tier = "Champion Sponsor") {
-  document.querySelectorAll(".starforge-sponsor-alert").forEach((e) => e.remove());
+  document
+    .querySelectorAll(".starforge-sponsor-alert")
+    .forEach((e) => e.remove());
   const div = document.createElement("div");
   div.className =
     "starforge-sponsor-alert fixed bottom-4 right-4 z-[9999] flex flex-col items-end animate-bounce-in";
@@ -204,4 +220,3 @@ window.sponsorAlert = function (name, tier = "Champion Sponsor") {
 };
 
 // Starforge: Unstoppable production UI! Add new UX magic here.
-
