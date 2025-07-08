@@ -1,4 +1,3 @@
-./starforge-dupe-files.txt
 ./app/static/images/.gitkeep
 ./app/static/css/variables.css
 ./app/static/css/luxury.css

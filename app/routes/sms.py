@@ -1,6 +1,6 @@
 import os
 import openai
-from flask import Blueprint, request, Response, current_app, abort
+from flask import Blueprint, request, Response
 from app.models import SmsLog, db
 
 sms_bp = Blueprint("sms", __name__)

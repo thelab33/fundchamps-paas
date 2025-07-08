@@ -1,0 +1,14 @@
+# ── Core ───────────────────────────────────────────────
+
+# ── Database & migrations ─────────────────────────────
+
+# ── Realtime / WebSockets ─────────────────────────────
+
+# ── Payments / SMS / AI / Monitoring ──────────────────
+
+# ── CORS & rate limiting ──────────────────────────────
+
+# ── Production server (async) ─────────────────────────
+
+# ── Dev / tooling (optional) ──────────────────────────
+

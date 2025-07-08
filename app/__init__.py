@@ -10,7 +10,9 @@ Usage patterns:
 
 from __future__ import annotations
 
-import os, pkgutil, importlib
+import os
+import pkgutil
+import importlib
 from pathlib import Path
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy

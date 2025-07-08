@@ -1,7 +1,8 @@
 # app/routes/stripe_routes.py
 
-import os, stripe, json
-from flask import Blueprint, current_app as app, request, jsonify
+import os
+import stripe
+from flask import Blueprint, request, jsonify
 from app import db, socketio
 from app.models import Sponsor, Transaction, CampaignGoal
 

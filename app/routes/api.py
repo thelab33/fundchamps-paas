@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, abort
 from app.models import Example, Sponsor, CampaignGoal, db  
 from sqlalchemy import func
 
