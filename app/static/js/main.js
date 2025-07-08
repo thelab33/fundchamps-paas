@@ -1,16 +1,52 @@
-// Starforge Elite — main.js (Elevated)
+// Starforge Elite — main.js (Production-Ready, Real-Time Fundraising)
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("⚡ Starforge JS initializing…");
 
-  // 1. Smooth Scroll to Top
+  // ---- 1. Real-Time Socket.IO Integration ----
+  // Make sure socket.io.js is loaded!
+  let socket;
+  try {
+    socket = io(); // Defaults to current origin
+  } catch (e) {
+    console.warn("⚠️ Socket.IO not available! Real-time features disabled.");
+  }
+
+  // --- Real-Time Events ---
+  if (socket) {
+    // 1. Show live ticker on every donation
+    socket.on("new_donation", (data) => {
+      showDonationTicker(
+        `🎉 <b>$${data.amount.toLocaleString()}</b> from <b>${escapeHTML(
+          data.name
+        )}</b> – Thank you!`
+      );
+      if (typeof window.launchConfetti === "function") window.launchConfetti();
+    });
+
+    // 2. Show sponsor spotlight modal/alert
+    socket.on("new_sponsor", (data) => {
+      window.sponsorAlert(data.name, "Champion Sponsor");
+      window.openSpotlight(data.name);
+      // Optionally re-render leaderboard (pull via AJAX if needed)
+      // fetchSponsorsAndUpdateLeaderboard();
+    });
+
+    // 3. (Flex) Update leaderboard, badges, etc.
+    socket.on("vip_update", (data) => {
+      // TODO: implement VIP badge or leaderboard live update
+    });
+  }
+
+  // ---- 2. Smooth Scroll to Top ----
   const backToTopBtn = document.getElementById("backToTop");
   if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () =>
-      window.scrollTo({ top: 0, behavior: "smooth" }),
+      window.scrollTo({ top: 0, behavior: "smooth" })
     );
   }
 
-  // 2. Luxury Header/Headline Reveal with rAF Throttle
+  // ---- 3. Luxury Header/Headline Reveal ----
   let ticking = false;
   function fadeHeaders() {
     if (!ticking) {
@@ -36,27 +72,26 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", fadeHeaders, { passive: true });
   fadeHeaders();
 
-  // 3. Glass Badge/Prestige Micro-interactions
+  // ---- 4. Glass Badge/Prestige Micro-interactions ----
   if ("IntersectionObserver" in window) {
     const badgeObserver = new IntersectionObserver(
       (entries, obs) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in-view");
-            // Optional: micro-sparkle effect
             entry.target.classList.add("animate-sparkle");
             obs.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.4 },
+      { threshold: 0.4 }
     );
     document
       .querySelectorAll(".badge-glass, .prestige-badge")
       .forEach((el) => badgeObserver.observe(el));
   }
 
-  // 4. Fundraiser Meter Animation + Accessible Emoji
+  // ---- 5. Fundraiser Meter Animation ----
   function animateFundraiserMeter() {
     const bar = document.querySelector("#hero-meter-bar > div, .progress-bar");
     const percentLabel = document.getElementById("hero-meter-percent");
@@ -69,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("funds-goal-meter");
     if (!bar || !raisedEl || !goalEl) return;
     const raised = parseFloat(
-      raisedEl.textContent.replace(/[^0-9.]/g, "") || "0",
+      raisedEl.textContent.replace(/[^0-9.]/g, "") || "0"
     );
     const goal = parseFloat(goalEl.textContent.replace(/[^0-9.]/g, "") || "1");
     const pct = Math.min((raised / goal) * 100, 100).toFixed(1);
@@ -81,18 +116,18 @@ document.addEventListener("DOMContentLoaded", () => {
           pct >= 100
             ? "🏆"
             : pct >= 75
-              ? "💪"
-              : pct >= 50
-                ? "🔥"
-                : pct >= 25
-                  ? "🚀"
-                  : "💤";
+            ? "💪"
+            : pct >= 50
+            ? "🔥"
+            : pct >= 25
+            ? "🚀"
+            : "💤";
       bar.setAttribute("aria-valuenow", raised);
     }, 350);
   }
   animateFundraiserMeter();
 
-  // 5. A11y Toast Example
+  // ---- 6. A11y Toast Example ----
   const toast = document.getElementById("vip-toast");
   if (toast && !sessionStorage.getItem("vipToastShown")) {
     toast.textContent =
@@ -104,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.setItem("vipToastShown", "1");
   }
 
-  // 6. Mobile Menu Toggle + Focus Trap (Bonus)
+  // ---- 7. Mobile Menu Toggle + Focus Trap ----
   const hamburger = document.getElementById("hamburger");
   const mobileMenu = document.getElementById("mobile-menu");
   if (hamburger && mobileMenu) {
@@ -120,39 +155,64 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 7. Confetti + Haptic (if available)
+  // ---- 8. Confetti + Haptic (if available) ----
   window.launchConfetti = function () {
     if (window.navigator.vibrate) window.navigator.vibrate([22, 16, 6]);
-    // (insert confetti animation logic here, or use CanvasConfetti for pro)
-    // Example: confetti({
-    //   particleCount: 120, spread: 84, origin: { y: 0.65 }
-    // });
+    // If using canvas-confetti, trigger here:
+    // if (window.confetti) window.confetti({ particleCount: 120, spread: 84, origin: { y: 0.65 } });
   };
 
-  // 8. Alpine.js or htmx events for admin/future dynamic UX
+  // ---- 9. Alpine.js/htmx events (future flex) ----
   document.addEventListener("alpine:init", () => {
     // Alpine.data('admin', () => ({}));
   });
 
-  // 9. Ready log
+  // ---- 10. Ready log ----
   console.log("✅ Connect ATX Elite JavaScript loaded.");
 });
+
+/*-----------------------------
+  Live Donation Ticker (A11y, Upgrades)
+------------------------------*/
+window.showDonationTicker = function (msg) {
+  let ticker = document.getElementById("donation-ticker");
+  if (!ticker) {
+    ticker = document.createElement("div");
+    ticker.id = "donation-ticker";
+    ticker.className =
+      "fixed bottom-8 left-1/2 -translate-x-1/2 bg-yellow-400/95 text-black font-bold px-7 py-3 rounded-2xl shadow-xl z-[9999] animate-bounce-in text-lg";
+    ticker.setAttribute("role", "status");
+    ticker.setAttribute("aria-live", "polite");
+    document.body.appendChild(ticker);
+  }
+  ticker.innerHTML = msg;
+  ticker.classList.add("show");
+  setTimeout(() => ticker.classList.remove("show"), 4000);
+};
 
 /*-----------------------------
   Sponsor Spotlight Modal
 ------------------------------*/
 window.openSpotlight = function (sponsorName = "A Generous Donor") {
-  const modal = document.getElementById("sponsor-spotlight-modal");
-  const nameEl = document.getElementById("sponsor-name");
+  const modal =
+    document.getElementById("sponsor-spotlight-modal") ||
+    document.getElementById("sponsor-spotlight-modal-footer");
+  const nameEl =
+    document.getElementById("sponsor-name") ||
+    document.getElementById("sponsor-name-footer");
   if (!modal || !nameEl) return;
-  nameEl.innerHTML = `Thank you <span class="text-red-400 font-bold">${sponsorName}</span> for supporting the team!`;
+  nameEl.innerHTML = `<span class="text-red-400 font-bold">${escapeHTML(
+    sponsorName
+  )}</span>`;
   modal.classList.add("show");
   modal.setAttribute("aria-modal", "true");
   if (typeof window.launchConfetti === "function") window.launchConfetti();
   setTimeout(window.closeSpotlight, 4000);
 };
 window.closeSpotlight = function () {
-  const modal = document.getElementById("sponsor-spotlight-modal");
+  const modal =
+    document.getElementById("sponsor-spotlight-modal") ||
+    document.getElementById("sponsor-spotlight-modal-footer");
   if (modal) modal.classList.remove("show");
 };
 
@@ -176,24 +236,24 @@ window.renderSponsorLeaderboard = function (sponsors = []) {
       } shadow-elevated p-5 flex flex-col items-center text-center">
         <span class="text-2xl font-extrabold ${
           i === 0 ? "text-gold drop-shadow" : "text-white/80"
-        }">${s.name}</span>
+        }">${escapeHTML(s.name)}</span>
         <span class="text-xl font-bold mt-2 ${
           i === 0 ? "text-red-400" : "text-white/60"
         }">$${s.amount.toLocaleString()}</span>
         ${i === 0 ? '<div class="prestige-badge mt-3">🏆 Top Champion</div>' : ""}
       </div>
-    `,
+    `
     )
     .join("");
 };
 
-// Demo/test example:
-window.renderSponsorLeaderboard([
-  { name: "Gold’s Gym", amount: 5000 },
-  { name: "Rodriguez Law", amount: 2500 },
-  { name: "Redline BBQ", amount: 1000 },
-  { name: "Dr. White & Co.", amount: 500 },
-]);
+// Demo/test example (remove in prod):
+// window.renderSponsorLeaderboard([
+//   { name: "Gold’s Gym", amount: 5000 },
+//   { name: "Rodriguez Law", amount: 2500 },
+//   { name: "Redline BBQ", amount: 1000 },
+//   { name: "Dr. White & Co.", amount: 500 },
+// ]);
 
 /*-----------------------------
   Sponsor Alert (Championship Toast)
@@ -211,7 +271,9 @@ window.sponsorAlert = function (name, tier = "Champion Sponsor") {
     <div class="bg-black border-4 border-gold rounded-2xl px-7 py-4 shadow-elevated flex flex-col items-center text-center">
       <img src="/static/images/logo.webp" class="w-12 h-12 mb-2 rounded-full border-2 border-gold shadow-gold-glow" alt="Logo" />
       <span class="text-lg font-bold text-gold mb-2">🔥 NEW SPONSOR ALERT! 🔥</span>
-      <span class="text-white font-semibold mb-2">Thank you <b>${name}</b> for supporting the team!</span>
+      <span class="text-white font-semibold mb-2">Thank you <b>${escapeHTML(
+        name
+      )}</b> for supporting the team!</span>
       <span class="prestige-badge">${tier} 🏆</span>
     </div>
   `;
@@ -219,4 +281,20 @@ window.sponsorAlert = function (name, tier = "Champion Sponsor") {
   setTimeout(() => div.remove(), 4800);
 };
 
-// Starforge: Unstoppable production UI! Add new UX magic here.
+/*-----------------------------
+  Utility: Escape HTML for Security
+------------------------------*/
+function escapeHTML(str) {
+  return (str + "")
+    .replace(/[&<>"']/g, function (m) {
+      return (
+        {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[m] || m
+      );
+    });
+}

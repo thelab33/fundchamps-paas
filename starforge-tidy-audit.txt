@@ -1,0 +1,263 @@
+line 3 column 1 - Warning: inserting implicit <body>
+line 18 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 54 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 111 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 116 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 3 column 1 - Warning: inserting missing 'title' element
+line 18 column 7 - Warning: <img> escaping malformed URI reference
+line 18 column 7 - Warning: <img> illegal characters found in URI
+line 54 column 7 - Warning: <img> escaping malformed URI reference
+line 54 column 7 - Warning: <img> illegal characters found in URI
+line 111 column 7 - Warning: <img> escaping malformed URI reference
+line 111 column 7 - Warning: <img> illegal characters found in URI
+line 116 column 7 - Warning: <img> escaping malformed URI reference
+line 116 column 7 - Warning: <img> illegal characters found in URI
+line 18 column 7 - Warning: <img> proprietary attribute "decoding"
+line 14 column 3 - Warning: plain text isn't allowed in <head> elements
+line 14 column 3 - Warning: inserting implicit <body>
+line 23 column 56 - Warning: unescaped & or unknown entity "&event"
+line 22 column 5 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 41 column 5 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 160 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 192 column 13 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 14 column 3 - Warning: inserting missing 'title' element
+line 22 column 5 - Warning: <img> escaping malformed URI reference
+line 22 column 5 - Warning: <img> illegal characters found in URI
+line 32 column 7 - Warning: <a> escaping malformed URI reference
+line 32 column 7 - Warning: <a> illegal characters found in URI
+line 41 column 5 - Warning: <img> escaping malformed URI reference
+line 41 column 5 - Warning: <img> illegal characters found in URI
+line 56 column 9 - Warning: <a> escaping malformed URI reference
+line 56 column 9 - Warning: <a> illegal characters found in URI
+line 160 column 7 - Warning: <img> escaping malformed URI reference
+line 160 column 7 - Warning: <img> illegal characters found in URI
+line 192 column 13 - Warning: <img> escaping malformed URI reference
+line 192 column 13 - Warning: <img> illegal characters found in URI
+line 237 column 5 - Warning: <form> escaping malformed URI reference
+line 237 column 5 - Warning: <form> illegal characters found in URI
+line 275 column 1 - Warning: moved <style> tag to <head>! fix-style-tags: no to avoid.
+line 41 column 5 - Warning: <img> proprietary attribute "decoding"
+line 160 column 7 - Warning: <img> proprietary attribute "decoding"
+line 210 column 1 - Warning: <div> proprietary attribute "aria-modal"
+line 3 column 1 - Warning: inserting implicit <body>
+line 29 column 21 - Warning: <div> attribute "{:,.0f}".format(sponsor.amount)" lacks value
+line 29 column 21 - Warning: <div> attribute "}}" lacks value
+line 29 column 21 - Warning: <div> attribute with missing trailing quote mark
+line 3 column 1 - Warning: inserting missing 'title' element
+line 30 column 25 - Warning: <img> escaping malformed URI reference
+line 30 column 25 - Warning: <img> illegal characters found in URI
+line 45 column 13 - Warning: <img> escaping malformed URI reference
+line 45 column 13 - Warning: <img> illegal characters found in URI
+line 29 column 21 - Warning: <div> proprietary attribute "champion"
+line 64 column 1 - Warning: inserting implicit <body>
+line 3 column 1 - Warning: inserting missing 'title' element
+line 64 column 1 - Warning: <div> proprietary attribute "aria-modal"
+line 3 column 1 - Warning: inserting implicit <body>
+line 3 column 1 - Warning: inserting missing 'title' element
+line 14 column 3 - Warning: plain text isn't allowed in <head> elements
+line 14 column 3 - Warning: inserting implicit <body>
+line 23 column 56 - Warning: unescaped & or unknown entity "&event"
+line 22 column 5 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 41 column 5 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 160 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 192 column 13 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 14 column 3 - Warning: inserting missing 'title' element
+line 22 column 5 - Warning: <img> escaping malformed URI reference
+line 22 column 5 - Warning: <img> illegal characters found in URI
+line 32 column 7 - Warning: <a> escaping malformed URI reference
+line 32 column 7 - Warning: <a> illegal characters found in URI
+line 41 column 5 - Warning: <img> escaping malformed URI reference
+line 41 column 5 - Warning: <img> illegal characters found in URI
+line 56 column 9 - Warning: <a> escaping malformed URI reference
+line 56 column 9 - Warning: <a> illegal characters found in URI
+line 160 column 7 - Warning: <img> escaping malformed URI reference
+line 160 column 7 - Warning: <img> illegal characters found in URI
+line 192 column 13 - Warning: <img> escaping malformed URI reference
+line 192 column 13 - Warning: <img> illegal characters found in URI
+line 237 column 5 - Warning: <form> escaping malformed URI reference
+line 237 column 5 - Warning: <form> illegal characters found in URI
+line 275 column 1 - Warning: moved <style> tag to <head>! fix-style-tags: no to avoid.
+line 41 column 5 - Warning: <img> proprietary attribute "decoding"
+line 160 column 7 - Warning: <img> proprietary attribute "decoding"
+line 210 column 1 - Warning: <div> proprietary attribute "aria-modal"
+line 3 column 1 - Warning: inserting implicit <body>
+line 38 column 5 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 3 column 1 - Warning: inserting missing 'title' element
+line 38 column 5 - Warning: <img> escaping malformed URI reference
+line 38 column 5 - Warning: <img> illegal characters found in URI
+line 18 column 1 - Warning: <div> proprietary attribute "aria-modal"
+line 2 column 1 - Warning: inserting implicit <body>
+line 18 column 9 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 114 column 5 - Warning: <button> attribute name "@click" (value="offCanvasOpen = !offCanvasOpen") is invalid
+line 114 column 5 - Warning: <button> attribute name ":aria-expanded" (value="offCanvasOpen.toString()") is invalid
+line 123 column 7 - Warning: <svg> attribute name ":class" (value="{ 'rotate-90': offCanvasOpen }") is invalid
+line 143 column 3 - Warning: <nav> attribute name "@click.away" (value="offCanvasOpen = false") is invalid
+line 161 column 5 - Warning: <button> attribute name "@click" (value="offCanvasOpen = false") is invalid
+line 173 column 5 - Warning: <a> attribute name "@click" (value="offCanvasOpen = false") is invalid
+line 2 column 1 - Warning: inserting missing 'title' element
+line 11 column 5 - Warning: <a> escaping malformed URI reference
+line 11 column 5 - Warning: <a> illegal characters found in URI
+line 18 column 9 - Warning: <img> escaping malformed URI reference
+line 18 column 9 - Warning: <img> illegal characters found in URI
+line 80 column 7 - Warning: <a> escaping malformed URI reference
+line 80 column 7 - Warning: <a> illegal characters found in URI
+line 173 column 5 - Warning: <a> escaping malformed URI reference
+line 173 column 5 - Warning: <a> illegal characters found in URI
+line 86 column 9 - Warning: trimming empty <span>
+line 2 column 1 - Warning: <header> proprietary attribute "x-data"
+line 18 column 9 - Warning: <img> proprietary attribute "fetchpriority"
+line 18 column 9 - Warning: <img> proprietary attribute "decoding"
+line 27 column 9 - Warning: <svg> proprietary attribute "focusable"
+line 123 column 7 - Warning: <svg> proprietary attribute "focusable"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-show"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-transition:enter"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-transition:enter-start"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-transition:enter-end"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-transition:leave"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-transition:leave-start"
+line 143 column 3 - Warning: <nav> proprietary attribute "x-transition:leave-end"
+line 143 column 3 - Warning: <nav> proprietary attribute "aria-modal"
+line 3 column 1 - Warning: inserting implicit <body>
+line 3 column 1 - Warning: inserting missing 'title' element
+line 3 column 1 - Warning: inserting implicit <body>
+line 11 column 3 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 19 column 3 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 37 column 7 - Warning: <img> dropping value "Image" for repeated attribute "alt"
+line 3 column 1 - Warning: inserting missing 'title' element
+line 11 column 3 - Warning: <img> escaping malformed URI reference
+line 11 column 3 - Warning: <img> illegal characters found in URI
+line 19 column 3 - Warning: <img> escaping malformed URI reference
+line 19 column 3 - Warning: <img> illegal characters found in URI
+line 37 column 7 - Warning: <img> escaping malformed URI reference
+line 37 column 7 - Warning: <img> illegal characters found in URI
+line 222 column 5 - Warning: <source> escaping malformed URI reference
+line 222 column 5 - Warning: <source> illegal characters found in URI
+line 11 column 3 - Warning: <img> proprietary attribute "decoding"
+line 19 column 3 - Warning: <img> proprietary attribute "decoding"
+line 37 column 7 - Warning: <img> proprietary attribute "decoding"
+line 184 column 5 - Warning: <svg> proprietary attribute "focusable"
+line 199 column 1 - Warning: <dialog> proprietary attribute "aria-modal"
+line 3 column 1 - Warning: inserting implicit <body>
+line 3 column 1 - Warning: inserting missing 'title' element
+line 2 column 1 - Warning: plain text isn't allowed in <head> elements
+line 2 column 1 - Warning: inserting implicit <body>
+line 20 column 5 - Warning: plain text isn't allowed in <tbody> elements
+line 65 column 5 - Warning: plain text isn't allowed in <tbody> elements
+line 71 column 3 - Warning: plain text isn't allowed in <tbody> elements
+line 2 column 1 - Warning: inserting missing 'title' element
+line 36 column 9 - Warning: <form> escaping malformed URI reference
+line 36 column 9 - Warning: <form> illegal characters found in URI
+line 49 column 9 - Warning: <form> escaping malformed URI reference
+line 49 column 9 - Warning: <form> illegal characters found in URI
+line 74 column 1 - Warning: <a> escaping malformed URI reference
+line 74 column 1 - Warning: <a> illegal characters found in URI
+line 62 column 9 - Warning: <a> escaping malformed URI reference
+line 62 column 9 - Warning: <a> illegal characters found in URI
+line 67 column 9 - Warning: <a> escaping malformed URI reference
+line 67 column 9 - Warning: <a> illegal characters found in URI
+line 72 column 9 - Warning: <a> escaping malformed URI reference
+line 72 column 9 - Warning: <a> illegal characters found in URI
+line 77 column 9 - Warning: <a> escaping malformed URI reference
+line 77 column 9 - Warning: <a> illegal characters found in URI
+line 82 column 9 - Warning: <a> escaping malformed URI reference
+line 82 column 9 - Warning: <a> illegal characters found in URI
+line 87 column 9 - Warning: <a> escaping malformed URI reference
+line 87 column 9 - Warning: <a> illegal characters found in URI
+line 124 column 5 - Warning: <script> escaping malformed URI reference
+line 124 column 5 - Warning: <script> illegal characters found in URI
+line 128 column 5 - Warning: <script> escaping malformed URI reference
+line 128 column 5 - Warning: <script> illegal characters found in URI
+line 132 column 5 - Warning: <script> escaping malformed URI reference
+line 132 column 5 - Warning: <script> illegal characters found in URI
+line 136 column 5 - Warning: <script> escaping malformed URI reference
+line 136 column 5 - Warning: <script> illegal characters found in URI
+line 41 column 3 - Warning: <body> proprietary attribute "x-data"
+line 2 column 1 - Warning: plain text isn't allowed in <head> elements
+line 2 column 1 - Warning: inserting implicit <body>
+line 72 column 9 - Warning: plain text isn't allowed in <tbody> elements
+line 104 column 9 - Warning: plain text isn't allowed in <tbody> elements
+line 110 column 7 - Warning: plain text isn't allowed in <tbody> elements
+line 129 column 9 - Warning: plain text isn't allowed in <tbody> elements
+line 138 column 9 - Warning: plain text isn't allowed in <tbody> elements
+line 144 column 7 - Warning: plain text isn't allowed in <tbody> elements
+line 2 column 1 - Warning: inserting missing 'title' element
+line 88 column 13 - Warning: <form> escaping malformed URI reference
+line 88 column 13 - Warning: <form> illegal characters found in URI
+line 151 column 3 - Warning: <a> escaping malformed URI reference
+line 151 column 3 - Warning: <a> illegal characters found in URI
+line 7 column 4 - Warning: missing <!DOCTYPE> declaration
+line 7 column 4 - Warning: plain text isn't allowed in <head> elements
+line 7 column 4 - Warning: inserting implicit <body>
+line 7 column 4 - Warning: <!DOCTYPE> isn't allowed after elements
+line 9 column 1 - Warning: discarding unexpected <html>
+line 16 column 3 - Warning: plain text isn't allowed in <head> elements
+line 50 column 3 - Warning: plain text isn't allowed in <head> elements
+line 51 column 1 - Warning: discarding unexpected </head>
+line 52 column 1 - Warning: discarding unexpected <body>
+line 7 column 4 - Warning: content occurs after end of body
+line 7 column 4 - Warning: inserting missing 'title' element
+line 117 column 5 - Warning: <script> escaping malformed URI reference
+line 117 column 5 - Warning: <script> illegal characters found in URI
+line 14 column 1 - Warning: trimming empty <head>
+line 49 column 25 - Warning: trimming empty <head>
+line 10 column 1 - Warning: plain text isn't allowed in <head> elements
+line 10 column 1 - Warning: inserting implicit <body>
+line 10 column 1 - Warning: inserting missing 'title' element
+line 41 column 5 - Warning: <a> escaping malformed URI reference
+line 41 column 5 - Warning: <a> illegal characters found in URI
+line 45 column 7 - Warning: <img> escaping malformed URI reference
+line 45 column 7 - Warning: <img> illegal characters found in URI
+line 75 column 7 - Warning: <a> escaping malformed URI reference
+line 75 column 7 - Warning: <a> illegal characters found in URI
+line 120 column 5 - Warning: <a> escaping malformed URI reference
+line 120 column 5 - Warning: <a> illegal characters found in URI
+line 151 column 5 - Warning: <img> escaping malformed URI reference
+line 151 column 5 - Warning: <img> illegal characters found in URI
+line 153 column 5 - Warning: <img> escaping malformed URI reference
+line 153 column 5 - Warning: <img> illegal characters found in URI
+line 279 column 5 - Warning: <source> escaping malformed URI reference
+line 279 column 5 - Warning: <source> illegal characters found in URI
+line 286 column 129 - Warning: <img> escaping malformed URI reference
+line 286 column 129 - Warning: <img> illegal characters found in URI
+line 79 column 9 - Warning: trimming empty <span>
+line 288 column 1 - Warning: moved <style> tag to <head>! fix-style-tags: no to avoid.
+line 45 column 7 - Warning: <img> proprietary attribute "decoding"
+line 45 column 7 - Warning: <img> proprietary attribute "fetchpriority"
+line 110 column 3 - Warning: <nav> proprietary attribute "aria-modal"
+line 151 column 5 - Warning: <img> proprietary attribute "decoding"
+line 276 column 1 - Warning: <dialog> proprietary attribute "aria-modal"
+line 2 column 1 - Warning: plain text isn't allowed in <head> elements
+line 2 column 1 - Warning: inserting implicit <body>
+line 6 column 1 - Warning: <a> attribute "{%" lacks value
+line 6 column 1 - Warning: <a> attribute "%}" lacks value
+line 6 column 1 - Warning: <a> attribute "{%" lacks value
+line 6 column 1 - Warning: <a> attribute "%}" lacks value
+line 6 column 1 - Warning: <a> attribute "{%" lacks value
+line 6 column 1 - Warning: <a> attribute "%}" lacks value
+line 6 column 1 - Warning: <a> attribute "{%" lacks value
+line 6 column 1 - Warning: <a> attribute "%}" lacks value
+line 6 column 1 - Warning: <a> dropping value "NULL" for repeated attribute "if"
+line 6 column 1 - Warning: <a> dropping value "NULL" for repeated attribute "endif"
+line 2 column 1 - Warning: inserting missing 'title' element
+line 6 column 1 - Warning: <a> escaping malformed URI reference
+line 6 column 1 - Warning: <a> illegal characters found in URI
+line 29 column 36 - Warning: trimming empty <i>
+line 33 column 3 - Warning: trimming empty <span>
+line 6 column 1 - Warning: <a> proprietary attribute "external"
+line 6 column 1 - Warning: <a> proprietary attribute "if"
+line 6 column 1 - Warning: <a> proprietary attribute "aria_label"
+line 6 column 1 - Warning: <a> proprietary attribute "endif"
+line 2 column 1 - Warning: plain text isn't allowed in <head> elements
+line 2 column 1 - Warning: inserting implicit <body>
+line 2 column 1 - Warning: inserting missing 'title' element
+line 3 column 1 - Warning: <div> proprietary attribute "x-data"
+line 3 column 1 - Warning: <div> proprietary attribute "x-init"
+line 12 column 5 - Warning: <div> proprietary attribute "x-ref"
+line 2 column 1 - Warning: plain text isn't allowed in <head> elements
+line 2 column 1 - Warning: inserting implicit <body>
+line 2 column 1 - Warning: inserting missing 'title' element
+line 2 column 1 - Warning: plain text isn't allowed in <head> elements
+line 2 column 1 - Warning: inserting implicit <body>
+line 2 column 1 - Warning: inserting missing 'title' element
+line 8 column 1 - Warning: <a> escaping malformed URI reference
+line 8 column 1 - Warning: <a> illegal characters found in URI

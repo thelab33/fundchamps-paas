@@ -1,0 +1,174 @@
+/*───────────────────────────────────────────────────────────────────────────────
+  Tailwind Base Layers – utility-first, loaded first!
+───────────────────────────────────────────────────────────────────────────────*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Custom Variables – Global Brand Colors, Font Families
+───────────────────────────────────────────────────────────────────────────────*/
+:root {
+  --gold: #facc15;
+  --gold-light: #fde68a;
+  --red: #b91c1c;
+  --blue: #0a1f44;
+  --black: #18181b;
+  --white: #fff;
+  --brand-shadow: 0 6px 20px rgba(10, 31, 68, 0.28), 0 4px 12px rgba(250, 204, 21, 0.06);
+  --starforge-gradient: linear-gradient(90deg, #facc15 0%, #fde68a 50%, #b91c1c 100%);
+  --radius-xl: 2rem;
+  --radius-lg: 1rem;
+  --transition: 0.25s cubic-bezier(0.69, 0.11, 0.38, 0.97);
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Typography & Headings
+───────────────────────────────────────────────────────────────────────────────*/
+html {
+  font-family: "Roboto", Arial, sans-serif;
+  scroll-behavior: smooth;
+  background: var(--black);
+}
+
+body {
+  font-family: "Roboto", Arial, sans-serif;
+  color: var(--white);
+  background: var(--black);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  font-family: "Montserrat", "Roboto", Arial, sans-serif;
+  color: var(--gold);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 8px rgba(250, 204, 21, 0.2);
+}
+
+h1 {
+  font-size: 2.7rem;
+}
+
+h2 {
+  font-size: 2.2rem;
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+/* Heading Gradient */
+.text-gradient {
+  background: var(--starforge-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.heading-gradient {
+  font-size: 2.6rem;
+  animation: shine-move 2.8s linear infinite;
+}
+
+/* Animation */
+@keyframes shine-move {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Buttons & Call To Action (CTA)
+───────────────────────────────────────────────────────────────────────────────*/
+.btn-primary,
+.btn-secondary,
+.btn-glow {
+  font-family: "Montserrat", "Roboto", Arial, sans-serif;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--red);
+  padding: 0.7em 2em;
+  font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+  background: var(--red);
+  color: var(--gold);
+  box-shadow: 0 3px 16px var(--gold-light);
+  transform: scale(1.04);
+}
+
+.btn-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--starforge-gradient);
+  opacity: 0.18;
+  z-index: -1;
+  border-radius: inherit;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Stats & Progress Bars
+───────────────────────────────────────────────────────────────────────────────*/
+.progress {
+  height: 1.25rem;
+  width: 100%;
+  background: #353536;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(10, 31, 68, 0.08);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--red) 80%);
+  border-radius: 999px;
+  transition: width 0.7s cubic-bezier(0.69, 0.11, 0.38, 0.97);
+}
+
+/* Mobile-first responsiveness */
+@media (max-width: 600px) {
+  body {
+    font-size: 98%;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .heading-gradient {
+    font-size: 2rem;
+  }
+}

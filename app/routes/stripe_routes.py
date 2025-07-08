@@ -1,15 +1,16 @@
 # app/routes/stripe_routes.py
-import os, stripe, json, time
-from flask import Blueprint, current_app as app, request, jsonify, url_for
+
+import os, stripe, json
+from flask import Blueprint, current_app as app, request, jsonify
 from app import db, socketio
 from app.models import Sponsor, Transaction, CampaignGoal
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-DOMAIN        = os.getenv("DOMAIN", "http://localhost:5000")
+DOMAIN = os.getenv("DOMAIN", "http://localhost:5000")
 
 stripe_bp = Blueprint("stripe_bp", __name__)
 
-# --- 1. create checkout session -------------------------------------------
+# --- 1. Create Checkout Session --------------------------------------
 @stripe_bp.post("/api/donate")
 def create_checkout():
     data = request.get_json(force=True)
@@ -17,7 +18,7 @@ def create_checkout():
 
     session = stripe.checkout.Session.create(
         mode="payment",
-        payment_method_types=["card","us_bank_account","link"],  # Apple/Google Pay auto-enabled
+        payment_method_types=["card", "us_bank_account", "link"],  # Apple/Google Pay auto-enabled
         line_items=[{
             "price_data": {
                 "currency": "usd",
@@ -33,40 +34,49 @@ def create_checkout():
     )
     return jsonify({"url": session.url})
 
-# --- 2. webhook -----------------------------------------------------------
+# --- 2. Stripe Webhook: Real-Time & Resilient -----------------------
 @stripe_bp.post("/stripe/webhook")
 def stripe_webhook():
-    payload  = request.data
-    sig      = request.headers.get("stripe-signature")
-    secret   = os.getenv("STRIPE_WEBHOOK_SECRET")
-
+    payload = request.data
+    sig = request.headers.get("stripe-signature")
+    secret = os.getenv("STRIPE_WEBHOOK_SECRET")
     try:
         event = stripe.Webhook.construct_event(payload, sig, secret)
     except (ValueError, stripe.error.SignatureVerificationError):
         return "Invalid payload", 400
 
+    # --- Handle Completed Checkout Session ---------------------------
     if event["type"] == "checkout.session.completed":
-        s      = event["data"]["object"]
-        amount = s["amount_total"] // 100
-        name   = s["metadata"]["sponsor_name"]
+        s = event["data"]["object"]
+        amount = s.get("amount_total", 0) // 100
+        name = s.get("metadata", {}).get("sponsor_name", "Anonymous")
+        email = s.get("customer_email")
 
-        # ---- DB write -----------------------------------------------------
-        sponsor = Sponsor(name=name, amount=amount, status="approved")
-        db.session.add(sponsor)
+        # DB Write: Only if not already in database (idempotency best practice)
+        existing = Sponsor.query.filter_by(name=name, amount=amount).first()
+        if not existing:
+            sponsor = Sponsor(name=name, amount=amount, status="approved", email=email)
+            db.session.add(sponsor)
 
-        goal = CampaignGoal.query.filter_by(active=True).first()
-        if goal:
-            goal.total += amount
+            goal = CampaignGoal.query.filter_by(active=True).first()
+            if goal:
+                goal.total = (goal.total or 0) + amount
 
-        txn = Transaction(amount_cents=amount*100)
-        db.session.add(txn)
-        db.session.commit()
+            txn = Transaction(amount_cents=amount * 100, email=email)
+            db.session.add(txn)
+            db.session.commit()
 
-        # ---- real-time broadcast -----------------------------------------
-        socketio.emit("new_sponsor", {
-            "name": name,
-            "amount": amount,
-            "goal_total": goal.total if goal else None,
-        })
+            # ---- Real-time Broadcast --------------------------------
+            # Send both a "donation" and "sponsor" event for full demo power!
+            socketio.emit("new_donation", {
+                "name": name,
+                "amount": amount,
+            })
+            socketio.emit("new_sponsor", {
+                "name": name,
+                "amount": amount,
+                "goal_total": goal.total if goal else None,
+            })
 
     return "OK", 200
+

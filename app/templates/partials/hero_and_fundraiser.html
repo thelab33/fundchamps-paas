@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <!-- 🏀 Connect ATX Elite • Family-First Hero + Fundraiser (Starforge Elite Edition) -->
 <section
-  id="hero"
+  id="hero-2"
   class="connect-hero relative z-20 flex flex-col items-center justify-center min-h-[92vh] md:min-h-screen overflow-hidden pt-20 md:pt-28 scroll-mt-24 md:scroll-mt-32"
   aria-labelledby="hero-heading"
   tabindex="-1"
@@ -14,7 +15,7 @@
         media="(max-width: 767px)"
         srcset="{{ url_for('static', filename='images/connect-atx-team-mobile.jpg') }}"
       />
-      <img
+      <img alt="Image"
         src="{{ url_for('static', filename='images/connect-atx-team.jpg') }}"
         alt="Connect ATX Elite team huddle"
         class="w-full h-full object-cover scale-110 opacity-95 animate-kenburns"
@@ -43,14 +44,14 @@
     class="relative z-10 container mx-auto px-4 py-20 max-w-3xl text-center flex flex-col items-center"
     data-aos="fade-up"
   >
-    {# (OPTIONAL) Hero Logo: Comment this out if you want ONLY the header logo!
+    {# (OPTIONAL) Hero Logo: Comment this out if you want ONLY the header logo! #}
     #} {#
     <picture>
       <source
         type="image/webp"
         srcset="{{ url_for('static', filename='images/logo.webp') }}"
       />
-      <img
+      <img alt="Image"
         itemprop="logo"
         src="{{ url_for('static', filename='images/logo.png') }}"
         alt="Connect ATX Elite logo"
@@ -70,7 +71,7 @@
     {% endif %}
 
     <h1
-      id="hero-heading"
+      id="hero-heading-2"
       itemprop="name"
       class="text-5xl sm:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-gold via-yellow-400 to-gold bg-clip-text text-transparent drop-shadow-xl animate-slide-up"
     >
@@ -84,7 +85,7 @@
       honor-roll athletes and leaders.
     </p>
 
-    <!-- ✨ Elite CTA with shimmer, sparkle & tooltip -->
+    <!-- ✨ Elite CTA with shimmer, sparkle &amp; tooltip -->
     <a
       href="#tiers"
       class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-3 px-8 rounded-full shadow-lg transition duration-200 shimmer-cta animate-pop delay-200 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 relative group"
@@ -107,12 +108,12 @@
       class="mt-4 flex gap-2 justify-center items-center text-xs opacity-80 hidden md:flex"
     >
       <span class="font-bold text-white">As seen at:</span>
-      <img
+      <img alt="Image"
         src="{{ url_for('static', filename='images/feature1.png') }}"
         alt="Austin Youth Org"
         class="h-5 inline-block"
       />
-      <img
+      <img alt="Image"
         src="{{ url_for('static', filename='images/feature2.png') }}"
         alt="KVUE News"
         class="h-5 inline-block"

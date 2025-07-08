@@ -1,0 +1,6 @@
+app/static/js/alpine.min.js
+app/static/js/bundle.min.js
+app/static/js/htmx.min.js
+app/static/js/socket.io.js
+app/static/js/confetti.js
+app/static/js/*.min.js

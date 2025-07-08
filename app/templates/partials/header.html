@@ -1,9 +1,12 @@
+<!DOCTYPE html>
 <header
   class="sticky top-0 z-40 w-full backdrop-blur bg-black/85 border-b border-yellow-300/15 shadow-lg transition-all"
   role="banner"
   x-data="{ open: false, offCanvasOpen: false }"
 >
-  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3 lg:px-8 transition-all duration-300">
+  <div
+    class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3 lg:px-8 transition-all duration-300"
+  >
     <!-- Logo / Brand -->
     <a
       href="{{ url_for('main.home') }}"
@@ -12,7 +15,7 @@
       tabindex="0"
     >
       <span class="relative flex-shrink-0">
-        <img
+        <img alt="Image"
           src="{{ url_for('static', filename='images/logo.webp') }}"
           alt="Connect ATX Elite logo"
           class="h-10 w-10 rounded-full ring-2 ring-yellow-300 shadow-md transition-transform duration-200 group-hover:scale-110"
@@ -37,7 +40,7 @@
             filter="url(#glow)"
           />
           <defs>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <filter id="glow-2" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
               <feMerge>
                 <feMergeNode in="coloredBlur" />
@@ -71,14 +74,9 @@
       aria-label="Primary site navigation"
       role="navigation"
     >
-      {% set nav_links = [
-        ('about', 'About'),
-        ('challenge', 'Challenge'),
-        ('sponsor-wall-wrapper', 'Sponsors'),
-        ('testimonials', 'Testimonials'),
-        ('contact', 'Contact')
-      ] %}
-      {% for id, label in nav_links %}
+      {% set nav_links = [ ('about', 'About'), ('challenge', 'Challenge'),
+      ('sponsor-wall-wrapper', 'Sponsors'), ('testimonials', 'Testimonials'),
+      ('contact', 'Contact') ] %} {% for id, label in nav_links %}
       <a
         href="#{{ id }}"
         class="relative transition hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded px-1 py-0.5 group"
@@ -94,9 +92,9 @@
 
       <button
         type="button"
-        onclick="openSponsorModal && openSponsorModal()"
+        onclick="openSponsorModal &amp;&amp; openSponsorModal()"
         class="ml-5 px-5 py-2 bg-gradient-to-r from-yellow-400 to-gold text-black font-bold rounded-full shadow-xl hover:scale-105 hover:bg-yellow-200 hover:shadow-yellow-300/60 focus-visible:ring-4 focus-visible:ring-yellow-400 transition-all"
-        style="min-width: 150px;"
+        style="min-width: 150px"
         tabindex="0"
         aria-label="Open sponsor modal"
       >
@@ -132,14 +130,18 @@
         aria-hidden="true"
         focusable="false"
       >
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
       </svg>
     </button>
   </div>
 
   <!-- Off-canvas Mobile Navigation -->
   <nav
-    id="mobile-nav"
+    id="mobile-nav-2"
     x-show="offCanvasOpen"
     x-transition:enter="transition ease-out duration-250"
     x-transition:enter-start="opacity-0 scale-95 -translate-x-full"
@@ -190,4 +192,3 @@
     </button>
   </nav>
 </header>
-
