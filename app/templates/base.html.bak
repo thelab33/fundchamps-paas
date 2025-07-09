@@ -1,0 +1,113 @@
+<!doctype html>>
+<html lang="en">>
+  <head>>
+    <meta charset="utf-8" />>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />>
+>
+    <!-- Theme color (dynamic per team/org) -->>
+    <meta>
+      name="theme-color">
+      content="{{ team.theme_color if team and team.theme_color else '#facc15' }}">
+    />>
+>
+    <!-- SEO & Social Meta -->>
+    <title>>
+      {% block title %}{{ team.team_name if team and team.team_name else>
+      "Connect ATX Elite" }}{% endblock %}>
+    </title>>
+    <meta>
+      name="description">
+      content="{% block description %}{{ team.description if team and team.description else 'Elite youth team fundraising, memberships, and sponsor engagement.' }}{% endblock %}">
+    />>
+    <meta property="og:type" content="website" />>
+    <meta>
+      property="og:title">
+      content="{% block og_title %}{{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}{% endblock %}">
+    />>
+    <meta>
+      property="og:description">
+      content="{% block og_description %}{{ team.og_description if team and team.og_description else 'Support our basketball journey and invest in our next generation of leaders.' }}{% endblock %}">
+    />>
+    <meta>
+      property="og:image">
+      content="{{ team.og_image if team and team.og_image else url_for('static', filename='images/og-default.jpg') }}">
+    />>
+    <meta property="og:url" content="{{ request.url if request else '' }}" />>
+    <meta name="twitter:card" content="summary_large_image" />>
+    <meta>
+      name="twitter:title">
+      content="{% block twitter_title %}{{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}{% endblock %}">
+    />>
+    <meta>
+      name="twitter:description">
+      content="{% block twitter_description %}{{ team.og_description if team and team.og_description else 'Support our basketball journey and invest in our next generation of leaders.' }}{% endblock %}">
+    />>
+    <meta>
+      name="twitter:image">
+      content="{{ team.og_image if team and team.og_image else url_for('static', filename='images/og-default.jpg') }}">
+    />>
+>
+    <!-- Favicon and Manifest -->>
+    <link>
+      rel="icon">
+      type="image/png">
+      href="{{ url_for('static', filename=team.favicon if team and team.favicon else 'favicon.png') }}">
+    />>
+    <link>
+      rel="manifest">
+      href="{{ url_for('static', filename='site.webmanifest') }}">
+    />>
+>
+    <!-- TailwindCSS (main brand stylesheet) -->>
+    <link>
+      rel="stylesheet">
+      href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+    />>
+>
+    {% if team and team.custom_css %}>
+    <link>
+      rel="stylesheet">
+      href="{{ url_for('static', filename=team.custom_css) }}">
+    />>
+    {% endif %} {% block head_extra %}{% endblock %}>
+    <style>>
+      .skip-link {>
+        position: absolute;>
+        left: -999px;>
+        top: auto;>
+        width: 1px;>
+        height: 1px;>
+        overflow: hidden;>
+      }>
+      .skip-link:focus {>
+        left: 8px;>
+        top: 8px;>
+        width: auto;>
+        height: auto;>
+        z-index: 5000;>
+        background: #fde047;>
+        color: #18181b;>
+        padding: 0.7rem 1.5rem;>
+        border-radius: 1.5rem;>
+        font-weight: bold;>
+      }>
+    </style>>
+  </head>>
+  <body>
+    class="bg-black text-zinc-100 min-h-screen flex flex-col font-sans {% block body_class %}{% endblock %}">
+  >>
+    <a href="#starforge-main" class="skip-link">Skip to main content</a>>
+>
+    {# --- Slot for global modals, flash, banners (inserted by child) --- #} {%>
+    block global_modals %}{% endblock %}>
+>
+    <main id="starforge-main" role="main" tabindex="-1">>
+      {% block content %}{% endblock %}>
+    </main>>
+>
+    {# --- Mobile/floating CTA block (optional, insert by child) --- #} {% block>
+    mobile_cta %}{% endblock %} {# --- Scripts --- #} {% block scripts %}>
+    <!-- Global JS (analytics, aos, intercom, etc.) -->>
+    {% block scripts_extra %}{% endblock %} {% endblock %}>
+  </body>>
+</html>>

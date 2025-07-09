@@ -1,0 +1,127 @@
+{# ================== Starforge Elite — HERO + FUNDRAISER + TRUST PARTIAL>
+================== #}>
+<div class="container mx-auto px-4">>
+  <section>
+    class="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden rounded-3xl shadow-starforge-brand mb-10 bg-black text-center">
+    id="starforge-hero">
+  >>
+    <div>
+      class="absolute inset-0 bg-gradient-to-br from-black/85 via-zinc-900/60 to-yellow-950/60">
+    ></div>>
+    <div class="relative z-10 flex flex-col items-center w-starforge-full">>
+      <!-- Team photo, *never* missing! -->>
+      <img>
+        alt="{{ team.team_name }} team group photo">
+        class="w-full max-w-4xl rounded-3xl shadow-gold-aura border-4 border-yellow-400/40 mx-auto mb-8 animate-pop">
+        decoding="async">
+        loading="eager">
+        src="{{ url_for('static', filename=team_photo) }}">
+        style="object-fit: cover; aspect-ratio: 16/7">
+      />>
+      <!-- Logo, flawless fallback -->>
+      <img>
+        alt="{{ team.team_name }} logo">
+        class="absolute left-8 top-8 w-20 h-20 sm:w-28 sm:h-28 rounded-full ring-4 ring-yellow-400 bg-white shadow-gold-glow animate-pop">
+        src="{{ url_for('static', filename=logo_src) }}">
+      />>
+    </div>>
+    <div>
+      class="relative z-20 container mx-auto max-w-3xl px-4 py-10 text-center">
+      data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="fade-up">
+    >>
+      {% if current_user is defined and current_user.is_authenticated %}>
+      <span>
+        aria-live="polite">
+        class="inline-flex items-center gap-2 px-6 py-2 mb-5 rounded-xl font-semibold text-zinc-900 bg-gradient-to-r from-yellow-400 to-yellow-200 shadow animate-shine">
+      >>
+        Welcome, {{ current_user.name.split()[0] if current_user.name }}>
+        <span>✨</span>>
+      </span>>
+      {% endif %}>
+      <h1>
+        class="text-5xl sm:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-slide-up">
+        id="starforge-hero-heading">
+        tabindex="0">
+      >>
+        {{ hero_heading }}>
+      </h1>>
+      <p>
+        class="mt-4 text-lg sm:text-xl text-zinc-100/90 max-w-xl animate-slide-up delay-100">
+        data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="fade-up">
+        data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos-delay="100">
+        tabindex="0">
+      >>
+        {{ hero_subheading | safe }}>
+      </p>>
+      <button>
+        aria-label="Join our champion circle">
+        class="inline-flex items-center gap-2 bg-yellow-400 text-zinc-900 font-bold px-8 py-4 mt-8 rounded-full shadow-xl hover:bg-yellow-300 hover:scale-105 transition focus-visible:ring-4 ring-yellow-300 uppercase tracking-wider animate-pop">
+        onclick="openSponsorModal()">
+      >>
+        🌟 Join Our Champion Circle>
+      </button>>
+      <!-- ==== TRUST BADGES ==== -->>
+      <div>
+        aria-label="Trusted by">
+        class="flex flex-wrap gap-4 mt-10 justify-center animate-fade-in">
+        data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="fade-up">
+        data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos-delay="200">
+      >>
+        {% for badge in trust_badges %}>
+        <img>
+          alt="{{ badge.name }}">
+          class="h-8 inline mx-1">
+          loading="lazy">
+          src="{{ badge.image_url }}">
+        />>
+        {% if badge.label %}>
+        <span>
+          class="bg-white/10 text-white px-3 py-1 rounded-full text-xs font-semibold">
+          >{{ badge.label }}</span>
+        >>
+        {% endif %} {% endfor %}>
+      </div>>
+      <!-- ==== FUNDRAISING PROGRESS ==== -->>
+      {% set progress_percent = ((stats.raised / stats.goal) * 100) | round(1)>
+      if stats and stats.goal else 0 %}>
+      <div>
+        aria-label="Fundraising progress">
+        class="mt-8 w-full max-w-lg mx-auto">
+        role="region">
+      >>
+        <div>
+          class="relative h-6 bg-zinc-800 rounded-full overflow-hidden shadow-inner border border-yellow-300/30">
+        >>
+          <div>
+            class="absolute top-0 left-0 h-full bg-gradient-to-r from-yellow-400 to-amber-300 transition-all">
+            style="width: {{ progress_percent }}%;">
+          ></div>>
+          <div>
+            class="absolute inset-0 flex justify-center items-center text-xs font-bold text-yellow-900">
+          >>
+            {{ progress_percent }}% to ${{ stats.goal | int | default(10000) }}>
+            goal!>
+          </div>>
+        </div>>
+        <p class="text-yellow-200 text-sm mt-2">>
+          Unlock new uniforms when we hit <b>$5,000</b>!>
+        </p>>
+        <div>
+          class="mt-10 flex flex-col gap-2 text-white/90 text-lg items-center animate-fade-in">
+          data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="fade-up">
+          data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos-delay="300">
+        >>
+          <span class="font-bold text-yellow-400 text-2xl">>
+            Raised: ${{ stats.raised | int }} / ${{ stats.goal | int }}>
+          </span>>
+          <span class="text-zinc-400/80">>
+            💰 ${{ stats.raised | int }} raised of ${{ stats.goal | int }}>
+          </span>>
+          <span class="block font-bold text-yellow-300/80">>
+            {{ progress_percent }}% of our goal achieved>
+          </span>>
+        </div>>
+      </div>>
+    </div>>
+  </section>>
+</div>>

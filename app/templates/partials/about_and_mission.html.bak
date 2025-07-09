@@ -1,0 +1,158 @@
+{# ========== ABOUT & MISSION SECTION (SaaS-ready, Animated, Starforge Edition)>
+========== #}>
+<section>
+  id="starforge-about-and-mission">
+  class="relative py-20 px-4 sm:px-8 bg-gradient-to-b from-zinc-950 via-black to-zinc-950 text-white rounded-3xl shadow-2xl overflow-x-clip">
+  role="region">
+  aria-labelledby="starforge-about-mission-heading">
+  tabindex="-1">
+>>
+  {# Defensive SVG asset reference, never error #} {% set accent_svg =>
+  'basketball-accent.svg' %}>
+  <img>
+    src="{{ url_for('static', filename=accent_svg) }}">
+    alt="">
+    aria-hidden="true">
+    class="absolute left-0 top-14 w-24 md:w-36 opacity-70 animate-spin-slow pointer-events-none select-none">
+    loading="lazy">
+    decoding="async">
+    onerror="this.style.display='none';">
+  />>
+  <img>
+    src="{{ url_for('static', filename=accent_svg) }}">
+    alt="">
+    aria-hidden="true">
+    class="absolute right-0 bottom-14 w-20 md:w-32 opacity-50 animate-spin-reverse-slow pointer-events-none select-none">
+    loading="lazy">
+    decoding="async">
+    onerror="this.style.display='none';">
+  />>
+>
+  <!-- Player Mosaic: Safe fallback -->>
+  <div>
+    class="grid grid-cols-3 sm:grid-cols-5 gap-3 max-w-3xl mx-auto py-8 relative z-10">
+    data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="fade-up">
+    role="list">
+    aria-label="Our Players">
+  >>
+    {% if about is defined and about %} {% for p in about %}>
+    <div class="player-starforge-card" role="listitem" tabindex="0">>
+      <img>
+        src="{{ url_for('static', filename=p.img) if p.img else url_for('static', filename='images/logo.webp') }}">
+        alt="{{ p.name }} – {{ team.team_name if team and team.team_name else 'Your Team' }}">
+        class="rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105 focus:scale-105 focus:outline-yellow-400 focus-visible:ring-2 focus-visible:ring-yellow-400">
+        loading="lazy">
+        decoding="async">
+        onerror="this.src='{{ url_for('static', filename='images/logo.webp') }}';">
+      />>
+      <h4 class="text-center mt-2 font-semibold text-lg">{{ p.name }}</h4>>
+    </div>>
+    {% endfor %} {% else %} {# Safe fallback demo player blocks #} {% for i in>
+    range(5) %}>
+    <div class="player-starforge-card opacity-50" role="listitem" tabindex="0">>
+      <img>
+        src="{{ url_for('static', filename='images/logo.webp') }}">
+        alt="Your Team">
+        class="rounded-xl shadow-lg">
+        loading="lazy">
+      />>
+      <h4 class="text-center mt-2 font-semibold text-lg">Player {{ i+1 }}</h4>>
+    </div>>
+    {% endfor %} {% endif %}>
+  </div>>
+>
+  <!-- About & Mission Core -->>
+  <div class="max-w-4xl mx-auto text-center py-2 px-2 space-y-6 relative z-10">>
+    <h2>
+      id="starforge-about-mission-heading">
+      class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-shine">
+      tabindex="0">
+    >>
+      More Than Basketball — We’re Family On A Mission>
+    </h2>>
+    <p class="text-xl sm:text-2xl font-semibold text-white/90" tabindex="0">>
+      <span class="text-yellow-400 font-bold">>
+        {{ team.team_name if team and team.team_name else "Your Team Name" }}>
+      </span>>
+      is more than a team—it's a family-powered movement where>
+      <strong>>
+        {{ team.region if team and team.region else "Your Region" }} kids and>
+        parents find a second home </strong>
+      >. <span class="hidden sm:inline"><br /></span> We build>
+      <strong>teamwork, respect, and championship character for life</strong>.>
+    </p>>
+    <p class="text-lg text-white/80" tabindex="0">>
+      Founded by the Smith family, our {{ team.league if team and team.league>
+      else "Your League" }} program grew from a father’s dream for his son into>
+      a thriving, supportive community. Every coach, volunteer, and sponsor>
+      helps our students—>
+      <span class="text-amber-300 font-bold">>
+        because every child matters here.>
+      </span>>
+    </p>>
+    <p class="text-lg text-yellow-200/90 italic" tabindex="0">>
+      “Family means showing up, believing in each other, and making sure no one>
+      is left behind. That’s what we do—on the court, and off.”<br />>
+      <span class="text-yellow-400 font-semibold">— Coach Angel Rodriguez</span>>
+    </p>>
+  </div>>
+>
+  <!-- Mission + CTA -->>
+  <div class="max-w-3xl mx-auto text-center space-y-6 mt-6 relative z-10">>
+    <h3>
+      class="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-shine">
+      data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="zoom-in">
+      tabindex="0">
+    >>
+      Our Mission>
+    </h3>>
+    <article>
+      class="prose prose-invert mx-auto space-y-4">
+      data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos="fade-up">
+      data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-aos-delay="100">
+      tabindex="0">
+      aria-describedby="missionSummary">
+    >>
+      <p id="starforge-missionSummary-2" class="text-xl leading-relaxed">>
+        <strong>
+          >{{ team.team_name if team and team.team_name else "Your Team Name">
+          }}</strong>
+        >>
+        is a>
+        <span class="text-yellow-300 font-bold">
+          >family-founded, community-powered</span>
+        >>
+        12U {{ team.league if team and team.league else "Your League" }} program>
+        in Austin, TX—built for <em>affordable, academics-first basketball</em>.>
+      </p>>
+      <p class="text-lg text-white/90">>
+        Our mission:>
+        <span class="text-yellow-300 font-bold">
+          >turn honor-roll students into champions—on and off the court.</span>
+        >>
+        Through teamwork, mentorship, and grit, we prepare our players for>
+        <span class="text-amber-200 font-bold">life as well as sport</span>.>
+      </p>>
+      <p class="text-white/70">>
+        Every sponsorship directly supports>
+        <span class="text-yellow-200 font-semibold">
+          >gym access, tournament travel, and crucial academic support</span>
+        >>
+        for <strong>20+ student-athletes</strong>—most striving for honor roll,>
+        not just the scoreboard.>
+      </p>>
+    </article>>
+    <a>
+      href="#fundraiser">
+      class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-3 px-8 rounded-full shadow-lg transition hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 text-lg animate-pop mt-2">
+      tabindex="0">
+    >>
+      Become a Champion for {{ team.region if team and team.region else "Your>
+      Region" }} Youth →>
+    </a>>
+    <p class="mt-2 text-sm text-white/60" tabindex="0">>
+      Every sponsorship fuels gym time, tutoring, travel, and more.>
+      <strong>Keep our kids dreaming big.</strong>>
+    </p>>
+  </div>>
+</section>>

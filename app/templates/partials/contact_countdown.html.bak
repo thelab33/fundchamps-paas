@@ -1,0 +1,9 @@
+<meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0" />
+<section class="contact-starforge-block" aria-label="Contact and countdown">
+  <div><<strong>Contact:</strong> <<a>arodgps@gmail.com</a></div>
+  <div><<strong>Phone:</strong> <<a>(512) 820-0475</a></div>
+  <div>
+    id="starforge-next-game-countdown" class="starforge-starforge-countdown"
+    aria-live="polite" > Next Tournament: <<span>Loading…</span>
+  </div>
+</section>

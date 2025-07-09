@@ -1,0 +1,264 @@
+{# ---- STARFORGE: Program Stats + Calendar — Elite SaaS Safe Vars ---- #} {%>
+set stats_defaults = {'players': 16, 'honor_roll': 11, 'tournaments': 12,>
+'years': 3} %} {% set stat_labels = { 'players': 'Players Enrolled',>
+'honor_roll': 'Honor Roll Scholars', 'tournaments': 'Tournaments Played',>
+'years': 'Years Running' } %} {% set stats = stats if stats is defined else>
+stats_defaults %} {% set months = months if months is defined else ['2025-01',>
+>
+<div class="container mx-auto px-4">>
+  <section>
+    aria-labelledby="stats-heading">
+    class="connect-stats relative overflow-visible">
+    id="starforge-stats">
+    role="region">
+    tabindex="-1">
+  >>
+    <h2 class="sr-only" id="starforge-stats-heading">Program Stats</h2>>
+    <div>
+      class="stats-starforge-grid grid grid-cols-2 sm:grid-cols-4 gap-8 my-10">
+    >>
+      {% for key, label in stat_labels.items() %}>
+      <div>
+        aria-label="{{ stats[key] if stats[key] is defined else stats_defaults[key] }} {{ label }}">
+        class="stat-starforge-card bg-zinc-900/80 rounded-2xl p-8 flex flex-col items-center shadow-lg text-center border-2 border-yellow-400/30 transition hover:scale-105 focus-within:ring-2 focus-within:ring-yellow-400">
+        tabindex="0">
+      >>
+        <span class="text-4xl mb-3">🎉</span>>
+        <span>
+          class="counter text-4xl font-extrabold text-yellow-400 block">
+          data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-target="{{ stats[key] if stats[key] is defined else stats_defaults[key] }}">
+          >0</span>
+        >>
+        <div class="mt-2 text-lg text-yellow-100 font-bold">{{ label }}</div>>
+        {% if current_user and current_user.is_admin %}>
+        <span>
+          aria-label="How is this stat tracked?">
+          class="ml-2 text-yellow-300/70 text-base cursor-pointer">
+          onclick="alert('This stat is updated after every season & verified by the coaches.')">
+          role="button">
+          tabindex="0">
+          title="How is this stat tracked?">
+          >ℹ️</span>
+        >>
+        {% endif %}>
+      </div>>
+      {% endfor %}>
+    </div>>
+    <div class="mt-10 text-center text-yellow-300/90 font-semibold text-lg">>
+      <span class="mr-2">🏆 Our stats are real — and growing.</span>>
+      <a class="underline hover:text-yellow-100 transition" href="#tiers">>
+        Sponsor the next milestone →>
+      </a>>
+    </div>>
+    <script>>
+      // Animate stats on scroll>
+      document.addEventListener("DOMContentLoaded", () => {>
+        const statsSection = document.getElementById("starforge-stats");>
+        const counters = statsSection.querySelectorAll(".counter");>
+        let animated = false;>
+        const animateCounters = () => {>
+          counters.forEach((el, idx) => {>
+            const target = +el.dataset.starforgeTarget;>
+            let count = 0;>
+            const increment = Math.max(1, Math.ceil(target / 68));>
+            function step() {>
+              count += increment;>
+              if (count >= target) {>
+                el.textContent = target;>
+                if (idx === 0) {>
+                  el.insertAdjacentHTML(>
+                    "afterend",>
+                    `<span class="stat-confetti block text-2xl" style="opacity:1;">🎉✨</span>`,>
+                  );>
+                  setTimeout(() => {>
+                    const confetti =>
+                      el.parentNode.querySelector(".stat-confetti");>
+                    if (confetti) confetti.style.opacity = 0;>
+                  }, 1400);>
+                }>
+              } else {>
+                el.textContent = count;>
+                requestAnimationFrame(step);>
+              }>
+            }>
+            requestAnimationFrame(step);>
+          });>
+        };>
+        const observer = new IntersectionObserver(>
+          (entries, obs) => {>
+            if (entries[0].isIntersecting && !animated) {>
+              animateCounters();>
+              animated = true;>
+              obs.disconnect();>
+            }>
+          },>
+          { threshold: 0.25 },>
+        );>
+        observer.observe(statsSection);>
+      });>
+    </script>>
+  </section>>
+</div>>
+>
+<div class="container mx-auto px-4">>
+  <section>
+    aria-labelledby="events-heading">
+    class="my-20 px-4 sm:px-8 max-w-5xl mx-auto">
+    id="starforge-events-calendar">
+    tabindex="-1">
+  >>
+    <h2>
+      class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl text-center mb-6">
+      id="starforge-events-heading">
+    >>
+      🗓️ Game & Event Calendar>
+    </h2>>
+    {% set next_game = events|selectattr('is_upcoming')|list|first %} {% if>
+    next_game %}>
+    <div>
+      aria-label="Next upcoming game">
+      aria-live="polite">
+      class="flex items-center justify-center mb-7">
+      role="region">
+      tabindex="0">
+    >>
+      <span>
+        class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 text-black text-base font-bold shadow-lg ring-2 ring-yellow-400 animate-pulse">
+      >>
+        <span>⏰</span> Next Game:>
+        <span class="font-black text-lg">
+          >{{ next_game.date|replace("-", "/") }}</span>
+        >>
+        <span class="font-semibold">vs. {{ next_game.opponent }}</span>>
+        <span>
+          class="bg-green-400 text-zinc-900 px-3 py-0.5 rounded-full text-xs font-extrabold ml-3">
+          >Upcoming</span>
+        >>
+      </span>>
+    </div>>
+    {% endif %}>
+>
+    <form>
+      id="starforge-calendarFilters">
+      name="calendarFilters">
+      role="search">
+      aria-label="Filter game and event calendar">
+      autocomplete="off">
+      class="flex flex-wrap gap-3 justify-center mb-4 text-sm font-bold">
+    >>
+      <select>
+        id="starforge-filterOutcome">
+        aria-label="Filter by outcome">
+        class="rounded px-3 py-1 bg-zinc-900 text-yellow-400 border-yellow-400/60 focus:ring-2 ring-yellow-400">
+      >>
+        <option value="all">All Results</option>>
+        <option value="win">Wins 🟢</option>>
+        <option value="loss">Losses 🔴</option>>
+        <option value="upcoming">Upcoming 🟡</option>>
+      </select>>
+      <select>
+        id="starforge-filterMonth">
+        aria-label="Filter by month">
+        class="rounded px-3 py-1 bg-zinc-900 text-yellow-400 border-yellow-400/60 focus:ring-2 ring-yellow-400">
+      >>
+        <option value="all">All Months</option>>
+        {% for m in months %}>
+        <option value="{{ m }}">{{ m|replace('-', '/') }}</option>>
+        {% endfor %}>
+      </select>>
+      <button>
+        id="starforge-downloadIcal">
+        type="button">
+        aria-label="Download calendar in iCal format">
+        class="rounded px-4 py-1.5 bg-gradient-to-r from-yellow-400 to-yellow-300 text-black font-semibold shadow hover:bg-yellow-300 transition">
+      >>
+        📅 Download iCal>
+      </button>>
+    </form>>
+    <div class="overflow-x-auto rounded-xl bg-zinc-900/80 shadow-xl mb-6">>
+      <table class="min-w-full text-left" id="starforge-eventTable">>
+        <thead>>
+          <tr>
+            class="text-yellow-400 bg-zinc-800/80 uppercase text-xs font-bold">
+          >>
+            <th>Date</th>>
+            <th>Opponent / Event</th>>
+            <th>Location</th>>
+            <th>Time</th>>
+            <th>Result</th>>
+            <th>Notes</th>>
+          </tr>>
+        </thead>>
+        <tbody>>
+          {% for event in events %}>
+          <tr>
+            class="{% if event.is_upcoming %}bg-yellow-400/20 text-yellow-200{% elif 'W' in event.result %}bg-green-500/20 text-green-100{% elif 'L' in event.result %}bg-red-500/20 text-red-100{% else %}bg-zinc-900/80{% endif %}">
+            data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-event-month="{{ event.date[:7] if event and event.date else '' }}">
+            data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-event-outcome="{% if 'W' in event.result %}win{% elif 'L' in event.result %}loss{% elif event.is_upcoming %}upcoming{% else %}other{% endif %}">
+            tabindex="0">
+          >>
+            <td>{{ event.date|replace('-', '/') }}</td>>
+            <td class="py-3 px-4 font-bold">>
+              {{ event.opponent }} {% if event.sponsor %}>
+              <span class="block text-xs text-yellow-300/80 mt-1">
+                >Sponsored by {{ event.sponsor }}</span>
+              >>
+              {% endif %}>
+            </td>>
+            <td>{{ event.location }}</td>>
+            <td>{{ event.time }}</td>>
+            <td class="py-3 px-4 font-bold">>
+              {% if 'W' in event.result %}🟢 Win{% elif 'L' in event.result %}🔴>
+              Loss{% else %}—{% endif %}>
+            </td>>
+            <td>{{ event.highlight }}</td>>
+          </tr>>
+          {% endfor %}>
+        </tbody>>
+      </table>>
+    </div>>
+    <script>>
+      // iCal Export>
+      document.getElementById("starforge-downloadIcal").addEventListener("click", () => {>
+        let ical = "BEGIN:VCALENDAR\nVERSION:2.0\n";>
+        {% for event in events %}>
+        ical += `BEGIN:VEVENT\nSUMMARY:{{ event.opponent|escape }}\nDTSTART;VALUE=DATE:{{ event.date|replace("-", "") }}\nDESCRIPTION:{{ event.type|escape }} - {{ event.result|escape }}\nLOCATION:{{ event.location|escape }}\nEND:VEVENT\n`;>
+        {% endfor %}>
+        ical += "END:VCALENDAR";>
+        const blob = new Blob([ical], { type: "text/calendar" });>
+        const url = URL.createObjectURL(blob);>
+        const link = document.createElement("a");>
+        link.href = url;>
+        link.download = "ConnectATXElite-Schedule.ics";>
+        document.body.appendChild(link);>
+        link.click();>
+        document.body.removeChild(link);>
+        URL.revokeObjectURL(url);>
+      });>
+>
+      // Calendar Filters>
+      const outcomeSelect = document.getElementById("starforge-filterOutcome");>
+      const monthSelect = document.getElementById("starforge-filterMonth");>
+      const eventRows = document.querySelectorAll("#starforge-eventTable tbody tr");>
+      function filterCalendar() {>
+        const outcome = outcomeSelect.value;>
+        const month = monthSelect.value;>
+        eventRows.forEach(row => {>
+          const matchOutcome = (outcome === "all") || (row.dataset.starforgeEventOutcome === outcome);>
+          const matchMonth = (month === "all") || (row.dataset.starforgeEventMonth === month);>
+          row.style.display = (matchOutcome && matchMonth) ? "" : "none";>
+        });>
+      }>
+      outcomeSelect.addEventListener("change", filterCalendar);>
+      monthSelect.addEventListener("change", filterCalendar);>
+>
+      // Accessibility: focus next upcoming row when filtering to upcoming>
+      outcomeSelect.addEventListener("change", () => {>
+        if (outcomeSelect.value === "upcoming") {>
+          const nextRow = document.querySelector('tr[data-starforge-starforge-starforge-starforge-starforge-starforge-starforge-event-outcome="upcoming"]');>
+          if (nextRow) nextRow.focus();>
+        }>
+      });>
+    </script>>
+  </section>>
+</div>>

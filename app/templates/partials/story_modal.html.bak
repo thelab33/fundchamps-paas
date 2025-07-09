@@ -1,0 +1,189 @@
+{# =========== WATCH OUR STORY MODAL (STARFORGE ELITE, SaaS-ready) ===========>
+#} {% set team = team if team is defined else {} %} {% set video_poster =>
+team.hero_image if team is defined and team.hero_image else url_for('static',>
+filename='images/connect-atx-team.jpg') %} {% set video_src = team.story_video>
+if team is defined and team.story_video else url_for('static',>
+filename='connect-atx-story.mp4') %} {% set youtube_id = team.youtube_id if team>
+is defined and team.youtube_id else 'dQw4w9WgXcQ' %} {% set kvue_url =>
+team.kvue_url if team is defined and team.kvue_url else>
+'https://www.kvue.com/embeds/video/responsive/269-beeecfc1-eb68-4cca-8ec5-417b66d8cbfa/iframe'>
+%}>
+>
+<div class="text-center my-16">>
+  <button>
+    id="starforge-storyBtn">
+    type="button">
+    aria-haspopup="dialog">
+    aria-controls="starforge-storyModal">
+    aria-expanded="false">
+    class="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 text-black font-black px-10 py-4 rounded-full shadow-lg hover:scale-105 hover:shadow-yellow-400/50 focus:ring-4 ring-yellow-300 transition-all text-lg md:text-xl animate-pulse">
+  >>
+    ▶️ <span>Watch Our Story</span>>
+  </button>>
+</div>>
+>
+<dialog>
+  id="starforge-storyModal">
+  role="dialog">
+  aria-modal="true">
+  aria-labelledby="starforge-storyModalTitle">
+  aria-hidden="true">
+  class="p-0 rounded-3xl overflow-hidden shadow-2xl bg-black/95 backdrop-blur-lg max-w-3xl w-full mx-auto border-4 border-yellow-400/70 transition-all scale-95 opacity-0">
+>>
+  <button>
+    type="button">
+    aria-label="Close video modal">
+    class="absolute top-4 right-4 text-white text-4xl hover:text-yellow-300 focus:ring-2 ring-yellow-300 z-50">
+    onclick="closeModal()">
+  >>
+    ×>
+  </button>>
+  <div class="flex flex-col items-center p-6 animate-fade-in-down">>
+    <h2>
+      id="starforge-storyModalTitle">
+      class="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent mb-4 text-center drop-shadow-xl animate-shine">
+    >>
+      Our Story: On & Off The Court>
+    </h2>>
+    <!-- Video Tabs -->>
+    <div>
+      class="flex gap-3 md:gap-5 mb-6 flex-wrap justify-center">
+      role="tablist">
+    >>
+      <button>
+        id="starforge-tab-myvideo">
+        role="tab">
+        aria-controls="starforge-panel-myvideo">
+        aria-selected="true">
+        class="py-2 px-5 rounded-full font-semibold shadow bg-yellow-400 text-black hover:scale-105 transition">
+      >>
+        🎥 Team Video>
+      </button>>
+      <button>
+        id="starforge-tab-kvue">
+        role="tab">
+        aria-controls="starforge-panel-kvue">
+        aria-selected="false">
+        class="py-2 px-5 rounded-full font-semibold shadow bg-zinc-800 text-yellow-300 hover:bg-yellow-900 hover:scale-105 transition">
+      >>
+        📺 KVUE News>
+      </button>>
+      <button>
+        id="starforge-tab-youtube">
+        role="tab">
+        aria-controls="starforge-panel-youtube">
+        aria-selected="false">
+        class="py-2 px-5 rounded-full font-semibold shadow bg-zinc-800 text-yellow-300 hover:bg-yellow-900 hover:scale-105 transition">
+      >>
+        🏀 YouTube>
+      </button>>
+    </div>>
+    <!-- Video Panels -->>
+    <div>
+      id="starforge-panel-myvideo">
+      role="tabpanel">
+      aria-labelledby="starforge-tab-myvideo">
+      class="w-full max-w-2xl aspect-video mx-auto block">
+    >>
+      <video>
+        controls>
+        poster="{{ video_poster }}">
+        class="rounded-xl border-4 border-yellow-300 shadow-lg w-full h-auto bg-black">
+      >>
+        <source src="{{ video_src }}" type="video/mp4" />>
+        Sorry, your browser doesn’t support embedded videos.>
+      </video>>
+    </div>>
+    <div>
+      id="starforge-panel-kvue">
+      role="tabpanel">
+      aria-labelledby="starforge-tab-kvue">
+      class="w-full max-w-2xl aspect-video mx-auto hidden">
+    >>
+      <iframe>
+        src="{{ kvue_url }}">
+        width="100%">
+        height="360">
+        allowfullscreen>
+        class="border-2 border-yellow-300 rounded-xl">
+      ></iframe>>
+    </div>>
+    <div>
+      id="starforge-panel-youtube">
+      role="tabpanel">
+      aria-labelledby="starforge-tab-youtube">
+      class="w-full max-w-2xl aspect-video mx-auto hidden">
+    >>
+      <iframe>
+        src="https://www.youtube.com/embed/{{ youtube_id }}">
+        width="100%">
+        height="360">
+        allowfullscreen>
+        class="border-2 border-yellow-300 rounded-xl">
+      ></iframe>>
+    </div>>
+    <div class="mt-5 text-xs text-zinc-300 text-center">>
+      <strong>
+        >{{ team.team_name if team.team_name else "Connect ATX Elite" }}</strong>
+      >>
+      | Family-run. Community-powered. Champions rising.>
+    </div>>
+  </div>>
+</dialog>>
+>
+<script>>
+  (() => {>
+    const storyBtn = document.getElementById("starforge-storyBtn");>
+    const modal = document.getElementById("starforge-storyModal");>
+    const tabs = modal.querySelectorAll('[role="tab"]');>
+    const panels = modal.querySelectorAll('[role="tabpanel"]');>
+    let lastFocused;>
+>
+    function openModal() {>
+      lastFocused = document.activeElement;>
+      modal.showModal();>
+      modal.classList.replace("scale-95", "scale-100");>
+      modal.classList.replace("opacity-0", "opacity-100");>
+      modal.setAttribute("aria-hidden", "false");>
+      storyBtn.setAttribute("aria-expanded", "true");>
+      tabs[0].focus();>
+    }>
+    function closeModal() {>
+      modal.classList.replace("scale-100", "scale-95");>
+      modal.classList.replace("opacity-100", "opacity-0");>
+      setTimeout(() => {>
+        modal.close();>
+        modal.setAttribute("aria-hidden", "true");>
+        storyBtn.setAttribute("aria-expanded", "false");>
+        lastFocused?.focus();>
+      }, 200);>
+    }>
+    storyBtn.addEventListener("click", openModal);>
+    modal>
+      .querySelector('[aria-label="Close video modal"]')>
+      .addEventListener("click", closeModal);>
+>
+    // Tabs logic>
+    tabs.forEach((tab) =>>
+      tab.addEventListener("click", () => {>
+        tabs.forEach((t) => {>
+          t.setAttribute("aria-selected", "false");>
+          t.classList.replace("bg-yellow-400", "bg-zinc-800");>
+          t.classList.replace("text-black", "text-yellow-300");>
+        });>
+        panels.forEach((p) => p.classList.add("hidden"));>
+>
+        tab.setAttribute("aria-selected", "true");>
+        tab.classList.replace("bg-zinc-800", "bg-yellow-400");>
+        tab.classList.replace("text-yellow-300", "text-black");>
+        document>
+          .getElementById(tab.getAttribute("aria-controls"))>
+          .classList.remove("hidden");>
+      }),>
+    );>
+    // Escape closes modal>
+    modal.addEventListener("keydown", (e) => {>
+      if (e.key === "Escape") closeModal();>
+    });>
+  })();>
+</script>>
