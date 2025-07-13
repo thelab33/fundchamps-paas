@@ -1,17 +1,10 @@
 #!/bin/bash
-echo "🚧 Starforge Build Pipeline: Assets + Tailwind + Config Check"
+set -e
 
-# Ensure the reports directory exists
-mkdir -p reports
+echo "🌀 Checking Tailwind config..."
+[ -f tailwind.config.js ] || { echo "❌ tailwind.config.js not found."; exit 1; }
 
-echo "🔁 Rebuilding Tailwind CSS..."
-npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/globals.css --minify && echo '✅ Tailwind rebuilt: globals.css'
+echo "🛠️  Rebuilding Tailwind CSS..."
+npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/globals.css --minify
 
-echo "🔍 Checking Tailwind content coverage..."
-grep -q '.text-white' app/static/css/globals.css && echo '✅ Tailwind styles confirmed in CSS' || echo '⚠️ No Tailwind styles detected!'
-
-echo "📦 Verifying critical assets..."
-ls -lh app/static/css/globals.css app/static/js/main.js > reports/assets_check.txt && cat reports/assets_check.txt
-
-echo "⚙️ Dumping current config vars..."
-FLASK_APP=manage.py flask shell <<< 'from flask import current_app; print("\n".join(f"{k}={v}" for k, v in current_app.config.items()))' > reports/config_vars.txt
+echo "✅ Tailwind build complete → app/static/css/globals.css"
