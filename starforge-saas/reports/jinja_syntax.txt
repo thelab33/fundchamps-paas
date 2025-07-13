@@ -1,0 +1,1 @@
+# Skipped 'Jinja Syntax Audit': command 'jinja2-lint' not found in PATH.

@@ -1,0 +1,350 @@
+
+
+[33m[1m+===========================================================================================================================================================================================+[0m
+
+
+[31m[1mDEPRECATED: [0m[33m[1mthis command (`check`) has been DEPRECATED, and will be unsupported beyond 01 June 2024.[0m
+
+
+[32mWe highly encourage switching to the new [0m[32m[1m`scan`[0m[32m command which is easier to use, more powerful, and can be set up to mimic the deprecated command if required.[0m
+
+
+[33m[1m+===========================================================================================================================================================================================+[0m
+
+
++==============================================================================+
+
+                               /$$$$$$            /$$
+                              /$$__  $$          | $$
+           /$$$$$$$  /$$$$$$ | $$  \__//$$$$$$  /$$$$$$   /$$   /$$
+          /$$_____/ |____  $$| $$$$   /$$__  $$|_  $$_/  | $$  | $$
+         |  $$$$$$   /$$$$$$$| $$_/  | $$$$$$$$  | $$    | $$  | $$
+          \____  $$ /$$__  $$| $$    | $$_____/  | $$ /$$| $$  | $$
+          /$$$$$$$/|  $$$$$$$| $$    |  $$$$$$$  |  $$$$/|  $$$$$$$
+         |_______/  \_______/|__/     \_______/   \___/   \____  $$
+                                                          /$$  | $$
+                                                         |  $$$$$$/
+  by safetycli.com                                        \______/
+
++==============================================================================+
+
+ [1mREPORT[0m 
+
+  Safety [1mv3.5.2[0m is scanning for [1mVulnerabilities[0m[1m...[0m
+[1m  Scanning dependencies[0m in your [1mfiles:[0m
+
+  -> requirements.txt
+
+  Using [1mthe account researchlab595@gmail.com[0m and the [1mSafety
+  Commercial database[0m
+[1m  Found and scanned 18 packages[0m
+  Timestamp [1m2025-07-12 23:51:28[0m
+[1m  12[0m[1m vulnerabilities reported[0m
+[1m  0[0m[1m vulnerabilities ignored[0m
+[1m  7[0m[1m remediations recommended[0m
+
++==============================================================================+
+ [1mVULNERABILITIES REPORTED[0m 
++==============================================================================+
+
+[31m-> Vulnerability found in gevent version 24.2.1[0m
+[1m   Vulnerability ID: [0m73655
+[1m   Affected spec: [0m<24.10.1
+[1m   ADVISORY: [0mAffected versions of gevent are potentially vulnerable
+   to a Race Condition leading to Unauthorized Access — CWE-362.
+[1m   Fixed versions: [0m24.10.1
+[1m   PVE-2024-73655[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/73655/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 73655 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in gevent version 24.2.1[0m
+[1m   Vulnerability ID: [0m76839
+[1m   Affected spec: [0m<25.4.2
+[1m   ADVISORY: [0mAffected versions of gevent were potentially vulnerable
+   to HTTP request smuggling. The issue existed in the pywsgi
+   Input._send_100_continue handling.
+[1m   Fixed versions: [0m25.4.2
+[1m   PVE-2025-76839[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/76839/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 76839 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in gunicorn version 22.0.0[0m
+[1m   Vulnerability ID: [0m76244
+[1m   Affected spec: [0m<23.0.0
+[1m   ADVISORY: [0mGunicorn version 21.2.0 does not properly validate the
+   value of the 'Transfer-Encoding' header as specified in the RFC standards,
+   which leads to the default fallback method of 'Content-Length,' making it
+   vulnerable to TE.CL request smuggling. This vulnerability can lead to
+   cache poisoning, data exposure, session manipulation, SSRF, XSS, DoS, data
+   integrity compromise, security bypass, information leakage, and business
+   logic abuse.
+[1m   Fixed versions: [0m23.0.0
+[1m   CVE-2024-6827[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/76244/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 76244 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in gunicorn version 22.0.0[0m
+[1m   Vulnerability ID: [0m72809
+[1m   Affected spec: [0m>=22.0.0,<23.0.0
+[1m   ADVISORY: [0mA vulnerability in Gunicorn allowed the
+   TolerateDangerousFraming setting to process conflicting headers (Transfer-
+   Encoding and Content-Length) and dangerous characters in HTTP header
+   fields. This could lead to HTTP request smuggling and header injection
+   attacks. The issue was resolved by removing this setting and enforcing
+   stricter header validation. Note: It happens due to an incomplete fix for
+   CVE-2024-1135.
+[1m   Fixed versions: [0m23.0.0
+[1m   PVE-2024-72809[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/72809/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 72809 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 4.0.1[0m
+[1m   Vulnerability ID: [0m72731
+[1m   Affected spec: [0m<4.0.2
+[1m   ADVISORY: [0mA vulnerability in corydolphin/flask-cors version 4.0.1
+   allows the `Access-Control-Allow-Private-Network` CORS header to be set to
+   true by default. This behavior can expose private network resources to
+   unauthorized external access, leading to significant security risks such
+   as data breaches, unauthorized access to sensitive information, and
+   potential network intrusions.
+[1m   Fixed versions: [0m4.0.2
+[1m   CVE-2024-6221 is [0m[31m[1mHIGH SEVERITY => [0mCVSS v3, BASE SCORE
+   7.5, IMPACT SCORE 3.6, VECTOR STRING
+   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/72731/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 72731 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in sentry-sdk version 2.3.0[0m
+[1m   Vulnerability ID: [0m72260
+[1m   Affected spec: [0m<2.8.0
+[1m   ADVISORY: [0mAffected versions of Sentry's Python SDK are vulnerable
+   to unintentional exposure of environment variables to subprocesses despite
+   the env={} setting. In Python's 'subprocess' calls, all environment
+   variables are passed to subprocesses by default. However, if you
+   specifically do not want them to be passed to subprocesses, you may use
+   'env' argument in 'subprocess' calls. Due to the bug in Sentry SDK, with
+   the Stdlib integration enabled (which is enabled by default), this
+   expectation is not fulfilled, and all environment variables are being
+   passed to subprocesses instead. As a workaround, and if passing
+   environment variables to child processes poses a security risk for you,
+   you can disable all default integrations.
+[1m   Fixed versions: [0m2.8.0
+[1m   CVE-2024-40647[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/72260/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 72260 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in twilio version 9.0.3[0m
+[1m   Vulnerability ID: [0m68033
+[1m   Affected spec: [0m<9.0.5
+[1m   ADVISORY: [0mTwilio version 9.0.5 has upgraded its certifi library
+   from version 2021.10.8 to 2023.7.22 in response to the security issue
+   detailed in CVE-2023-37920.
+[1m   Fixed versions: [0m9.0.5
+[1m   CVE-2023-37920 is [0m[31m[1mCRITICAL SEVERITY => [0mCVSS v3, BASE
+   SCORE 9.8, IMPACT SCORE 5.9, VECTOR STRING
+   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/68033/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 68033 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in twilio version 9.0.3[0m
+[1m   Vulnerability ID: [0m67976
+[1m   Affected spec: [0m<9.0.5
+[1m   ADVISORY: [0mTwilio version 9.0.5 has updated its certifi library
+   from version 2021.10.8 to 2023.7.22 to address the security vulnerability
+   identified in CVE-2022-23491.
+[1m   Fixed versions: [0m9.0.5
+[1m   CVE-2022-23491 is [0m[31m[1mHIGH SEVERITY => [0mCVSS v3, BASE
+   SCORE 7.5, IMPACT SCORE 3.6, VECTOR STRING
+   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/67976/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 67976 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in twilio version 9.0.3[0m
+[1m   Vulnerability ID: [0m68034
+[1m   Affected spec: [0m<9.0.5
+[1m   ADVISORY: [0mTwilio version 9.0.5 has updated its certifi library
+   from version 2021.10.8 to 2023.7.22 in response to the security concerns
+   outlined in CVE-2023-32681.
+[1m   Fixed versions: [0m9.0.5
+[1m   CVE-2023-32681 is [0m[1mMEDIUM SEVERITY => [0mCVSS v3, BASE SCORE
+   6.1, IMPACT SCORE 4.0, VECTOR STRING
+   CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/68034/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 68034 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in twilio version 9.0.3[0m
+[1m   Vulnerability ID: [0m71167
+[1m   Affected spec: [0m<9.1.0
+[1m   ADVISORY: [0mTwilio version 9.1.0 includes a security upgrade for the
+   aiohttp dependency, updating it from version 3.8.6 to 3.9.4. This update
+   addresses the vulnerability identified as CVE-2024-27306.
+[1m   Fixed versions: [0m9.1.0
+[1m   CVE-2024-27306[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/71167/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 71167 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in eventlet version 0.35.2[0m
+[1m   Vulnerability ID: [0m73179
+[1m   Affected spec: [0m<0.37.0
+[1m   ADVISORY: [0mEventlet affected versions contain a vulnerability in
+   HTTP header processing within the WSGI implementation. This flaw could
+   allow attackers to craft specially formatted headers, potentially causing
+   header name collisions or overwriting important headers in the WSGI
+   environment. Such manipulation could lead to security issues depending on
+   how applications process these headers.
+[1m   Fixed versions: [0m0.37.0
+[1m   PVE-2024-73179[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/73179/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 73179 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask version 3.0.3[0m
+[1m   Vulnerability ID: [0m77323
+[1m   Affected spec: [0m<3.1.1
+[1m   ADVISORY: [0mAffected versions of Flask (≤ 3.1.0) are vulnerable to
+   incorrect fallback key configuration in session signing, leading to stale
+   key usage instead of the intended current key. This flaw undermines
+   session integrity, enabling remote attackers to forge or tamper with
+   cookies via manipulated SECRET_KEY_FALLBACKS parameters. The vulnerability
+   exists in the itsdangerous-based signing routines within flask.sessions
+   (fallback key list ordering).
+[1m   Fixed versions: [0m3.1.1
+[1m   CVE-2025-47278[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/77323/eda[0m
+   To ignore this vulnerability, use PyUp vulnerability id 77323 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
++==============================================================================+
+   [32m[1mREMEDIATIONS[0m
+
+[31m[1m-> gevent version 24.2.1 was found, which has 2 vulnerabilities[0m
+   The closest version with no known vulnerabilities is [1m25.4.2[0m
+                                                                              
+   [32m[1mWe recommend updating to version 25.4.2 of gevent. Other version
+   without known vulnerabilities is 25.5.1[0m
+                                                                              
+   For more information about the gevent package and update options, visit
+   https://data.safetycli.com/p/pypi/gevent/eda/?from=24.2.1&to=25.4.2
+   Always check for breaking changes when updating packages.
+                                                                              
+[31m[1m-> gunicorn version 22.0.0 was found, which has 2 vulnerabilities[0m
+   The closest version with no known vulnerabilities is [1m23.0.0[0m
+                                                                              
+   [32m[1mWe recommend updating to version 23.0.0 of gunicorn. [0m
+                                                                              
+   For more information about the gunicorn package and update options, visit
+   https://data.safetycli.com/p/pypi/gunicorn/eda/?from=22.0.0&to=23.0.0
+   Always check for breaking changes when updating packages.
+                                                                              
+[31m[1m-> flask-cors version 4.0.1 was found, which has 1 vulnerability[0m
+   The closest version with no known vulnerabilities is [1m4.0.2[0m
+                                                                              
+   [32m[1mWe recommend updating to version 4.0.2 of flask-cors. Other
+   versions without known vulnerabilities are: 6.0.1, 6.0.1.dev0, 6.0.0,
+   5.0.1, 5.0.0[0m
+                                                                              
+   For more information about the flask-cors package and update options, visit
+   https://data.safetycli.com/p/pypi/flask-cors/eda/?from=4.0.1&to=4.0.2
+   Always check for breaking changes when updating packages.
+                                                                              
+[31m[1m-> sentry-sdk version 2.3.0 was found, which has 1 vulnerability[0m
+   The closest version with no known vulnerabilities is [1m2.8.0[0m
+                                                                              
+   [32m[1mWe recommend updating to version 2.8.0 of sentry-sdk. Other
+   versions without known vulnerabilities are: 3.0.0a2, 3.0.0a1, 2.32.0,
+   2.31.0, 2.30.0, 2.29.1, 2.29.0, 2.28.0, 2.27.0, 2.26.1, 2.26.0, 2.25.1,
+   2.25.0, 2.24.1, 2.24.0, 2.23.1, 2.23.0, 2.22.0, 2.21.0, 2.20.0, 2.19.2,
+   2.19.1, 2.19.0, 2.18.0, 2.17.0, 2.16.0, 2.15.0, 2.14.0, 2.13.0, 2.12.0,
+   2.11.0, 2.10.0, 2.9.0[0m
+                                                                              
+   For more information about the sentry-sdk package and update options, visit
+   https://data.safetycli.com/p/pypi/sentry-sdk/eda/?from=2.3.0&to=2.8.0
+   Always check for breaking changes when updating packages.
+                                                                              
+[31m[1m-> twilio version 9.0.3 was found, which has 4 vulnerabilities[0m
+   The closest version with no known vulnerabilities is [1m9.1.0[0m
+                                                                              
+   [32m[1mWe recommend updating to version 9.1.0 of twilio. Other versions
+   without known vulnerabilities are: 9.6.5, 9.6.4, 9.6.3, 9.6.2, 9.6.1,
+   9.6.0, 9.5.2, 9.5.1, 9.5.0, 9.4.6, 9.4.5, 9.4.4, 9.4.3, 9.4.2, 9.4.1,
+   9.4.0, 9.3.8, 9.3.7, 9.3.6, 9.3.5, 9.3.4, 9.3.3, 9.3.2, 9.3.1, 9.3.0,
+   9.2.4, 9.2.3, 9.2.2, 9.2.1, 9.2.0, 9.1.1[0m
+                                                                              
+   For more information about the twilio package and update options, visit
+   https://data.safetycli.com/p/pypi/twilio/eda/?from=9.0.3&to=9.1.0
+   Always check for breaking changes when updating packages.
+                                                                              
+[31m[1m-> eventlet version 0.35.2 was found, which has 1 vulnerability[0m
+   The closest version with no known vulnerabilities is [1m0.37.0[0m
+                                                                              
+   [32m[1mWe recommend updating to version 0.37.0 of eventlet. Other
+   versions without known vulnerabilities are: 0.40.1, 0.40.0, 0.39.1, 0.39.0,
+   0.38.2, 0.38.1, 0.38.0[0m
+                                                                              
+   For more information about the eventlet package and update options, visit
+   https://data.safetycli.com/p/pypi/eventlet/eda/?from=0.35.2&to=0.37.0
+   Always check for breaking changes when updating packages.
+                                                                              
+[31m[1m-> flask version 3.0.3 was found, which has 1 vulnerability[0m
+   The closest version with no known vulnerabilities is [1m3.1.1[0m
+                                                                              
+   [32m[1mWe recommend updating to version 3.1.1 of flask. [0m
+                                                                              
+   For more information about the flask package and update options, visit
+   https://data.safetycli.com/p/pypi/flask/eda/?from=3.0.3&to=3.1.1
+   Always check for breaking changes when updating packages.
+                                                                              
++==============================================================================+
+
+ Scan was completed. 12 vulnerabilities were reported. 7 remediations were 
+ recommended. 
+
++==============================================================================+[0m
+
+
+[33m[1m+===========================================================================================================================================================================================+[0m
+
+
+[31m[1mDEPRECATED: [0m[33m[1mthis command (`check`) has been DEPRECATED, and will be unsupported beyond 01 June 2024.[0m
+
+
+[32mWe highly encourage switching to the new [0m[32m[1m`scan`[0m[32m command which is easier to use, more powerful, and can be set up to mimic the deprecated command if required.[0m
+
+
+[33m[1m+===========================================================================================================================================================================================+[0m
+
+

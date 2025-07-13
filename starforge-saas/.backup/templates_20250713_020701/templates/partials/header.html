@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
+  <title></title>
+</head>
+<body>
+  {# ===================== partials/header.html ===================== #}
+  <header class=
+  "sticky top-0 z-40 w-full backdrop-blur bg-black/85 border-b border-yellow-300/15 shadow-lg transition-all" role=
+  "banner" x-data="{ offCanvasOpen: false }">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3 lg:px-8 transition-all duration-300">
+      <!-- Logo / Brand -->
+       <a href="{{ url_for('main.home') }}" class=
+      "flex items-center gap-3 focus-visible:ring-4 focus-visible:ring-yellow-400 rounded-lg group" aria-label=
+      "{{ team.team_name if team else 'Home' }}" tabindex="0"><span class="relative flex-shrink-0"><img src=
+{% set logo_src = (team.logo if team is defined and team.logo else url_for('static', filename='images/logo.webp')) %}
+<img src="{{ logo_src }}" alt="{{ team.team_name if team and team.team_name else 'Team Logo' }}" class="h-12 w-auto rounded-xl shadow-lg" loading="lazy">
+      alt="{{ team.team_name if team else 'Logo' }}" class=
+      "h-10 w-10 rounded-full ring-2 ring-yellow-300 shadow-md transition-transform duration-200 group-hover:scale-110"
+      fetchpriority="high" loading="eager" decoding="async"> <!-- SVG glow on hover -->
+       <svg class="absolute inset-0 w-10 h-10 opacity-0 group-hover:opacity-80 transition-opacity pointer-events-none"
+      viewbox="0 0 40 40" aria-hidden="true" focusable="false">
+      <circle cx="20" cy="20" r="18" fill="none" stroke="#fde047" stroke-width="2"></circle>
+      <defs>
+        <filter id="glow-2" x="-50%" y="-50%" width="200%" height="200%">
+          <fegaussianblur stddeviation="2.5" result="coloredBlur"></fegaussianblur>
+          <femerge>
+            <femergenode in="coloredBlur"></femergenode>
+            <femergenode in="SourceGraphic"></femergenode>
+          </femerge>
+        </filter>
+      </defs></svg></span> <span class=
+      "text-xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-50 bg-clip-text text-transparent drop-shadow-sm select-none">
+      {{ team.team_name if team else 'Your Organization' }}</span></a> {# User greeting for logged-in users #} {% if
+      current_user.is_authenticated %} <span class=
+      "hidden md:inline ml-4 px-3 py-1 rounded-full bg-yellow-100 text-zinc-900 font-semibold shadow select-none"
+      tabindex="0" aria-label="Greeting message" role="text">Hi, {{ current_user.name.split()[0] }}!</span> {% endif %}
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-7 text-base font-semibold text-zinc-100" aria-label=
+      "Primary navigation" role="navigation">
+        {% set nav_links = team.nav_links if team and team.nav_links else [ ('about', 'About'), ('challenge',
+        'Challenge'), ('sponsor-wall-wrapper', 'Sponsors'), ('testimonials', 'Testimonials'), ('contact', 'Contact') ]
+        %} {% for id, label in nav_links %} <a href="#{{id}}" class=
+        "relative transition hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded px-1 py-0.5 group"
+        tabindex="0"><span>{{ label }}</span></a> {% endfor %} <button type="button" onclick=
+        "openSponsorModal && openSponsorModal()" class=
+        "ml-5 px-5 py-2 bg-gradient-to-r from-yellow-400 to-yellow-200 text-black font-bold rounded-full shadow-xl hover:scale-105 hover:bg-yellow-200 focus-visible:ring-4 focus-visible:ring-yellow-400 transition-all animate-pop"
+        style="min-width: 150px" tabindex="0" aria-label="Open sponsor modal">🌟 Sponsor Now</button> <a href="#donate"
+        class=
+        "ml-2 px-5 py-2 bg-black/70 border-yellow-300/50 text-yellow-300 font-bold rounded-full shadow hover:bg-yellow-400 hover:text-black hover:shadow-lg transition-all"
+        tabindex="0" aria-label="Donate now">💸 Donate</a>
+      </nav><!-- Mobile Menu Button -->
+       <button class=
+      "lg:hidden inline-flex items-center justify-center p-2 rounded-lg border-yellow-300/40 hover:bg-yellow-300/10 focus-visible:ring-2 ring-yellow-300 transition"
+      aria-controls="mobile-nav" aria-label="Toggle menu" type="button" tabindex="0"><svg class=
+      "w-7 h-7 text-yellow-300 transition-transform" fill="none" stroke="currentcolor" stroke-width="2" viewbox=
+      "0 0 24 24" aria-hidden="true" focusable="false">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+    </div><!-- Off-canvas Mobile Navigation -->
+    <nav id="mobile-nav" x-show="offCanvasOpen" x-transition:enter="transition ease-out duration-250"
+    x-transition:enter-start="opacity-0 scale-95 -translate-x-full" x-transition:enter-end=
+    "opacity-100 scale-100 translate-x-0" x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 scale-100 translate-x-0" x-transition:leave-end=
+    "opacity-0 scale-95 -translate-x-full" class=
+    "fixed inset-0 z-[9998] flex flex-col items-center justify-center gap-8 bg-black/90 backdrop-blur-lg shadow-2xl"
+    aria-label="Mobile navigation" role="dialog" aria-modal="true" tabindex="-1" style="display: none">
+      <button id="mobile-nav-close" type="button" class=
+      "absolute top-6 right-6 text-2xl text-yellow-300 p-2 rounded-full bg-zinc-800/70 hover:text-red-500 hover:scale-110 focus-visible:ring-4 focus-visible:ring-yellow-300 transition"
+      aria-label="Close menu">× <span class="sr-only">Close menu</span></button> {% for id, label in nav_links %}
+      <a href="#{{id}}" class=
+      "text-3xl font-extrabold tracking-tight bg-gradient-to-r from-gold via-yellow-400 to-gold bg-clip-text text-transparent drop-shadow-xl animate-shine focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 hover:text-white hover:scale-105 transition"
+      tabindex="0">{{ label }}</a> {% endfor %} <button type="button" onclick=
+      "openSponsorModal && openSponsorModal()" class=
+      "mt-8 px-7 py-3 bg-yellow-400 text-black font-bold rounded-full shadow-xl text-2xl hover:scale-105 focus-visible:ring-4 focus-visible:ring-yellow-300 transition animate-pop"
+      aria-controls="become-sponsor-modal" aria-haspopup="dialog" tabindex="0">🌟 Sponsor Now</button>
+    </nav>
+  </header>
+</body>
+</html>

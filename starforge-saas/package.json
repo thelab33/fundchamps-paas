@@ -1,0 +1,41 @@
+{
+  "name": "connect-atx-elite-paas",
+  "version": "1.0.0",
+  "description": "Connect ATX Elite PaaS platform for youth fundraising, memberships, and sponsor leaderboards",
+  "private": true,
+  "scripts": {
+    "dev:css": "postcss app/static/css/input.css -o app/static/css/globals.css --watch",
+    "build:css": "postcss app/static/css/input.css -o app/static/css/globals.css --env production",
+    "lint:css": "stylelint 'app/static/css/**/*.css'",
+    "lint:js": "eslint 'app/static/js/**/*.js'",
+    "format": "prettier --write './**/*.{js,css,html,py,json}'",
+    "test": "echo 'Add your test command here'",
+    "build": "npm run build:css",
+    "start": "npm run build && echo 'CSS built'"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-import": "^14.1.0",
+    "postcss-nested": "^5.0.6",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "@tailwindcss/postcss": "^4.1.11",
+    "eslint": "^9.31.0",
+    "license-checker": "^0.0.1-security",
+    "pa11y": "^9.0.0",
+    "pa11y-reporter-html": "^2.0.0",
+    "prettier": "^2.8.8",
+    "source-map-explorer": "^2.5.3",
+    "stylelint": "^16.21.1",
+    "svgo": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT",
+  "author": "Connect ATX Elite Team"
+}

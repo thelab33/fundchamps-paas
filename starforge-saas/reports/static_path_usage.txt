@@ -1,0 +1,57 @@
+app/templates/base.html.bak:  <meta property="og:image" content="{{ url_for('static', filename=team.og_image or 'images/logo.webp') }}" />
+app/templates/base.html.bak:  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
+app/templates/base.html.bak:  <link rel="icon" href="{{ url_for('static', filename=team.favicon or 'favicon.png') }}" />
+app/templates/base.html.bak:  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon or 'images/logo.png') }}" />
+app/templates/base.html.bak:  <link rel="preload" as="style" href="{{ url_for('static', filename='css/globals.css') }}" />
+app/templates/base.html.bak:    href="{{ url_for('static', filename='css/globals.css') }}"
+app/templates/base.html.bak:    <link href="{{ url_for('static', filename='css/globals.css') }}" rel="stylesheet" />
+app/templates/base.html.bak:    <link href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" rel="stylesheet" />
+app/templates/base.html.bak:  <script defer src="{{ url_for('static', filename='js/alpine.min.js') }}"></script>
+app/templates/base.html.bak:  <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+app/templates/base.html.bak:  <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>
+app/templates/base.html.bak:  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+app/templates/partials/sponsor_leaderboard.html.bak:          {% set logo_src = sponsor.logo if sponsor.logo and sponsor.logo.startswith('http') else url_for('static', filename='images/logo.webp') %}
+app/templates/partials/sponsor_leaderboard.html.bak:      <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt="Connect ATX Elite team showing off championship rings" class="rounded-2xl w-full max-w-xs shadow-2xl border-4 border-yellow-400 transform hover:scale-105 transition duration-300" loading="lazy">
+app/templates/partials/header.html.bak:{% set logo_src = (team.logo if team is defined and team.logo else url_for('static', filename='images/logo.webp')) %}
+app/templates/partials/hero_and_fundraiser.html:      "{{ team.hero_image_mobile if team and team.hero_image_mobile else url_for('static', filename='images/connect-atx-team-mobile.jpg') }}">
+app/templates/partials/hero_and_fundraiser.html:      "{% set hero_img_src = (team.hero_image if team is defined and team.hero_image else url_for('static', filename='images/connect-atx-team.jpg')) %}
+app/templates/partials/about_and_mission.html.bak:    <img src="{{ url_for('static',filename='basketball-accent.svg') }}" alt="" aria-hidden="true" class=
+app/templates/partials/about_and_mission.html.bak:    decoding="async"> <img src="{{ url_for('static',filename='basketball-accent.svg') }}" alt="" aria-hidden=
+app/templates/partials/about_and_mission.html.bak:        <img src="{{ url_for('static',filename=p.img) }}" alt="{{ p.name }} – Connect ATX Elite player" class=
+app/templates/partials/about_and_mission.html.bak:    tabindex="0"><source src="{{ url_for('static',filename='connect-atx-story.mp4') }}" type="video/mp4"> Sorry,
+app/templates/partials/sponsor_block.html:        <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt=
+app/templates/partials/sponsor_leaderboard.html:          {% set logo_src = sponsor.logo if sponsor.logo and sponsor.logo.startswith('http') else url_for('static', filename='images/logo.webp') %}
+app/templates/partials/sponsor_leaderboard.html:      <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt="Connect ATX Elite team showing off championship rings" class="rounded-2xl w-full max-w-xs shadow-2xl border-4 border-yellow-400 transform hover:scale-105 transition duration-300" loading="lazy" loading="lazy" decoding="async">
+app/templates/partials/newsletter.html:          <img src="{{ url_for('static',filename='images/board/'~coach.img) }}" alt="{{ coach.name }}"
+app/templates/partials/newsletter.html:    "{{ url_for('static',filename=badge.src) }}" alt="{{ badge.alt }}" class="h-5 w-auto inline" loading="lazy"
+app/templates/partials/sponsor_wall.html:                src="{% if sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% else %}{{ url_for('static', filename='images/sponsors/' ~ (sponsor.logo or 'logo.webp')) }}{% endif %}"
+app/templates/partials/sponsor_wall.html:      <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt="Championship Rings" class="mt-6 rounded-2xl shadow-2xl border-4 border-yellow-400 max-w-xs mx-auto" loading="lazy" decoding="async">
+app/templates/partials/footer.html:    "background-image: url('{{ url_for('static', filename='images/logo.webp') }}');" aria-hidden="true"></div>
+app/templates/partials/footer.html:      ×</button> <img src="{{ url_for('static',filename='images/logo.webp') }}" alt=
+app/templates/partials/footer.html.bak:    "background-image: url('{{ url_for('static', filename='images/logo.webp') }}');" aria-hidden="true"></div>
+app/templates/partials/footer.html.bak:      ×</button> <img src="{{ url_for('static',filename='images/logo.webp') }}" alt=
+app/templates/partials/header.html:{% set logo_src = (team.logo if team is defined and team.logo else url_for('static', filename='images/logo.webp')) %}
+app/templates/partials/hero_and_fundraiser.html.bak:      "{{ team.hero_image_mobile if team and team.hero_image_mobile else url_for('static', filename='images/connect-atx-team-mobile.jpg') }}">
+app/templates/partials/hero_and_fundraiser.html.bak:      "{% set hero_img_src = (team.hero_image if team is defined and team.hero_image else url_for('static', filename='images/connect-atx-team.jpg')) %}
+app/templates/partials/sponsor_block.html.bak:        <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt=
+app/templates/partials/newsletter.html.bak:          <img src="{{ url_for('static',filename='images/board/'~coach.img) }}" alt="{{ coach.name }}"
+app/templates/partials/newsletter.html.bak:    "{{ url_for('static',filename=badge.src) }}" alt="{{ badge.alt }}" class="h-5 w-auto inline" loading="lazy"
+app/templates/partials/about_and_mission.html:    <img src="{{ url_for('static',filename='basketball-accent.svg') }}" alt="" aria-hidden="true" class=
+app/templates/partials/about_and_mission.html:    decoding="async"> <img src="{{ url_for('static',filename='basketball-accent.svg') }}" alt="" aria-hidden=
+app/templates/partials/about_and_mission.html:        <img src="{{ url_for('static',filename=p.img) }}" alt="{{ p.name }} – Connect ATX Elite player" class=
+app/templates/partials/about_and_mission.html:    tabindex="0"><source src="{{ url_for('static',filename='connect-atx-story.mp4') }}" type="video/mp4"> Sorry,
+app/templates/partials/sponsor_wall.html.bak:                src="{% if sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% else %}{{ url_for('static', filename='images/sponsors/' ~ (sponsor.logo or 'logo.webp')) }}{% endif %}"
+app/templates/partials/sponsor_wall.html.bak:      <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt="Championship Rings" class="mt-6 rounded-2xl shadow-2xl border-4 border-yellow-400 max-w-xs mx-auto">
+app/templates/base.html:  <meta property="og:image" content="{{ url_for('static', filename=team.og_image or 'images/logo.webp') }}" />
+app/templates/base.html:  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
+app/templates/base.html:  <link rel="icon" href="{{ url_for('static', filename=team.favicon or 'favicon.png') }}" />
+app/templates/base.html:  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon or 'images/logo.png') }}" />
+app/templates/base.html:  <link rel="preload" as="style" href="{{ url_for('static', filename='css/globals.css') }}" />
+app/templates/base.html:    href="{{ url_for('static', filename='css/globals.css') }}"
+app/templates/base.html:    <link href="{{ url_for('static', filename='css/globals.css') }}" rel="stylesheet" />
+app/templates/base.html:    <link href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" rel="stylesheet" />
+app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/alpine.min.js') }}"></script>
+app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>
+app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+app/templates/index.html:    style="background-image: url('{{ url_for('static', filename=team.hero_image or 'images/hero-default.jpg') }}')"

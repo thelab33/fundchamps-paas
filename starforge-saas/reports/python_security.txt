@@ -1,0 +1,139 @@
+app/__init__.py:32:5: E731 Do not assign a `lambda` expression, use a `def`
+   |
+30 | except ImportError:
+31 |     Babel = None
+32 |     _trans = lambda s: s
+   |     ^^^^^^^^^^^^^^^^^^^^ E731
+33 |     USE_BABEL = False
+   |
+   = help: Rewrite `_trans` as a `def`
+
+app/__init__.py:115:9: F841 Local variable `babel` is assigned to but never used
+    |
+113 |     # Setup Babel translations
+114 |     if USE_BABEL and Babel:
+115 |         babel = Babel(app)
+    |         ^^^^^ F841
+116 |
+117 |         @app.context_processor
+    |
+    = help: Remove assignment to unused variable `babel`
+
+app/cli.py:13:1: E402 Module level import not at top of file
+   |
+11 | """
+12 |
+13 | import importlib
+   | ^^^^^^^^^^^^^^^^ E402
+14 | import json
+15 | from pathlib import Path
+   |
+
+app/cli.py:14:1: E402 Module level import not at top of file
+   |
+13 | import importlib
+14 | import json
+   | ^^^^^^^^^^^ E402
+15 | from pathlib import Path
+16 | from typing import Any, Type
+   |
+
+app/cli.py:15:1: E402 Module level import not at top of file
+   |
+13 | import importlib
+14 | import json
+15 | from pathlib import Path
+   | ^^^^^^^^^^^^^^^^^^^^^^^^ E402
+16 | from typing import Any, Type
+   |
+
+app/cli.py:16:1: E402 Module level import not at top of file
+   |
+14 | import json
+15 | from pathlib import Path
+16 | from typing import Any, Type
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+17 |
+18 | import click
+   |
+
+app/cli.py:18:1: E402 Module level import not at top of file
+   |
+16 | from typing import Any, Type
+17 |
+18 | import click
+   | ^^^^^^^^^^^^ E402
+19 | from rich import print as rprint
+20 | from rich.console import Console
+   |
+
+app/cli.py:19:1: E402 Module level import not at top of file
+   |
+18 | import click
+19 | from rich import print as rprint
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+20 | from rich.console import Console
+21 | from rich.table import Table
+   |
+
+app/cli.py:20:1: E402 Module level import not at top of file
+   |
+18 | import click
+19 | from rich import print as rprint
+20 | from rich.console import Console
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+21 | from rich.table import Table
+   |
+
+app/cli.py:21:1: E402 Module level import not at top of file
+   |
+19 | from rich import print as rprint
+20 | from rich.console import Console
+21 | from rich.table import Table
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+22 |
+23 | from app import create_app, db
+   |
+
+app/cli.py:23:1: E402 Module level import not at top of file
+   |
+21 | from rich.table import Table
+22 |
+23 | from app import create_app, db
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+24 |
+25 | # ──────────────────────────────────────────────────────────────
+   |
+
+app/forms/__init__.py:1:27: F401 `.sponsor_form.SponsorForm` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+  |
+1 | from .sponsor_form import SponsorForm
+  |                           ^^^^^^^^^^^ F401
+  |
+  = help: Use an explicit re-export: `SponsorForm as SponsorForm`
+
+app/routes/main.py:5:5: F401 [*] `flask.request` imported but unused
+  |
+3 | from flask import (
+4 |     Blueprint, current_app, flash, redirect, render_template,
+5 |     request, url_for,
+  |     ^^^^^^^ F401
+6 | )
+7 | from sqlalchemy import func
+  |
+  = help: Remove unused import: `flask.request`
+
+config.py:2:1: E401 [*] Multiple imports on one line
+  |
+1 | from __future__ import annotations
+2 | import os, json, logging
+  | ^^^^^^^^^^^^^^^^^^^^^^^^ E401
+3 | from datetime import timedelta
+4 | from pathlib import Path
+  |
+  = help: Split imports
+
+Found 14 errors.
+[*] 2 fixable with the `--fix` option (2 hidden fixes can be enabled with the `--unsafe-fixes` option).
+# Output for Security & Lint Sweep
+

@@ -1,0 +1,55 @@
+{# ================== Connect ATX Elite Homepage ================== #}
+{% extends "base.html" %}
+
+{% block title %}
+  Home · {{ team.team_name or config.BRAND_NAME }}
+{% endblock %}
+
+{% block content %}
+  <section
+    id="hero"
+    class="relative bg-cover bg-center"
+    style="background-image: url('{{ url_for('static', filename=team.hero_image or 'images/hero-default.jpg') }}')"
+    aria-label="Team Hero"
+  >
+    <div class="bg-black/60 p-8 text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold text-primary drop-shadow-lg mb-4">
+        {{ team.team_name or config.BRAND_NAME }}
+      </h1>
+
+      <p class="text-lg md:text-xl text-white/90 mb-6">
+        Regionals:
+        {{ team.record.regional.wins if team and team.record and team.record.regional else 0 }}
+        -
+        {{ team.record.regional.losses if team and team.record and team.record.regional else 0 }}
+        &bull;
+        Nationals:
+        {{ team.record.national.wins if team and team.record and team.record.national else 0 }}
+        -
+        {{ team.record.national.losses if team and team.record and team.record.national else 0 }}
+      </p>
+
+      <a
+        href="{{ url_for('main.become_sponsor_legacy') }}"
+        class="inline-block px-6 py-3 bg-primary-yellow text-zinc-900 font-bold rounded-full hover:bg-yellow-300 transition"
+      >
+        Donate Now & Support Our Journey
+      </a>
+    </div>
+  </section>
+
+  {% include "partials/fundraiser_meter.html" %}
+  {% include "partials/about_and_mission.html" %}
+  {% include "partials/sponsor_block.html" %}
+  {% include "partials/sponsor_leaderboard.html" %}
+
+  <section id="testimonials" class="py-16 bg-zinc-800">
+    <div class="container mx-auto px-4">
+      {% include "partials/testimonials.html" %}
+    </div>
+  </section>
+
+  {% include "partials/sponsor_wall.html" %}
+  {% include "partials/newsletter.html" %}
+{% endblock %}
+

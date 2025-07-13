@@ -1,0 +1,9 @@
+app/models/campaign_goal.py
+app/models/example.py
+app/models/__init__.py
+app/models/player.py
+app/models/sms_log.py
+app/models/sponsor.py
+app/models/team.py
+app/models/transaction.py
+app/models/user.py

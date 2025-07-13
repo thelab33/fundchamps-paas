@@ -1,0 +1,4 @@
+app/templates/partials/sponsor_wall.html:8:  <link href="/static/css/tailwind.min.css" rel="stylesheet">
+app/templates/partials/sponsor_wall.html.bak:8:  <link href="/static/css/tailwind.min.css" rel="stylesheet">
+# Output for Missing url_for in CSS/JS Includes
+

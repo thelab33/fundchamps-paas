@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html
+  lang="{{ g.get('lang_code', team.lang_code if team and team.lang_code else 'en') }}"
+  data-theme="{{ team.theme or request.cookies.get('theme', 'dark') }}"
+  class="scroll-smooth antialiased bg-zinc-950 text-white font-sans"
+>
+<head>
+  <!-- 🔐 Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>{% block title %}{{ team.team_name or config.BRAND_NAME }}{% endblock %}</title>
+  <link rel="canonical" href="{{ request.url_root }}" />
+  <meta name="description" content="{{ team.meta_description or config.BRAND_TAGLINE }}" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="theme-color" content="{{ team.theme_color or config.PRIMARY_COLOR }}" />
+
+  <!-- 🔗 Open Graph & Twitter Cards -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ team.og_title or (team.team_name ~ ' | ' ~ config.BRAND_TAGLINE) }}" />
+  <meta property="og:description" content="{{ team.og_description or config.BRAND_TAGLINE }}" />
+  <meta property="og:image" content="{{ url_for('static', filename=team.og_image or 'images/logo.webp') }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="{{ team.twitter_handle or '@ConnectATXElite' }}" />
+
+  <!-- 📱 Icons & Manifest -->
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
+  <link rel="icon" href="{{ url_for('static', filename=team.favicon or 'favicon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon or 'images/logo.png') }}" />
+
+  <!-- 🖋 Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- ✅ TailwindCSS Output -->
+  <link rel="preload" as="style" href="{{ url_for('static', filename='css/globals.css') }}" />
+  <link
+    href="{{ url_for('static', filename='css/globals.css') }}"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link href="{{ url_for('static', filename='css/globals.css') }}" rel="stylesheet" />
+  </noscript>
+
+  <!-- 🎨 Optional Per-Team Custom CSS -->
+  {% if team and team.custom_css %}
+    <link href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" rel="stylesheet" />
+  {% endif %}
+
+  <!-- ✨ Animations -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="{{ team.body_class or 'bg-zinc-950 text-white' }}">
+  <!-- ♿ Accessibility -->
+  <a
+    href="#main"
+    class="sr-only focus:not-sr-only fixed top-4 left-4 bg-yellow-400 text-black px-4 py-2 rounded-lg z-50"
+  >
+    Skip to main
+  </a>
+
+  {% block announcement %}{% endblock %}
+  {% include 'partials/header.html' %}
+
+  <main id="main" role="main" tabindex="-1" class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/newsletter.html' %}
+  {% include 'partials/footer.html' %}
+
+  <!-- 📦 Core JS -->
+  <script defer src="{{ url_for('static', filename='js/alpine.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AOS.init({ duration: 900, once: true });
+    });
+  </script>
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <!-- 📊 Analytics -->
+  {% if analytics_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', '{{ analytics_id }}');
+    </script>
+  {% endif %}
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+

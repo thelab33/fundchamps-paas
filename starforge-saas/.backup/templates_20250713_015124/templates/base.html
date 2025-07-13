@@ -1,0 +1,90 @@
+<!-- ============================ Starforge Base Layout ============================
+     A single production‑ready skeleton all public pages extend.
+     ▸ Tailwind 3 (compiled or CDN)
+     ▸ Dark‑friendly defaults (bg‑black / zinc text)
+     ▸ Brand + SEO tags populated from app.config*
+        *make sure your factory injects "config" into Jinja context.
+------------------------------------------------------------------------------- -->
+<!DOCTYPE html>
+<html lang="{{ g.get('lang_code', 'en') }}" class="scroll-smooth antialiased bg-black text-zinc-100">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#facc15">
+  <meta name="description" content="{{ config.BRAND_TAGLINE or _('Elite youth fundraising, powered by Starforge.') }}">
+
+  <!-- Social / Open Graph -->
+  <meta property="og:title" content="{{ config.BRAND_NAME or 'Starforge Elite' }}">
+  <meta property="og:description" content="{{ config.BRAND_MISSION or _('Building leaders on and off the court.') }}">
+  <meta property="og:image" content="{{ config.BRAND_LOGO_URL or url_for('static', filename='images/logo.webp') }}">
+
+  <!-- Favicon & PWA manifest -->
+  <link rel="icon" href="{{ config.FAVICON_URL or url_for('static', filename='favicon.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+  <!-- Preload brand logo -->
+  <link rel="preload" as="image" href="{{ config.BRAND_LOGO_URL or url_for('static', filename='images/logo.webp') }}">
+
+  <!-- Tailwind CSS -->
+  <link href="{{ url_for('static', filename='css/tailwind.min.css') }}" rel="stylesheet">
+
+  {% block extra_head %}{% endblock %}
+
+  <title>{% block title %}{{ config.BRAND_NAME or _('Starforge Elite') }}{% endblock %}</title>
+
+  {# Google Analytics (optional) #}
+  {% if config.GA_MEASUREMENT_ID %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.GA_MEASUREMENT_ID }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', '{{ config.GA_MEASUREMENT_ID }}', { anonymize_ip: true });
+    </script>
+  {% endif %}
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- ADMIN ONBOARDING POPOVER -->
+  {% if current_user.is_authenticated and current_user.is_admin %}
+    {% include 'partials/admin_onboarding_popover.html' ignore missing %}
+  {% endif %}
+
+  <!-- FLASH MESSAGES & ANNOUNCEMENTS -->
+  {% include 'partials/flash_and_onboarding.html' ignore missing %}
+  {% block announcement %}{% endblock %}
+
+  <!-- HEADER / NAV -->
+  {% include 'partials/header.html' ignore missing %}
+
+  <!-- PAGE CONTENT -->
+  <main id="starforge-root" class="flex-1 flex flex-col">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- NEWSLETTER + FOOTER -->
+  {% include 'partials/newsletter.html' ignore missing %}
+  {% include 'partials/footer.html' ignore missing %}
+
+  <!-- BACK-TO-TOP BUTTON -->
+  <button aria-label="{{ _('Back to top') }}" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+          class="fixed bottom-6 right-6 z-50 bg-yellow-400 text-zinc-900 rounded-full shadow-lg p-3 transition hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"></path>
+    </svg>
+  </button>
+
+  <!-- Core Scripts -->
+  <script src="{{ url_for('static', filename='js/alpine.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/htmx.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/aos.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  {% block extra_scripts %}{% endblock %}
+
+  <!-- Stripe JS (optional) -->
+  {% if config.STRIPE_PUBLIC_KEY %}
+    <script src="https://js.stripe.com/v3/"></script>
+  {% endif %}
+</body>
+</html>
+

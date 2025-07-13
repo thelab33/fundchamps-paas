@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+instance/
+.env
+*.sqlite3
+# Node/npm
+node_modules/
+# Logs
+logs/
+*.log
+# OS
+.DS_Store
+.env

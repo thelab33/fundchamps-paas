@@ -1,0 +1,244 @@
+<!-- Newsletter Modal Popup (clean & pro) -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
+  <style>
+  #newsletter-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,8,0.66);
+    z-index: 12000;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .3s;
+  }
+  #newsletter-popup.visible {
+    display: flex;
+    opacity: 1;
+  }
+  #newsletter-content {
+    background: #18181b;
+    border-radius: 1.5rem;
+    box-shadow: 0 6px 32px 0 #facc1555, 0 1.5px 12px 0 #0008;
+    padding: 2.5rem 1.8rem 2.1rem 1.8rem;
+    max-width: 98vw;
+    width: 380px;
+    position: relative;
+    outline: none;
+    text-align: center;
+    color: #fef3c7;
+    font-family: "Geist", sans-serif;
+    animation: popIn .6s cubic-bezier(.4,2,.2,1);
+  }
+  @keyframes popIn { 0% { transform: scale(.86) translateY(60px); opacity:.7 } 100% { transform: none; opacity:1 } }
+  #newsletter-close {
+    position: absolute;
+    top: 1rem; right: 1.1rem;
+    font-size: 2rem;
+    color: #fde047;
+    background: none; border: none;
+    cursor: pointer;
+    z-index: 2;
+    line-height: 1;
+    transition: color .2s;
+  }
+  #newsletter-close:hover { color: #fffde4; }
+  #newsletter-popup input[type="email"] {
+    width: 90%;
+    margin: 1.1rem 0 .7rem;
+    padding: .8rem;
+    border-radius: 999px;
+    border: 1.5px solid #fde04780;
+    font-size: 1.08rem;
+    color: #222;
+    outline: none;
+    background: #fffde4;
+    box-shadow: 0 1px 5px 0 #facc1550;
+  }
+  #newsletter-popup button[type="submit"] {
+    background: linear-gradient(90deg, #fde047 45%, #facc15 99%);
+    color: #18181b;
+    font-weight: bold;
+    border: none;
+    border-radius: 999px;
+    padding: .85rem 2.1rem;
+    font-size: 1.13rem;
+    cursor: pointer;
+    margin-top: .3rem;
+    box-shadow: 0 2px 8px 0 #facc1530;
+    transition: background .18s, transform .13s;
+  }
+  #newsletter-popup button[type="submit"]:hover {
+    background: #ffe066;
+    transform: scale(1.06);
+  }
+  #newsletter-popup #email-error {
+    color: #e53e3e;
+    font-weight: bold;
+    margin: .1rem 0 .2rem 0;
+    font-size: .98rem;
+    display: none;
+  }
+  #newsletter-popup #email-error:not(.hidden) {
+    display: block;
+  }
+  #newsletter-popup #newsletter-thankyou {
+    margin-top: 1rem;
+    font-weight: bold;
+    color: #22d3ee;
+    font-size: 1.13rem;
+    letter-spacing: .01em;
+    display: none;
+  }
+  </style>
+</head>
+<body>
+  <div id="newsletter-popup" role="dialog" aria-modal="true" aria-labelledby="newsletter-title" tabindex="-1">
+    <div id="newsletter-content" tabindex="0">
+      <button id="newsletter-close" aria-label="Close newsletter popup" type="button">×</button>
+      <h2 id="newsletter-title" class="text-2xl font-extrabold mb-2 text-yellow-300">Stay in the Loop!</h2>
+      <p class="text-xs text-amber-200 mt-1">Privacy: We’ll never sell or share your email.</p>
+      <p class="mb-3 text-base text-yellow-100/90">Get exclusive updates, game invites, and ways to help <b>Connect ATX
+      Elite</b> shine.<br>
+      <span class="font-semibold text-yellow-200">One email a month, no spam ever.</span></p>
+      <form id="newsletter-form" novalidate="" name="newsletter-form">
+        <input id="newsletter-email" name="email" type="email" placeholder="Your email address" required=""
+        autocomplete="email" aria-describedby="email-error">
+        <div id="email-error" class="hidden" aria-live="assertive"></div><button type="submit" class=
+        "mt-2">Subscribe</button>
+        <div id="newsletter-thankyou" aria-live="polite">
+          <span class="text-yellow-200 text-xs">Never miss an invite—exclusive to our email fam!</span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script type="module">
+  import confetti from "https://cdn.skypack.dev/canvas-confetti@1.6.0";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById("newsletter-popup");
+    const closeBtn = document.getElementById("newsletter-close");
+    const form = document.getElementById("newsletter-form");
+    const emailInput = document.getElementById("newsletter-email");
+    const errorMsg = document.getElementById("email-error");
+    const thankyou = document.getElementById("newsletter-thankyou");
+
+    // Newsletter popup logic: prevent repeat popups with localStorage
+    const KEY = "connectatx_newsletter";
+    if (localStorage.getItem(KEY) === "dismissed") return;
+
+    setTimeout(() => {
+      popup.classList.add("visible");
+      popup.focus();
+    }, 4200);
+
+    function closePopup() {
+      popup.classList.remove("visible");
+      errorMsg.classList.add("hidden");
+      errorMsg.textContent = "";
+      thankyou.style.display = "none";
+      emailInput.value = "";
+      localStorage.setItem(KEY, "dismissed");
+    }
+
+    closeBtn.addEventListener("click", closePopup);
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) closePopup();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (popup.classList.contains("visible") && e.key === "Escape")
+        closePopup();
+    });
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add("hidden");
+      errorMsg.textContent = "";
+      thankyou.style.display = "none";
+
+      const email = emailInput.value.trim();
+      if (!emailRegex.test(email)) {
+        errorMsg.textContent = "Please enter a valid email address.";
+        errorMsg.classList.remove("hidden");
+        emailInput.focus();
+        return;
+      }
+
+      // Replace with backend endpoint for real subscriptions!
+      // await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({email}), headers: {'Content-Type': 'application/json'} });
+
+      thankyou.textContent =
+        "🎉 Thanks for subscribing! Check your inbox for updates.";
+      thankyou.style.display = "block";
+
+      confetti({
+        particleCount: 60,
+        spread: 66,
+        origin: { y: 0.75 },
+        colors: ["#facc15", "#fde68a", "#16a34a"],
+      });
+
+      setTimeout(closePopup, 2000);
+    });
+  });
+  </script> <!-- Coaches & Board Section (pro polish) -->
+  <section class="py-8 bg-zinc-900 text-yellow-200" aria-label="Board and Coaches">
+    <div class="container mx-auto max-w-4xl px-4 text-center">
+      <h2 class=
+      "text-3xl sm:text-2xl font-extrabold mb-7 bg-gradient-to-r from-gold via-yellow-400 to-gold bg-clip-text text-transparent drop-shadow">
+      Meet Our Coaches & Board</h2>
+      <div class="flex flex-wrap justify-center gap-7">
+        {% for coach in coaches or [ {'name':'Coach Angel Rodriguez', 'role':'Head Coach', 'img':'coach-angel.jpg'},
+        {'name':'B. Johnson', 'role':'Assistant Coach', 'img':'coach-bj.jpg'}, {'name':'Mimi Rodriguez', 'role':'Board
+        Chair', 'img':'mimi.jpg'}, {'name':'Chris G.', 'role':'Fundraising Lead', 'img':'chris.jpg'} ] %}
+        <article class=
+        "flex flex-col items-center bg-zinc-800/70 rounded-2xl p-6 shadow hover:scale-105 transition focus-within:ring-4 focus-within:ring-amber-400"
+        tabindex="0" aria-label="{{ coach.name }}, {{ coach.role }}">
+          <img src="{{ url_for('static',filename='images/board/'~coach.img) }}" alt="{{ coach.name }}"
+          class="h-20 w-20 object-cover rounded-full border-4 border-yellow-300 shadow-inner mb-3 bg-white" loading=
+          "lazy" decoding="async">
+          <div class="font-bold text-lg text-gold">
+            {{ coach.name }}
+          </div>
+          <div class="text-sm text-yellow-200">
+            {{ coach.role }}
+          </div>
+        </article>{% endfor %}
+      </div>
+    </div>
+  </section><!-- Social Share Buttons -->
+  <section class="py-6 bg-black/90 flex flex-wrap justify-center gap-4" aria-label="Social Share Buttons">
+    {% set social_links = { 'Facebook': 'https://facebook.com/sharer/sharer.php?u=' ~ request.url_root, 'Twitter/X':
+    'https://twitter.com/intent/tweet?text=Support+Connect+ATX+Elite!&url=' ~ request.url_root, 'Instagram':
+    'https://www.instagram.com/' } %} {% for name, url in social_links.items() %} <button onclick=
+    "window.open('{{ url }}', '_blank', 'noopener,noreferrer')" class=
+    "inline-flex items-center gap-2 {{ 'bg-blue-600' if name == 'Facebook' else 'bg-blue-400' if name == 'Twitter/X' else 'bg-pink-500' }} text-white px-4 py-2 rounded-full shadow hover:brightness-110 transition"
+    aria-label="Share on {{ name }}" type="button"><svg class="w-5 h-5" fill="currentcolor" aria-hidden="true"> 
+    <!-- You'd want to swap in correct SVGs here -->
+    <use href="#icon-{{ name | lower | replace('x', 'x') }}"></use></svg> {{ name }}</button> {% endfor %}
+    <button onclick=
+    "navigator.clipboard.writeText(location.href); this.textContent='Link Copied!'; setTimeout(() => this.textContent = 'Copy Campaign Link', 1500);"
+    class=
+    "inline-flex items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-full shadow hover:bg-yellow-300 transition"
+    aria-label="Copy fundraising campaign link" type="button">📋 Copy Campaign Link</button>
+  </section><!-- Payment & Trust Badges -->
+  <section class=
+  "w-full py-4 bg-gradient-to-r from-zinc-900 via-black to-yellow-900/10 flex flex-wrap items-center justify-center gap-6 border-t border-yellow-300/10 text-yellow-300 text-sm"
+  aria-label="Payment & Trust Badges">
+    {% set payment_badges = [ { 'src': 'images/pay/applepay.svg', 'alt': 'Stripe', 'label': 'Stripe' }, { 'src':
+    'images/pay/paypal.svg', 'alt': 'PayPal', 'label': 'PayPal' }, { 'src': 'images/pay/venmo.svg', 'alt': 'Venmo',
+    'label': 'Venmo' } ] %} <span class=
+    "inline-flex items-center gap-2 px-4 py-2 bg-black/80 rounded-full shadow border-yellow-400/30">🔒 100% Secure
+    Payment</span> {% for badge in payment_badges %} <span class=
+    "inline-flex items-center gap-2 px-4 py-2 bg-black/80 rounded-full shadow border-yellow-400/30"><img src=
+    "{{ url_for('static',filename=badge.src) }}" alt="{{ badge.alt }}" class="h-5 w-auto inline" loading="lazy"
+    decoding="async"> {{ badge.label }}</span> {% endfor %} <span class=
+    "inline-flex items-center gap-2 px-4 py-2 bg-black/80 rounded-full shadow border-yellow-400/30">✔️ Verified
+    Non-Profit</span>
+  </section>
+</body>
+</html>
