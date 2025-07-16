@@ -1,84 +1,87 @@
-{# ================================================================================
-   Admin Dashboard Widgets
-   — Displays four key stats with dynamic data, ARIA roles, and analytics hooks
-================================================================================#}
+{#
+================================================================================
+Admin Dashboard Widgets — Displays four key stats with dynamic data, ARIA roles,
+and analytics hooks
+================================================================================#
+}
+
 <section
-  id="dashboard-widgets"
-  class="my-20 px-4 sm:px-8 max-w-5xl mx-auto"
-  role="region"
   aria-labelledby="dashboard-widgets-heading"
+  class="my-20 px-4 sm:px-8 max-w-5xl mx-auto"
+  id="dashboard-widgets"
+  role="region"
 >
   <h2
     id="dashboard-widgets-heading"
-    class="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-gold via-yellow-400 to-gold bg-clip-text text-transparent drop-shadow-xl animate-shine text-center mb-8"
+    class="mb-8 text-center text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-gold via-yellow-400 to-gold bg-clip-text text-transparent drop-shadow-xl animate-shine"
     tabindex="0"
   >
     📊 Admin Dashboard
   </h2>
 
   <div class="flex flex-col md:flex-row gap-8 items-start justify-center">
-
     {% if current_user.is_authenticated and current_user.is_admin %}
-    <div class="flex-1 min-w-[280px]">
-      <div
-        class="bg-zinc-900/90 rounded-2xl shadow-gold-aura p-6 hover:shadow-gold-glow focus-within:shadow-gold-glow transition-all duration-300"
-        data-aos="fade-up"
-        tabindex="0"
-        aria-label="Overview widgets"
-      >
-        <ul
-          class="grid grid-cols-1 sm:grid-cols-2 gap-6"
-          role="list"
-          aria-label="Dashboard overview widgets"
+      <div class="flex-1 min-w-[280px]">
+        <div
+          class="bg-zinc-900 opacity-90 rounded-2xl p-6 shadow-gold-aura hover:shadow-gold-glow focus-within:shadow-gold-glow transition-all duration-300"
+          data-aos="fade-up"
+          tabindex="0"
+          aria-label="Overview widgets"
         >
-          {% set widgets = [
-            { label: 'Total Donations', value: total_donations, icon: '💰', analytics: 'widget_total_donations' },
-            { label: 'New Sponsors',    value: new_sponsors,     icon: '🤝', analytics: 'widget_new_sponsors'    },
-            { label: 'Active Players',   value: active_players,    icon: '🏀', analytics: 'widget_active_players'   },
-            { label: 'Upcoming Events',  value: upcoming_events,   icon: '📅', analytics: 'widget_upcoming_events'  }
-          ] %}
-          {% for w in widgets %}
-          <li
-            class="bg-black/70 rounded-xl shadow-lg border border-yellow-300/30 p-6 flex flex-col items-center text-center cursor-pointer hover:scale-105 hover:shadow-gold-aura transition-all duration-300 group focus-within:ring-4 focus-within:ring-yellow-400"
-            tabindex="0"
-            role="listitem"
-            aria-label="{{ w.label }}: {{ w.value or '0' }}"
-            onclick="trackWidgetClick('{{ w.analytics }}')"
+          <ul
+            aria-label="Dashboard overview widgets"
+            class="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            role="list"
           >
-            <span class="text-yellow-300 text-3xl font-black drop-shadow animate-shine flex items-center gap-2">
-              {{ w.icon }} {{ w.value or '0' }}
-            </span>
-            <span class="text-yellow-200 text-sm mt-2 font-semibold group-hover:text-yellow-300 transition">
-              {{ w.label }}
-            </span>
-          </li>
-          {% endfor %}
-        </ul>
+            {# Define dashboard widgets with label, value, icon, and analytics event #}
+            {% set widgets = [
+              {'label': 'Total Donations', 'value': total_donations, 'icon': '💰', 'analytics': 'widget_total_donations'},
+              {'label': 'New Sponsors', 'value': new_sponsors, 'icon': '🤝', 'analytics': 'widget_new_sponsors'},
+              {'label': 'Active Players', 'value': active_players, 'icon': '🏀', 'analytics': 'widget_active_players'},
+              {'label': 'Upcoming Events', 'value': upcoming_events, 'icon': '📅', 'analytics': 'widget_upcoming_events'}
+            ] %}
 
-        <p class="mt-4 text-xs text-yellow-400/90 text-center">
-          <strong>Pro Tip:</strong> Export all analytics as CSV for board/sponsor meetings!
-        </p>
+            {% for w in widgets %}
+              <li
+                aria-label="{{ w.label }}: {{ w.value or '0' }}"
+                class="group flex cursor-pointer flex-col items-center rounded-xl border border-yellow-300 opacity-30 bg-black opacity-70 p-6 shadow-lg text-center transition duration-300 hover:scale-105 hover:shadow-gold-aura focus-within:ring-4 focus-within:ring-yellow-400"
+                onclick="trackWidgetClick('{{ w.analytics }}')"
+                role="listitem"
+                tabindex="0"
+              >
+                <span class="animate-shine flex items-center gap-2 text-3xl font-black text-yellow-300 drop-shadow">
+                  {{ w.icon }} {{ w.value or '0' }}
+                </span>
+                <span class="mt-2 text-sm font-semibold text-yellow-200 group-hover:text-yellow-300 transition">
+                  {{ w.label }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <p class="mt-4 text-center text-xs text-yellow-400 opacity-90">
+            <strong>Pro Tip:</strong> Export all analytics as CSV for board/sponsor meetings!
+          </p>
+        </div>
       </div>
-    </div>
     {% else %}
-    <div class="flex-1 min-w-[280px] text-center text-zinc-500">
-      <p>Please log in to view dashboard widgets.</p>
-    </div>
+      <div class="flex-1 min-w-[280px] text-center text-zinc-500">
+        <p>Please log in to view dashboard widgets.</p>
+      </div>
     {% endif %}
-
   </div>
 </section>
 
 <script>
   /**
-   * Track dashboard widget engagement with analytics.
+   * Track dashboard widget engagement with Google Analytics.
    * @param {string} name - Analytics event label
    */
   function trackWidgetClick(name) {
     if (window.gtag) {
-      window.gtag('event', 'widget_click', {
-        event_category: 'Dashboard',
-        event_label: name
+      window.gtag("event", "widget_click", {
+        event_category: "Dashboard",
+        event_label: name,
       });
     }
   }

@@ -1,0 +1,114 @@
+/*───────────────────────────────────────────────────────────────────────────────
+  Custom Properties – Brand Colors, Fonts, Shadows, and Transitions
+───────────────────────────────────────────────────────────────────────────────*/
+:root {
+  --color-gold: #facc15;
+  --color-gold-light: #fde68a;
+  --color-red: #b91c1c;
+  --color-blue: #0a1f44;
+  --color-black: #18181b;
+  --color-white: #fff;
+
+  --shadow-brand: 0 6px 20px rgba(10, 31, 68, 0.28), 0 4px 12px rgba(250, 204, 21, 0.06);
+  --gradient-starforge: linear-gradient(90deg, var(--color-gold) 0%, var(--color-gold-light) 50%, var(--color-red) 100%);
+
+  --border-radius-xl: 2rem;
+  --border-radius-lg: 1rem;
+  --transition-default: 0.25s cubic-bezier(0.69, 0.11, 0.38, 0.97);
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Base Typography – Font Families, Sizes, and Smoothing
+───────────────────────────────────────────────────────────────────────────────*/
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Roboto", Arial, sans-serif;
+  scroll-behavior: smooth;
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+body {
+  font-family: inherit;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  min-height: 100vh;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  margin: 0;
+  padding: 0;
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Headings – Weight, Color, Shadows, and Gradient Effects
+───────────────────────────────────────────────────────────────────────────────*/
+h1, h2, h3, h4 {
+  font-family: "Montserrat", "Roboto", Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  color: var(--color-gold);
+  text-shadow: 0 2px 8px rgba(250, 204, 21, 0.2);
+}
+
+h1 { font-size: 2.7rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.2rem; }
+
+/* Gradient text utility */
+
+/* Animated gradient heading */
+
+/* Shine animation */
+@keyframes shine-move {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Buttons & CTAs – Primary, Secondary, Glow Styles with Transitions
+───────────────────────────────────────────────────────────────────────────────*/
+
+/* Glow effect with animation */
+
+@keyframes shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Stats & Progress Bars – Styling for Progress Bars and Indicators
+───────────────────────────────────────────────────────────────────────────────*/
+.progress {
+  height: 1.25rem;
+  width: 100%;
+  background-color: #353536;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(10, 31, 68, 0.08);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-red) 80%);
+  border-radius: 999px;
+  transition: width 0.7s cubic-bezier(0.69, 0.11, 0.38, 0.97);
+}
+
+/*───────────────────────────────────────────────────────────────────────────────
+  Responsive Design – Mobile-first adjustments for smaller screens
+───────────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 600px) {
+  body {
+    font-size: 0.98rem;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+

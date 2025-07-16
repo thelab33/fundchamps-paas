@@ -1,4 +1,3 @@
+app/templates/base.html:<button id="newsletter-close" class="absolute top-3 right-3 text-2xl text-yellow-300 hover:text-white">
 app/templates/partials/sponsor_wall.html.bak:<button id="sponsor-btn" onclick="openSponsorModal()" class="mt-10 px-8 py-3 bg-yellow-400 rounded-full shadow-lg hover:bg-yellow-300 transition">
 app/templates/partials/sponsor_wall.html.bak:<button onclick="openSponsorModal()" class="px-8 py-3 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition">
-app/templates/partials/sponsor_wall.html:<button id="sponsor-btn" onclick="openSponsorModal()" class="mt-10 px-8 py-3 bg-yellow-400 rounded-full shadow-lg hover:bg-yellow-300 transition">
-app/templates/partials/sponsor_wall.html:<button onclick="openSponsorModal()" class="px-8 py-3 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition">

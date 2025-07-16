@@ -93,6 +93,7 @@ else:
     run_migrations_online()
 """
 
+
 def patch_env_py():
     env_path = os.path.join("migrations", "env.py")
     if not os.path.exists(env_path):
@@ -104,6 +105,6 @@ def patch_env_py():
 
     print("✅ Patched migrations/env.py with Starforge-compatible migration config.\n")
 
+
 if __name__ == "__main__":
     patch_env_py()
-

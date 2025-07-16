@@ -1,27 +1,12 @@
-{# =============================================================================
-   base.html  –  Starforge Elite • Luxury SaaS Boilerplate
-   -----------------------------------------------------------------------------
-   • SEO-first head  • PWA ready  • Dark/Light toggle  • Global modals slot
-   • Newsletter popup included  • Analytics & Stripe (optional)  • AOS scroll
-   • EXTEND THIS FOR EVERY PAGE!
-   ============================================================================= #}
 <!DOCTYPE html>
-<html
-  lang="en"
-  data-theme="{{ team.theme if team and team.theme else request.cookies.get('theme','dark') }}"
-  class="scroll-smooth"
->
+<html lang="en" data-theme="{{ team.theme if team and team.theme else request.cookies.get('theme','dark') }}" class="scroll-smooth">
+
 <head>
-  {# ——— SEO, PWA, and Social Meta ——— #}
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title -%}
-    {{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}
-  {%- endblock %}</title>
+  <title>{% block title %}{{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}{% endblock %}</title>
   <link rel="canonical" href="{{ request.url_root }}" />
-  <meta name="description"
-        content="{{ team.meta_description if team and team.meta_description else
-                  'Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.' }}">
+  <meta name="description" content="{{ team.meta_description if team and team.meta_description else 'Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.' }}">
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="theme-color" content="{{ team.theme_color if team and team.theme_color else '#facc15' }}" />
   <meta property="og:type" content="website" />
@@ -31,14 +16,10 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:creator" content="@ConnectATXElite" />
 
-  {# ——— Favicon & Manifest ——— #}
   <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-  <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ url_for('static', filename=team.favicon if team and team.favicon else 'favicon.png') }}">
-  <link rel="apple-touch-icon"
-        href="{{ url_for('static', filename=team.apple_icon if team and team.apple_icon else 'images/logo.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename=team.favicon if team and team.favicon else 'favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon if team and team.apple_icon else 'images/logo.png') }}">
 
-  {# ——— CSS: Tailwind, AOS, Optional Brand CSS ——— #}
   <link rel="preload" as="style" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
@@ -46,71 +27,35 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css) }}">
   {% endif %}
 
-  {# ——— Slot for extra <head> content (analytics, page-specific) ——— #}
   {% block head_extra %}{% endblock %}
 </head>
-<body class="bg-zinc-950 text-white font-sans antialiased {% if team and team.body_class %}{{ team.body_class }}{% endif %}">
-  <!-- ♿ Accessibility: Skip-link -->
-  <a href="#main"
-     class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50">
-    Skip to main content
-  </a>
 
-  {# ——— Announcement Bar Slot (child pages can override) ——— #}
+<body class="bg-zinc-950 text-white font-sans antialiased {{ team.body_class if team and team.body_class else '' }}">
+  <a href="#main" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50">Skip to main content</a>
+
   {% block announcement %}{% endblock %}
 
-  {# ——— Main Page Content ——— #}
   <main id="main" role="main" tabindex="-1">
     {% block content %}{% endblock %}
   </main>
 
-  {# ——— Global Modals: Newsletter, Sponsor Modal, more ——— #}
   {% block global_modals %}
-    <!-- Newsletter Signup Popup -->
-    <div id="newsletter-popup"
-         class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm z-[99999]">
-      <div id="newsletter-content"
-           class="relative bg-zinc-900 rounded-2xl shadow-2xl p-8 w-[380px] text-center text-yellow-100">
-        <button id="newsletter-close" type="button"
-                class="absolute top-3 right-3 text-2xl text-yellow-300 hover:text-white focus:ring-2 ring-yellow-300">
-          &times;
-        </button>
+    <div id="newsletter-popup" class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm z-[99999]">
+      <div id="newsletter-content" class="relative bg-zinc-900 rounded-2xl shadow-2xl p-8 w-[380px] text-center text-yellow-100">
+        <button id="newsletter-close" class="absolute top-3 right-3 text-2xl text-yellow-300 hover:text-white">&times;</button>
         <h2 class="text-2xl font-extrabold mb-2 text-yellow-300">Stay in the Loop!</h2>
         <p class="mb-4">Get exclusive updates, game invites, and ways to help <strong>Connect ATX Elite</strong> shine.</p>
-        <form id="newsletter-form" novalidate>
-          <input id="newsletter-email" name="email" type="email" required
-                 placeholder="Your email address"
-                 class="w-full p-3 rounded-full text-black border border-yellow-300/40" />
-          <div id="email-error" class="hidden text-red-500 text-sm font-bold mt-1"></div>
-          <button type="submit"
-                  class="w-full mt-3 py-2 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300 transition">
-            Subscribe
-          </button>
-          <div id="newsletter-thankyou" class="hidden text-cyan-400 font-bold mt-3"></div>
-          <p class="text-xs text-amber-200 mt-2">Privacy — we’ll never sell or share your email.</p>
+        <form id="newsletter-form">
+          <input id="newsletter-email" name="email" type="email" required placeholder="Your email address" class="w-full p-3 rounded-full text-black border border-yellow-300/40" />
+          <button type="submit" class="w-full mt-3 py-2 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300">Subscribe</button>
         </form>
       </div>
     </div>
-    {# Example: More global modals can go here (e.g. Sponsor, Login) #}
   {% endblock %}
 
-  {# ——— Inline Scripts (init, theme, newsletter, optional analytics) ——— #}
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ duration: 900, once: true });
-
-      // Dark/Light Theme Toggle
-      document.querySelectorAll('[data-theme-switch]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const root = document.documentElement;
-          const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-          root.dataset.theme = next;
-          document.cookie = `theme=${next};path=/;max-age=31536000`;
-          btn.innerHTML = next === 'light' ? '🌞' : '🌙';
-        });
-      });
-    });
+    document.addEventListener('DOMContentLoaded', () => { AOS.init({ duration: 900, once: true }); });
   </script>
 
   {% if analytics_id %}
@@ -122,65 +67,9 @@
       gtag('config', '{{ analytics_id }}');
     </script>
   {% endif %}
-  {% if stripe_pk %}
-    <script src="https://js.stripe.com/v3/" defer></script>
-  {% endif %}
 
-  {# ——— Extra Scripts: Child pages extend this block for per-page JS ——— #}
-  {% block scripts %}
-    <script type="module" src="https://cdn.skypack.dev/canvas-confetti@1.6.0" defer></script>
-    <script>
-      // Newsletter Popup Logic
-      (function(){
-        const KEY = 'connectatx_newsletter',
-              popup = document.getElementById('newsletter-popup'),
-              closeBtn = document.getElementById('newsletter-close'),
-              form = document.getElementById('newsletter-form'),
-              email = document.getElementById('newsletter-email'),
-              err = document.getElementById('email-error'),
-              thanks = document.getElementById('newsletter-thankyou');
-
-        if (localStorage.getItem(KEY) !== 'dismissed') {
-          setTimeout(() => {
-            popup.classList.replace('hidden','flex');
-            document.body.style.overflow = 'hidden';
-          }, 4200);
-        }
-
-        closeBtn.onclick = () => {
-          popup.classList.replace('flex','hidden');
-          document.body.style.overflow = '';
-          localStorage.setItem(KEY,'dismissed');
-        };
-
-        form.onsubmit = e => {
-          e.preventDefault();
-          err.classList.add('hidden');
-          thanks.classList.add('hidden');
-          const v = email.value.trim();
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
-            err.textContent = 'Please enter a valid email.';
-            err.classList.remove('hidden');
-            return;
-          }
-          thanks.textContent = '🎉 Thanks for subscribing!';
-          thanks.classList.remove('hidden');
-          confetti({
-            particleCount: 60,
-            spread: 60,
-            origin: { y: 0.75 },
-            colors: ['#facc15','#fde68a','#16a34a']
-          });
-          setTimeout(() => {
-            popup.classList.replace('flex','hidden');
-            document.body.style.overflow = '';
-            localStorage.setItem(KEY,'dismissed');
-          }, 2000);
-        };
-      })();
-    </script>
-  {% endblock %}
+  {% block scripts %}{% endblock %}
 </body>
+
 </html>
 
-<div class="lg:hidden fixed bottom-0 left-0 w-full z-[99] flex justify-between items-center bg-yellow-400/95 shadow-2xl px-5 py-3 border-t border-yellow-700 animate-in slide-in-from-bottom"><span class="font-bold text-zinc-900 text-lg">🔥 Support the Team!</span><button onclick="openSponsorModal()" class="bg-black text-yellow-400 font-extrabold px-5 py-2 rounded-full shadow hover:bg-yellow-900 transition">🌟 Sponsor Now</button></div>

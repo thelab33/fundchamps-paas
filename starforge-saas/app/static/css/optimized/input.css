@@ -1,0 +1,19 @@
+/*───────────────────────────────────────────────
+  Tailwind Directives - Core Layers
+───────────────────────────────────────────────*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*───────────────────────────────────────────────
+  Custom Styles & Overrides
+───────────────────────────────────────────────*/
+/* Import global variables, resets, and typography */
+@import "globals.css";
+
+/* Import component-specific styles */
+@import "components.css";
+
+/* Add any additional custom CSS below */
+/* Example: Override Tailwind colors or add new utilities here */
+

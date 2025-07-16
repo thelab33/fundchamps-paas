@@ -14,15 +14,22 @@ def audit_command():
 
     # Check core config keys
     required_keys = [
-        "SECRET_KEY", "SQLALCHEMY_DATABASE_URI", "STRIPE_SECRET_KEY",
-        "MAIL_SERVER", "MAIL_PORT", "MAIL_DEFAULT_SENDER"
+        "SECRET_KEY",
+        "SQLALCHEMY_DATABASE_URI",
+        "STRIPE_SECRET_KEY",
+        "MAIL_SERVER",
+        "MAIL_PORT",
+        "MAIL_DEFAULT_SENDER",
     ]
     missing = [k for k in required_keys if not current_app.config.get(k)]
 
     print("✅ ENV:", current_app.config.get("ENV"))
     print("✅ DEBUG:", current_app.debug)
     print("✅ DB URI:", current_app.config.get("SQLALCHEMY_DATABASE_URI"))
-    print("✅ Stripe:", "✅" if current_app.config.get("STRIPE_SECRET_KEY") else "❌ Missing")
+    print(
+        "✅ Stripe:",
+        "✅" if current_app.config.get("STRIPE_SECRET_KEY") else "❌ Missing",
+    )
 
     if missing:
         print("\n[⚠️] Missing critical config keys:")

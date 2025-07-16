@@ -1,105 +1,99 @@
 <!DOCTYPE html>
-<html
-  lang="{{ g.get('lang_code', team.lang_code if team and team.lang_code else 'en') }}"
-  data-theme="{{ team.theme or request.cookies.get('theme', 'dark') }}"
-  class="scroll-smooth antialiased bg-zinc-950 text-white font-sans"
->
+<html lang="{{ lang_code if lang_code else 'en' }}" data-theme="{{ theme if theme else 'dark' }}" class="scroll-smooth antialiased bg-zinc-950 text-white font-sans">
 <head>
-  <!-- 🔐 Meta -->
+  <!-- ✅ Core Meta -->
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>{% block title %}{{ team.team_name or config.BRAND_NAME }}{% endblock %}</title>
+  <title>
+    {% block title %}
+      {{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}
+    {% endblock %}
+  </title>
   <link rel="canonical" href="{{ request.url_root }}" />
-  <meta name="description" content="{{ team.meta_description or config.BRAND_TAGLINE }}" />
+
+  <!-- 🔍 SEO & Social Meta -->
+  <meta name="description" content="{{ team.meta_description if team and team.meta_description else 'Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.' }}" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="theme-color" content="{{ team.theme_color or config.PRIMARY_COLOR }}" />
+  <meta name="theme-color" content="{{ team.theme_color if team and team.theme_color else '#facc15' }}" />
 
-  <!-- 🔗 Open Graph & Twitter Cards -->
+  <!-- 🟦 Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="{{ team.og_title or (team.team_name ~ ' | ' ~ config.BRAND_TAGLINE) }}" />
-  <meta property="og:description" content="{{ team.og_description or config.BRAND_TAGLINE }}" />
-  <meta property="og:image" content="{{ url_for('static', filename=team.og_image or 'images/logo.webp') }}" />
+  <meta property="og:title" content="{{ team.og_title if team and team.og_title else 'Connect ATX Elite | Empowering Youth' }}" />
+  <meta property="og:description" content="{{ team.og_description if team and team.og_description else 'Support our basketball journey and invest in our next generation of leaders.' }}" />
+  <meta property="og:image" content="{{ url_for('static', filename=team.og_image) if team and team.og_image else url_for('static', filename='images/logo.webp') }}" />
+
+  <!-- 🐦 Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:creator" content="{{ team.twitter_handle or '@ConnectATXElite' }}" />
+  <meta name="twitter:creator" content="@ConnectATXElite" />
 
-  <!-- 📱 Icons & Manifest -->
+  <!-- 📱 Icons -->
   <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
-  <link rel="icon" href="{{ url_for('static', filename=team.favicon or 'favicon.png') }}" />
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon or 'images/logo.png') }}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename=team.favicon) if team and team.favicon else url_for('static', filename='favicon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon) if team and team.apple_icon else url_for('static', filename='images/logo.png') }}" />
 
-  <!-- 🖋 Fonts & Styles -->
+  <!-- 🧠 Fonts & Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- ✅ TailwindCSS Output -->
-  <link rel="preload" as="style" href="{{ url_for('static', filename='css/globals.css') }}" />
-  <link
-    href="{{ url_for('static', filename='css/globals.css') }}"
-    rel="stylesheet"
-    media="print"
-    onload="this.media='all'"
-  />
-  <noscript>
-    <link href="{{ url_for('static', filename='css/globals.css') }}" rel="stylesheet" />
-  </noscript>
+  <!-- 💅 Tailwind & Core CSS -->
+  <link rel="preload" as="style" href="{{ url_for('static', filename='css/tailwind.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 
-  <!-- 🎨 Optional Per-Team Custom CSS -->
   {% if team and team.custom_css %}
-    <link href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" />
   {% endif %}
 
-  <!-- ✨ Animations -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-  {% block extra_head %}{% endblock %}
+  {% block head_extra %}{% endblock %}
 </head>
 
-<body class="{{ team.body_class or 'bg-zinc-950 text-white' }}">
+<body class="bg-zinc-950 text-white font-sans antialiased {{ team.body_class if team else '' }}">
   <!-- ♿ Accessibility -->
-  <a
-    href="#main"
-    class="sr-only focus:not-sr-only fixed top-4 left-4 bg-yellow-400 text-black px-4 py-2 rounded-lg z-50"
-  >
-    Skip to main
+  <a href="#main" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50">
+    Skip to main content
   </a>
 
   {% block announcement %}{% endblock %}
   {% include 'partials/header.html' %}
 
-  <main id="main" role="main" tabindex="-1" class="flex-1">
+  <!-- 🔧 Main Content -->
+  <main id="main" role="main" tabindex="-1">
     {% block content %}{% endblock %}
   </main>
 
-  {% include 'partials/newsletter.html' %}
+  <!-- 🧭 Footer -->
   {% include 'partials/footer.html' %}
 
-  <!-- 📦 Core JS -->
+  {% block global_modals %}
+    <!-- 📬 Global Newsletter Popup -->
+    {% include 'partials/newsletter.html' %}
+  {% endblock %}
+
+  <!-- ⚙️ JS Libraries -->
   <script defer src="{{ url_for('static', filename='js/alpine.min.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ duration: 900, once: true });
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof AOS !== 'undefined') AOS.init({ duration: 900, once: true });
     });
   </script>
   <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-  <!-- 📊 Analytics -->
+  <!-- 📊 Analytics (Google Tag) -->
   {% if analytics_id %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', '{{ analytics_id }}');
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "{{ analytics_id }}");
     </script>
   {% endif %}
 
-  {% block extra_scripts %}{% endblock %}
+  {% block scripts %}{% endblock %}
 </body>
 </html>
 

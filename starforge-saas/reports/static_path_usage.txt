@@ -42,14 +42,13 @@ app/templates/partials/about_and_mission.html:        <img src="{{ url_for('stat
 app/templates/partials/about_and_mission.html:    tabindex="0"><source src="{{ url_for('static',filename='connect-atx-story.mp4') }}" type="video/mp4"> Sorry,
 app/templates/partials/sponsor_wall.html.bak:                src="{% if sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% else %}{{ url_for('static', filename='images/sponsors/' ~ (sponsor.logo or 'logo.webp')) }}{% endif %}"
 app/templates/partials/sponsor_wall.html.bak:      <img src="{{ url_for('static', filename='images/TeamRings.webp') }}" alt="Championship Rings" class="mt-6 rounded-2xl shadow-2xl border-4 border-yellow-400 max-w-xs mx-auto">
-app/templates/base.html:  <meta property="og:image" content="{{ url_for('static', filename=team.og_image or 'images/logo.webp') }}" />
-app/templates/base.html:  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
-app/templates/base.html:  <link rel="icon" href="{{ url_for('static', filename=team.favicon or 'favicon.png') }}" />
-app/templates/base.html:  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon or 'images/logo.png') }}" />
-app/templates/base.html:  <link rel="preload" as="style" href="{{ url_for('static', filename='css/globals.css') }}" />
-app/templates/base.html:    href="{{ url_for('static', filename='css/globals.css') }}"
-app/templates/base.html:    <link href="{{ url_for('static', filename='css/globals.css') }}" rel="stylesheet" />
-app/templates/base.html:    <link href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" rel="stylesheet" />
+app/templates/base.html:  <meta property="og:image" content="{{ url_for('static', filename=team.og_image if team and team.og_image else 'images/logo.webp') }}" />
+app/templates/base.html:  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+app/templates/base.html:  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename=team.favicon if team and team.favicon else 'favicon.png') }}">
+app/templates/base.html:  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon if team and team.apple_icon else 'images/logo.png') }}">
+app/templates/base.html:  <link rel="preload" as="style" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+app/templates/base.html:  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+app/templates/base.html:    <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css) }}">
 app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/alpine.min.js') }}"></script>
 app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
 app/templates/base.html:  <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>

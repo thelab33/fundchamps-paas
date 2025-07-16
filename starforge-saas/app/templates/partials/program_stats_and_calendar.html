@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
-</head>
-<body>
-  <-- open the MariaDB shell as root / sudo DROP USER IF EXISTS 'starforge_user'@'localhost'; DROP USER IF EXISTS
-  'starforge_user'@'127.0.0.1'; program_stats_and_calendar stub -->
-</body>
-</html>
+<!-- ===================== Program Stats and Calendar ===================== -->
+<section aria-labelledby="program-stats-heading" class="relative py-16 px-4 sm:px-8 bg-gradient-to-b from-zinc-900 via-black to-zinc-950 rounded-3xl shadow-2xl" id="program-stats-and-calendar" role="region" tabindex="-1">
+  <!-- Stats Grid -->
+  <div aria-label="Program statistics" class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center" data-aos="fade-up" data-aos-delay="100">
+    {% set stats = [
+      { 'label': 'GPA Avg', 'value': 3.5 },
+      { 'label': 'Students', 'value': 22 },
+      { 'label': 'Goal $', 'value': 10000 },
+      { 'label': 'Sponsors', 'value': 17 }
+    ] %}
+    {% for stat in stats %}
+      <div aria-label="{{ stat.label }}: {{ stat.value }}" class="text-lg font-semibold text-yellow-300 opacity-90">
+        <span class="block text-4xl font-extrabold text-yellow-400 counter" data-target="{{ stat.value }}">0</span>
+        <p class="mt-2 text-sm text-white">{{ stat.label }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Calendar Section -->
+  <div class="max-w-4xl mx-auto mt-10">
+    <h2 class="text-3xl sm:text-4xl font-extrabold text-yellow-300 text-center mb-6" id="program-calendar-heading">
+      📅 Upcoming Events & Schedule
+    </h2>
+    <div class="bg-zinc-800 p-6 rounded-xl shadow-xl">
+      <div class="overflow-x-auto">
+        <table class="min-w-full table-auto text-left text-sm text-zinc-100">
+          <thead>
+            <tr class="bg-yellow-400 text-zinc-900">
+              <th class="px-4 py-2">Date</th>
+              <th class="px-4 py-2">Event</th>
+              <th class="px-4 py-2">Location</th>
+              <th class="px-4 py-2">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Event Rows -->
+            <tr>
+              <td class="px-4 py-2">July 20, 2025</td>
+              <td class="px-4 py-2">AAU Tournament</td>
+              <td class="px-4 py-2">East Austin Gym</td>
+              <td class="px-4 py-2">10:00 AM</td>
+            </tr>
+            <tr class="bg-zinc-900">
+              <td class="px-4 py-2">July 22, 2025</td>
+              <td class="px-4 py-2">Team Practice</td>
+              <td class="px-4 py-2">East Austin Gym</td>
+              <td class="px-4 py-2">5:00 PM</td>
+            </tr>
+            <!-- Add more events here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-4 text-center">
+        <a href="/calendar" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-2 px-6 rounded-full shadow-lg transition-all duration-300">
+          View Full Calendar
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

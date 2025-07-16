@@ -1,0 +1,359 @@
+.
+├── app
+│   ├── admin
+│   │   ├── dashboard.html
+│   │   └── routes.py
+│   ├── cli.py
+│   ├── config
+│   │   ├── config.py
+│   │   ├── flask_config.py
+│   │   ├── __init__.py
+│   │   └── team_config.py
+│   ├── config.py
+│   ├── data
+│   │   └── app.db
+│   ├── extensions.py
+│   ├── forms
+│   │   ├── __init__.py
+│   │   └── sponsor_form.py
+│   ├── __init__.py
+│   ├── models
+│   │   ├── campaign_goal.py
+│   │   ├── example.py
+│   │   ├── __init__.py
+│   │   ├── mixins.py
+│   │   ├── models.py
+│   │   ├── player.py
+│   │   ├── sms_log.py
+│   │   ├── sponsor.py
+│   │   ├── team.py
+│   │   ├── transaction.py
+│   │   └── user.py
+│   ├── models.py
+│   ├── routes
+│   │   ├── api
+│   │   ├── api.py
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   ├── sms.py
+│   │   ├── stripe_routes.py
+│   │   └── webhooks.py
+│   ├── seeds.py
+│   ├── _starforge_audit
+│   │   ├── admin_templates.txt
+│   │   ├── blueprints.txt
+│   │   ├── cli.txt
+│   │   ├── env_secrets.txt
+│   │   ├── git_status.txt
+│   │   ├── models.txt
+│   │   ├── seeds.txt
+│   │   ├── static_css.txt
+│   │   ├── static_images.txt
+│   │   ├── static_js.txt
+│   │   ├── structure_tree.txt
+│   │   └── templates_partials.txt
+│   ├── starforge_project_audit.py
+│   ├── static
+│   │   ├── board
+│   │   ├── connect-atx-story.mp4
+│   │   ├── css
+│   │   ├── images
+│   │   ├── js
+│   │   ├── pay
+│   │   ├── site.webmanifest
+│   │   └── videos
+│   └── templates
+│       ├── admin
+│       ├── base.html
+│       ├── index.html
+│       ├── macros
+│       ├── partials
+│       └── sponsor_thank_you.html
+├── auditaudit.py
+├── _audit.configs_&_secrets.txt
+├── _audit.database_models.txt
+├── _audit.frontend_js_css.txt
+├── _audit.git_status.txt
+├── _audit.migrations.txt
+├── _audit.packagejson_deps.txt
+├── _audit.project_structure_tree_l_3.txt
+├── _audit.python_flask_files.txt
+├── audit_script.py
+├── audit.sh
+├── _audit.static_assets.txt
+├── _audit.templates_partials.txt
+├── auto_patch_jinja_control.sh
+├── build.js
+├── CheckHTMLIDsagainstCSSSelectors.py
+├── check_static_setup.py
+├── clean_templates.sh
+├── clean_templates.shy
+├── cleanup_static.sh
+├── create_tables.py
+├── Dockerfile
+├── dotenv_loader.py
+├── .env
+├── .env.development
+├── .env.example
+├── .env.lint.json
+├── .env.production
+├── .env.sample
+├── env_var_scan.txt
+├── .eslintignore
+├── .eslintrc.json
+├── fix_jinja_control_syntax.sh
+├── fix_js_imports.sh
+├── .flaskenv
+├── .git
+│   └── hooks
+│       └── pre-commit
+├── .gitignore
+├── .husky
+│   ├── _
+│   │   ├── applypatch-msg
+│   │   ├── commit-msg
+│   │   ├── .gitignore
+│   │   ├── h
+│   │   ├── husky.sh
+│   │   ├── post-applypatch
+│   │   ├── post-checkout
+│   │   ├── post-commit
+│   │   ├── post-merge
+│   │   ├── post-rewrite
+│   │   ├── pre-applypatch
+│   │   ├── pre-auto-gc
+│   │   ├── pre-commit
+│   │   ├── pre-merge-commit
+│   │   ├── prepare-commit-msg
+│   │   ├── pre-push
+│   │   └── pre-rebase
+│   └── pre-commit
+├── img_tag_audit.sh
+├── instance
+│   └── dev.db
+├── logs
+├── manage.py
+├── migrations
+│   ├── alembic.ini
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions
+│       └── 5777ef8d16d4_baseline.py
+├── new_homepage.sh
+├── package.json
+├── patch_404_and_config.sh
+├── patch_and_polish.py
+├── patch_circular_imports.sh
+├── patch_config_imports.sh
+├── patch_flask_babel.py
+├── patch_flask_entry.sh
+├── patch_jinja_syntax.sh
+├── patch_script.py
+├── patch.sh
+├── patch_sponsor_block_img_tags.sh
+├── patch_starforge_api.sh
+├── patch_starforge_imports.sh
+├── patch_templates.py
+├── postcss.config.js
+├── .pre-commit-hook.sh
+├── .prettierrc
+├── reports
+│   ├── a11y.html
+│   ├── assets_check.txt
+│   ├── blueprint_defs.txt
+│   ├── blueprints_registered.txt
+│   ├── blueprints_tree.txt
+│   ├── broken_img_refs.txt
+│   ├── button_without_type.txt
+│   ├── class_usage.txt
+│   ├── config_vars.txt
+│   ├── css_classes.txt
+│   ├── css_curl.txt
+│   ├── css_ids.txt
+│   ├── db_status.txt
+│   ├── diag-20250714-160858.txt
+│   ├── dom_inline_js.txt
+│   ├── dupe_phrases.txt
+│   ├── ellipsis_in_models.txt
+│   ├── heading_hierarchy.txt
+│   ├── html_classes_not_in_css.txt
+│   ├── html_selectors.txt
+│   ├── html_validations.txt
+│   ├── html_validation.txt
+│   ├── image_paths_raw.txt
+│   ├── img_perf_attrs.txt
+│   ├── img_tag_audit.txt
+│   ├── img_tags.txt
+│   ├── installed_packages.txt
+│   ├── jinja_syntax.txt
+│   ├── js_lint.txt
+│   ├── licenses.json
+│   ├── live_index.html
+│   ├── missing_base_templates.txt
+│   ├── missing_flask_routes.txt
+│   ├── missing_images.txt
+│   ├── missing_includes.txt
+│   ├── missing_links.txt
+│   ├── missing_pip_packages.txt
+│   ├── missing_routes.txt
+│   ├── missing_static_assets.txt
+│   ├── missing_tailwind_classes.txt
+│   ├── missing_url_for_assets.txt
+│   ├── models_list.txt
+│   ├── pip_vulns.txt
+│   ├── python_import_errors.txt
+│   ├── python_security.txt
+│   ├── remaining_custom_classes.txt
+│   ├── routes_list.txt
+│   ├── routes.txt
+│   ├── safe_to_purge_css_classes.txt
+│   ├── static_href_refs.txt
+│   ├── static_path_usage.txt
+│   ├── static_refs.txt
+│   ├── static_src_refs.txt
+│   ├── tailwind_status.txt
+│   ├── template_syntax_issues.txt
+│   ├── unused_css_classes.txt
+│   └── unused_css_ids.txt
+├── requirements.lock
+├── requirements.txt
+├── .ruff_cache
+│   ├── 0.12.1
+│   │   ├── 12220058555288390975
+│   │   ├── 12773260706812258682
+│   │   ├── 16997129406952988576
+│   │   ├── 17713509866167143363
+│   │   ├── 5158249862823298842
+│   │   ├── 7726413929093326818
+│   │   └── 9296110578293963706
+│   ├── 0.12.3
+│   │   ├── 1136386164196814939
+│   │   ├── 12220058555288390975
+│   │   ├── 12773260706812258682
+│   │   ├── 12969890178733841974
+│   │   ├── 16997129406952988576
+│   │   ├── 17713509866167143363
+│   │   ├── 5158249862823298842
+│   │   ├── 7726413929093326818
+│   │   └── 9296110578293963706
+│   ├── CACHEDIR.TAG
+│   └── .gitignore
+├── run.py
+├── scan_template_syntax.sh
+├── scripts
+│   ├── audit_css_ids.sh
+│   ├── audit_ui.sh
+│   ├── auto_fix_ui.sh
+│   ├── build-css.sh
+│   ├── fix_if_elseurl_for.sh
+│   ├── fix_sponsor_block.sh
+│   ├── fix_sponsor_logo.sh
+│   ├── patch_env_migration.py
+│   ├── patch_jinja_urls.sh
+│   ├── patch_migration_conflict.py
+│   ├── patch_sponsor_form_endpoint.sh
+│   ├── patch_starforge_templates.sh
+│   └── purge_unused_css.sh
+├── .secrets.baseline
+├── _starforge_audit
+│   ├── admin_templates.txt
+│   ├── blueprints.txt
+│   ├── cli.txt
+│   ├── env_secrets.txt
+│   ├── git_status.txt
+│   ├── models.txt
+│   ├── seeds.txt
+│   ├── static_css.txt
+│   ├── static_images.txt
+│   ├── static_js.txt
+│   ├── structure_tree.txt
+│   └── templates_partials.txt
+├── starforge_audit.py
+├── starforge_audit.sh
+├── starforge_build.sh
+├── starforge_build.sh:Zone.Identifier
+├── starforge_checkup.sh
+├── starforge_checkup.sh:Zone.Identifier
+├── starforge_config_doctor.py
+├── starforge_homepage_builder.py
+├── starforge_patch_config_file.py
+├── starforge_patch_config.py
+├── starforge_patch.sh
+├── starforge_patch_tailwind_opacity_all.sh
+├── starforge_project_audit.py
+├── starforge.py
+├── starforge-saas
+│   └── app
+│       └── config
+├── starforge_saas_offline_bootstrap.py
+├── starforge_seed_demo_data.py
+├── starforge_update.sh
+├── starforge_update.sh:Zone.Identifier
+├── structure.txt
+├── .stylelintrc.json
+├── tailwind.config.js
+├── tests
+├── .venv
+│   ├── bin
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── Activate.ps1
+│   │   ├── alembic
+│   │   ├── black
+│   │   ├── blackd
+│   │   ├── cssmin
+│   │   ├── detect-secrets
+│   │   ├── detect-secrets-hook
+│   │   ├── distro
+│   │   ├── dotenv
+│   │   ├── dotenv-linter
+│   │   ├── email_validator
+│   │   ├── faker
+│   │   ├── flask
+│   │   ├── gunicorn
+│   │   ├── httpx
+│   │   ├── ipython
+│   │   ├── ipython3
+│   │   ├── isort
+│   │   ├── isort-identify-imports
+│   │   ├── jsonschema
+│   │   ├── mako-render
+│   │   ├── markdown-it
+│   │   ├── nltk
+│   │   ├── normalizer
+│   │   ├── openai
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.12
+│   │   ├── pybabel
+│   │   ├── pygmentize
+│   │   ├── python -> python3.12
+│   │   ├── python3 -> python3.12
+│   │   ├── python3.12 -> /home/cyberboyz/.pyenv/versions/3.12.3/bin/python3.12
+│   │   ├── python3.13 -> python3
+│   │   ├── ruff
+│   │   ├── safety
+│   │   ├── tqdm
+│   │   ├── typer
+│   │   └── webassets
+│   ├── .gitignore
+│   ├── include
+│   │   ├── python3.12
+│   │   ├── python3.13
+│   │   └── site
+│   ├── lib
+│   │   ├── python3.12
+│   │   └── python3.13
+│   ├── lib64 -> lib
+│   ├── pyvenv.cfg
+│   └── share
+│       └── man
+└── venv
+    ├── include
+    │   └── python3.12
+    └── lib
+        └── python3.12
+
+56 directories, 301 files

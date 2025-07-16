@@ -1,0 +1,8 @@
+admin.dismiss_onboarding
+homepage
+main.calendar
+main.contact
+main.home
+main.player_handbook
+main.sponsor_guide
+static

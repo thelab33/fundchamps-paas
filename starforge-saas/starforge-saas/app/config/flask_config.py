@@ -21,10 +21,12 @@ class Config:
     LOG_LEVEL = "INFO"
     LOG_FILE = None
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
     LOG_LEVEL = "DEBUG"
     LOG_FILE = "development.log"
+
 
 class ProductionConfig(Config):
     DEBUG = False

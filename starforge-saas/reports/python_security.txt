@@ -1,139 +1,670 @@
-app/__init__.py:32:5: E731 Do not assign a `lambda` expression, use a `def`
-   |
-30 | except ImportError:
-31 |     Babel = None
-32 |     _trans = lambda s: s
-   |     ^^^^^^^^^^^^^^^^^^^^ E731
-33 |     USE_BABEL = False
-   |
-   = help: Rewrite `_trans` as a `def`
+auditaudit.py:1:13: SyntaxError: Expected ')', found '{'
+  |
+1 | (function() {
+  |             ^
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+  |
 
-app/__init__.py:115:9: F841 Local variable `babel` is assigned to but never used
-    |
-113 |     # Setup Babel translations
-114 |     if USE_BABEL and Babel:
-115 |         babel = Babel(app)
-    |         ^^^^^ F841
-116 |
-117 |         @app.context_processor
-    |
-    = help: Remove assignment to unused variable `babel`
+auditaudit.py:2:11: SyntaxError: Expected ',', found name
+  |
+1 | (function() {
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+  |           ^^^^^
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |
 
-app/cli.py:13:1: E402 Module level import not at top of file
+auditaudit.py:2:17: SyntaxError: Expected ',', found '='
+  |
+1 | (function() {
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+  |                 ^
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |
+
+auditaudit.py:2:76: SyntaxError: Expected ',', found ';'
+  |
+1 | (function() {
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+  |                                                                            ^
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |
+
+auditaudit.py:3:11: SyntaxError: Expected ',', found name
+  |
+1 | (function() {
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+  |           ^^^^^^^^^^^
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |
+
+auditaudit.py:3:23: SyntaxError: Expected ',', found '='
+  |
+1 | (function() {
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+  |                       ^
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |
+
+auditaudit.py:3:95: SyntaxError: Expected ',', found ';'
+  |
+1 | (function() {
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+  |                                                                                               ^
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |
+
+auditaudit.py:4:11: SyntaxError: Expected ',', found name
+  |
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |           ^^^^^^^^^^^
+5 |
+6 |     const report = {
+  |
+
+auditaudit.py:4:23: SyntaxError: Expected ',', found '='
+  |
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |                       ^
+5 |
+6 |     const report = {
+  |
+
+auditaudit.py:4:71: SyntaxError: Expected ',', found ';'
+  |
+2 |     const modal = document.getElementById("sponsor-spotlight-modal-footer");
+3 |     const closeButton = document.querySelector('button[aria-label="Close Sponsor Spotlight"]');
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+  |                                                                       ^
+5 |
+6 |     const report = {
+  |
+
+auditaudit.py:6:11: SyntaxError: Expected ',', found name
+  |
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+5 |
+6 |     const report = {
+  |           ^^^^^^
+7 |         modalState: "hidden",
+8 |         buttonState: "not-clicked",
+  |
+
+auditaudit.py:6:18: SyntaxError: Expected ',', found '='
+  |
+4 |     const sponsorName = document.getElementById("sponsor-name-footer");
+5 |
+6 |     const report = {
+  |                  ^
+7 |         modalState: "hidden",
+8 |         buttonState: "not-clicked",
+  |
+
+auditaudit.py:11:6: SyntaxError: Expected ',', found ';'
    |
-11 | """
+ 9 |         sponsorNameState: "not-set",
+10 |         styles: {},
+11 |     };
+   |      ^
 12 |
-13 | import importlib
-   | ^^^^^^^^^^^^^^^^ E402
-14 | import json
-15 | from pathlib import Path
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
    |
 
-app/cli.py:14:1: E402 Module level import not at top of file
+auditaudit.py:13:5: SyntaxError: Expected ',', found '//'
    |
-13 | import importlib
-14 | import json
-   | ^^^^^^^^^^^ E402
-15 | from pathlib import Path
-16 | from typing import Any, Type
-   |
-
-app/cli.py:15:1: E402 Module level import not at top of file
-   |
-13 | import importlib
-14 | import json
-15 | from pathlib import Path
-   | ^^^^^^^^^^^^^^^^^^^^^^^^ E402
-16 | from typing import Any, Type
+11 |     };
+12 |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+   |     ^^
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
    |
 
-app/cli.py:16:1: E402 Module level import not at top of file
+auditaudit.py:13:11: SyntaxError: Expected ',', found name
    |
-14 | import json
-15 | from pathlib import Path
-16 | from typing import Any, Type
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
-17 |
-18 | import click
-   |
-
-app/cli.py:18:1: E402 Module level import not at top of file
-   |
-16 | from typing import Any, Type
-17 |
-18 | import click
-   | ^^^^^^^^^^^^ E402
-19 | from rich import print as rprint
-20 | from rich.console import Console
+11 |     };
+12 |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+   |           ^^^^^^^^
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
    |
 
-app/cli.py:19:1: E402 Module level import not at top of file
+auditaudit.py:13:20: SyntaxError: Expected ',', found name
    |
-18 | import click
-19 | from rich import print as rprint
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
-20 | from rich.console import Console
-21 | from rich.table import Table
-   |
-
-app/cli.py:20:1: E402 Module level import not at top of file
-   |
-18 | import click
-19 | from rich import print as rprint
-20 | from rich.console import Console
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
-21 | from rich.table import Table
+11 |     };
+12 |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+   |                    ^^^^^
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
    |
 
-app/cli.py:21:1: E402 Module level import not at top of file
+auditaudit.py:13:26: SyntaxError: Expected ',', found name
    |
-19 | from rich import print as rprint
-20 | from rich.console import Console
-21 | from rich.table import Table
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+11 |     };
+12 |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+   |                          ^^^^^^^^^^
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |
+
+auditaudit.py:14:5: SyntaxError: Expected ',', found name
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+   |     ^^^^^
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |
+
+auditaudit.py:14:11: SyntaxError: Expected ',', found name
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+   |           ^^^^^^^^^^^^
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |
+
+auditaudit.py:14:24: SyntaxError: Expected ',', found '='
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+   |                        ^
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |
+
+auditaudit.py:14:64: SyntaxError: Expected ',', found ';'
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+   |                                                                ^
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |
+
+auditaudit.py:15:11: SyntaxError: Expected ',', found name
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |           ^^^^^^^^^^^^^^^^^^
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |
+
+auditaudit.py:15:30: SyntaxError: Expected ',', found '='
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |                              ^
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |
+
+auditaudit.py:15:76: SyntaxError: Expected ',', found ';'
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |                                                                            ^
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |
+
+auditaudit.py:15:77: SyntaxError: Expected '}', found NonLogicalNewline
+   |
+13 |     // 1. Checking Modal visibility (opacity and pointer-events)
+14 |     const modalOpacity = window.getComputedStyle(modal).opacity;
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+   |                                                                             ^
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+18 |         report.modalState = "visible";
+   |
+
+auditaudit.py:17:24: SyntaxError: Expected an expression
+   |
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |                        ^
+18 |         report.modalState = "visible";
+19 |     } else {
+   |
+
+auditaudit.py:17:26: SyntaxError: Invalid assignment target
+   |
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+18 |         report.modalState = "visible";
+19 |     } else {
+   |
+
+auditaudit.py:17:31: SyntaxError: Expected an expression
+   |
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |                               ^
+18 |         report.modalState = "visible";
+19 |     } else {
+   |
+
+auditaudit.py:17:54: SyntaxError: Expected an expression
+   |
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |                                                      ^
+18 |         report.modalState = "visible";
+19 |     } else {
+   |
+
+auditaudit.py:17:62: SyntaxError: Expected a statement
+   |
+15 |     const modalPointerEvents = window.getComputedStyle(modal).pointerEvents;
+16 |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+   |                                                              ^
+18 |         report.modalState = "visible";
+19 |     } else {
+   |
+
+auditaudit.py:18:27: SyntaxError: Expected an expression or a '}'
+   |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+18 |         report.modalState = "visible";
+   |                           ^
+19 |     } else {
+20 |         report.modalState = "hidden";
+   |
+
+auditaudit.py:18:38: SyntaxError: Expected ',', found ';'
+   |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+18 |         report.modalState = "visible";
+   |                                      ^
+19 |     } else {
+20 |         report.modalState = "hidden";
+   |
+
+auditaudit.py:19:7: SyntaxError: Expected a statement
+   |
+17 |     if (modalOpacity === "1" && modalPointerEvents === "auto") {
+18 |         report.modalState = "visible";
+19 |     } else {
+   |       ^^^^
+20 |         report.modalState = "hidden";
+21 |     }
+   |
+
+auditaudit.py:20:27: SyntaxError: Expected an expression or a '}'
+   |
+18 |         report.modalState = "visible";
+19 |     } else {
+20 |         report.modalState = "hidden";
+   |                           ^
+21 |     }
+   |
+
+auditaudit.py:20:37: SyntaxError: Expected ',', found ';'
+   |
+18 |         report.modalState = "visible";
+19 |     } else {
+20 |         report.modalState = "hidden";
+   |                                     ^
+21 |     }
+   |
+
+auditaudit.py:23:11: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+21 |     }
 22 |
-23 | from app import create_app, db
+23 |     // 2. Checking if Sponsor name is being updated correctly
+   |           ^^^^^^^^
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
    |
 
-app/cli.py:23:1: E402 Module level import not at top of file
+auditaudit.py:23:31: SyntaxError: Expected 'else', found name
    |
-21 | from rich.table import Table
+21 |     }
 22 |
-23 | from app import create_app, db
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
-24 |
-25 | # ──────────────────────────────────────────────────────────────
+23 |     // 2. Checking if Sponsor name is being updated correctly
+   |                               ^^^^
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
    |
 
-app/forms/__init__.py:1:27: F401 `.sponsor_form.SponsorForm` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
-  |
-1 | from .sponsor_form import SponsorForm
-  |                           ^^^^^^^^^^^ F401
-  |
-  = help: Use an explicit re-export: `SponsorForm as SponsorForm`
+auditaudit.py:23:45: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+21 |     }
+22 |
+23 |     // 2. Checking if Sponsor name is being updated correctly
+   |                                             ^^^^^^^
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
+   |
 
-app/routes/main.py:5:5: F401 [*] `flask.request` imported but unused
-  |
-3 | from flask import (
-4 |     Blueprint, current_app, flash, redirect, render_template,
-5 |     request, url_for,
-  |     ^^^^^^^ F401
-6 | )
-7 | from sqlalchemy import func
-  |
-  = help: Remove unused import: `flask.request`
+auditaudit.py:23:53: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+21 |     }
+22 |
+23 |     // 2. Checking if Sponsor name is being updated correctly
+   |                                                     ^^^^^^^^^
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
+   |
 
-config.py:2:1: E401 [*] Multiple imports on one line
-  |
-1 | from __future__ import annotations
-2 | import os, json, logging
-  | ^^^^^^^^^^^^^^^^^^^^^^^^ E401
-3 | from datetime import timedelta
-4 | from pathlib import Path
-  |
-  = help: Split imports
+auditaudit.py:23:53: SyntaxError: Invalid assignment target
+   |
+21 |       }
+22 |
+23 |       // 2. Checking if Sponsor name is being updated correctly
+   |  _____________________________________________________^
+24 | |     if (sponsorName.textContent !== "[Sponsor Name]") {
+   | |__________________________________^
+25 |           report.sponsorNameState = "set";
+26 |       } else {
+   |
 
-Found 14 errors.
-[*] 2 fixable with the `--fix` option (2 hidden fixes can be enabled with the `--unsafe-fixes` option).
+auditaudit.py:24:35: SyntaxError: Expected an expression
+   |
+23 |     // 2. Checking if Sponsor name is being updated correctly
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+   |                                   ^
+25 |         report.sponsorNameState = "set";
+26 |     } else {
+   |
+
+auditaudit.py:24:53: SyntaxError: Expected a statement
+   |
+23 |     // 2. Checking if Sponsor name is being updated correctly
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+   |                                                     ^
+25 |         report.sponsorNameState = "set";
+26 |     } else {
+   |
+
+auditaudit.py:25:33: SyntaxError: Expected an expression or a '}'
+   |
+23 |     // 2. Checking if Sponsor name is being updated correctly
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
+   |                                 ^
+26 |     } else {
+27 |         report.sponsorNameState = "not-set";
+   |
+
+auditaudit.py:25:40: SyntaxError: Expected ',', found ';'
+   |
+23 |     // 2. Checking if Sponsor name is being updated correctly
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
+   |                                        ^
+26 |     } else {
+27 |         report.sponsorNameState = "not-set";
+   |
+
+auditaudit.py:26:7: SyntaxError: Expected a statement
+   |
+24 |     if (sponsorName.textContent !== "[Sponsor Name]") {
+25 |         report.sponsorNameState = "set";
+26 |     } else {
+   |       ^^^^
+27 |         report.sponsorNameState = "not-set";
+28 |     }
+   |
+
+auditaudit.py:27:33: SyntaxError: Expected an expression or a '}'
+   |
+25 |         report.sponsorNameState = "set";
+26 |     } else {
+27 |         report.sponsorNameState = "not-set";
+   |                                 ^
+28 |     }
+   |
+
+auditaudit.py:27:44: SyntaxError: Expected ',', found ';'
+   |
+25 |         report.sponsorNameState = "set";
+26 |     } else {
+27 |         report.sponsorNameState = "not-set";
+   |                                            ^
+28 |     }
+   |
+
+auditaudit.py:30:11: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+28 |     }
+29 |
+30 |     // 3. Verifying Button functionality (click event)
+   |           ^^^^^^^^^
+31 |     closeButton.addEventListener("click", function() {
+32 |         report.buttonState = "clicked";
+   |
+
+auditaudit.py:30:21: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+28 |     }
+29 |
+30 |     // 3. Verifying Button functionality (click event)
+   |                     ^^^^^^
+31 |     closeButton.addEventListener("click", function() {
+32 |         report.buttonState = "clicked";
+   |
+
+auditaudit.py:30:28: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+28 |     }
+29 |
+30 |     // 3. Verifying Button functionality (click event)
+   |                            ^^^^^^^^^^^^^
+31 |     closeButton.addEventListener("click", function() {
+32 |         report.buttonState = "clicked";
+   |
+
+auditaudit.py:30:49: SyntaxError: Expected ',', found name
+   |
+28 |     }
+29 |
+30 |     // 3. Verifying Button functionality (click event)
+   |                                                 ^^^^^
+31 |     closeButton.addEventListener("click", function() {
+32 |         report.buttonState = "clicked";
+   |
+
+auditaudit.py:31:5: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+30 |     // 3. Verifying Button functionality (click event)
+31 |     closeButton.addEventListener("click", function() {
+   |     ^^^^^^^^^^^
+32 |         report.buttonState = "clicked";
+33 |     });
+   |
+
+auditaudit.py:31:54: SyntaxError: Expected ',', found '{'
+   |
+30 |     // 3. Verifying Button functionality (click event)
+31 |     closeButton.addEventListener("click", function() {
+   |                                                      ^
+32 |         report.buttonState = "clicked";
+33 |     });
+   |
+
+auditaudit.py:32:28: SyntaxError: Expected an expression or a '}'
+   |
+30 |     // 3. Verifying Button functionality (click event)
+31 |     closeButton.addEventListener("click", function() {
+32 |         report.buttonState = "clicked";
+   |                            ^
+33 |     });
+   |
+
+auditaudit.py:32:39: SyntaxError: Expected ',', found ';'
+   |
+30 |     // 3. Verifying Button functionality (click event)
+31 |     closeButton.addEventListener("click", function() {
+32 |         report.buttonState = "clicked";
+   |                                       ^
+33 |     });
+   |
+
+auditaudit.py:35:5: SyntaxError: Expected a statement
+   |
+33 |     });
+34 |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+   |     ^^
+36 |     const modalStyles = {
+37 |         opacity: modalOpacity,
+   |
+
+auditaudit.py:35:11: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+33 |     });
+34 |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+   |           ^^^^^^^^
+36 |     const modalStyles = {
+37 |         opacity: modalOpacity,
+   |
+
+auditaudit.py:35:20: SyntaxError: Compound statements are not allowed on the same line as simple statements
+   |
+33 |     });
+34 |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+   |                    ^^^
+36 |     const modalStyles = {
+37 |         opacity: modalOpacity,
+   |
+
+auditaudit.py:35:28: SyntaxError: Expected 'in', found name
+   |
+33 |     });
+34 |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+   |                            ^^^^^^^^^^
+36 |     const modalStyles = {
+37 |         opacity: modalOpacity,
+   |
+
+auditaudit.py:35:39: SyntaxError: Expected ':', found name
+   |
+33 |     });
+34 |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+   |                                       ^^^^^^
+36 |     const modalStyles = {
+37 |         opacity: modalOpacity,
+   |
+
+auditaudit.py:35:71: SyntaxError: Expected ',', found 'and'
+   |
+33 |     });
+34 |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+   |                                                                       ^^^
+36 |     const modalStyles = {
+37 |         opacity: modalOpacity,
+   |
+
+auditaudit.py:36:5: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+36 |     const modalStyles = {
+   |     ^^^^^
+37 |         opacity: modalOpacity,
+38 |         pointerEvents: modalPointerEvents,
+   |
+
+auditaudit.py:36:11: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+35 |     // 4. Checking for CSS overriding issues (Visibility, Animations, and Transitions)
+36 |     const modalStyles = {
+   |           ^^^^^^^^^^^
+37 |         opacity: modalOpacity,
+38 |         pointerEvents: modalPointerEvents,
+   |
+
+auditaudit.py:46:5: SyntaxError: Expected newline, found '//'
+   |
+44 |     report.styles = modalStyles;
+45 |
+46 |     // Output audit result
+   |     ^^
+47 |     console.log("Modal Audit Report:");
+48 |     console.log("Modal Visibility: " + report.modalState);
+   |
+
+auditaudit.py:46:15: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+44 |     report.styles = modalStyles;
+45 |
+46 |     // Output audit result
+   |               ^^^^^
+47 |     console.log("Modal Audit Report:");
+48 |     console.log("Modal Visibility: " + report.modalState);
+   |
+
+auditaudit.py:46:21: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+44 |     report.styles = modalStyles;
+45 |
+46 |     // Output audit result
+   |                     ^^^^^^
+47 |     console.log("Modal Audit Report:");
+48 |     console.log("Modal Visibility: " + report.modalState);
+   |
+
+auditaudit.py:47:5: SyntaxError: Simple statements must be separated by newlines or semicolons
+   |
+46 |     // Output audit result
+47 |     console.log("Modal Audit Report:");
+   |     ^^^^^^^
+48 |     console.log("Modal Visibility: " + report.modalState);
+49 |     console.log("Sponsor Name Set: " + report.sponsorNameState);
+   |
+
+auditaudit.py:52:1: SyntaxError: Expected a statement
+   |
+50 |     console.log("Button Clicked: " + report.buttonState);
+51 |     console.log("CSS Styles: ", report.styles);
+52 | })();
+   | ^
+   |
+
+auditaudit.py:52:2: SyntaxError: Expected a statement
+   |
+50 |     console.log("Button Clicked: " + report.buttonState);
+51 |     console.log("CSS Styles: ", report.styles);
+52 | })();
+   |  ^
+   |
+
+auditaudit.py:52:5: E703 Statement ends with an unnecessary semicolon
+   |
+50 |     console.log("Button Clicked: " + report.buttonState);
+51 |     console.log("CSS Styles: ", report.styles);
+52 | })();
+   |     ^ E703
+   |
+   = help: Remove unnecessary semicolon
+
+Found 70 errors.
 # Output for Security & Lint Sweep
 

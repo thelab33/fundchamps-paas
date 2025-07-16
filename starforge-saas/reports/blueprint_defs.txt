@@ -1,5 +1,5 @@
 app/routes/api.py:api_bp = Blueprint("api", __name__)
-app/routes/stripe_routes.py:stripe_bp = Blueprint("stripe_bp", __name__)
+app/routes/stripe_routes.py:stripe_bp = Blueprint("stripe_bp", __name__, url_prefix="/stripe")
 app/routes/sms.py:sms_bp = Blueprint("sms", __name__)
 app/routes/main.py:main_bp = Blueprint("main", __name__)
 app/routes/webhooks.py:webhooks_bp = Blueprint("webhooks", __name__)

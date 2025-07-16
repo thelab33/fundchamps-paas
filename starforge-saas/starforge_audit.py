@@ -32,8 +32,10 @@ required_files = {
 
 expected_config_files = ["__init__.py", "team_config.py", "config.py"]
 
+
 def section(title):
     console.rule(f"[bold yellow]{title}")
+
 
 def check_required_files():
     section("🔍 Required File Structure")
@@ -42,6 +44,7 @@ def check_required_files():
             print(f"[red]❌ Missing:[/] {file}")
         else:
             print(f"[green]✅ Found:[/] {file}")
+
 
 def check_config_files():
     section("⚙️ Config File Inspection")
@@ -56,20 +59,21 @@ def check_config_files():
         else:
             print(f"[red]❌[/] Missing: {file}")
 
+
 def audit_routes():
     section("🧭 Route & Blueprint Check")
     try:
         spec = importlib.util.spec_from_file_location("app", INIT_FILE)
         app_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(app_module)
-        app = app_module.create_app("config.DevelopmentConfig")
+        app = app_module.create_app("app.config.DevelopmentConfig")
         routes = [str(r.rule) for r in app.url_map.iter_rules()]
-        
+
         if "/" in routes:
             print("[green]✅ '/' route detected")
         else:
             print("[red]❌ Missing '/' route (homepage)")
-        
+
         bp_list = list(app.blueprints.keys())
         if "main" in bp_list:
             print("[green]✅ Blueprint 'main' registered")
@@ -83,6 +87,7 @@ def audit_routes():
     except Exception as e:
         print(f"[red]🔥 Route audit failed:[/] {type(e).__name__}: {e}")
         traceback.print_exc()
+
 
 def validate_templates():
     section("🖼 Template Availability Check")
@@ -101,9 +106,16 @@ def validate_templates():
     for p in partials:
         print(f"  - {p.name}")
 
+
 def check_env_vars():
     section("🌐 Environment Variable Check")
-    needed = ["FLASK_ENV", "FLASK_CONFIG", "FLASK_DEBUG", "DATABASE_URL", "STRIPE_API_KEY"]
+    needed = [
+        "FLASK_ENV",
+        "FLASK_CONFIG",
+        "FLASK_DEBUG",
+        "DATABASE_URL",
+        "STRIPE_API_KEY",
+    ]
     for var in needed:
         val = os.getenv(var)
         if val:
@@ -111,13 +123,17 @@ def check_env_vars():
         else:
             print(f"[red]⚠️ {var} is unset")
 
+
 def main():
-    print(Panel.fit("[bold cyan]🧪 Starforge SaaS App Auditor[/]", style="bold magenta"))
+    print(
+        Panel.fit("[bold cyan]🧪 Starforge SaaS App Auditor[/]", style="bold magenta")
+    )
     check_required_files()
     check_config_files()
     audit_routes()
     validate_templates()
     check_env_vars()
+
 
 if __name__ == "__main__":
     main()

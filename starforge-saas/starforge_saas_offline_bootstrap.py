@@ -2,9 +2,17 @@ from pathlib import Path
 
 # ---- Folder structure ----
 folders = [
-    "app/admin", "app/forms", "app/models", "app/routes",
-    "app/static/css", "app/static/js", "app/static/images",
-    "app/templates/partials", "app/templates/macros", "logs", "migrations/versions"
+    "app/admin",
+    "app/forms",
+    "app/models",
+    "app/routes",
+    "app/static/css",
+    "app/static/js",
+    "app/static/images",
+    "app/templates/partials",
+    "app/templates/macros",
+    "logs",
+    "migrations/versions",
 ]
 for d in folders:
     Path(d).mkdir(parents=True, exist_ok=True)
@@ -46,7 +54,7 @@ black==24.4.2
 ipython==8.25.0
 python-dotenv==1.0.1
 """,
-    "run.py": '''import os
+    "run.py": """import os
 import sys
 from app import create_app, socketio
 
@@ -77,8 +85,8 @@ def main():
 
 if __name__ == "__main__":
     main()
-''',
-    "config.py": '''import os
+""",
+    "config.py": """import os
 from pathlib import Path
 from typing import Type
 
@@ -139,8 +147,8 @@ def get_config() -> Type[_BaseConfig]:
             "Use 'development', 'production', or 'testing'."
         )
     return globals()[env]  # type: ignore[index]
-''',
-    ".env": '''
+""",
+    ".env": """
 FLASK_ENV=development
 SECRET_KEY=super-secret-starforge-key
 SQLALCHEMY_DATABASE_URI=sqlite:///instance/app.db
@@ -153,8 +161,8 @@ MAIL_USE_TLS=1
 MAIL_USERNAME=youruser
 MAIL_PASSWORD=yourpass
 MAIL_DEFAULT_SENDER="Starforge <noreply@starforge.com>"
-''',
-    "app/extensions.py": '''from flask_sqlalchemy import SQLAlchemy
+""",
+    "app/extensions.py": """from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_socketio import SocketIO
 from flask_mail import Mail
@@ -163,8 +171,8 @@ db = SQLAlchemy()
 migrate = Migrate()
 socketio = SocketIO(cors_allowed_origins="*")
 mail = Mail()
-''',
-    "app/__init__.py": '''from flask import Flask
+""",
+    "app/__init__.py": """from flask import Flask
 from flask_cors import CORS
 from .extensions import db, migrate, socketio, mail
 
@@ -180,8 +188,8 @@ def create_app(config_class="config.DevelopmentConfig"):
     def index():
         return "Starforge SaaS is live! Replace this with Jinja templates."
     return app
-''',
-    "app/templates/base.html": '''<!DOCTYPE html>
+""",
+    "app/templates/base.html": """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -201,8 +209,8 @@ def create_app(config_class="config.DevelopmentConfig"):
   </footer>
 </body>
 </html>
-''',
-    "Dockerfile": '''# --- Build Stage ---
+""",
+    "Dockerfile": """# --- Build Stage ---
 FROM node:20-alpine AS build-assets
 
 WORKDIR /app
@@ -242,8 +250,8 @@ ENV FLASK_APP=run.py
 ENV FLASK_ENV=production
 
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
-''',
-    "package.json": '''{
+""",
+    "package.json": """{
   "name": "starforge-elite-saas",
   "version": "1.0.0",
   "scripts": {
@@ -258,8 +266,8 @@ CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
     "tailwindcss": "^4.1.0"
   }
 }
-''',
-    "postcss.config.js": '''module.exports = {
+""",
+    "postcss.config.js": """module.exports = {
   plugins: [
     require('postcss-import'),
     require('tailwindcss'),
@@ -267,8 +275,8 @@ CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
     require('postcss-nested'),
   ],
 };
-''',
-    "tailwind.config.js": '''module.exports = {
+""",
+    "tailwind.config.js": """module.exports = {
   darkMode: "class",
   content: [
     "./app/templates/**/*.html",
@@ -294,8 +302,8 @@ CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
     require("@tailwindcss/line-clamp")
   ]
 };
-''',
-    "app/static/css/globals.css": '''@tailwind base;
+""",
+    "app/static/css/globals.css": """@tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
@@ -308,7 +316,7 @@ body {
   background: #18181b;
   color: #facc15;
 }
-'''
+""",
 }
 
 # --- Write files ---

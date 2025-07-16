@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0">
-</head>
-<body>
-  <-- open the MariaDB shell as root / sudo DROP USER IF EXISTS 'starforge_user'@'localhost'; DROP USER IF EXISTS
-  'starforge_user'@'127.0.0.1'; admin_onboarding_popover stub -->
-</body>
-</html>
+<div @keydown.escape.window="open = false; dismissOnboarding()" aria-labelledby="onboard-title" aria-modal="true" class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black opacity-80 p-6 text-white shadow-lg animate-fade-in" id="admin-onboarding-popover" role="dialog" tabindex="-1" x-data="{ open: true }" x-show="open" x-transition.opacity.duration.500ms="">
+ <h3 class="mb-3 text-xl font-semibold text-yellow-400" id="onboard-title">
+  Welcome, Admin!
+ </h3>
+ <p class="mb-5 text-sm leading-relaxed">
+  Use your new dashboard to track sponsors, export CSVs, and monitor campaign
+    progress in real time.
+ </p>
+ <button @click="open = false; dismissOnboarding()" aria-label="Dismiss onboarding popover" class="inline-block rounded bg-yellow-400 px-4 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-400" type="button">
+  Got it!
+ </button>
+</div>
+<script>
+ function dismissOnboarding() {
+    fetch('{{ url_for("admin.dismiss_onboarding") }}', {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token() }}",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dismissed: true }),
+    }).catch((err) => console.error("Failed to dismiss onboarding:", err));
+  }
+</script>
+<style>
+ @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.35s ease forwards;
+  }
+</style>

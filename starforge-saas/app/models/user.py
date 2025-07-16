@@ -1,52 +1,75 @@
-# starforge-saas/app/models/user.py
+# app/models/user.py
 
-from datetime import datetime
-
+from __future__ import annotations
+import uuid
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app import db
+from app.extensions import db
+from app.models.mixins import TimestampMixin
 
 
-class User(db.Model, UserMixin):
+class User(db.Model, UserMixin, TimestampMixin):
     """
     User model for authentication, admin panel, and sponsor login.
-    Ready for SaaS multi-role and robust Flask-Login support.
+    Supports Flask-Login and timestamp auditing.
     """
+
     __tablename__ = "users"
 
-    id             = db.Column(db.Integer, primary_key=True)
-    email          = db.Column(db.String(255), unique=True, nullable=False, index=True)
-    password_hash  = db.Column(db.String(255), nullable=False)
-    is_admin       = db.Column(db.Boolean, default=False)
-    is_active      = db.Column(db.Boolean, default=True)
-    created_at     = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at     = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(
+        db.String(36),
+        unique=True,
+        nullable=False,
+        default=lambda: str(uuid.uuid4()),
+        index=True,
+        doc="Publicly safe unique identifier",
+    )
+    email = db.Column(
+        db.String(255),
+        unique=True,
+        nullable=False,
+        index=True,
+        doc="User's email address",
+    )
+    password_hash = db.Column(
+        db.String(255),
+        nullable=False,
+        doc="Hashed password",
+    )
+    is_admin = db.Column(
+        db.Boolean,
+        default=False,
+        nullable=False,
+        doc="Admin flag",
+    )
+    is_active = db.Column(
+        db.Boolean,
+        default=True,
+        nullable=False,
+        doc="Account enabled flag",
+    )
 
-    # --- Password Security ---
-    def set_password(self, password: str):
-        """Hashes and sets password for the user."""
+    def __repr__(self) -> str:
+        role = "Admin" if self.is_admin else "User"
+        return f"<User {self.email} ({role})>"
+
+    # ─── Password helpers ─────────────────────────────────────────────────────
+    def set_password(self, password: str) -> None:
+        """Hash & store the given plaintext password."""
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password: str) -> bool:
-        """Checks provided password against stored hash."""
+        """Verify the given plaintext password against stored hash."""
         return check_password_hash(self.password_hash, password)
 
-    # --- Flask-Login Required ---
-    def get_id(self):
-        """Returns string id for Flask-Login session management."""
+    # ─── Flask-Login ──────────────────────────────────────────────────────────
+    def get_id(self) -> str:
+        """Return the canonical ID for Flask-Login."""
         return str(self.id)
 
     @property
-    def is_authenticated(self):
-        # Let Flask-Login handle this unless you want custom logic
-        return True
-
-    @property
-    def display_role(self):
+    def display_role(self) -> str:
+        """A human-friendly name for this user's role."""
         return "Admin" if self.is_admin else "Sponsor"
-
-    def __repr__(self):
-        badge = " [ADMIN]" if self.is_admin else ""
-        return f"<User {self.email}{badge}>"
-

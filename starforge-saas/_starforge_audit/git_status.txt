@@ -1,0 +1,887 @@
+M  ../.env
+DU ../__pycache__/config.cpython-312.pyc
+DU ../__pycache__/run.cpython-312.pyc
+M  ../app/__init__.py
+DU ../app/__pycache__/__init__.cpython-312.pyc
+M  ../app/models.py
+DU ../app/routes/__pycache__/__init__.cpython-312.pyc
+DU ../app/routes/__pycache__/api.cpython-312.pyc
+DU ../app/routes/__pycache__/main.cpython-312.pyc
+DU ../app/routes/__pycache__/sms.cpython-312.pyc
+M  ../app/routes/main.py
+M  ../app/templates/base.html
+M  ../app/templates/index.html
+D  ../app/templates/partials/about_and_mission.html
+D  ../app/templates/partials/footer.html
+D  ../app/templates/partials/fundraiser_meter.html
+D  ../app/templates/partials/header.html
+D  ../app/templates/partials/hero_and_fundraiser.html
+D  ../app/templates/partials/hero_overlay_quote.html
+D  ../app/templates/partials/newsletter.html
+D  ../app/templates/partials/sponsor_block.html
+D  ../app/templates/partials/sponsor_leaderboard.html
+D  ../app/templates/partials/sponsor_wall.html
+D  ../app/templates/partials/testimonials.html
+D  ../config.py
+D  .backup/sponsor_block.html_20250713_021019.html
+D  .backup/sponsor_block.html_20250713_021150.html
+D  .backup/sponsor_block_20250713_020833.html
+D  .backup/templates_20250713_015124/templates/base.html
+D  .backup/templates_20250713_015124/templates/become_sponsor.html
+D  .backup/templates_20250713_015124/templates/index.html
+D  .backup/templates_20250713_015124/templates/partials/about_and_mission.html
+D  .backup/templates_20250713_015124/templates/partials/admin_onboarding_popover.html
+D  .backup/templates_20250713_015124/templates/partials/dashboard_widgets.html
+D  .backup/templates_20250713_015124/templates/partials/digital_hub.html
+D  .backup/templates_20250713_015124/templates/partials/flash_and_onboarding.html
+D  .backup/templates_20250713_015124/templates/partials/footer.html
+D  .backup/templates_20250713_015124/templates/partials/fundraiser_meter.html
+D  .backup/templates_20250713_015124/templates/partials/header.html
+D  .backup/templates_20250713_015124/templates/partials/hero_and_fundraiser.html
+D  .backup/templates_20250713_015124/templates/partials/hero_overlay_quote.html
+D  .backup/templates_20250713_015124/templates/partials/newsletter.html
+D  .backup/templates_20250713_015124/templates/partials/program_stats_and_calendar.html
+D  .backup/templates_20250713_015124/templates/partials/sponsor_block.html
+D  .backup/templates_20250713_015124/templates/partials/sponsor_leaderboard.html
+D  .backup/templates_20250713_015124/templates/partials/sponsor_wall.html
+D  .backup/templates_20250713_015124/templates/partials/testimonials.html
+D  .backup/templates_20250713_015124/templates/sponsor_thank_you.html
+D  .backup/templates_20250713_020701/templates/base.html
+D  .backup/templates_20250713_020701/templates/become_sponsor.html
+D  .backup/templates_20250713_020701/templates/index.html
+D  .backup/templates_20250713_020701/templates/partials/about_and_mission.html
+D  .backup/templates_20250713_020701/templates/partials/admin_onboarding_popover.html
+D  .backup/templates_20250713_020701/templates/partials/dashboard_widgets.html
+D  .backup/templates_20250713_020701/templates/partials/digital_hub.html
+D  .backup/templates_20250713_020701/templates/partials/flash_and_onboarding.html
+D  .backup/templates_20250713_020701/templates/partials/footer.html
+D  .backup/templates_20250713_020701/templates/partials/fundraiser_meter.html
+D  .backup/templates_20250713_020701/templates/partials/header.html
+D  .backup/templates_20250713_020701/templates/partials/hero_and_fundraiser.html
+D  .backup/templates_20250713_020701/templates/partials/hero_overlay_quote.html
+D  .backup/templates_20250713_020701/templates/partials/newsletter.html
+D  .backup/templates_20250713_020701/templates/partials/program_stats_and_calendar.html
+D  .backup/templates_20250713_020701/templates/partials/sponsor_block.html
+D  .backup/templates_20250713_020701/templates/partials/sponsor_leaderboard.html
+D  .backup/templates_20250713_020701/templates/partials/sponsor_wall.html
+D  .backup/templates_20250713_020701/templates/partials/testimonials.html
+D  .backup/templates_20250713_020701/templates/sponsor_thank_you.html
+A  .eslintignore
+AM .eslintrc.json
+MM .gitignore
+A  .prettierrc
+A  .secrets.baseline
+AM .stylelintrc.json
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/LICENSE
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/Flask_Cors-4.0.1.dist-info/top_level.txt
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/LICENSE
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/top_level.txt
+ D .venv/lib/python3.12/site-packages/click-8.2.1.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/click-8.2.1.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/click-8.2.1.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/click-8.2.1.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/click-8.2.1.dist-info/licenses/LICENSE.txt
+ M .venv/lib/python3.12/site-packages/click/__init__.py
+ M .venv/lib/python3.12/site-packages/click/_compat.py
+ M .venv/lib/python3.12/site-packages/click/_termui_impl.py
+ M .venv/lib/python3.12/site-packages/click/_textwrap.py
+ M .venv/lib/python3.12/site-packages/click/_winconsole.py
+ M .venv/lib/python3.12/site-packages/click/core.py
+ M .venv/lib/python3.12/site-packages/click/decorators.py
+ M .venv/lib/python3.12/site-packages/click/exceptions.py
+ M .venv/lib/python3.12/site-packages/click/formatting.py
+ M .venv/lib/python3.12/site-packages/click/globals.py
+ M .venv/lib/python3.12/site-packages/click/parser.py
+ M .venv/lib/python3.12/site-packages/click/shell_completion.py
+ M .venv/lib/python3.12/site-packages/click/termui.py
+ M .venv/lib/python3.12/site-packages/click/testing.py
+ M .venv/lib/python3.12/site-packages/click/types.py
+ M .venv/lib/python3.12/site-packages/click/utils.py
+M  .venv/lib/python3.12/site-packages/decorator-5.2.1.dist-info/pbr.json
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/licenses/AUTHORS
+ D .venv/lib/python3.12/site-packages/eventlet-0.35.2.dist-info/licenses/LICENSE
+ M .venv/lib/python3.12/site-packages/eventlet/_version.py
+ M .venv/lib/python3.12/site-packages/eventlet/debug.py
+ M .venv/lib/python3.12/site-packages/eventlet/green/os.py
+ M .venv/lib/python3.12/site-packages/eventlet/green/select.py
+ M .venv/lib/python3.12/site-packages/eventlet/greenthread.py
+ M .venv/lib/python3.12/site-packages/eventlet/hubs/__init__.py
+ M .venv/lib/python3.12/site-packages/eventlet/hubs/asyncio.py
+ M .venv/lib/python3.12/site-packages/eventlet/patcher.py
+ M .venv/lib/python3.12/site-packages/eventlet/websocket.py
+ M .venv/lib/python3.12/site-packages/eventlet/wsgi.py
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/LICENSE.txt
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/flask-3.0.3.dist-info/entry_points.txt
+ M .venv/lib/python3.12/site-packages/flask/__init__.py
+ M .venv/lib/python3.12/site-packages/flask/app.py
+ M .venv/lib/python3.12/site-packages/flask/blueprints.py
+ M .venv/lib/python3.12/site-packages/flask/cli.py
+ M .venv/lib/python3.12/site-packages/flask/config.py
+ M .venv/lib/python3.12/site-packages/flask/helpers.py
+ M .venv/lib/python3.12/site-packages/flask/json/provider.py
+ M .venv/lib/python3.12/site-packages/flask/sansio/app.py
+ M .venv/lib/python3.12/site-packages/flask/sansio/scaffold.py
+ M .venv/lib/python3.12/site-packages/flask/sessions.py
+ M .venv/lib/python3.12/site-packages/flask/testing.py
+ M .venv/lib/python3.12/site-packages/flask/typing.py
+ M .venv/lib/python3.12/site-packages/flask/views.py
+ M .venv/lib/python3.12/site-packages/flask/wrappers.py
+ M .venv/lib/python3.12/site-packages/flask_cors/core.py
+ M .venv/lib/python3.12/site-packages/flask_cors/extension.py
+ M .venv/lib/python3.12/site-packages/flask_cors/version.py
+ M .venv/lib/python3.12/site-packages/flask_migrate/__init__.py
+ M .venv/lib/python3.12/site-packages/flask_migrate/cli.py
+ D .venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/licenses/LICENSE.rst
+ M .venv/lib/python3.12/site-packages/flask_wtf/__init__.py
+ M .venv/lib/python3.12/site-packages/flask_wtf/file.py
+ M .venv/lib/python3.12/site-packages/flask_wtf/recaptcha/__init__.py
+M  .venv/lib/python3.12/site-packages/gevent_websocket-0.10.1.dist-info/metadata.json
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/LICENSE
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/entry_points.txt
+ D .venv/lib/python3.12/site-packages/gunicorn-22.0.0.dist-info/top_level.txt
+ M .venv/lib/python3.12/site-packages/gunicorn/__init__.py
+ M .venv/lib/python3.12/site-packages/gunicorn/__main__.py
+ M .venv/lib/python3.12/site-packages/gunicorn/app/__init__.py
+ M .venv/lib/python3.12/site-packages/gunicorn/app/base.py
+ M .venv/lib/python3.12/site-packages/gunicorn/app/pasterapp.py
+ M .venv/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py
+ M .venv/lib/python3.12/site-packages/gunicorn/arbiter.py
+ M .venv/lib/python3.12/site-packages/gunicorn/config.py
+ M .venv/lib/python3.12/site-packages/gunicorn/debug.py
+ M .venv/lib/python3.12/site-packages/gunicorn/errors.py
+ M .venv/lib/python3.12/site-packages/gunicorn/glogging.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/__init__.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/body.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/errors.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/message.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/parser.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/unreader.py
+ M .venv/lib/python3.12/site-packages/gunicorn/http/wsgi.py
+ M .venv/lib/python3.12/site-packages/gunicorn/instrument/statsd.py
+ M .venv/lib/python3.12/site-packages/gunicorn/pidfile.py
+ M .venv/lib/python3.12/site-packages/gunicorn/reloader.py
+ M .venv/lib/python3.12/site-packages/gunicorn/sock.py
+ M .venv/lib/python3.12/site-packages/gunicorn/systemd.py
+ M .venv/lib/python3.12/site-packages/gunicorn/util.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/__init__.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/base.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/base_async.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/geventlet.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/ggevent.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/gthread.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/gtornado.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/sync.py
+ M .venv/lib/python3.12/site-packages/gunicorn/workers/workertmp.py
+D  .venv/lib/python3.12/site-packages/pydantic-2.11.7.dist-info/INSTALLER
+D  .venv/lib/python3.12/site-packages/pydantic-2.11.7.dist-info/METADATA
+D  .venv/lib/python3.12/site-packages/pydantic-2.11.7.dist-info/RECORD
+D  .venv/lib/python3.12/site-packages/pydantic-2.11.7.dist-info/WHEEL
+D  .venv/lib/python3.12/site-packages/pydantic-2.11.7.dist-info/licenses/LICENSE
+M  .venv/lib/python3.12/site-packages/pydantic/__init__.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_config.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_core_metadata.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_core_utils.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_dataclasses.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_decorators.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_decorators_v1.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_discriminated_union.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_docs_extraction.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_fields.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_generics.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_git.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_import_utils.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_known_annotated_metadata.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_mock_val_ser.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_model_construction.py
+D  .venv/lib/python3.12/site-packages/pydantic/_internal/_namespace_utils.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_repr.py
+D  .venv/lib/python3.12/site-packages/pydantic/_internal/_schema_gather.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_schema_generation_shared.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_serializers.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_signature.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_typing_extra.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_utils.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_validate_call.py
+M  .venv/lib/python3.12/site-packages/pydantic/_internal/_validators.py
+M  .venv/lib/python3.12/site-packages/pydantic/_migration.py
+M  .venv/lib/python3.12/site-packages/pydantic/aliases.py
+M  .venv/lib/python3.12/site-packages/pydantic/annotated_handlers.py
+M  .venv/lib/python3.12/site-packages/pydantic/color.py
+M  .venv/lib/python3.12/site-packages/pydantic/config.py
+M  .venv/lib/python3.12/site-packages/pydantic/dataclasses.py
+M  .venv/lib/python3.12/site-packages/pydantic/deprecated/class_validators.py
+M  .venv/lib/python3.12/site-packages/pydantic/deprecated/config.py
+M  .venv/lib/python3.12/site-packages/pydantic/deprecated/copy_internals.py
+M  .venv/lib/python3.12/site-packages/pydantic/deprecated/decorator.py
+M  .venv/lib/python3.12/site-packages/pydantic/deprecated/json.py
+M  .venv/lib/python3.12/site-packages/pydantic/deprecated/tools.py
+M  .venv/lib/python3.12/site-packages/pydantic/errors.py
+D  .venv/lib/python3.12/site-packages/pydantic/experimental/arguments_schema.py
+M  .venv/lib/python3.12/site-packages/pydantic/experimental/pipeline.py
+M  .venv/lib/python3.12/site-packages/pydantic/fields.py
+M  .venv/lib/python3.12/site-packages/pydantic/functional_serializers.py
+M  .venv/lib/python3.12/site-packages/pydantic/functional_validators.py
+M  .venv/lib/python3.12/site-packages/pydantic/json_schema.py
+M  .venv/lib/python3.12/site-packages/pydantic/main.py
+M  .venv/lib/python3.12/site-packages/pydantic/mypy.py
+M  .venv/lib/python3.12/site-packages/pydantic/networks.py
+M  .venv/lib/python3.12/site-packages/pydantic/plugin/__init__.py
+M  .venv/lib/python3.12/site-packages/pydantic/plugin/_loader.py
+M  .venv/lib/python3.12/site-packages/pydantic/plugin/_schema_validator.py
+M  .venv/lib/python3.12/site-packages/pydantic/root_model.py
+M  .venv/lib/python3.12/site-packages/pydantic/type_adapter.py
+M  .venv/lib/python3.12/site-packages/pydantic/types.py
+M  .venv/lib/python3.12/site-packages/pydantic/v1/main.py
+M  .venv/lib/python3.12/site-packages/pydantic/v1/typing.py
+M  .venv/lib/python3.12/site-packages/pydantic/v1/utils.py
+M  .venv/lib/python3.12/site-packages/pydantic/v1/validators.py
+M  .venv/lib/python3.12/site-packages/pydantic/v1/version.py
+M  .venv/lib/python3.12/site-packages/pydantic/validate_call_decorator.py
+M  .venv/lib/python3.12/site-packages/pydantic/version.py
+M  .venv/lib/python3.12/site-packages/pydantic/warnings.py
+D  .venv/lib/python3.12/site-packages/pydantic_core-2.33.2.dist-info/INSTALLER
+D  .venv/lib/python3.12/site-packages/pydantic_core-2.33.2.dist-info/METADATA
+D  .venv/lib/python3.12/site-packages/pydantic_core-2.33.2.dist-info/RECORD
+D  .venv/lib/python3.12/site-packages/pydantic_core-2.33.2.dist-info/WHEEL
+D  .venv/lib/python3.12/site-packages/pydantic_core-2.33.2.dist-info/licenses/LICENSE
+M  .venv/lib/python3.12/site-packages/pydantic_core/__init__.py
+M  .venv/lib/python3.12/site-packages/pydantic_core/_pydantic_core.cpython-312-x86_64-linux-gnu.so
+M  .venv/lib/python3.12/site-packages/pydantic_core/_pydantic_core.pyi
+M  .venv/lib/python3.12/site-packages/pydantic_core/core_schema.py
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/INSTALLER
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/LICENSE
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/METADATA
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/RECORD
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/REQUESTED
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/WHEEL
+ D .venv/lib/python3.12/site-packages/sentry_sdk-2.3.0.dist-info/top_level.txt
+ M .venv/lib/python3.12/site-packages/sentry_sdk/_types.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/api.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/client.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/consts.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/crons/__init__.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/envelope.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/_asgi_common.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/_wsgi_common.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/aiohttp.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/anthropic.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/arq.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/asgi.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/asyncio.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/asyncpg.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/aws_lambda.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/boto3.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/bottle.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/celery/__init__.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/celery/beat.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/clickhouse_driver.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/cohere.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/__init__.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/asgi.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/caching.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/middleware.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/signals_handlers.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/templates.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/transactions.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/django/views.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/excepthook.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/falcon.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/flask.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/gcp.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/gnu_backtrace.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/grpc/aio/client.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/grpc/aio/server.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/grpc/client.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/grpc/server.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/httpx.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/huey.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/huggingface_hub.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/langchain.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/openai.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/opentelemetry/consts.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/opentelemetry/integration.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/opentelemetry/propagator.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/opentelemetry/span_processor.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/pymongo.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/pyramid.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/quart.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/redis/_async_common.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/redis/_sync_common.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/redis/consts.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/redis/modules/caches.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/redis/utils.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/rq.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/sanic.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/socket.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/spark/spark_driver.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/sqlalchemy.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/starlette.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/starlite.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/stdlib.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/strawberry.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/tornado.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/trytond.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/integrations/wsgi.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/metrics.py
+ D .venv/lib/python3.12/site-packages/sentry_sdk/profiler.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/scope.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/tracing.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/tracing_utils.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/transport.py
+ M .venv/lib/python3.12/site-packages/sentry_sdk/utils.py
+M  .venv/lib/python3.12/site-packages/setuptools/config/distutils.schema.json
+M  .venv/lib/python3.12/site-packages/setuptools/config/setuptools.schema.json
+M  .venv/lib/python3.12/site-packages/setuptools/tests/indexes/test_links_priority/external.html
+M  .venv/lib/python3.12/site-packages/setuptools/tests/indexes/test_links_priority/simple/foobar/index.html
+M  .venv/lib/python3.12/site-packages/werkzeug/debug/shared/debugger.js
+M  .venv/lib/python3.12/site-packages/werkzeug/debug/shared/style.css
+M  .venv/pyvenv.cfg
+A  CheckHTMLIDsagainstCSSSelectors.py
+MM app/__init__.py
+M  app/admin/dashboard.html
+M  app/admin/routes.py
+M  app/cli.py
+M  app/config.py
+M  app/config/__init__.py
+M  app/config/config.py
+A  app/config/flask_config.py
+M  app/config/team_config.py
+M  app/data/app.db
+MM app/extensions.py
+M  app/forms/__init__.py
+M  app/forms/sponsor_form.py
+D  app/models.py
+M  app/models/__init__.py
+M  app/models/campaign_goal.py
+M  app/models/example.py
+A  app/models/mixins.py
+A  app/models/models.py
+M  app/models/player.py
+M  app/models/sms_log.py
+M  app/models/sponsor.py
+M  app/models/team.py
+M  app/models/transaction.py
+M  app/models/user.py
+D  app/routes.py
+M  app/routes/__init__.py
+MM app/routes/api.py
+AM app/routes/api/__init__.py
+AM app/routes/api/spotlight.py
+MM app/routes/main.py
+M  app/routes/sms.py
+M  app/routes/stripe_routes.py
+MM app/routes/webhooks.py
+M  app/seeds.py
+ M app/static/connect-atx-story.mp4
+AM app/static/css/components.css
+MM app/static/css/globals.css
+D  app/static/css/globals.purged.css
+MM app/static/css/input.css
+AM app/static/css/tailwind.min.css
+ M app/static/images/TeamRings.webp
+RM app/static/js/app/static/images/basketball-accent.svg -> app/static/images/basketball-accent.svg
+ M app/static/images/board/chris.jpg
+ M app/static/images/board/coach-angel.jpg
+ M app/static/images/board/coach-bj.jpg
+ M app/static/images/board/mimi.jpg
+RM app/static/js/app/static/images/connect-atx-team.jpg -> app/static/images/connect-atx-team.jpg
+AD app/static/images/connect-atx-team.jpg.webp
+ M app/static/images/hero-default.webp
+ D app/static/images/logo.webp
+ M app/static/images/pay/applepay.svg
+ M app/static/images/pay/paypal.svg
+ M app/static/images/pay/venmo.svg
+D  app/static/js/alpine.min.js
+D  app/static/js/aos.js
+ D app/static/js/app/static/site.webmanifest
+D  app/static/js/htmx.min.js
+RM app/static/js/app/static/pay/applepay.svg -> app/static/pay/applepay.svg
+RM app/static/js/app/static/pay/paypal.svg -> app/static/pay/paypal.svg
+RM app/static/js/app/static/pay/venmo.svg -> app/static/pay/venmo.svg
+ M app/static/site.webmanifest
+RM app/static/js/app/static/connect-atx-story.mp4 -> app/static/videos/connect-atx-story.mp4
+MM app/templates/base.html
+D  app/templates/base.html.bak
+D  app/templates/become_sponsor.html
+D  app/templates/become_sponsor.html.bak
+MM app/templates/index.html
+D  app/templates/index.html.bak
+M  app/templates/partials/about_and_mission.html
+D  app/templates/partials/about_and_mission.html.bak
+M  app/templates/partials/admin_onboarding_popover.html
+D  app/templates/partials/admin_onboarding_popover.html.bak
+M  app/templates/partials/dashboard_widgets.html
+D  app/templates/partials/dashboard_widgets.html.bak
+M  app/templates/partials/digital_hub.html
+D  app/templates/partials/digital_hub.html.bak
+M  app/templates/partials/flash_and_onboarding.html
+D  app/templates/partials/flash_and_onboarding.html.bak
+M  app/templates/partials/footer.html
+D  app/templates/partials/footer.html.bak
+M  app/templates/partials/fundraiser_meter.html
+D  app/templates/partials/fundraiser_meter.html.bak
+MM app/templates/partials/header.html
+D  app/templates/partials/header.html.bak
+M  app/templates/partials/hero_and_fundraiser.html
+D  app/templates/partials/hero_and_fundraiser.html.bak
+MM app/templates/partials/hero_overlay_quote.html
+D  app/templates/partials/hero_overlay_quote.html.bak
+M  app/templates/partials/newsletter.html
+D  app/templates/partials/newsletter.html.bak
+M  app/templates/partials/program_stats_and_calendar.html
+D  app/templates/partials/program_stats_and_calendar.html.bak
+MM app/templates/partials/sponsor_block.html
+D  app/templates/partials/sponsor_block.html.bak
+M  app/templates/partials/sponsor_leaderboard.html
+D  app/templates/partials/sponsor_leaderboard.html.bak
+M  app/templates/partials/sponsor_wall.html
+D  app/templates/partials/sponsor_wall.html.bak
+A  app/templates/partials/spotlight_snippet.html
+M  app/templates/partials/testimonials.html
+D  app/templates/partials/testimonials.html.bak
+M  app/templates/sponsor_thank_you.html
+D  app/templates/sponsor_thank_you.html.bak
+A  auditaudit.py
+A  auto_patch_jinja_control.sh
+D  backups/20250713_013841/app/templates/base.html
+D  backups/20250713_013841/app/templates/become_sponsor.html
+D  backups/20250713_013841/app/templates/index.html
+D  backups/20250713_013841/app/templates/partials/about_and_mission.html
+D  backups/20250713_013841/app/templates/partials/admin_onboarding_popover.html
+D  backups/20250713_013841/app/templates/partials/dashboard_widgets.html
+D  backups/20250713_013841/app/templates/partials/digital_hub.html
+D  backups/20250713_013841/app/templates/partials/flash_and_onboarding.html
+D  backups/20250713_013841/app/templates/partials/footer.html
+D  backups/20250713_013841/app/templates/partials/fundraiser_meter.html
+D  backups/20250713_013841/app/templates/partials/header.html
+D  backups/20250713_013841/app/templates/partials/hero_and_fundraiser.html
+D  backups/20250713_013841/app/templates/partials/hero_overlay_quote.html
+D  backups/20250713_013841/app/templates/partials/newsletter.html
+D  backups/20250713_013841/app/templates/partials/program_stats_and_calendar.html
+D  backups/20250713_013841/app/templates/partials/sponsor_block.html
+D  backups/20250713_013841/app/templates/partials/sponsor_leaderboard.html
+D  backups/20250713_013841/app/templates/partials/sponsor_wall.html
+D  backups/20250713_013841/app/templates/partials/testimonials.html
+D  backups/20250713_013841/app/templates/sponsor_thank_you.html
+D  backups/globals_20250713_162231.css
+D  backups/starforge_20250713_161412/become_sponsor.html
+D  backups/starforge_20250713_161412/header.html
+D  backups/starforge_20250713_161412/hero_and_fundraiser.html
+D  backups/starforge_20250713_161412/newsletter.html
+D  backups/starforge_20250713_161412/sponsor_block.html
+D  backups/starforge_20250713_161412/sponsor_leaderboard.html
+D  backups/starforge_20250713_161412/sponsor_wall.html
+A  build.js
+A  check_static_setup.py
+A  cleanup_static.sh
+D  config.py
+M  dotenv_loader.py
+A  fix_jinja_control_syntax.sh
+A  fix_js_imports.sh
+A  img_tag_audit.sh
+M  manage.py
+AD manage.py.bak.1752528218
+AD manage.py.bak.1752528336
+M  migrations/env.py
+A  migrations/versions/5777ef8d16d4_baseline.py
+MD package-lock.json
+MM package.json
+A  patch.sh
+A  patch_404_and_config.sh
+A  patch_and_polish.py
+A  patch_circular_imports.sh
+A  patch_config_imports.sh
+A  patch_flask_babel.py
+A  patch_flask_entry.sh
+A  patch_jinja_syntax.sh
+A  patch_script.py
+A  patch_sponsor_block_img_tags.sh
+A  patch_starforge_api.sh
+A  patch_starforge_imports.sh
+A  patch_templates.py
+M  postcss.config.js
+M  reports/blueprint_defs.txt
+M  reports/button_without_type.txt
+M  reports/class_usage.txt
+M  reports/css_classes.txt
+M  reports/css_curl.txt
+M  reports/css_ids.txt
+AM reports/db_status.txt
+A  reports/diag-20250714-160858.txt
+M  reports/dom_inline_js.txt
+M  reports/dupe_phrases.txt
+R  app/static/js/app.js -> reports/ellipsis_in_models.txt
+M  reports/heading_hierarchy.txt
+M  reports/html_classes_not_in_css.txt
+M  reports/html_selectors.txt
+M  reports/html_validation.txt
+M  reports/image_paths_raw.txt
+M  reports/img_perf_attrs.txt
+A  reports/img_tag_audit.txt
+M  reports/img_tags.txt
+A  reports/installed_packages.txt
+AM reports/js_lint.txt
+R  app/static/js/app/static/images/TeamRings.webp -> reports/missing_base_templates.txt
+AM reports/missing_flask_routes.txt
+A  reports/missing_includes.txt
+A  reports/missing_links.txt
+A  reports/missing_pip_packages.txt
+A  reports/missing_routes.txt
+A  reports/missing_static_assets.txt
+A  reports/missing_tailwind_classes.txt
+M  reports/missing_url_for_assets.txt
+M  reports/pip_vulns.txt
+A  reports/python_import_errors.txt
+M  reports/python_security.txt
+M  reports/routes_list.txt
+M  reports/static_path_usage.txt
+M  reports/static_refs.txt
+A  reports/tailwind_status.txt
+A  reports/template_syntax_issues.txt
+M  reports/unused_css_classes.txt
+M  reports/unused_css_ids.txt
+MM requirements.txt
+MM run.py
+A  scan_template_syntax.sh
+M  scripts/patch_env_migration.py
+M  scripts/patch_migration_conflict.py
+M  starforge-saas/app/config/flask_config.py
+M  starforge.py
+M  starforge_audit.py
+A  starforge_audit.sh
+M  starforge_config_doctor.py
+M  starforge_homepage_builder.py
+M  starforge_patch.sh
+A  starforge_patch_config.py
+A  starforge_patch_config_file.py
+A  starforge_patch_tailwind_opacity_all.sh
+M  starforge_saas_offline_bootstrap.py
+AM starforge_seed_demo_data.py
+MM tailwind.config.js
+?? ../.trunk/
+?? ../.venv/bin/
+?? ../.venv/include/
+?? ../.venv/lib/python3.12/site-packages/30fcd23745efe32ce681__mypyc.cpython-312-x86_64-linux-gnu.so
+?? ../.venv/lib/python3.12/site-packages/Brotli-1.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/Flask_Compress-1.17.dist-info/
+?? ../.venv/lib/python3.12/site-packages/Flask_Login-0.6.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/Flask_Migrate-4.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/Flask_SocketIO-5.5.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/LICENSE
+?? ../.venv/lib/python3.12/site-packages/MarkupSafe-3.0.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/PyMySQL-1.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/PyYAML-6.0.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/README.md
+?? ../.venv/lib/python3.12/site-packages/_black_version.py
+?? ../.venv/lib/python3.12/site-packages/_brotli.cpython-312-x86_64-linux-gnu.so
+?? ../.venv/lib/python3.12/site-packages/_cffi_backend.cpython-312-x86_64-linux-gnu.so
+?? ../.venv/lib/python3.12/site-packages/_distutils_hack/
+?? ../.venv/lib/python3.12/site-packages/_pytest/
+?? ../.venv/lib/python3.12/site-packages/_ruamel_yaml.cpython-312-x86_64-linux-gnu.so
+?? ../.venv/lib/python3.12/site-packages/_yaml/
+?? ../.venv/lib/python3.12/site-packages/alembic-1.16.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/alembic/
+?? ../.venv/lib/python3.12/site-packages/annotated_types-0.7.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/annotated_types/
+?? ../.venv/lib/python3.12/site-packages/anyio-4.9.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/anyio/
+?? ../.venv/lib/python3.12/site-packages/authlib-1.6.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/authlib/
+?? ../.venv/lib/python3.12/site-packages/autoflake-2.3.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/autoflake.py
+?? ../.venv/lib/python3.12/site-packages/bandit-1.8.6.dist-info/
+?? ../.venv/lib/python3.12/site-packages/bandit/
+?? ../.venv/lib/python3.12/site-packages/bidict-0.23.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/bidict/
+?? ../.venv/lib/python3.12/site-packages/black-25.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/black/
+?? ../.venv/lib/python3.12/site-packages/blackd/
+?? ../.venv/lib/python3.12/site-packages/blib2to3/
+?? ../.venv/lib/python3.12/site-packages/blinker-1.9.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/blinker/
+?? ../.venv/lib/python3.12/site-packages/boolean/
+?? ../.venv/lib/python3.12/site-packages/boolean_py-5.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/brotli.py
+?? ../.venv/lib/python3.12/site-packages/cachecontrol-0.14.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/cachecontrol/
+?? ../.venv/lib/python3.12/site-packages/certifi-2025.7.9.dist-info/
+?? ../.venv/lib/python3.12/site-packages/certifi/
+?? ../.venv/lib/python3.12/site-packages/cffi-1.17.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/cffi/
+?? ../.venv/lib/python3.12/site-packages/charset_normalizer-3.4.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/charset_normalizer/
+?? ../.venv/lib/python3.12/site-packages/click-8.2.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/click/
+?? ../.venv/lib/python3.12/site-packages/coverage-7.9.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/coverage/
+?? ../.venv/lib/python3.12/site-packages/cryptography-45.0.5.dist-info/
+?? ../.venv/lib/python3.12/site-packages/cryptography/
+?? ../.venv/lib/python3.12/site-packages/cyclonedx/
+?? ../.venv/lib/python3.12/site-packages/cyclonedx_python_lib-9.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/defusedxml-0.7.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/defusedxml/
+?? ../.venv/lib/python3.12/site-packages/distutils-precedence.pth
+?? ../.venv/lib/python3.12/site-packages/dns/
+?? ../.venv/lib/python3.12/site-packages/dnspython-2.7.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/dotenv/
+?? ../.venv/lib/python3.12/site-packages/dparse-0.6.4.dist-info/
+?? ../.venv/lib/python3.12/site-packages/dparse/
+?? ../.venv/lib/python3.12/site-packages/engineio/
+?? ../.venv/lib/python3.12/site-packages/eventlet-0.40.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/eventlet/
+?? ../.venv/lib/python3.12/site-packages/filelock-3.16.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/filelock/
+?? ../.venv/lib/python3.12/site-packages/flask-3.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/flask/
+?? ../.venv/lib/python3.12/site-packages/flask_compress/
+?? ../.venv/lib/python3.12/site-packages/flask_cors-6.0.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/flask_cors/
+?? ../.venv/lib/python3.12/site-packages/flask_login/
+?? ../.venv/lib/python3.12/site-packages/flask_mail-0.10.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/flask_mail/
+?? ../.venv/lib/python3.12/site-packages/flask_migrate/
+?? ../.venv/lib/python3.12/site-packages/flask_socketio/
+?? ../.venv/lib/python3.12/site-packages/flask_sqlalchemy-3.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/flask_sqlalchemy/
+?? ../.venv/lib/python3.12/site-packages/flask_wtf-1.2.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/flask_wtf/
+?? ../.venv/lib/python3.12/site-packages/greenlet-3.2.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/greenlet/
+?? ../.venv/lib/python3.12/site-packages/gunicorn-23.0.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/gunicorn/
+?? ../.venv/lib/python3.12/site-packages/h11-0.16.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/h11/
+?? ../.venv/lib/python3.12/site-packages/httpcore-1.0.9.dist-info/
+?? ../.venv/lib/python3.12/site-packages/httpcore/
+?? ../.venv/lib/python3.12/site-packages/httpx-0.28.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/httpx/
+?? ../.venv/lib/python3.12/site-packages/idna-3.10.dist-info/
+?? ../.venv/lib/python3.12/site-packages/idna/
+?? ../.venv/lib/python3.12/site-packages/iniconfig-2.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/iniconfig/
+?? ../.venv/lib/python3.12/site-packages/itsdangerous-2.2.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/itsdangerous/
+?? ../.venv/lib/python3.12/site-packages/jinja2-3.1.6.dist-info/
+?? ../.venv/lib/python3.12/site-packages/jinja2/
+?? ../.venv/lib/python3.12/site-packages/joblib-1.5.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/joblib/
+?? ../.venv/lib/python3.12/site-packages/license_expression-30.4.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/license_expression/
+?? ../.venv/lib/python3.12/site-packages/mako-1.3.10.dist-info/
+?? ../.venv/lib/python3.12/site-packages/mako/
+?? ../.venv/lib/python3.12/site-packages/markdown_it/
+?? ../.venv/lib/python3.12/site-packages/markdown_it_py-3.0.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/markupsafe/
+?? ../.venv/lib/python3.12/site-packages/marshmallow-4.0.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/marshmallow/
+?? ../.venv/lib/python3.12/site-packages/mdurl-0.1.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/mdurl/
+?? ../.venv/lib/python3.12/site-packages/msgpack-1.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/msgpack/
+?? ../.venv/lib/python3.12/site-packages/mypy_extensions-1.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/mypy_extensions.py
+?? ../.venv/lib/python3.12/site-packages/nltk-3.9.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/nltk/
+?? ../.venv/lib/python3.12/site-packages/packageurl/
+?? ../.venv/lib/python3.12/site-packages/packageurl_python-0.17.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/packaging-25.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/packaging/
+?? ../.venv/lib/python3.12/site-packages/packaging_legacy_version.py
+?? ../.venv/lib/python3.12/site-packages/pathspec-0.12.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pathspec/
+?? ../.venv/lib/python3.12/site-packages/pbr-6.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pbr/
+?? ../.venv/lib/python3.12/site-packages/pip-25.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pip/__init__.py
+?? ../.venv/lib/python3.12/site-packages/pip/__main__.py
+?? ../.venv/lib/python3.12/site-packages/pip/__pip-runner__.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/__init__.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/build_env.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/cache.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/cli/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/commands/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/configuration.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/distributions/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/exceptions.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/index/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/locations/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/main.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/metadata/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/models/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/network/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/operations/__init__.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/operations/check.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/operations/freeze.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/operations/install/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/operations/prepare.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/pyproject.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/req/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/resolution/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/utils/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/vcs/
+?? ../.venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py
+?? ../.venv/lib/python3.12/site-packages/pip/_vendor/
+?? ../.venv/lib/python3.12/site-packages/pip/py.typed
+?? ../.venv/lib/python3.12/site-packages/pip_api-0.0.34.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pip_api/
+?? ../.venv/lib/python3.12/site-packages/pip_audit-2.9.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pip_audit/
+?? ../.venv/lib/python3.12/site-packages/pip_requirements_parser-32.0.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pip_requirements_parser.py
+?? ../.venv/lib/python3.12/site-packages/pkg_resources/
+?? ../.venv/lib/python3.12/site-packages/platformdirs-4.3.8.dist-info/
+?? ../.venv/lib/python3.12/site-packages/platformdirs/
+?? ../.venv/lib/python3.12/site-packages/pluggy-1.6.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pluggy/
+?? ../.venv/lib/python3.12/site-packages/psutil-6.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/psutil/
+?? ../.venv/lib/python3.12/site-packages/py.py
+?? ../.venv/lib/python3.12/site-packages/py_serializable-2.0.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/py_serializable/
+?? ../.venv/lib/python3.12/site-packages/pycparser-2.22.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pycparser/
+?? ../.venv/lib/python3.12/site-packages/pydantic-2.9.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pydantic/
+?? ../.venv/lib/python3.12/site-packages/pydantic_core-2.23.4.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pydantic_core/
+?? ../.venv/lib/python3.12/site-packages/pyflakes-3.4.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pyflakes/
+?? ../.venv/lib/python3.12/site-packages/pygments-2.19.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pygments/
+?? ../.venv/lib/python3.12/site-packages/pymysql/
+?? ../.venv/lib/python3.12/site-packages/pyparsing-3.2.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pyparsing/
+?? ../.venv/lib/python3.12/site-packages/pytest-8.4.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pytest-cov.pth
+?? ../.venv/lib/python3.12/site-packages/pytest/
+?? ../.venv/lib/python3.12/site-packages/pytest_cov-6.2.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/pytest_cov/
+?? ../.venv/lib/python3.12/site-packages/python_dotenv-1.1.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/python_engineio-4.12.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/python_socketio-5.13.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/regex-2024.11.6.dist-info/
+?? ../.venv/lib/python3.12/site-packages/regex/
+?? ../.venv/lib/python3.12/site-packages/requests-2.32.4.dist-info/
+?? ../.venv/lib/python3.12/site-packages/requests/
+?? ../.venv/lib/python3.12/site-packages/rich-14.0.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/rich/
+?? ../.venv/lib/python3.12/site-packages/ruamel.yaml-0.18.14.dist-info/
+?? ../.venv/lib/python3.12/site-packages/ruamel.yaml.clib-0.2.12.dist-info/
+?? ../.venv/lib/python3.12/site-packages/ruamel/
+?? ../.venv/lib/python3.12/site-packages/ruff-0.12.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/ruff/
+?? ../.venv/lib/python3.12/site-packages/safety-3.6.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/safety/
+?? ../.venv/lib/python3.12/site-packages/safety_schemas-0.0.14.dist-info/
+?? ../.venv/lib/python3.12/site-packages/safety_schemas/
+?? ../.venv/lib/python3.12/site-packages/setuptools-80.9.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/setuptools/
+?? ../.venv/lib/python3.12/site-packages/shellingham-1.5.4.dist-info/
+?? ../.venv/lib/python3.12/site-packages/shellingham/
+?? ../.venv/lib/python3.12/site-packages/simple_websocket-1.1.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/simple_websocket/
+?? ../.venv/lib/python3.12/site-packages/sniffio-1.3.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/sniffio/
+?? ../.venv/lib/python3.12/site-packages/socketio/
+?? ../.venv/lib/python3.12/site-packages/sortedcontainers-2.4.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/sortedcontainers/
+?? ../.venv/lib/python3.12/site-packages/sqlalchemy-2.0.41.dist-info/
+?? ../.venv/lib/python3.12/site-packages/sqlalchemy/
+?? ../.venv/lib/python3.12/site-packages/stevedore-5.4.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/stevedore/
+?? ../.venv/lib/python3.12/site-packages/stripe-12.3.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/stripe/
+?? ../.venv/lib/python3.12/site-packages/tenacity-9.1.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/tenacity/
+?? ../.venv/lib/python3.12/site-packages/test_autoflake.py
+?? ../.venv/lib/python3.12/site-packages/toml-0.10.2.dist-info/
+?? ../.venv/lib/python3.12/site-packages/toml/
+?? ../.venv/lib/python3.12/site-packages/tomlkit-0.13.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/tomlkit/
+?? ../.venv/lib/python3.12/site-packages/tqdm-4.67.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/tqdm/
+?? ../.venv/lib/python3.12/site-packages/typer-0.16.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/typer/
+?? ../.venv/lib/python3.12/site-packages/typing_extensions-4.14.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/typing_extensions.py
+?? ../.venv/lib/python3.12/site-packages/urllib3-2.5.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/urllib3/
+?? ../.venv/lib/python3.12/site-packages/werkzeug-3.1.3.dist-info/
+?? ../.venv/lib/python3.12/site-packages/werkzeug/
+?? ../.venv/lib/python3.12/site-packages/wsproto-1.2.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/wsproto/
+?? ../.venv/lib/python3.12/site-packages/wtforms-3.2.1.dist-info/
+?? ../.venv/lib/python3.12/site-packages/wtforms/
+?? ../.venv/lib/python3.12/site-packages/yaml/
+?? ../.venv/lib/python3.12/site-packages/zstandard-0.23.0.dist-info/
+?? ../.venv/lib/python3.12/site-packages/zstandard/
+?? ../.venv/lib64
+?? ../.venv/pyvenv.cfg
+?? ../.venv/share/
+?? ../app/__init__.py.bak
+?? ../app/admin/dashboard.html
+?? ../app/config/
+?? ../app/extensions.py
+?? ../app/routes.py
+?? "../app/static/images/connect-atx-team-mobile - Copy.webp"
+?? "../app/static/images/connect-atx-team-mobile.jpg - Copy.webp"
+?? "../app/static/images/logo - Copy.avif"
+?? "../app/static/images/logo - Copy.webp"
+?? ../app/templates/partials/sponsor_form.html
+?? ../patch_flask_login.sh
+?? .husky/
+?? _audit.configs_&_secrets.txt
+?? _audit.database_models.txt
+?? _audit.frontend_js_css.txt
+?? _audit.git_status.txt
+?? _audit.migrations.txt
+?? _audit.packagejson_deps.txt
+?? _audit.project_structure_tree_l_3.txt
+?? _audit.python_flask_files.txt
+?? _audit.static_assets.txt
+?? _audit.templates_partials.txt
+?? _starforge_audit/
+?? app/_starforge_audit/
+?? app/models.py
+?? app/starforge_project_audit.py
+?? app/static/css/optimized/
+?? app/static/css/output.min.css
+?? app/static/images/connect-atx-team.webp
+?? app/static/images/logo.avif
+?? app/static/images/players/
+?? audit_script.py
+?? requirements.lock
+?? starforge_project_audit.py
+?? ../venv/

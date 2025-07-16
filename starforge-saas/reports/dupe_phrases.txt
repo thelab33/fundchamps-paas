@@ -1,6 +1,6 @@
+      6 app/templates/base.html:Connect ATX Elite
       2 app/templates/become_sponsor.html.bak:Connect ATX Elite
       2 app/templates/become_sponsor.html:Connect ATX Elite
-      1 app/templates/index.html:Connect ATX Elite
       1 app/templates/partials/about_and_mission.html.bak:Coach Angel Rodriguez
       3 app/templates/partials/about_and_mission.html.bak:Connect ATX Elite
       1 app/templates/partials/about_and_mission.html:Coach Angel Rodriguez

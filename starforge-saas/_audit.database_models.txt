@@ -1,0 +1,13 @@
+./app/models/sponsor.py:class Sponsor(db.Model, TimestampMixin, SoftDeleteMixin):
+./app/models/transaction.py:class Transaction(db.Model, TimestampMixin):
+./app/models/player.py:class Player(db.Model, TimestampMixin):
+./app/models/campaign_goal.py:class CampaignGoal(db.Model, TimestampMixin, SoftDeleteMixin):
+./app/models/team.py:class Team(db.Model, TimestampMixin, SoftDeleteMixin):
+./app/models/team.py:        doc="Tailwind theme class (e.g. 'dark' or 'light')",
+./app/models/team.py:    body_class = db.Column(db.String(255), nullable=True, doc="Extra <body> classes")
+./app/models/user.py:class User(db.Model, UserMixin, TimestampMixin):
+./app/models/sms_log.py:class SMSLog(db.Model):
+./app/models/example.py:class Example(db.Model, TimestampMixin, SoftDeleteMixin):
+./app/models/mixins.py:class TimestampMixin:
+./app/models/mixins.py:class SoftDeleteMixin:
+./app/models.py:class Testimonial(db.Model):

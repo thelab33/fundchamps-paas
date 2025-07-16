@@ -1,15 +1,4 @@
 from __future__ import annotations
-
-"""
-Starforge custom Click CLI
-
-Usage examples:
-$ flask starforge audit            # run full audit suite
-$ flask starforge audit --model User --limit 20
-$ flask starforge seed --demo     # seed demo data
-$ flask starforge db-prune        # wipe and reset DB (danger!)
-"""
-
 import importlib
 import json
 from pathlib import Path
@@ -20,104 +9,98 @@ from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
-from app import create_app, db
+from app import db  # Keep this (safe to import)
 
-# ──────────────────────────────────────────────────────────────
-# Utility helpers
-# ──────────────────────────────────────────────────────────────
-
+# Initialize console for rich printing
 console = Console()
 BASE_PATH = Path(__file__).resolve().parent
 
 
 def _load_model(model_name: str) -> Type[Any]:
-    """Dynamically load a SQLAlchemy model from app.models."""
+    """Dynamically load the model class from app.models."""
     model_module = importlib.import_module(f"app.models.{model_name.lower()}")
     return getattr(model_module, model_name)
 
 
-# ──────────────────────────────────────────────────────────────
-# Main Click group
-# ──────────────────────────────────────────────────────────────
-
 @click.group()
 def starforge() -> None:
-    """Starforge ⚙️ – bespoke dev‑ops tasks for your SaaS."""
+    """Starforge ⚙️ – DevOps toolkit for Connect ATX Elite SaaS."""
 
-
-# ──────────────────────────────────────────────────────────────
-# Audit sub-command
-# ──────────────────────────────────────────────────────────────
 
 @starforge.command("audit")
-@click.option("--model", default="User", help="SQLAlchemy model to inspect (default: User)")
-@click.option("--limit", default=10, help="Max rows to preview in the table")
-@click.option("--json", "as_json", is_flag=True, help="Output raw JSON instead of a pretty table")
+@click.option("--model", default="User", help="Model to inspect")
+@click.option("--limit", default=10, help="How many records to fetch")
+@click.option("--json", "as_json", is_flag=True, help="Output raw JSON")
 def audit_cmd(model: str, limit: int, as_json: bool) -> None:
-    """Run ad-hoc data audits."""
+    """
+    Audits a model by fetching records, supports JSON output.
+    """
+    from app import create_app  # Lazy import here
+
     app = create_app()
+
     with app.app_context():
-        rprint(f"[bold green]✔ Starforge App Ready[/] – [cyan]{app.config['ENV']}[/] | debug={app.debug}")
+        rprint(f"[green]✔ Loaded:[/] {model} | ENV: [cyan]{app.config['ENV']}[/]")
 
         Model = _load_model(model)
         total = Model.query.count()
         rows = Model.query.limit(limit).all()
 
         if as_json:
+            # Return data in JSON format
             data = [
-                {c.name: getattr(row, c.name) for c in row.__table__.columns}
+                {col.name: getattr(row, col.name) for col in row.__table__.columns}
                 for row in rows
             ]
             console.print_json(json.dumps({"total": total, "rows": data}, default=str))
-            return
+        else:
+            # Display in tabular format using rich
+            table = Table(title=f"{model} (Top {limit}) — Total: {total}")
+            for col in Model.__table__.columns:
+                table.add_column(col.name, overflow="fold")
+            for row in rows:
+                table.add_row(
+                    *[str(getattr(row, col.name)) for col in Model.__table__.columns]
+                )
+            console.print(table)
 
-        table = Table(title=f"{model} snapshot (max {limit}) – total {total}")
-        for col in Model.__table__.columns:
-            table.add_column(col.name, overflow="fold")
-        for row in rows:
-            table.add_row(*[str(getattr(row, c.name)) for c in Model.__table__.columns])
-        console.print(table)
-
-
-# ──────────────────────────────────────────────────────────────
-# Seed command
-# ──────────────────────────────────────────────────────────────
 
 @starforge.command("seed")
-@click.option("--demo", is_flag=True, help="Seed faker-generated demo data")
-@click.option("--file", type=click.Path(exists=True), help="Seed from JSON/CSV file")
+@click.option("--demo", is_flag=True, help="Seed demo content (faker)")
+@click.option("--file", type=click.Path(exists=True), help="Seed from CSV/JSON file")
 def seed_cmd(demo: bool, file: str | None) -> None:
-    """Populate the DB with demo or fixture data."""
+    """
+    Seed the database with demo data or data from a file.
+    """
     if demo:
         try:
             from app.seeds import seed_demo
+
+            seed_demo()
+            rprint("[green]✔ Demo data seeded.[/]")
         except ModuleNotFoundError:
-            rprint("[red]✖ app/seeds.py with seed_demo() missing![/]")
-            return
-        seed_demo()
-        rprint("[green]✔ Demo data seeded.[/]")
+            rprint("[red]✖ No seed_demo() found in app/seeds.py[/]")
     elif file:
-        rprint(f"[yellow]⚠️ CSV/JSON import from {file} coming soon ✨[/]")
+        rprint(f"[yellow]⚠️ File import from {file} coming soon.[/]")
     else:
-        rprint("[red]✖ No seed source specified! Use --demo or --file <path>.[/]")
+        rprint("[red]✖ Please use --demo or --file to seed data.[/]")
 
-
-# ──────────────────────────────────────────────────────────────
-# DB Prune command
-# ──────────────────────────────────────────────────────────────
 
 @starforge.command("db-prune")
-@click.confirmation_option(prompt="This will DELETE all data. Continue?")
+@click.confirmation_option(prompt="⚠️ This will wipe ALL data. Are you sure?")
 def prune_cmd() -> None:
-    """Drop all tables and recreate an empty schema (danger!)."""
+    """
+    Prune (reset) the database. Deletes all data.
+    """
+    from app import create_app  # Lazy import here
+
     app = create_app()
+
     with app.app_context():
         db.drop_all()
         db.create_all()
-        rprint("[bold red]⚠️  Database wiped and recreated![/]")
+        rprint("[bold red]⚠️ Database wiped and reset![/]")
 
 
-# Entrypoint for direct CLI usage
 if __name__ == "__main__":
     starforge()
-

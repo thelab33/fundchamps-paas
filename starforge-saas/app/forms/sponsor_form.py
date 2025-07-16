@@ -15,7 +15,7 @@ class SponsorForm(FlaskForm):
             DataRequired(message="Name is required."),
             Length(max=80, message="Name must be under 80 characters."),
         ],
-        render_kw={"placeholder": "Jane Doe or Acme Inc."}
+        render_kw={"placeholder": "Jane Doe or Acme Inc."},
     )
 
     email = StringField(
@@ -24,7 +24,7 @@ class SponsorForm(FlaskForm):
             DataRequired(message="Email is required."),
             Email(message="Please enter a valid email."),
         ],
-        render_kw={"placeholder": "you@example.com"}
+        render_kw={"placeholder": "you@example.com"},
     )
 
     amount = DecimalField(
@@ -34,6 +34,10 @@ class SponsorForm(FlaskForm):
             NumberRange(min=1, message="Minimum amount is $1."),
         ],
         places=2,
-        render_kw={"placeholder": "100.00"}
+        render_kw={"placeholder": "100.00"},
     )
 
+    def validate_amount(self, field):
+        """Custom validation to ensure amount is greater than 0."""
+        if field.data <= 0:
+            raise ValueError("Amount must be greater than zero.")

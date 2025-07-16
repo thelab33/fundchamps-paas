@@ -1,0 +1,21 @@
+/*───────────────────────────────────────────────
+  Tailwind Directives - Core Layers
+───────────────────────────────────────────────*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*───────────────────────────────────────────────
+  Custom Styles & Overrides
+───────────────────────────────────────────────*/
+/* Import global variables, resets, and typography */
+@import "globals.css";
+
+/* Import component-specific styles */
+@import "components.css";
+
+/* Add any additional custom CSS below */
+/* Example: Override Tailwind colors or add new utilities here */
+
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImlucHV0LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Z0RBRWdEO0FBQ2hELGNBQWM7QUFDZCxvQkFBb0I7QUFDcEIsbUJBQW1COztBQUVuQjs7Z0RBRWdEO0FBQ2hELG9EQUFvRDtBQUNwRCxxQkFBcUI7O0FBRXJCLHFDQUFxQztBQUNyQyx3QkFBd0I7O0FBRXhCLHdDQUF3QztBQUN4QyxnRUFBZ0UiLCJmaWxlIjoib3V0cHV0Lm1pbi5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKuKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgFxuICBUYWlsd2luZCBEaXJlY3RpdmVzIC0gQ29yZSBMYXllcnNcbuKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCovXG5AdGFpbHdpbmQgYmFzZTtcbkB0YWlsd2luZCBjb21wb25lbnRzO1xuQHRhaWx3aW5kIHV0aWxpdGllcztcblxuLyrilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbiAgQ3VzdG9tIFN0eWxlcyAmIE92ZXJyaWRlc1xu4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAKi9cbi8qIEltcG9ydCBnbG9iYWwgdmFyaWFibGVzLCByZXNldHMsIGFuZCB0eXBvZ3JhcGh5ICovXG5AaW1wb3J0IFwiZ2xvYmFscy5jc3NcIjtcblxuLyogSW1wb3J0IGNvbXBvbmVudC1zcGVjaWZpYyBzdHlsZXMgKi9cbkBpbXBvcnQgXCJjb21wb25lbnRzLmNzc1wiO1xuXG4vKiBBZGQgYW55IGFkZGl0aW9uYWwgY3VzdG9tIENTUyBiZWxvdyAqL1xuLyogRXhhbXBsZTogT3ZlcnJpZGUgVGFpbHdpbmQgY29sb3JzIG9yIGFkZCBuZXcgdXRpbGl0aWVzIGhlcmUgKi9cblxuIl19 */

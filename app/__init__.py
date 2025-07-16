@@ -47,7 +47,7 @@ def create_app(config_class: str | object | None = None) -> Flask:
     # Initialise extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    socketio.init_app(app)
+    socketio.init_app(app, cors_allowed_origins=cors_origins)
 
     # ── Auto-import every model file so SQLAlchemy sees each table ──
     with app.app_context():

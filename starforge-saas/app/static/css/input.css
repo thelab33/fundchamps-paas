@@ -1,11 +1,78 @@
+/*───────────────────────────────────────────────
+  Tailwind Directives - Core Layers
+───────────────────────────────────────────────*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom layer (optional) */
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-}
+/*───────────────────────────────────────────────
+  Custom Styles & Overrides
+───────────────────────────────────────────────*/
+/* Import global variables, resets, and typography */
+@import "globals.css";
+
+/* Import component-specific styles */
+@import "components.css";
+
+/* Add any additional custom CSS below */
+/* Example: Override Tailwind colors or add new utilities here */
+// tailwind.config.js
+module.exports = {
+  content: [
+    "./app/templates/**/*.html",
+    "./app/static/js/**/*.js",
+    // add your other paths here
+  ],
+  theme: {
+    extend: {
+      colors: {
+        gold: "#facc15",
+        goldLight: "#fde68a",
+        red: "#b91c1c",
+        blue: "#0a1f44",
+        black: "#18181b",
+        white: "#fff",
+      },
+      boxShadow: {
+        brand: "0 6px 20px rgba(10, 31, 68, 0.28), 0 4px 12px rgba(250, 204, 21, 0.06)",
+        elevated: "0 6px 24px rgba(250, 204, 21, 0.35)",
+      },
+      borderRadius: {
+        xl: "2rem",
+        lg: "1rem",
+      },
+      animation: {
+        kenburns: "kenburns 40s ease-in-out infinite alternate",
+        shimmer: "shimmer 3.5s linear infinite",
+        sparkle: "sparkle 2s ease-in-out infinite",
+        "fade-in-up": "fadeInUp 0.6s ease forwards",
+        "slide-up": "fadeInUp 0.6s ease forwards 0.1s",
+        "bounce-in": "bounceIn 0.8s ease forwards",
+      },
+      keyframes: {
+        kenburns: {
+          "0%": { transform: "scale(1.1) translate(0, 0)" },
+          "100%": { transform: "scale(1.15) translate(10px, 5px)" },
+        },
+        shimmer: {
+          "0%": { "background-position": "200% 0" },
+          "100%": { "background-position": "-200% 0" },
+        },
+        sparkle: {
+          "0%, 100%": { opacity: "0.4", transform: "translateY(0) rotate(0deg)" },
+          "50%": { opacity: "1", transform: "translateY(-2px) rotate(15deg)" },
+        },
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        bounceIn: {
+          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
 

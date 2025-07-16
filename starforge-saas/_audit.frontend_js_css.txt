@@ -1,0 +1,11 @@
+app/static/css:
+components.css
+globals.css
+input.css
+optimized
+output.min.css
+tailwind.min.css
+
+app/static/js:
+main.js
+modules

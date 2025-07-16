@@ -1,39 +1,34 @@
-{# Display Flask flash messages and an optional onboarding popover for first-time admins #}
-
-{%- with messages = get_flashed_messages(with_categories=true) -%}
-  {%- if messages -%}
-    <div class="fixed top-4 inset-x-0 mx-auto max-w-xl z-50 space-y-2">
-      {%- for category, message in messages -%}
-      <div
-        class="px-6 py-4 rounded-lg shadow-lg animate-slide-down transition-all duration-500
-               {% if category == 'success' %}bg-green-200 text-green-900{% elif category == 'warning' %}bg-yellow-200 text-yellow-900{% elif category == 'danger' %}bg-red-200 text-red-900{% else %}bg-zinc-800 text-white{% endif %}"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ message }}
-      </div>
-      {%- endfor -%}
-    </div>
-  {%- endif -%}
-{%- endwith -%}
-
-{# Onboarding popover stub: show once for new admins #}
-{% if current_user.is_authenticated and current_user.is_admin and not session.get('onboarded') %}
-<div
-  id="admin-onboarding-popover"
-  class="fixed bottom-8 right-8 bg-black/80 p-6 rounded-2xl shadow-md text-white max-w-xs animate-fade-in"
-  role="dialog"
-  aria-labelledby="onboard-title"
->
-  <h3 id="onboard-title" class="text-xl font-semibold mb-2 text-yellow-300">Welcome, Admin!</h3>
-  <p class="text-sm mb-4">Use your new dashboard to track sponsors, export CSVs, and monitor campaign progress in real time.</p>
-  <button
-    class="inline-block bg-yellow-400 text-zinc-900 px-4 py-2 rounded-lg font-bold shadow hover:bg-yellow-300 transition"
-    onclick="
-      document.getElementById('admin-onboarding-popover').remove();
-      fetch('{{ url_for('admin.dismiss_onboarding') }}', { method: 'POST', headers: {'X-CSRFToken': '{{ csrf_token() }}'} });
-    "
-  >Got it!</button>
+{# ===================== Flash Messages ===================== #} {%- with
+messages = get_flashed_messages(with_categories=true) -%} {%- if messages -%}
+<div aria-atomic="true" aria-live="assertive" class="fixed top-4 inset-x-0 mx-auto max-w-xl z-50 space-y-2" role="region">
+ {%- for category, message in messages -%}
+ <div class="px-6 py-4 rounded-lg shadow-lg animate-slide-down transition-all duration-500 {% if category == 'success' %}bg-green-200 text-green-900 {% elif category == 'warning' %}bg-yellow-200 text-yellow-900 {% elif category == 'danger' %}bg-red-200 text-red-900 {% else %}bg-zinc-800 text-white {% endif %}" role="alert">
+  {{ message }}
+ </div>
+ {%- endfor -%}
+</div>
+{%- endif -%} {%- endwith -%} {# ===================== Admin Onboarding Popover
+===================== #} {% if current_user.is_authenticated and
+current_user.is_admin and not session.get('onboarded') %}
+<div aria-labelledby="onboard-title" aria-modal="true" class="fixed bottom-8 right-8 max-w-xs rounded-2xl bg-black opacity-80 p-6 shadow-md text-white animate-fade-in" id="admin-onboarding-popover" role="dialog" tabindex="-1">
+ <h3 class="mb-2 text-xl font-semibold text-yellow-300" id="onboard-title">
+  Welcome, Admin!
+ </h3>
+ <p class="mb-4 text-sm">
+  Use your new dashboard to track sponsors, export CSVs, and monitor campaign
+    progress in real time.
+ </p>
+ <button class="inline-block rounded-lg bg-yellow-400 px-4 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 transition" onclick="
+        document.getElementById('admin-onboarding-popover').remove();
+        fetch('{{ url_for('admin.dismiss_onboarding') }}', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+          }
+        });
+      " type="button">
+  Got it!
+ </button>
 </div>
 {% endif %}
-

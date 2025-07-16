@@ -1,14 +1,86 @@
-# Python
+#######################################################
+# Python Artifacts
+#######################################################
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.pyd
+*.pdb
+*.egg-info/
+*.eggs/
 instance/
-.env
 *.sqlite3
+
+#######################################################
+# Virtual Environments
+#######################################################
+.venv/
+venv/
+ENV/
+env/
+.Python
+
+#######################################################
 # Node/npm
+#######################################################
 node_modules/
-# Logs
+package-lock.json
+npm-debug.log*
+yarn-error.log
+
+#######################################################
+# Logs & Reports
+#######################################################
 logs/
 *.log
-# OS
-.DS_Store
+*.out
+*.pid
+
+#######################################################
+# Environment & Secrets
+#######################################################
 .env
+.env.*
+.secrets.*
+*.env
+
+#######################################################
+# OS/Editor/IDE Files
+#######################################################
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+#######################################################
+# Build Artifacts (auto-generated output — **do NOT version these**)
+#######################################################
+# CSS/JS Bundles
+app/static/css/globals.css
+app/static/css/output.min.css
+app/static/js/main.js
+
+# Next.js/.turbo/.trunk (if using in PaaS/monorepo setup)
+.next/
+.turbo/
+.trunk/
+dist/
+build/
+coverage/
+
+#######################################################
+# Miscellaneous/Project Specific
+#######################################################
+# SQLite, audit scripts, test DBs, backups, and reports
+*.db
+*.lock
+backups/
+reports/
+audit_*.txt
+_starforge_audit/

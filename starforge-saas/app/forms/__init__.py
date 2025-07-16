@@ -1,2 +1,1 @@
-from .sponsor_form import SponsorForm
-
+# from .sponsor_form import SponsorForm

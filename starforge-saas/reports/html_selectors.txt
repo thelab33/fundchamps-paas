@@ -1,3 +1,4 @@
+''
 {{
 }}
 about-and-mission
@@ -8,6 +9,7 @@ alert
 alert-{{
 alert-dismissible
 amount
+and
 animate-bounce
 animate-fade-in
 animate-kenburns
@@ -23,7 +25,6 @@ backdrop-blur-sm
 badge-glass
 become-sponsor-modal
 become-sponsor-modal-title
-bg-black
 bg-black/60
 bg-black/70
 bg-black/80
@@ -57,11 +58,11 @@ border-gold
 border-gold/30
 border-yellow-300
 border-yellow-300/30
+border-yellow-300/40
 border-yellow-400
 border-yellow-400/40
 -bottom-3
 bottom-4
-bottom-6
 bottom-8
 btn
 btn-glow
@@ -86,6 +87,7 @@ drop-shadow
 drop-shadow-lg
 drop-shadow-xl
 duration-300
+else
 email
 email-error
 emoji-milestone
@@ -98,10 +100,8 @@ flex-shrink-0
 flex-wrap
 focus:not-sr-only
 focus:outline-none
-focus-visible:ring-2
 focus-visible:ring-4
 focus-visible:ring-yellow-300
-focus-visible:ring-yellow-400
 focus-within:ring-4
 focus-within:ring-yellow-400
 focus-within:shadow-gold-glow
@@ -146,7 +146,6 @@ h-20
 h-24
 h-4
 h-5
-h-6
 h-8
 h-auto
 heading-gradient
@@ -164,7 +163,9 @@ hover:scale-105
 hover:scale-110
 hover:shadow-gold-aura
 hover:shadow-gold-glow
+hover:text-white
 hover:underline
+if
 inline
 inline-block
 inline-flex
@@ -183,6 +184,7 @@ leading-relaxed
 left-0
 left-1/2
 -left-2
+left-2
 left-4
 lg:flex
 lg:px-8
@@ -196,6 +198,7 @@ max-w-xl
 max-w-xs
 mb-0
 mb-1
+mb-10
 mb-2
 mb-3
 mb-4
@@ -208,7 +211,6 @@ md:grid-cols-3
 md:text-5xl
 md:text-6xl
 md:text-xl
-min-h-screen
 min-w-[280px]
 missionSummary
 ml-2
@@ -272,8 +274,8 @@ py-6
 py-8
 relative
 -right-2
+right-3
 -right-4
-right-6
 right-8
 ring-2
 ring-gold
@@ -330,10 +332,10 @@ sponsor-spotlight-desc-footer
 sponsor-spotlight-modal-footer
 sponsor-spotlight-title-footer
 sr-only
-starforge-root
 storyBtn
 storyDescription
 storyModal
+team
 team.body_class
 testimonial
 testimonials
@@ -365,6 +367,7 @@ text-white/80
 text-white/90
 text-xl
 text-xs
+text-yellow-100
 text-yellow-100/90
 text-yellow-200
 text-yellow-200/90
@@ -383,7 +386,9 @@ to-black/90
 to-gold
 top-0
 top-1/2
+top-2
 -top-3
+top-3
 top-4
 to-red-600
 to-white
@@ -406,8 +411,8 @@ w-10
 w-100
 w-16
 w-20
+w-[380px]
 w-5
-w-6
 w-8
 w-auto
 w-full
@@ -415,3 +420,4 @@ whitespace-nowrap
 z-0
 z-10
 z-50
+z-[99999]

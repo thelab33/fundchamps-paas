@@ -1,78 +1,94 @@
-#!/usr/bin/env python
-"""
-Connect ATX Elite PaaS SocketIO entry-point.
-
-Usage:
-  $ python run.py             # default behavior
-  $ python run.py --prod      # load ProductionConfig
-  $ python run.py --debug     # enable debugger/reloader
-"""
-
-from __future__ import annotations
+#!/usr/bin/env python3
 import os
 import sys
-import argparse
-import traceback
-from app import create_app, socketio
-import config as cfg_module
+import signal
+import logging
+from dotenv import load_dotenv
+from flask import render_template  # ✅ Needed for homepage route
 
-# ─── CLI Setup ─────────────────────────────────────────────────────
-parser = argparse.ArgumentParser(
-    description="Run Connect ATX Elite SocketIO Server"
-)
-parser.add_argument(
-    "--config", "-c", 
-    help="Override config class (e.g. config.ProductionConfig)"
-)
-parser.add_argument(
-    "--prod", action="store_true",
-    help="Shortcut to config.ProductionConfig"
-)
-parser.add_argument(
-    "--debug", action="store_true",
-    help="Force Flask debug & reloader"
-)
-parser.add_argument(
-    "--port", "-p",
-    type=int,
-    default=int(os.getenv("PORT", 5000)),
-    help="Port to bind"
-)
-args = parser.parse_args()
+# ─────────────────────────────────────────────────────────────
+# 🛑 Graceful Shutdown Handler
+# ─────────────────────────────────────────────────────────────
+def handle_shutdown(signum, frame):
+    logging.info(f"🛑 Received shutdown signal ({signum}). Exiting gracefully...")
+    sys.exit(0)
 
-# ─── Resolve Config ─────────────────────────────────────────────────
-env = os.getenv("FLASK_ENV", "development").lower()
-dot_cfg = (
-    args.config
-    or ("config.ProductionConfig" if args.prod else None)
-    or os.getenv("FLASK_CONFIG")
-    or ("config.DevelopmentConfig" if env == "development" else "config.ProductionConfig")
-)
-debug_flag = args.debug or os.getenv("FLASK_DEBUG", "0").lower() in {"1", "true"}
+# ─────────────────────────────────────────────────────────────
+# ⚙️ Resolve Config Class Path (e.g., app.config.DevelopmentConfig)
+# ─────────────────────────────────────────────────────────────
+def get_config_path():
+    flask_config = os.getenv("FLASK_CONFIG")
+    if flask_config:
+        return flask_config
 
-# ─── Banner ─────────────────────────────────────────────────────────
-print("="*60)
-print(f"🚀 Starting Connect ATX Elite SocketIO — ENV={env} DEBUG={debug_flag}")
-print(f"Config      : {dot_cfg}")
-print(f"Python      : {sys.version.split()[0]}")
-print(f"PID         : {os.getpid()}")
-print("="*60)
+    env = os.getenv("FLASK_ENV", "production").lower()
+    return {
+        "development": "app.config.DevelopmentConfig",
+        "testing": "app.config.TestingConfig",
+        "production": "app.config.ProductionConfig"
+    }.get(env, "app.config.ProductionConfig")
 
-# ─── Launch SocketIO ───────────────────────────────────────────────
-try:
-    app = create_app(dot_cfg)
-    socketio.run(
-        app,
-        host="0.0.0.0",
-        port=args.port,
-        debug=debug_flag,
-        use_reloader=debug_flag,
-        allow_unsafe_werkzeug=True,
+# ─────────────────────────────────────────────────────────────
+# 📣 Setup Logging Output Format + Level
+# ─────────────────────────────────────────────────────────────
+def setup_logging(debug: bool):
+    logging.basicConfig(
+        level=logging.DEBUG if debug else logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
     )
-except KeyboardInterrupt:
-    print("\n✋ Shutdown requested—bye!")
-except Exception:
-    print("\n💥 Unhandled exception during startup")
-    traceback.print_exc()
-    sys.exit(1)
+
+# ─────────────────────────────────────────────────────────────
+# 🚀 Entry Point
+# ─────────────────────────────────────────────────────────────
+def main():
+    load_dotenv()
+
+    # Parse configuration
+    config_path = get_config_path()
+    debug_flag = os.getenv("FLASK_DEBUG", "0").lower() in ("1", "true", "yes")
+    port = int(os.getenv("PORT", 5000))
+    host = os.getenv("HOST", "0.0.0.0")
+
+    # Setup log format
+    setup_logging(debug_flag)
+
+    logging.info("=" * 60)
+    logging.info("🚀 Launching Starforge Flask app")
+    logging.info(f"🌎 ENV        = {os.getenv('FLASK_ENV', 'production')}")
+    logging.info(f"⚙️ CONFIG     = {config_path}")
+    logging.info(f"🐞 Debug      = {debug_flag}")
+    logging.info(f"🔌 Host:Port  = {host}:{port}")
+    logging.info("=" * 60)
+
+    # Graceful shutdown
+    signal.signal(signal.SIGINT, handle_shutdown)
+    signal.signal(signal.SIGTERM, handle_shutdown)
+
+    try:
+        from app import create_app, socketio
+        app = create_app(config_path)
+
+        # ✅ Add homepage route
+        @app.route("/")
+        def homepage():
+            return render_template("index.html")
+
+        # Run with Flask-SocketIO
+        socketio.run(
+            app,
+            host=host,
+            port=port,
+            debug=debug_flag,
+            use_reloader=debug_flag,
+            allow_unsafe_werkzeug=True,
+        )
+
+    except Exception as e:
+        logging.error(f"❌ Failed to start Starforge Flask app: {e}", exc_info=True)
+        sys.exit(1)
+
+    return app
+
+if __name__ == "__main__":
+    main()
 

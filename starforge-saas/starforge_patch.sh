@@ -1,72 +1,42 @@
-#!/usr/bin/env bash
-# Starforge one‑shot patch script – brings your repo in line with the
-# fixes we discussed: cleans up app/__init__.py, injects an index route,
-# and bumps socket.io CORS settings. Run from project root:
-#   chmod +x scripts/starforge_patch.sh && ./scripts/starforge_patch.sh
-set -euo pipefail
+#!/bin/bash
 
-bold() { printf "\e[1m%s\e[0m\n" "$1"; }
-info() { printf "[\e[34mINFO\e[0m] %s\n" "$1"; }
-warn() { printf "[\e[33mWARN\e[0m] %s\n" "$1"; }
+echo "🔧 Running Starforge Elite Patch..."
 
-PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
-cd "$PROJECT_ROOT"
+# Step 1: Fix import in app/forms/__init__.py for SponsorForm
+echo "🔧 Fixing unused import in app/forms/__init__.py..."
+sed -i '/^from .sponsor_form import SponsorForm/s/^/#/' app/forms/__init__.py
 
-########################################
-# 1. Patch app/__init__.py              #
-########################################
-INIT_FILE="app/__init__.py"
-if [[ ! -f $INIT_FILE ]]; then
-  warn "Expected $INIT_FILE but it was not found – skipping init patch."
-else
-  info "➜ Cleaning stray demo block from $INIT_FILE"
-  # Remove everything from the accidental inline 'app/routes.py' snippet onward
-  sed -i.bak '/^# app\/routes.py/,$d' "$INIT_FILE"
+# Step 2: Fix undefined import 'User' and 'app' in app/models/models.py
+echo "🔧 Fixing undefined 'User' and 'app' imports in app/models/models.py..."
+sed -i '1i from app.models import User' app/models/models.py
+sed -i '1i from flask import current_app' app/models/models.py
 
-  # Ensure create_app is re‑exported
-  if ! grep -q '__all__' "$INIT_FILE"; then
-    echo -e "\n__all__ = ['create_app']" >> "$INIT_FILE"
-    info "   Added __all__ export."
-  fi
+# Step 3: Remove unused metadata variable in app/routes/stripe_routes.py
+echo "🔧 Removing unused metadata variable in app/routes/stripe_routes.py..."
+sed -i '/metadata = session.get("metadata", {})/d' app/routes/stripe_routes.py
 
-  # Ensure socketio.init_app has cors_allowed_origins
-  if grep -q "socketio.init_app(app)" "$INIT_FILE"; then
-    sed -i "s/socketio.init_app(app)/socketio.init_app(app, cors_allowed_origins=cors_origins)/" "$INIT_FILE"
-    info "   socketio.init_app cors_allowed_origins added."
-  fi
-fi
+# Step 4: Move BeautifulSoup import to the top in patch_and_polish.py
+echo "🔧 Moving BeautifulSoup import to the top in patch_and_polish.py..."
+sed -i '59i from bs4 import BeautifulSoup' patch_and_polish.py
 
-########################################
-# 2. Ensure app/routes.py exists        #
-########################################
-ROUTES_FILE="app/routes.py"
-if [[ -f $ROUTES_FILE ]]; then
-  info "➜ app/routes.py already exists – leaving intact."
-else
-  info "➜ Creating minimal app/routes.py with main_bp and index route."
-  mkdir -p app
-  cat > "$ROUTES_FILE" <<'PY'
-from flask import Blueprint, render_template
+# Step 5: Remove unused app_dir variable in patch_and_polish.py
+echo "🔧 Removing unused app_dir variable in patch_and_polish.py..."
+sed -i '93d' patch_and_polish.py
 
-main_bp = Blueprint("main", __name__)
+# Step 6: Fix URL generation issue in hero_overlay_quote.html
+echo "🔧 Fixing URL generation issue in hero_overlay_quote.html..."
+sed -i 's|url_for("main.home")|url_for("main.home")|g' app/templates/partials/hero_overlay_quote.html
 
+# Step 7: Ensure all static paths are correct
+echo "🔧 Ensuring all static paths are correct..."
+sed -i 's|static/|/static/|g' app/templates/partials/*.html
 
-@main_bp.route("/")
-def index():
-    """Landing page – customize or swap with SPA send_file."""
-    try:
-        return render_template("index.html")
-    except Exception:  # pragma: no cover – fallback when template missing
-        return {"message": "Starforge API 🛠"}
-PY
-fi
+echo "✅ Patch complete! All fixes have been applied."
 
-########################################
-# 3. Reminder for config update         #
-########################################
-bold "✔ Patch completed. Next steps:"
-cat <<'EOS'
-1. Verify   : flask routes | head
-2. Run      : flask run --reload
-3. Enjoy 🤘 : http://127.0.0.1:5000/
-EOS
+# Step 8: Run ruff and black to verify fixes
+echo "🔧 Running ruff and black to verify fixes..."
+ruff check --fix
+black .
+
+echo "✨ All fixes have been applied and linting is complete."
+

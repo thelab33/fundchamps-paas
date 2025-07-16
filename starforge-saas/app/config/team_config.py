@@ -1,89 +1,66 @@
-import os
-from pathlib import Path
-
-# ───────────────────────────────────────────────
-# TEAM CONFIG — Dynamic, reusable, multi-org ready
-# ───────────────────────────────────────────────
-
+# Team-specific configuration (overrides from environment variables or default values)
 TEAM_CONFIG = {
+    # Basic Team Info
     "team_name": "Connect ATX Elite",
-    "location": "Austin, TX",
-    "logo": "images/logo.webp",
-    "contact_email": "info@connectatxelite.org",
-    "instagram": "https://instagram.com/connectatxelite",
-    "is_trial": True,  # 🚧 Show trial banners / lock premium-only features
-    "brand_color": "amber-400",
-    "fundraising_goal": 10000,
-    "amount_raised": 7850,
-
-    # 🔥 About/Mission Section
-    "about": [
-        "Connect ATX Elite is a community-powered, non-profit 12U AAU basketball program based in Austin, TX.",
-        "We develop skilled athletes, but also confident, disciplined, and academically driven young leaders.",
-    ],
-
-    # 🏀 Player Roster (used in Hero / About partials)
-    "players": [
-        {"name": "Andre", "role": "Guard"},
-        {"name": "Jordan", "role": "Forward"},
-        {"name": "Malik", "role": "Center"},
-        {"name": "CJ", "role": "Guard"},
-        {"name": "Terrance", "role": "Forward"},
-    ],
-
-    # 📊 Impact Stats (used in mission & fundraising section)
+    "about_heading": "About Connect ATX Elite",
+    "about_text": "Family-run AAU program turning East Austin students into honor-roll athletes and leaders.",
+    "about_poster": "connect-atx-team.jpg",  # Default team image
+    "cta_label": "Join Our Champion Circle",
+    "cta_url": "mailto:connectatxelite@gmail.com",
+    # Impact Stats
     "impact_stats": [
         {"label": "Players Enrolled", "value": 16},
         {"label": "Honor Roll Scholars", "value": 11},
-        {"label": "Tournaments Played", "value": 12},
-        {"label": "Years Running", "value": 3},
     ],
-
-    # ⬇️ Expand with onboarding form later
-    # "sponsor_tiers": [...],
-    # "event_countdown": {...},
-    # "custom_domain": "elite.connectatx.org",
+    # Challenge Info
+    "challenge_heading": "The Challenge We Face",
+    "challenge_text": "Despite our passion, we struggle with gym space. Sponsorships make it possible for our youth to train, grow, and succeed.",
+    "funding_label": "Gym Rental Funding",
+    "challenge_cta_label": "Sponsor a Practice",
+    "challenge_testimonial_text": "Without enough court time, our team can't develop their potential.",
+    "challenge_testimonial_author": "Team Parent, Class of 2030",
+    "challenge_testimonial_detail": "We missed practices last season due to lack of funding for gym rentals. Sponsors make all the difference!",
+    # Mission Info
+    "mission_heading": "Our Mission",
+    "mission_text": "Empowering the next generation through basketball, academics, and leadership.",
+    "mission_poster": "connect-atx-team-poster.jpg",
+    "mission_bg_video": "mission-bg.mp4",
+    "mission_story_btn_label": "Read Our Story",
+    "mission_share_label": "Share Mission",
+    "mission_stories": [
+        {
+            "text": "“Basketball taught my son confidence and leadership.”",
+            "meta": "Maria R.",
+            "title": "Parent",
+        },
+        {
+            "text": "“The team helped me stay on track in school.”",
+            "meta": "David L.",
+            "title": "Class of 2026",
+        },
+    ],
+    # Fundraising
+    "fundraising_goal": 10000,
+    "amount_raised": 0,  # This could be dynamically populated by your fundraising system
+    "stripe_key": "your-stripe-api-key-here",
+    # Example Sponsors
+    "sponsors": [
+        {"name": "Company A", "amount": 500, "status": "approved"},
+        {"name": "Company B", "amount": 1000, "status": "approved"},
+        {"name": "Company C", "amount": 250, "status": "pending"},
+    ],
+    # Featured Sponsors (as logos or images)
+    "featured_logos": [
+        {"src": "images/sponsor_a_logo.png", "alt": "Company A"},
+        {"src": "images/sponsor_b_logo.png", "alt": "Company B"},
+        {"src": "images/sponsor_c_logo.png", "alt": "Company C"},
+    ],
+    # Additional Configurable Information (optional)
+    "nav_links": [
+        ("about", "About"),
+        ("challenge", "Challenge"),
+        ("sponsor-wall-wrapper", "Sponsors"),
+        ("testimonials", "Testimonials"),
+        ("contact", "Contact"),
+    ],
 }
-
-
-# ───────────────────────────────────────────────
-# CONFIG CLASSES — Per-environment overrides
-# ───────────────────────────────────────────────
-
-class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "dev_secret")
-
-    @staticmethod
-    def get_db_uri() -> str:
-        """
-        Construct full absolute path to the SQLite database.
-        """
-        db_path = Path(__file__).resolve().parent.parent / "data" / "app.db"
-        print(f"[team_config.py] 🗃️ Using SQLite DB at: {db_path}")
-        return f"sqlite:///{db_path}"
-
-    SQLALCHEMY_DATABASE_URI = get_db_uri.__func__()
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    # ── Defaults for CORS, rate limiting, logging ──
-    CORS_ALLOW_ORIGINS = "*"
-    LIMITER_REDIS_URL = "memory://"
-    LOG_LEVEL = "INFO"
-    LOG_FILE = None
-
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-    LOG_LEVEL = "DEBUG"
-    LOG_FILE = "development.log"
-    CORS_ALLOW_ORIGINS = "*"
-    LIMITER_REDIS_URL = "memory://"
-
-
-class ProductionConfig(Config):
-    DEBUG = False
-    LOG_LEVEL = "INFO"
-    LOG_FILE = "/var/log/connect_atx_elite/app.log"  # Set by deploy target
-    CORS_ALLOW_ORIGINS = "https://yourproductiondomain.com"
-    LIMITER_REDIS_URL = "redis://localhost:6379"
-

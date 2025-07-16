@@ -1,3 +1,4 @@
+invalid_token: The token is not valid as it was issued in the future
 
 
 [33m[1m+===========================================================================================================================================================================================+[0m
@@ -30,47 +31,35 @@
 
  [1mREPORT[0m 
 
-  Safety [1mv3.5.2[0m is scanning for [1mVulnerabilities[0m[1m...[0m
+  Safety [1mv3.6.0[0m is scanning for [1mVulnerabilities[0m[1m...[0m
 [1m  Scanning dependencies[0m in your [1mfiles:[0m
 
   -> requirements.txt
 
-  Using [1mthe account researchlab595@gmail.com[0m and the [1mSafety
-  Commercial database[0m
+  Using [1mopen-source vulnerability database[0m
 [1m  Found and scanned 18 packages[0m
-  Timestamp [1m2025-07-12 23:51:28[0m
-[1m  12[0m[1m vulnerabilities reported[0m
+  Timestamp [1m2025-07-15 13:25:04[0m
+[1m  17[0m[1m vulnerabilities reported[0m
 [1m  0[0m[1m vulnerabilities ignored[0m
-[1m  7[0m[1m remediations recommended[0m
 
 +==============================================================================+
  [1mVULNERABILITIES REPORTED[0m 
 +==============================================================================+
 
-[31m-> Vulnerability found in gevent version 24.2.1[0m
-[1m   Vulnerability ID: [0m73655
-[1m   Affected spec: [0m<24.10.1
-[1m   ADVISORY: [0mAffected versions of gevent are potentially vulnerable
-   to a Race Condition leading to Unauthorized Access — CWE-362.
-[1m   Fixed versions: [0m24.10.1
-[1m   PVE-2024-73655[0m
+[31m-> Vulnerability found in gunicorn version 22.0.0[0m
+[1m   Vulnerability ID: [0m72809
+[1m   Affected spec: [0m>=22.0.0,<23.0.0
+[1m   ADVISORY: [0mA vulnerability in Gunicorn allowed the
+   TolerateDangerousFraming setting to process conflicting headers (Transfer-
+   Encoding and Content-Length) and dangerous characters in HTTP header
+   fields. This could lead to HTTP request smuggling and header injection
+   attacks. The issue was resolved by removing this setting and enforcing
+   stricter header validation. Note: It happens due to an incomplete fix for
+   CVE-2024-1135.
+[1m   PVE-2024-72809[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/73655/eda[0m
-   To ignore this vulnerability, use PyUp vulnerability id 73655 in safety’s
-   ignore command-line argument or add the ignore to your safety policy file.
-
-
-[31m-> Vulnerability found in gevent version 24.2.1[0m
-[1m   Vulnerability ID: [0m76839
-[1m   Affected spec: [0m<25.4.2
-[1m   ADVISORY: [0mAffected versions of gevent were potentially vulnerable
-   to HTTP request smuggling. The issue existed in the pywsgi
-   Input._send_100_continue handling.
-[1m   Fixed versions: [0m25.4.2
-[1m   PVE-2025-76839[0m
-[1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/76839/eda[0m
-   To ignore this vulnerability, use PyUp vulnerability id 76839 in safety’s
+   [0mhttps://data.safetycli.com/v/72809/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 72809 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
 
@@ -84,48 +73,10 @@
    cache poisoning, data exposure, session manipulation, SSRF, XSS, DoS, data
    integrity compromise, security bypass, information leakage, and business
    logic abuse.
-[1m   Fixed versions: [0m23.0.0
 [1m   CVE-2024-6827[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/76244/eda[0m
+   [0mhttps://data.safetycli.com/v/76244/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 76244 in safety’s
-   ignore command-line argument or add the ignore to your safety policy file.
-
-
-[31m-> Vulnerability found in gunicorn version 22.0.0[0m
-[1m   Vulnerability ID: [0m72809
-[1m   Affected spec: [0m>=22.0.0,<23.0.0
-[1m   ADVISORY: [0mA vulnerability in Gunicorn allowed the
-   TolerateDangerousFraming setting to process conflicting headers (Transfer-
-   Encoding and Content-Length) and dangerous characters in HTTP header
-   fields. This could lead to HTTP request smuggling and header injection
-   attacks. The issue was resolved by removing this setting and enforcing
-   stricter header validation. Note: It happens due to an incomplete fix for
-   CVE-2024-1135.
-[1m   Fixed versions: [0m23.0.0
-[1m   PVE-2024-72809[0m
-[1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/72809/eda[0m
-   To ignore this vulnerability, use PyUp vulnerability id 72809 in safety’s
-   ignore command-line argument or add the ignore to your safety policy file.
-
-
-[31m-> Vulnerability found in flask-cors version 4.0.1[0m
-[1m   Vulnerability ID: [0m72731
-[1m   Affected spec: [0m<4.0.2
-[1m   ADVISORY: [0mA vulnerability in corydolphin/flask-cors version 4.0.1
-   allows the `Access-Control-Allow-Private-Network` CORS header to be set to
-   true by default. This behavior can expose private network resources to
-   unauthorized external access, leading to significant security risks such
-   as data breaches, unauthorized access to sensitive information, and
-   potential network intrusions.
-[1m   Fixed versions: [0m4.0.2
-[1m   CVE-2024-6221 is [0m[31m[1mHIGH SEVERITY => [0mCVSS v3, BASE SCORE
-   7.5, IMPACT SCORE 3.6, VECTOR STRING
-   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
-[1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/72731/eda[0m
-   To ignore this vulnerability, use PyUp vulnerability id 72731 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
 
@@ -143,11 +94,23 @@
    passed to subprocesses instead. As a workaround, and if passing
    environment variables to child processes poses a security risk for you,
    you can disable all default integrations.
-[1m   Fixed versions: [0m2.8.0
 [1m   CVE-2024-40647[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/72260/eda[0m
+   [0mhttps://data.safetycli.com/v/72260/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 72260 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in twilio version 9.0.3[0m
+[1m   Vulnerability ID: [0m71167
+[1m   Affected spec: [0m<9.1.0
+[1m   ADVISORY: [0mTwilio version 9.1.0 includes a security upgrade for the
+   aiohttp dependency, updating it from version 3.8.6 to 3.9.4. This update
+   addresses the vulnerability identified as CVE-2024-27306.
+[1m   CVE-2024-27306[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/71167/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 71167 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
 
@@ -157,12 +120,9 @@
 [1m   ADVISORY: [0mTwilio version 9.0.5 has upgraded its certifi library
    from version 2021.10.8 to 2023.7.22 in response to the security issue
    detailed in CVE-2023-37920.
-[1m   Fixed versions: [0m9.0.5
-[1m   CVE-2023-37920 is [0m[31m[1mCRITICAL SEVERITY => [0mCVSS v3, BASE
-   SCORE 9.8, IMPACT SCORE 5.9, VECTOR STRING
-   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+[1m   CVE-2023-37920[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/68033/eda[0m
+   [0mhttps://data.safetycli.com/v/68033/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 68033 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
@@ -173,12 +133,9 @@
 [1m   ADVISORY: [0mTwilio version 9.0.5 has updated its certifi library
    from version 2021.10.8 to 2023.7.22 to address the security vulnerability
    identified in CVE-2022-23491.
-[1m   Fixed versions: [0m9.0.5
-[1m   CVE-2022-23491 is [0m[31m[1mHIGH SEVERITY => [0mCVSS v3, BASE
-   SCORE 7.5, IMPACT SCORE 3.6, VECTOR STRING
-   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N
+[1m   CVE-2022-23491[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/67976/eda[0m
+   [0mhttps://data.safetycli.com/v/67976/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 67976 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
@@ -189,27 +146,35 @@
 [1m   ADVISORY: [0mTwilio version 9.0.5 has updated its certifi library
    from version 2021.10.8 to 2023.7.22 in response to the security concerns
    outlined in CVE-2023-32681.
-[1m   Fixed versions: [0m9.0.5
-[1m   CVE-2023-32681 is [0m[1mMEDIUM SEVERITY => [0mCVSS v3, BASE SCORE
-   6.1, IMPACT SCORE 4.0, VECTOR STRING
-   CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N
+[1m   CVE-2023-32681[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/68034/eda[0m
+   [0mhttps://data.safetycli.com/v/68034/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 68034 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
 
-[31m-> Vulnerability found in twilio version 9.0.3[0m
-[1m   Vulnerability ID: [0m71167
-[1m   Affected spec: [0m<9.1.0
-[1m   ADVISORY: [0mTwilio version 9.1.0 includes a security upgrade for the
-   aiohttp dependency, updating it from version 3.8.6 to 3.9.4. This update
-   addresses the vulnerability identified as CVE-2024-27306.
-[1m   Fixed versions: [0m9.1.0
-[1m   CVE-2024-27306[0m
+[31m-> Vulnerability found in gevent version 24.2.1[0m
+[1m   Vulnerability ID: [0m76839
+[1m   Affected spec: [0m<25.4.2
+[1m   ADVISORY: [0mAffected versions of gevent were potentially vulnerable
+   to HTTP request smuggling. The issue existed in the pywsgi
+   Input._send_100_continue handling.
+[1m   PVE-2025-76839[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/71167/eda[0m
-   To ignore this vulnerability, use PyUp vulnerability id 71167 in safety’s
+   [0mhttps://data.safetycli.com/v/76839/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 76839 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in gevent version 24.2.1[0m
+[1m   Vulnerability ID: [0m73655
+[1m   Affected spec: [0m<24.10.1
+[1m   ADVISORY: [0mAffected versions of gevent are potentially vulnerable
+   to a Race Condition leading to Unauthorized Access — CWE-362.
+[1m   PVE-2024-73655[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/73655/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 73655 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
 
@@ -222,11 +187,113 @@
    header name collisions or overwriting important headers in the WSGI
    environment. Such manipulation could lead to security issues depending on
    how applications process these headers.
-[1m   Fixed versions: [0m0.37.0
 [1m   PVE-2024-73179[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/73179/eda[0m
+   [0mhttps://data.safetycli.com/v/73179/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 73179 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 3.0.1[0m
+[1m   Vulnerability ID: [0m76241
+[1m   Affected spec: [0m<4.0.1
+[1m   ADVISORY: [0mcorydolphin/flask-cors version 4.0.1 contains an
+   improper regex path matching vulnerability. The plugin prioritizes longer
+   regex patterns over more specific ones when matching paths, which can lead
+   to less restrictive CORS policies being applied to sensitive endpoints.
+   This mismatch in regex pattern priority allows unauthorized cross-origin
+   access to sensitive data or functionality, potentially exposing
+   confidential information and increasing the risk of unauthorized actions
+   by malicious actors.
+[1m   CVE-2024-6839[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/76241/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 76241 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 3.0.1[0m
+[1m   Vulnerability ID: [0m70624
+[1m   Affected spec: [0m<4.0.1
+[1m   ADVISORY: [0mcorydolphin/flask-cors is vulnerable to log injection
+   when the log level is set to debug. An attacker can inject fake log
+   entries into the log file by sending a specially crafted GET request
+   containing a CRLF sequence in the request path. This vulnerability allows
+   attackers to corrupt log files, potentially covering tracks of other
+   attacks, confusing log post-processing tools, and forging log entries. The
+   issue is due to improper output neutralization for logs. See
+   CVE-2024-1681.
+[1m   CVE-2024-1681[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/70624/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 70624 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 3.0.1[0m
+[1m   Vulnerability ID: [0m76237
+[1m   Affected spec: [0m<4.0.1
+[1m   ADVISORY: [0mcorydolphin/flask-cors version 4.0.1 contains a
+   vulnerability where the request path matching is case-insensitive due to
+   the use of the try_match function, which is originally intended for
+   matching hosts. This results in a mismatch because paths in URLs are case-
+   sensitive, but the regex matching treats them as case-insensitive. This
+   misconfiguration can lead to significant security vulnerabilities,
+   allowing unauthorized origins to access paths meant to be restricted,
+   resulting in data exposure and potential data leaks.
+[1m   CVE-2024-6866[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/76237/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 76237 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 3.0.1[0m
+[1m   Vulnerability ID: [0m76242
+[1m   Affected spec: [0m<4.0.1
+[1m   ADVISORY: [0mA vulnerability in corydolphin/flask-cors version 4.0.1
+   allows for inconsistent CORS matching due to the handling of the '+'
+   character in URL paths. The request.path is passed through the
+   unquote_plus function, which converts the '+' character to a space ' '.
+   This behavior leads to incorrect path normalization, causing potential
+   mismatches in CORS configuration. As a result, endpoints may not be
+   matched correctly to their CORS settings, leading to unexpected CORS
+   policy application. This can cause unauthorized cross-origin access or
+   block valid requests, creating security vulnerabilities and usability
+   issues.
+[1m   CVE-2024-6844[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/76242/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 76242 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 3.0.1[0m
+[1m   Vulnerability ID: [0m72731
+[1m   Affected spec: [0m<4.0.2
+[1m   ADVISORY: [0mA vulnerability in corydolphin/flask-cors version 4.0.1
+   allows the `Access-Control-Allow-Private-Network` CORS header to be set to
+   true by default. This behavior can expose private network resources to
+   unauthorized external access, leading to significant security risks such
+   as data breaches, unauthorized access to sensitive information, and
+   potential network intrusions.
+[1m   CVE-2024-6221[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/72731/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 72731 in safety’s
+   ignore command-line argument or add the ignore to your safety policy file.
+
+
+[31m-> Vulnerability found in flask-cors version 3.0.1[0m
+[1m   Vulnerability ID: [0m38745
+[1m   Affected spec: [0m<3.0.9
+[1m   ADVISORY: [0mFlask-CORS before 3.0.9 allows ../ directory traversal
+   to access private resources because resource matching does not ensure that
+   pathnames are in a canonical format. See CVE-2020-25032.
+[1m   CVE-2020-25032[0m
+[1m   For more information about this vulnerability, visit
+   [0mhttps://data.safetycli.com/v/38745/97c[0m
+   To ignore this vulnerability, use PyUp vulnerability id 38745 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
 
@@ -240,10 +307,9 @@
    cookies via manipulated SECRET_KEY_FALLBACKS parameters. The vulnerability
    exists in the itsdangerous-based signing routines within flask.sessions
    (fallback key list ordering).
-[1m   Fixed versions: [0m3.1.1
 [1m   CVE-2025-47278[0m
 [1m   For more information about this vulnerability, visit
-   [0mhttps://data.safetycli.com/v/77323/eda[0m
+   [0mhttps://data.safetycli.com/v/77323/97c[0m
    To ignore this vulnerability, use PyUp vulnerability id 77323 in safety’s
    ignore command-line argument or add the ignore to your safety policy file.
 
@@ -251,87 +317,12 @@
 +==============================================================================+
    [32m[1mREMEDIATIONS[0m
 
-[31m[1m-> gevent version 24.2.1 was found, which has 2 vulnerabilities[0m
-   The closest version with no known vulnerabilities is [1m25.4.2[0m
-                                                                              
-   [32m[1mWe recommend updating to version 25.4.2 of gevent. Other version
-   without known vulnerabilities is 25.5.1[0m
-                                                                              
-   For more information about the gevent package and update options, visit
-   https://data.safetycli.com/p/pypi/gevent/eda/?from=24.2.1&to=25.4.2
-   Always check for breaking changes when updating packages.
-                                                                              
-[31m[1m-> gunicorn version 22.0.0 was found, which has 2 vulnerabilities[0m
-   The closest version with no known vulnerabilities is [1m23.0.0[0m
-                                                                              
-   [32m[1mWe recommend updating to version 23.0.0 of gunicorn. [0m
-                                                                              
-   For more information about the gunicorn package and update options, visit
-   https://data.safetycli.com/p/pypi/gunicorn/eda/?from=22.0.0&to=23.0.0
-   Always check for breaking changes when updating packages.
-                                                                              
-[31m[1m-> flask-cors version 4.0.1 was found, which has 1 vulnerability[0m
-   The closest version with no known vulnerabilities is [1m4.0.2[0m
-                                                                              
-   [32m[1mWe recommend updating to version 4.0.2 of flask-cors. Other
-   versions without known vulnerabilities are: 6.0.1, 6.0.1.dev0, 6.0.0,
-   5.0.1, 5.0.0[0m
-                                                                              
-   For more information about the flask-cors package and update options, visit
-   https://data.safetycli.com/p/pypi/flask-cors/eda/?from=4.0.1&to=4.0.2
-   Always check for breaking changes when updating packages.
-                                                                              
-[31m[1m-> sentry-sdk version 2.3.0 was found, which has 1 vulnerability[0m
-   The closest version with no known vulnerabilities is [1m2.8.0[0m
-                                                                              
-   [32m[1mWe recommend updating to version 2.8.0 of sentry-sdk. Other
-   versions without known vulnerabilities are: 3.0.0a2, 3.0.0a1, 2.32.0,
-   2.31.0, 2.30.0, 2.29.1, 2.29.0, 2.28.0, 2.27.0, 2.26.1, 2.26.0, 2.25.1,
-   2.25.0, 2.24.1, 2.24.0, 2.23.1, 2.23.0, 2.22.0, 2.21.0, 2.20.0, 2.19.2,
-   2.19.1, 2.19.0, 2.18.0, 2.17.0, 2.16.0, 2.15.0, 2.14.0, 2.13.0, 2.12.0,
-   2.11.0, 2.10.0, 2.9.0[0m
-                                                                              
-   For more information about the sentry-sdk package and update options, visit
-   https://data.safetycli.com/p/pypi/sentry-sdk/eda/?from=2.3.0&to=2.8.0
-   Always check for breaking changes when updating packages.
-                                                                              
-[31m[1m-> twilio version 9.0.3 was found, which has 4 vulnerabilities[0m
-   The closest version with no known vulnerabilities is [1m9.1.0[0m
-                                                                              
-   [32m[1mWe recommend updating to version 9.1.0 of twilio. Other versions
-   without known vulnerabilities are: 9.6.5, 9.6.4, 9.6.3, 9.6.2, 9.6.1,
-   9.6.0, 9.5.2, 9.5.1, 9.5.0, 9.4.6, 9.4.5, 9.4.4, 9.4.3, 9.4.2, 9.4.1,
-   9.4.0, 9.3.8, 9.3.7, 9.3.6, 9.3.5, 9.3.4, 9.3.3, 9.3.2, 9.3.1, 9.3.0,
-   9.2.4, 9.2.3, 9.2.2, 9.2.1, 9.2.0, 9.1.1[0m
-                                                                              
-   For more information about the twilio package and update options, visit
-   https://data.safetycli.com/p/pypi/twilio/eda/?from=9.0.3&to=9.1.0
-   Always check for breaking changes when updating packages.
-                                                                              
-[31m[1m-> eventlet version 0.35.2 was found, which has 1 vulnerability[0m
-   The closest version with no known vulnerabilities is [1m0.37.0[0m
-                                                                              
-   [32m[1mWe recommend updating to version 0.37.0 of eventlet. Other
-   versions without known vulnerabilities are: 0.40.1, 0.40.0, 0.39.1, 0.39.0,
-   0.38.2, 0.38.1, 0.38.0[0m
-                                                                              
-   For more information about the eventlet package and update options, visit
-   https://data.safetycli.com/p/pypi/eventlet/eda/?from=0.35.2&to=0.37.0
-   Always check for breaking changes when updating packages.
-                                                                              
-[31m[1m-> flask version 3.0.3 was found, which has 1 vulnerability[0m
-   The closest version with no known vulnerabilities is [1m3.1.1[0m
-                                                                              
-   [32m[1mWe recommend updating to version 3.1.1 of flask. [0m
-                                                                              
-   For more information about the flask package and update options, visit
-   https://data.safetycli.com/p/pypi/flask/eda/?from=3.0.3&to=3.1.1
-   Always check for breaking changes when updating packages.
-                                                                              
+  17 vulnerabilities were reported in 7 packages. For detailed remediation & 
+  fix recommendations, upgrade to a commercial license. 
+
 +==============================================================================+
 
- Scan was completed. 12 vulnerabilities were reported. 7 remediations were 
- recommended. 
+ Scan was completed. 17 vulnerabilities were reported. 
 
 +==============================================================================+[0m
 

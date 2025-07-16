@@ -19,11 +19,18 @@ TEMPLATE = """\
 {{% endblock %}}
 """
 
+
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(description="Starforge Homepage Builder")
-    parser.add_argument('--recipe', '-r', default="default", help="Recipe key from org_homepage_blocks.yaml")
-    parser.add_argument('--out', '-o', default="index.html", help="Output file")
+    parser.add_argument(
+        "--recipe",
+        "-r",
+        default="default",
+        help="Recipe key from org_homepage_blocks.yaml",
+    )
+    parser.add_argument("--out", "-o", default="index.html", help="Output file")
     args = parser.parse_args()
 
     with open("org_homepage_blocks.yaml") as f:
@@ -41,6 +48,7 @@ def main():
         f.write(result)
 
     print(f"✅ Built homepage '{args.out}' using '{args.recipe}' recipe!")
+
 
 if __name__ == "__main__":
     main()

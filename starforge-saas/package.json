@@ -3,39 +3,50 @@
   "version": "1.0.0",
   "description": "Connect ATX Elite PaaS platform for youth fundraising, memberships, and sponsor leaderboards",
   "private": true,
+  "author": "Connect ATX Elite Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
   "scripts": {
-    "dev:css": "postcss app/static/css/input.css -o app/static/css/globals.css --watch",
+    "prepare": "husky install",
     "build:css": "postcss app/static/css/input.css -o app/static/css/globals.css --env production",
-    "lint:css": "stylelint 'app/static/css/**/*.css'",
-    "lint:js": "eslint 'app/static/js/**/*.js'",
-    "format": "prettier --write './**/*.{js,css,html,py,json}'",
-    "test": "echo 'Add your test command here'",
-    "build": "npm run build:css",
-    "start": "npm run build && echo 'CSS built'"
+    "watch:css": "postcss app/static/css/input.css -o app/static/css/globals.css --watch",
+    "build:js": "esbuild app/static/js/main.js --bundle --minify --outfile=app/static/js/main.js --allow-overwrite",
+    "watch:js": "esbuild app/static/js/main.js --bundle --outfile=app/static/js/main.js --watch",
+    "build": "npm run lint && npm run format && npm run build:css && npm run build:js",
+    "dev": "npm-run-all --parallel watch:css watch:js",
+    "lint:css": "stylelint 'app/static/css/**/*.css' --fix",
+    "lint:js": "eslint 'app/static/js/**/*.js' --fix",
+    "lint": "npm run lint:css && npm run lint:js",
+    "format": "prettier --write '**/*.{js,css,html,py,json}'",
+    "analyze:js": "source-map-explorer app/static/js/main.js",
+    "optimize:svg": "svgo -f app/static/images --recursive",
+    "test": "echo 'No tests specified' && exit 0"
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
     "postcss-import": "^14.1.0",
     "postcss-nested": "^5.0.6",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^3.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.11",
-    "@tailwindcss/postcss": "^4.1.11",
+    "@tailwindcss/cli": "^3.0.0",
+    "@tailwindcss/postcss": "^3.0.0",
+    "esbuild": "^0.18.20",
     "eslint": "^9.31.0",
+    "husky": "^9.1.7",
     "license-checker": "^0.0.1-security",
+    "npm-run-all": "^4.1.5",
     "pa11y": "^9.0.0",
     "pa11y-reporter-html": "^2.0.0",
     "prettier": "^2.8.8",
     "source-map-explorer": "^2.5.3",
     "stylelint": "^16.21.1",
     "svgo": "^4.0.0"
-  },
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=6.0.0"
-  },
-  "license": "MIT",
-  "author": "Connect ATX Elite Team"
+  }
 }
+

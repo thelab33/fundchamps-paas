@@ -1,7 +1,5 @@
 {{ hero_img_src }}
-https://js.stripe.com/v3/
 https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}
-https://www.googletagmanager.com/gtag/js?id={{ config.GA_MEASUREMENT_ID }}
 {% if sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% else %}{{ url_for('static', filename='images/sponsors/' ~ (sponsor.logo or 'logo.webp')) }}{% endif %}
 {{ logo_src }}
 {{team.logo}}
