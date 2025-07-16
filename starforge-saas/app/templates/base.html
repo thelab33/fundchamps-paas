@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="{{ lang_code if lang_code else 'en' }}" data-theme="{{ theme if theme else 'dark' }}" class="scroll-smooth antialiased bg-zinc-950 text-white font-sans">
+<html lang="{{ lang_code or 'en' }}"
+      data-theme="{{ theme or 'dark' }}"
+      class="scroll-smooth antialiased bg-zinc-950 text-white font-sans">
 <head>
   <!-- ✅ Core Meta -->
   <meta charset="utf-8" />
@@ -34,6 +36,7 @@
   <!-- 🧠 Fonts & Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <!-- 💅 Tailwind & Core CSS -->
   <link rel="preload" as="style" href="{{ url_for('static', filename='css/tailwind.min.css') }}" />
@@ -41,37 +44,44 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-
   {% if team and team.custom_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" />
   {% endif %}
 
   {% block head_extra %}{% endblock %}
 </head>
-
 <body class="bg-zinc-950 text-white font-sans antialiased {{ team.body_class if team else '' }}">
-  <!-- ♿ Accessibility -->
+  <!-- ♿ Accessibility Skip Link -->
   <a href="#main" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50">
     Skip to main content
   </a>
 
+  {# 🔔 Announcement Bar (optional) #}
   {% block announcement %}{% endblock %}
+
+  {# 🔥 Modular Header #}
   {% include 'partials/header.html' %}
 
-  <!-- 🔧 Main Content -->
+  {# ===================== Flash Messages ===================== #}
+  {% include 'partials/flash_and_onboarding.html' %}
+  {# Flash AND onboarding live here—this keeps your main content clean #}
+
+  {# 🔧 Main Content #}
   <main id="main" role="main" tabindex="-1">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- 🧭 Footer -->
+  {# 🧭 Modular Footer #}
   {% include 'partials/footer.html' %}
 
+  {# 🌟 Global Modals (Newsletter, Sponsor, Admin Onboarding, etc) #}
   {% block global_modals %}
-    <!-- 📬 Global Newsletter Popup -->
     {% include 'partials/newsletter.html' %}
+    {# Only include onboarding popover here if NOT in flash partial #}
+    {# {% include 'partials/admin_onboarding_popover.html' %} #}
   {% endblock %}
 
-  <!-- ⚙️ JS Libraries -->
+  <!-- ⚙️ JS Libraries (Defer for speed) -->
   <script defer src="{{ url_for('static', filename='js/alpine.min.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>
@@ -81,6 +91,15 @@
     });
   </script>
   <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <style>
+    @keyframes popIn { 0% { transform: scale(0.86) translateY(60px); opacity: 0.7; } 100% { transform: none; opacity: 1; } }
+    .animate-popIn { animation-name: popIn; animation-duration: 0.6s; animation-fill-mode: forwards; }
+    #newsletter-popup.visible { display: flex !important; opacity: 1 !important; }
+  </style>
+  <script type="module">
+    import confetti from "https://cdn.skypack.dev/canvas-confetti@1.6.0";
+    // Place newsletter popup JS logic in newsletter partial for true modularity!
+  </script>
 
   <!-- 📊 Analytics (Google Tag) -->
   {% if analytics_id %}

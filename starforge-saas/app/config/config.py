@@ -6,32 +6,24 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Final, Type, Iterable
 
-# ────────────── Helpers ───────────────────────────────────────────
-# BASE_DIR is your project root
+# ────────────── Directory Constants ──────────────
 BASE_DIR: Final[Path] = Path(__file__).resolve().parent
 
-
+# ────────────── Env Helpers ──────────────
 def _bool(key: str, default: bool = False) -> bool:
-    """Helper function to return a boolean value from an environment variable."""
-    return os.getenv(key, str(int(default))).strip().lower() in {
-        "1",
-        "true",
-        "yes",
-        "on",
-    }
-
+    """Get a boolean from environment (1/true/yes/on)."""
+    return os.getenv(key, str(int(default))).strip().lower() in {"1", "true", "yes", "on"}
 
 def _int(key: str, default: int) -> int:
-    """Helper function to return an integer value from an environment variable."""
+    """Get an integer from environment, or use default."""
     try:
         return int(os.getenv(key, default))
-    except ValueError:
+    except (ValueError, TypeError):
         raise RuntimeError(f"Env var {key} must be integer, got: {os.getenv(key)}")
 
-
-# ────────────── Base Configuration ─────────────────────────────────
+# ────────────── Base Config ──────────────
 class BaseConfig:
-    """Base configuration class for common settings."""
+    """Common settings. Inherit for per-env configs."""
 
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me-before-prod")
     ENV: Final[str] = os.getenv("FLASK_ENV", "production")
@@ -58,10 +50,8 @@ class BaseConfig:
         "MAIL_DEFAULT_SENDER", "noreply@connectatxelite.com"
     )
 
-    # Feature toggles
+    # Features & Branding
     FEATURE_DARK_MODE: bool = _bool("FEATURE_DARK_MODE", True)
-
-    # Branding
     BRAND_NAME: str = os.getenv("BRAND_NAME", "Connect ATX Elite")
     BRAND_TAGLINE: str = os.getenv(
         "BRAND_TAGLINE",
@@ -71,13 +61,13 @@ class BaseConfig:
 
     @classmethod
     def init_app(cls, app):
-        """Initialize the Flask app with the configuration."""
+        """Attach config to Flask app & set up logging."""
         logging.basicConfig(
             level=cls.LOG_LEVEL,
             format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
         )
         if _bool("PRINT_CONFIG", False):
-            app.logger.info("Loaded configuration: %s", cls.__name__)
+            app.logger.info(f"Loaded config: {cls.__name__}")
             print(
                 json.dumps(
                     {k: v for k, v in cls.__dict__.items() if k.isupper()},
@@ -85,33 +75,25 @@ class BaseConfig:
                 )
             )
 
-
-# ────────────── Environment-Specific Configurations ───────────────
+# ────────────── Environment Configs ──────────────
 class DevelopmentConfig(BaseConfig):
-    """Development configuration with debugging enabled."""
-
     ENV = "development"
     DEBUG = True
 
-
 class TestingConfig(BaseConfig):
-    """Testing configuration for unit testing."""
-
     ENV = "testing"
-    TESTING: bool = True
-    DEBUG: bool = True
-    SQLALCHEMY_DATABASE_URI: str = (
+    TESTING = True
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = (
         os.getenv("DATABASE_URL") or f"sqlite:///{BASE_DIR}/app/data/app.db"
     )
 
-
 class ProductionConfig(BaseConfig):
-    """Production configuration with additional security settings."""
-
     ENV = "production"
     DEBUG = False
-    SESSION_COOKIE_SECURE: bool = True
+    SESSION_COOKIE_SECURE = True
 
+    # Required in prod!
     REQUIRED_VARS: Final[Iterable[str]] = (
         "SECRET_KEY",
         "STRIPE_SECRET_KEY",
@@ -123,27 +105,34 @@ class ProductionConfig(BaseConfig):
 
     @classmethod
     def init_app(cls, app):
-        """Initialize the app with production-specific settings."""
         super().init_app(app)
-        missing = [var for var in cls.REQUIRED_VARS if not os.getenv(var)]
+        missing = [v for v in cls.REQUIRED_VARS if not os.getenv(v)]
         if missing:
             raise RuntimeError(
                 f"Missing required environment vars: {', '.join(missing)}"
             )
 
-
-# ────────────── Configuration Selector ───────────────────────────
+# ────────────── Config Map & Factory ──────────────
 config_map: dict[str, Type[BaseConfig]] = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig,
 }
 
-
 def get_config() -> Type[BaseConfig]:
-    """Select the appropriate configuration based on the environment."""
+    """Return the config class for current FLASK_ENV."""
     return config_map.get(os.getenv("FLASK_ENV", "production"), ProductionConfig)
 
-
-# Initialize the app's config
 config = get_config()
+
+# ────────────── 🚀 Flex Upgrades (Bonus) ──────────────
+# 1. Auto-generate SECRET_KEY if unset and in dev
+if config is DevelopmentConfig and config.SECRET_KEY == "change-me-before-prod":
+    import secrets
+    new_key = secrets.token_urlsafe(64)
+    print(f"[starforge] Generated SECRET_KEY for dev: {new_key}")
+
+# 2. (Optional) Dynamic env validation, env var dump, config linter, etc. available!
+
+# (End of file)
+

@@ -1,181 +1,23 @@
-<!-- ░▒▓█ Connect ATX Elite · Testimonials (Starforge Elite, Confetti + Carousel) █▓▒░ -->
-<section
-  id="testimonials"
-  class="relative isolate bg-gradient-to-br from-zinc-800 to-black py-24 md:py-32 px-6 text-white z-10"
-  role="region"
-  aria-labelledby="testimonials-heading"
-  tabindex="-1"
-  style="scroll-margin-top: 80px"
->
-  <div class="max-w-5xl mx-auto text-center space-y-14">
-    <!-- Headline w/ 5-star rating -->
-    <div>
-      <div
-        class="flex justify-center items-center gap-1 text-2xl md:text-3xl text-amber-400 animate-sparkle select-none"
-        aria-hidden="true"
-      >
-        {% for _ in range(5) %}
-          <span>★</span>
-        {% endfor %}
-        <span class="ml-2 text-base font-semibold text-amber-200">(5.0)</span>
-      </div>
-
-      <h2
-        id="testimonials-heading"
-        class="mt-3 text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-gold via-yellow-400 to-gold bg-clip-text-transparent drop-shadow-xl animate-shine"
-      >
-        Families & Players Rave About the Experience
-      </h2>
-      <p class="mt-5 text-lg text-yellow-100/90 max-w-xl mx-auto font-medium">
-        Hear how our culture, coaching, and community are changing lives—on and off the court.
-      </p>
-    </div>
-
-    <!-- Testimonial Carousel -->
-    <div class="relative max-w-3xl mx-auto">
-      <figure
-        id="quoteBox"
-        class="relative italic text-lg sm:text-xl text-white/90 rounded-xl p-8 bg-zinc-900/85 shadow-lg outline-none select-text transition-opacity duration-500 min-h-[132px] flex-col items-center"
-        aria-live="polite"
-        aria-atomic="true"
-        tabindex="0"
-      >
-        <span
-          id="confettiEmoji"
-          class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 transition-opacity duration-700 pointer-events-none text-3xl"
-          aria-hidden="true"
-        >
-          🎉🎊✨
-        </span>
-        <blockquote id="quoteText" class="mb-3">Loading…</blockquote>
-        <figcaption
-          id="quoteAuthor"
-          class="mt-2 text-base font-semibold text-amber-300"
-        ></figcaption>
-        <button
-          id="copyQuoteBtn"
-          class="mt-6 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-yellow-400 text-zinc-900 font-semibold hover:bg-yellow-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 transition text-base"
-          aria-label="Copy testimonial to clipboard"
-        >
-          📋 Copy Quote
-        </button>
+{# ================== partials/testimonials.html ================== #}
+<section aria-labelledby="testimonials-heading" class="relative z-10 py-14 px-4 sm:px-8 max-w-5xl mx-auto">
+  <h2 class="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-xl mb-8 text-center" id="testimonials-heading">
+    💬 What Families Are Saying
+  </h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7">
+    {% for t in testimonials %}
+      <figure class="bg-zinc-900 rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:scale-105 focus-within:ring-4 focus-within:ring-yellow-400 transition" tabindex="0">
+        <blockquote class="text-lg text-yellow-200 font-semibold italic mb-3">
+          “{{ t.quote }}”
+        </blockquote>
+        <figcaption class="text-yellow-300 font-bold mt-1 text-base">
+          — {{ t.author }}
+        </figcaption>
+        {% if t.role %}
+          <div class="text-yellow-200 text-xs font-medium mt-1 opacity-80">{{ t.role }}</div>
+        {% endif %}
       </figure>
-      <div class="flex justify-center mt-8 gap-2" id="testimonial-dots"></div>
-    </div>
-
-    <!-- Championship Photo -->
-    <div class="flex justify-center mt-6">
-      <img
-        src="https://static.wixstatic.com/media/2f0953_5d94082989fb4c4eb31f7f440de183c2~mv2.jpg/v1/fill/w_1100,h_1034,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_2031.jpg"
-        alt="Connect ATX Elite team showing off championship rings"
-        class="rounded-2xl shadow-2xl w-full max-w-md border-4 border-amber-400/60 object-cover"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
+    {% endfor %}
   </div>
-
-  <!-- Canvas confetti (ESM for best browser support) -->
-  <script type="module">
-    import confetti from "https://cdn.skypack.dev/canvas-confetti@1.6.0";
-    
-    const testimonials = window.TESTIMONIALS || [
-      {
-        q: "Winning felt amazing — but it’s being part of a team that believes in you that means the most.",
-        a: "Connect ATX Elite Player, Class of 2030",
-      },
-      {
-        q: "Being part of Connect ATX Elite helps me stay focused in school and basketball. I want to make my family proud.",
-        a: "Honor-Roll Scholar-Athlete",
-      },
-      {
-        q: "I’ve seen real changes in my son — he’s more disciplined, focused, and confident in class and in life.",
-        a: "Team Parent",
-      },
-    ];
-
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let idx = 0, autoTimer;
-    const quoteEl = document.getElementById("quoteText");
-    const authorEl = document.getElementById("quoteAuthor");
-    const emoji = document.getElementById("confettiEmoji");
-    const box = document.getElementById("quoteBox");
-    const dotsWrap = document.getElementById("testimonial-dots");
-
-    // Dots (dynamic, for any count)
-    dotsWrap.innerHTML = "";
-    testimonials.forEach((_, i) => {
-      const dot = document.createElement("button");
-      dot.className = "carousel-dot";
-      dot.setAttribute("aria-label", `Show testimonial ${i + 1}`);
-      dot.setAttribute("tabindex", "0");
-      dot.onclick = () => {
-        clearInterval(autoTimer);
-        show(i);
-        startAuto();
-      };
-      dotsWrap.appendChild(dot);
-    });
-
-    const dots = Array.from(dotsWrap.children);
-
-    // Show testimonial (w/ animation)
-    function show(i, animate = true) {
-      idx = (i + testimonials.length) % testimonials.length;
-      quoteEl.textContent = `“${testimonials[idx].q}”`;
-      authorEl.textContent = `— ${testimonials[idx].a}`;
-      dots.forEach((d, j) => d.classList.toggle("active", j === idx));
-
-      if (animate && !prefersReduced) {
-        box.style.opacity = 0;
-        setTimeout(() => (box.style.opacity = 1), 70);
-      }
-    }
-
-    // Keyboard navigation
-    box.addEventListener("keydown", (e) => {
-      if (["ArrowRight", "ArrowDown"].includes(e.key)) show(idx + 1);
-      if (["ArrowLeft", "ArrowUp"].includes(e.key)) show(idx - 1);
-    });
-
-    // Touch swipe navigation
-    let startX = null;
-    box.addEventListener("touchstart", (e) => (startX = e.touches[0].clientX), { passive: true });
-    box.addEventListener("touchend", (e) => {
-      if (startX === null) return;
-      const delta = e.changedTouches[0].clientX - startX;
-      if (Math.abs(delta) > 50) show(delta < 0 ? idx + 1 : idx - 1);
-      startX = null;
-    }, { passive: true });
-
-    // Copy-to-clipboard with confetti
-    document.getElementById("copyQuoteBtn").addEventListener("click", async () => {
-      await navigator.clipboard.writeText(`${testimonials[idx].q} — ${testimonials[idx].a}`);
-      if (prefersReduced) return;
-      emoji.style.opacity = 1;
-      confetti({
-        particleCount: 120,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ["#facc15", "#fde68a", "#0a0a0a"],
-        disableForReducedMotion: true,
-      });
-      setTimeout(() => (emoji.style.opacity = 0), 1200);
-    });
-
-    // Autoplay
-    function startAuto() {
-      if (prefersReduced) return;
-      autoTimer = setInterval(() => show(idx + 1, false), 8500);
-    }
-
-    box.addEventListener("mouseenter", () => clearInterval(autoTimer));
-    box.addEventListener("mouseleave", startAuto);
-    box.addEventListener("focusin", () => clearInterval(autoTimer));
-    box.addEventListener("focusout", startAuto);
-
-    show(0, false);
-    startAuto();
-  </script>
+  {# Optional: Carousel controls or auto-advance for premium SaaS clients #}
 </section>
 

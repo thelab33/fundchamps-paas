@@ -1,9 +1,11 @@
 {#
-================================================================================
-Admin Dashboard Widgets — Displays four key stats with dynamic data, ARIA roles,
-and analytics hooks
-================================================================================#
-}
+  ==========================
+  Admin Dashboard Widgets
+  ==========================
+  - Dynamic data
+  - ARIA roles & a11y
+  - Analytics hooks (Google Analytics, etc)
+#}
 
 <section
   aria-labelledby="dashboard-widgets-heading"
@@ -33,14 +35,13 @@ and analytics hooks
             class="grid grid-cols-1 sm:grid-cols-2 gap-6"
             role="list"
           >
-            {# Define dashboard widgets with label, value, icon, and analytics event #}
+            {# Dynamic dashboard widgets: pass these from Flask! #}
             {% set widgets = [
               {'label': 'Total Donations', 'value': total_donations, 'icon': '💰', 'analytics': 'widget_total_donations'},
               {'label': 'New Sponsors', 'value': new_sponsors, 'icon': '🤝', 'analytics': 'widget_new_sponsors'},
               {'label': 'Active Players', 'value': active_players, 'icon': '🏀', 'analytics': 'widget_active_players'},
               {'label': 'Upcoming Events', 'value': upcoming_events, 'icon': '📅', 'analytics': 'widget_upcoming_events'}
             ] %}
-
             {% for w in widgets %}
               <li
                 aria-label="{{ w.label }}: {{ w.value or '0' }}"
@@ -73,10 +74,7 @@ and analytics hooks
 </section>
 
 <script>
-  /**
-   * Track dashboard widget engagement with Google Analytics.
-   * @param {string} name - Analytics event label
-   */
+  // SaaS-grade: Analytics engagement tracker for dashboard widgets
   function trackWidgetClick(name) {
     if (window.gtag) {
       window.gtag("event", "widget_click", {

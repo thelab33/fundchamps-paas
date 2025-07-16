@@ -1,9 +1,4 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
-# Remove stale .pyc files that cause conflicts
-git rm --cached -r **/__pycache__ || true
-git rm --cached -r **/*.pyc || true
-
-# Run lint and format as you already have configured
-npm run lint && npm run format && git add .
+npx lint-staged

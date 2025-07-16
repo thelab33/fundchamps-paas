@@ -1,23 +1,33 @@
-<!-- ===================== Program Stats and Calendar ===================== -->
-<section aria-labelledby="program-stats-heading" class="relative py-16 px-4 sm:px-8 bg-gradient-to-b from-zinc-900 via-black to-zinc-950 rounded-3xl shadow-2xl" id="program-stats-and-calendar" role="region" tabindex="-1">
-  <!-- Stats Grid -->
-  <div aria-label="Program statistics" class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center" data-aos="fade-up" data-aos-delay="100">
-    {% set stats = [
+{# ===================== Program Stats & Calendar ===================== #}
+<section aria-labelledby="program-stats-heading"
+         class="relative py-16 px-4 sm:px-8 bg-gradient-to-b from-zinc-900 via-black to-zinc-950 rounded-3xl shadow-2xl"
+         id="program-stats-and-calendar"
+         role="region"
+         tabindex="-1">
+
+  <!-- 🎯 Stats Grid -->
+  <div aria-label="Program statistics"
+       class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center mb-12"
+       data-aos="fade-up"
+       data-aos-delay="100">
+    {% set stats = stats if stats is defined else [
       { 'label': 'GPA Avg', 'value': 3.5 },
       { 'label': 'Students', 'value': 22 },
       { 'label': 'Goal $', 'value': 10000 },
       { 'label': 'Sponsors', 'value': 17 }
     ] %}
     {% for stat in stats %}
-      <div aria-label="{{ stat.label }}: {{ stat.value }}" class="text-lg font-semibold text-yellow-300 opacity-90">
-        <span class="block text-4xl font-extrabold text-yellow-400 counter" data-target="{{ stat.value }}">0</span>
+      <div aria-label="{{ stat.label }}: {{ stat.value }}"
+           class="text-lg font-semibold text-yellow-300 opacity-90">
+        <span class="block text-4xl font-extrabold text-yellow-400 counter"
+              data-target="{{ stat.value }}">0</span>
         <p class="mt-2 text-sm text-white">{{ stat.label }}</p>
       </div>
     {% endfor %}
   </div>
 
-  <!-- Calendar Section -->
-  <div class="max-w-4xl mx-auto mt-10">
+  <!-- 🗓️ Calendar Section -->
+  <div class="max-w-4xl mx-auto">
     <h2 class="text-3xl sm:text-4xl font-extrabold text-yellow-300 text-center mb-6" id="program-calendar-heading">
       📅 Upcoming Events & Schedule
     </h2>
@@ -33,20 +43,18 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Example Event Rows -->
-            <tr>
-              <td class="px-4 py-2">July 20, 2025</td>
-              <td class="px-4 py-2">AAU Tournament</td>
-              <td class="px-4 py-2">East Austin Gym</td>
-              <td class="px-4 py-2">10:00 AM</td>
-            </tr>
-            <tr class="bg-zinc-900">
-              <td class="px-4 py-2">July 22, 2025</td>
-              <td class="px-4 py-2">Team Practice</td>
-              <td class="px-4 py-2">East Austin Gym</td>
-              <td class="px-4 py-2">5:00 PM</td>
-            </tr>
-            <!-- Add more events here -->
+            {% set events = events if events is defined else [
+              { 'date': 'July 20, 2025', 'name': 'AAU Tournament', 'location': 'East Austin Gym', 'time': '10:00 AM' },
+              { 'date': 'July 22, 2025', 'name': 'Team Practice', 'location': 'East Austin Gym', 'time': '5:00 PM' }
+            ] %}
+            {% for event in events %}
+              <tr class="{% if loop.index0 % 2 == 1 %}bg-zinc-900{% endif %}">
+                <td class="px-4 py-2">{{ event.date }}</td>
+                <td class="px-4 py-2">{{ event.name }}</td>
+                <td class="px-4 py-2">{{ event.location }}</td>
+                <td class="px-4 py-2">{{ event.time }}</td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -55,7 +63,42 @@
           View Full Calendar
         </a>
       </div>
+      {# Flex/Upgrade: Add "Sync to Google Calendar" for SaaS clubs! #}
+      {# <div class="mt-2 text-center text-xs text-yellow-200 opacity-80">Sync events to your Google Calendar – <a href="#" class="underline hover:text-yellow-400">Coming soon</a></div> #}
     </div>
   </div>
 </section>
+
+<script>
+  // 🔢 Animate Counters on Scroll (use for stats!)
+  document.addEventListener("DOMContentLoaded", () => {
+    const counters = document.querySelectorAll(".counter");
+    function animateCounters() {
+      counters.forEach((el) => {
+        const target = +el.dataset.target;
+        const step = Math.ceil(target / 80);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            el.textContent = target;
+            clearInterval(timer);
+          } else {
+            el.textContent = current;
+          }
+        }, 18);
+      });
+    }
+    // IntersectionObserver triggers once stats grid is visible
+    new IntersectionObserver(
+      (entries, observer) => {
+        if (entries[0].isIntersecting) {
+          animateCounters();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    ).observe(document.getElementById("program-stats-and-calendar"));
+  });
+</script>
 

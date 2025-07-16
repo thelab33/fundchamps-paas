@@ -1,4 +1,4 @@
-{# ================== app/templates/index.html (SaaS Homepage) ================== #}
+{# =================== app/templates/index.html (SaaS Homepage) =================== #}
 {% extends "base.html" %}
 
 {% block title %}
@@ -6,44 +6,52 @@
 {% endblock %}
 
 {% block content %}
-  {# ───────────────────────────────
-     🏀 HERO + CTA Fundraising Banner
-     ─────────────────────────────── #}
+
+  {# 🏀 HERO + Fundraising CTA (always first) #}
   {% include "partials/hero_and_fundraiser.html" %}
-  {% include "partials/hero_overlay_quote.html" %}
+  {% include "partials/hero_overlay_quote.html" ignore missing %}
 
-  {# ───────────────────────────────
-     🙌 Sponsor Tiers + Stats
-     ─────────────────────────────── #}
+  {# 🌟 Sponsor Leaderboard & Live Sponsor Block #}
+  {% include "partials/sponsor_leaderboard.html" ignore missing %}
+  {% include "partials/sponsor_block.html" ignore missing %}
 
-  {% include "partials/sponsor_leaderboard.html" %}
-  {% include "partials/sponsor_block.html" %}
+  {# 🧬 About & Mission Statement #}
+  {% include "partials/about_and_mission.html" ignore missing %}
 
-  {# ───────────────────────────────
-     🧬 About & Mission Statement
-     ─────────────────────────────── #}
-  {% include "partials/about_and_mission.html" %}
+  {# 🏆 Team Coaches & Board (shows human side) #}
+  {% include "partials/coaches_board.html" ignore missing %}
 
-  {# ───────────────────────────────
-     💬 Testimonials (Carousel or Grid)
-     ─────────────────────────────── #}
-  {% include "partials/testimonials.html" %}
+  {# 💬 Testimonials / Social Proof #}
+  {% include "partials/testimonials.html" ignore missing %}
 
-  {# ───────────────────────────────
-     🌐 Sponsor Wall (Logo Marquee)
-     ─────────────────────────────── #}
-  {% include "partials/sponsor_wall.html" %}
+  {# 🌐 Sponsor Wall (Logo Marquee) #}
+  {% if team.show_sponsor_wall or (sponsors is defined and sponsors|length > 0) %}
+    {% include "partials/sponsor_wall.html" %}
+  {% endif %}
 
-  {# ───────────────────────────────
-     🔗 Digital Hub (Links, Social, Docs)
-     ─────────────────────────────── #}
-  {# Uncomment to enable #}
-  {# {% include "partials/digital_hub.html" %} #}
+  {# 🚀 Social Share (virality, copy link, social icons) #}
+  {% include "partials/social_share.html" ignore missing %}
 
-  {# ───────────────────────────────
-     📆 Program Calendar + Stats (Future Add-On)
-     ─────────────────────────────── #}
-  {# Optional future add-on for program calendar and stats #}
-  {# {% include "partials/program_stats_and_calendar.html" %} #}
+  {# 🤖 Digital Hub (support, docs, AI Concierge, only if enabled) #}
+  {% if features.digital_hub_enabled %}
+    {% include "partials/digital_hub.html" %}
+  {% endif %}
+
+  {# 📅 Program Calendar + Stats (feature flag) #}
+  {% if features.program_calendar %}
+    {% include "partials/program_stats_and_calendar.html" %}
+  {% endif %}
+
+  {# 💼 Admin Dashboard Widgets (if admin, for owner demo/flex) #}
+  {% if current_user.is_authenticated and current_user.is_admin %}
+    {% include "partials/dashboard_widgets.html" %}
+  {% endif %}
+
+  {# 💳 Payment & Trust Badges (global trust) #}
+  {% include "partials/payment_badges.html" ignore missing %}
+
+  {# 🔦 VIP/Spotlight/Confetti Snippet (show on homepage, or via JS trigger anywhere) #}
+  {% include "partials/spotlight_snippet.html" ignore missing %}
+
 {% endblock %}
 

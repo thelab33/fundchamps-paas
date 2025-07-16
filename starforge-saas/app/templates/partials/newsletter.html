@@ -1,211 +1,46 @@
 {# ===================== Newsletter Modal Popup ===================== #}
-<div aria-labelledby="newsletter-title" aria-modal="true" class="fixed inset-0 z-[12000] hidden items-center justify-center bg-black opacity-70 transition-opacity duration-300" id="newsletter-popup" role="dialog" tabindex="-1">
-  <div class="relative w-[95vw] max-w-xs rounded-3xl bg-zinc-900 p-8 text-center text-yellow-100 font-geist shadow-lg animate-popIn" id="newsletter-content" style="animation-timing-function: cubic-bezier(0.4, 2, 0.2, 1)" tabindex="0">
-    <button aria-label="Close newsletter popup" class="absolute right-4 top-4 text-3xl font-bold text-yellow-400 hover:text-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full transition-colors" id="newsletter-close" type="button">
+<div aria-labelledby="newsletter-title" aria-modal="true"
+     class="fixed inset-0 z-[12000] hidden items-center justify-center bg-black/80 backdrop-blur-lg transition-opacity duration-300"
+     id="newsletter-popup"
+     role="dialog"
+     tabindex="-1">
+  <div class="relative w-[95vw] max-w-xs rounded-3xl bg-zinc-900 p-8 text-center text-yellow-100 font-geist shadow-lg animate-popIn"
+       id="newsletter-content"
+       tabindex="0"
+       style="animation-timing-function: cubic-bezier(0.4, 2, 0.2, 1)">
+    <button aria-label="Close newsletter popup"
+            class="absolute right-4 top-4 text-3xl font-bold text-yellow-400 hover:text-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full transition-colors"
+            id="newsletter-close"
+            type="button">
       ×
     </button>
     <h2 class="mb-2 text-2xl font-extrabold text-yellow-300" id="newsletter-title">
       Stay in the Loop!
     </h2>
-    <p class="mb-1 text-xs text-amber-200">
-      Privacy: We’ll never sell or share your email.
-    </p>
+    <p class="mb-1 text-xs text-amber-200">Privacy: We’ll never sell or share your email.</p>
     <p class="mb-6 text-base text-yellow-100 opacity-90">
       Get exclusive updates, game invites, and ways to help
-      <strong>Connect ATX Elite</strong> shine.
-      <br />
-      <span class="font-semibold text-yellow-200">
-        One email a month, no spam ever.
-      </span>
+      <strong>Connect ATX Elite</strong> shine.<br>
+      <span class="font-semibold text-yellow-200">One email a month, no spam ever.</span>
     </p>
     <form id="newsletter-form" name="newsletter-form" novalidate>
-      <input aria-describedby="email-error" autocomplete="email" class="w-[90%] rounded-full border-2 border-yellow-400 opacity-50 bg-yellow-50 py-2 px-4 text-gray-900 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 outline-none transition" id="newsletter-email" name="email" placeholder="Your email address" required type="email" />
-      <div aria-live="assertive" class="mt-1 hidden text-sm font-bold text-red-600" id="email-error" role="alert"></div>
-      <button class="mt-3 rounded-full bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 px-8 py-3 font-bold text-zinc-900 shadow-md transition hover:brightness-110 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400" type="submit">
+      <input aria-describedby="email-error" autocomplete="email"
+             class="w-[90%] rounded-full border-2 border-yellow-400 opacity-50 bg-yellow-50 py-2 px-4 text-gray-900 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 outline-none transition"
+             id="newsletter-email" name="email" placeholder="Your email address" required type="email" />
+      <div aria-live="assertive"
+           class="mt-1 hidden text-sm font-bold text-red-600"
+           id="email-error"
+           role="alert"></div>
+      <button class="mt-3 rounded-full bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 px-8 py-3 font-bold text-zinc-900 shadow-md transition hover:brightness-110 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              type="submit">
         Subscribe
       </button>
-      <div aria-live="polite" class="mt-4 hidden text-center text-cyan-400 text-lg font-semibold tracking-wide" id="newsletter-thankyou">
+      <div aria-live="polite"
+           class="mt-4 hidden text-center text-cyan-400 text-lg font-semibold tracking-wide"
+           id="newsletter-thankyou">
         Never miss an invite—exclusive to our email fam!
       </div>
     </form>
   </div>
 </div>
-
-<style>
-  @keyframes popIn {
-    0% {
-      transform: scale(0.86) translateY(60px);
-      opacity: 0.7;
-    }
-    100% {
-      transform: none;
-      opacity: 1;
-    }
-  }
-  .animate-popIn {
-    animation-name: popIn;
-    animation-duration: 0.6s;
-    animation-fill-mode: forwards;
-  }
-  #newsletter-popup.visible {
-    display: flex !important;
-    opacity: 1 !important;
-  }
-</style>
-
-{# ===================== Coaches & Board Section ===================== #}
-<section aria-labelledby="board-coaches-title" class="bg-zinc-900 py-8 text-yellow-200">
-  <div class="container mx-auto max-w-4xl px-4 text-center">
-    <h2 class="mb-7 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 bg-clip-text text-3xl font-extrabold text-transparent drop-shadow-md sm:text-2xl" id="board-coaches-title">
-      Meet Our Coaches & Board
-    </h2>
-    <div class="flex flex-wrap justify-center gap-7">
-      {% for coach in coaches or [
-        {'name':'Coach Angel Rodriguez', 'role':'Head Coach', 'img':'coach-angel.jpg'},
-        {'name':'B. Johnson', 'role':'Assistant Coach', 'img':'coach-bj.jpg'},
-        {'name':'Mimi Rodriguez', 'role':'Board Chair', 'img':'mimi.jpg'},
-        {'name':'Chris G.', 'role':'Fundraising Lead', 'img':'chris.jpg'}
-      ] %}
-      <article aria-label="{{ coach.name }}, {{ coach.role }}" class="flex flex-col items-center rounded-2xl bg-zinc-800 opacity-70 p-6 shadow-md transition-transform hover:scale-105 focus-within:ring-4 focus-within:ring-yellow-400" tabindex="0">
-        <img alt="{{ coach.name }}" class="mb-3 h-20 w-20 rounded-full border-4 border-yellow-300 bg-white object-cover shadow-inner" decoding="async" loading="lazy" src="{{ url_for('static', filename='images/board/' ~ coach.img) }}" />
-        <div class="text-lg font-bold text-yellow-400">
-          {{ coach.name }}
-        </div>
-        <div class="text-sm text-yellow-300">
-          {{ coach.role }}
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-{# ===================== Social Share Buttons ===================== #}
-{% set campaign_url = url_for('main.home', _external=True) %}
-{% set social_links = {
-  'Facebook': 'https://facebook.com/sharer/sharer.php?u=' ~ campaign_url,
-  'Twitter/X': 'https://twitter.com/intent/tweet?text=Support+Connect+ATX+Elite!&url=' ~ campaign_url,
-  'Instagram': 'https://www.instagram.com/'
-} %}
-<section aria-label="Social Share Buttons" class="flex flex-wrap justify-center gap-4 bg-black opacity-90 py-6">
-  {% for name, url in social_links.items() %}
-  <a href="{{ url }}" target="_blank" rel="noopener noreferrer" aria-label="Share on {{ name }}" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-white shadow transition hover:brightness-110
-    {{ 'bg-blue-600' if name == 'Facebook' else 'bg-blue-400' if name == 'Twitter/X' else 'bg-pink-500' }}">
-    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor">
-      <!-- Replace with your actual icons -->
-      <use href="#icon-{{ name | lower | replace('x', 'x') }}"></use>
-    </svg>
-    {{ name }}
-  </a>
-  {% endfor %}
-  <button aria-label="Copy fundraising campaign link" class="inline-flex items-center gap-2 rounded-full bg-yellow-400 px-4 py-2 text-black shadow transition hover:bg-yellow-300" onclick="navigator.clipboard.writeText('{{ campaign_url }}'); this.textContent='Link Copied!'; setTimeout(() => this.textContent = 'Copy Campaign Link', 1500);" type="button">
-    📋 Copy Campaign Link
-  </button>
-</section>
-
-{# ===================== Payment & Trust Badges ===================== #}
-<section aria-label="Payment and Trust Badges" class="flex flex-wrap items-center justify-center gap-6 border-t border-yellow-300 bg-gradient-to-r from-zinc-900 via-black to-yellow-900 opacity-10 py-4 text-yellow-300 text-sm">
-  {% set payment_badges = [
-    { 'src': 'images/pay/applepay.svg', 'alt': 'Apple Pay', 'label': 'Apple Pay' },
-    { 'src': 'images/pay/paypal.svg', 'alt': 'PayPal', 'label': 'PayPal' },
-    { 'src': 'images/pay/venmo.svg', 'alt': 'Venmo', 'label': 'Venmo' }
-  ] %}
-  <span class="inline-flex items-center gap-2 rounded-full bg-black opacity-80 px-4 py-2 shadow border border-yellow-400 opacity-30">
-    🔒 100% Secure Payment
-  </span>
-  {% for badge in payment_badges %}
-  <span class="inline-flex items-center gap-2 rounded-full bg-black opacity-80 px-4 py-2 shadow border border-yellow-400 opacity-30">
-    <img alt="{{ badge.alt }}" class="h-5 w-auto" decoding="async" loading="lazy" src="{{ url_for('static', filename=badge.src) }}" />
-    {{ badge.label }}
-  </span>
-  {% endfor %}
-  <span class="inline-flex items-center gap-2 rounded-full bg-black opacity-80 px-4 py-2 shadow border border-yellow-400 opacity-30">
-    ✔️ Verified Non-Profit
-  </span>
-</section>
-
-<script type="module">
-  import confetti from "https://cdn.skypack.dev/canvas-confetti@1.6.0";
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const popup = document.getElementById("newsletter-popup");
-    const closeBtn = document.getElementById("newsletter-close");
-    const form = document.getElementById("newsletter-form");
-    const emailInput = document.getElementById("newsletter-email");
-    const errorMsg = document.getElementById("email-error");
-    const thankyou = document.getElementById("newsletter-thankyou");
-
-    const STORAGE_KEY = "connectatx_newsletter_dismissed";
-
-    if (localStorage.getItem(STORAGE_KEY) !== "true") {
-      setTimeout(() => {
-        popup.classList.remove("hidden");
-        popup.classList.add("visible");
-        popup.focus();
-      }, 4200);
-    }
-
-    function closePopup() {
-      popup.classList.remove("visible");
-      popup.classList.add("hidden");
-      errorMsg.classList.add("hidden");
-      errorMsg.textContent = "";
-      thankyou.classList.add("hidden");
-      emailInput.value = "";
-      localStorage.setItem(STORAGE_KEY, "true");
-    }
-
-    closeBtn.addEventListener("click", closePopup);
-    popup.addEventListener("click", (e) => {
-      if (e.target === popup) closePopup();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (popup.classList.contains("visible") && e.key === "Escape") {
-        closePopup();
-      }
-    });
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      errorMsg.classList.add("hidden");
-      errorMsg.textContent = "";
-      thankyou.classList.add("hidden");
-
-      const email = emailInput.value.trim();
-      if (!emailRegex.test(email)) {
-        errorMsg.textContent = "Please enter a valid email address.";
-        errorMsg.classList.remove("hidden");
-        emailInput.focus();
-        return;
-      }
-
-      try {
-        // TODO: Replace with your actual subscription API call
-        // const res = await fetch('/api/subscribe', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ email }),
-        // });
-        // if (!res.ok) throw new Error('Subscription failed');
-
-        thankyou.textContent = "🎉 Thanks for subscribing! Check your inbox for updates.";
-        thankyou.classList.remove("hidden");
-
-        confetti({
-          particleCount: 60,
-          spread: 66,
-          origin: { y: 0.75 },
-          colors: ["#facc15", "#fde68a", "#16a34a"],
-        });
-
-        setTimeout(closePopup, 3000);
-      } catch (err) {
-        errorMsg.textContent = "Oops! Something went wrong. Please try again.";
-        errorMsg.classList.remove("hidden");
-      }
-    });
-  });
-</script>
 

@@ -1,4 +1,4 @@
-{# ===================== Combined Hero + Fundraiser Section ===================== #}
+{# ===================== Combined Hero + Fundraiser Section (Premium) ===================== #}
 <section
   aria-labelledby="hero-heading"
   class="connect-hero relative z-20 flex flex-col items-center justify-center min-h-[92vh] md:min-h-screen overflow-hidden pt-20 md:pt-28 scroll-mt-24 md:scroll-mt-32"
@@ -7,7 +7,7 @@
   itemtype="https://schema.org/SportsTeam"
   tabindex="-1"
 >
-  <!-- 🔥 Ken Burns background, fully responsive -->
+  <!-- 🔥 Responsive Ken Burns background with blur/glass overlays -->
   <div aria-hidden="true" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
     <picture>
       <source
@@ -17,7 +17,6 @@
       {% set hero_img_src = team.hero_image if team and team.hero_image else url_for('static', filename='images/connect-atx-team.jpg') %}
       <img
         alt="{{ team.hero_image_alt if team and team.hero_image_alt else (team.team_name ~ ' team') if team else 'Team photo' }}"
-        aria-hidden="true"
         class="w-full h-full object-cover scale-110 opacity-95 animate-kenburns"
         decoding="async"
         loading="eager"
@@ -73,7 +72,7 @@
       {{ team.hero_subheading | safe if team and team.hero_subheading else "Family-run AAU program turning <strong> East Austin </strong> students into honor-roll athletes and leaders." }}
     </p>
 
-    <!-- ✨ Elite CTA with shimmer, sparkle & tooltip -->
+    <!-- ✨ Elite CTA with shimmer & tooltip -->
     <a
       aria-label="Join our Champion Circle and make a difference!"
       class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-3 px-8 rounded-full shadow-lg transition duration-200 shimmer-cta animate-pop delay-200 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 relative group"
@@ -119,7 +118,7 @@
     <section
       aria-label="Fundraising Progress"
       aria-live="polite"
-      class="w-full bg-black opacity-60 backdrop-blur rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 shadow-lg border border-yellow-400 opacity-10 mt-4 z-30"
+      class="w-full bg-black/60 backdrop-blur rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 shadow-lg border border-yellow-400/10 mt-4 z-30"
       role="region"
     >
       <section class="w-full sm:flex-1 relative">
@@ -147,9 +146,7 @@
         </div>
       </section>
 
-      <section
-        class="text-sm font-semibold text-yellow-300 whitespace-nowrap text-center sm:text-left"
-      >
+      <section class="text-sm font-semibold text-yellow-300 whitespace-nowrap text-center sm:text-left">
         Raised: $<span id="funds-raised-meter">{{ raised | int }}</span> /
         $<span id="funds-goal-meter">{{ goal | int }}</span>
         <span aria-hidden="true" class="ml-2 text-xl" id="emoji-milestone">
@@ -164,7 +161,7 @@
     </p>
   </div>
 
-  <!-- ⬇ Scroll hint -->
+  <!-- ⬇ Scroll hint (animated) -->
   <button
     aria-label="Scroll down to explore"
     class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-in animate-bounce focus:outline-none hover:drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]"

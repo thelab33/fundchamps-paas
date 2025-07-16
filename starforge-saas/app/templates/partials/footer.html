@@ -1,104 +1,19 @@
 {# ===================== partials/footer.html ===================== #}
-
-<footer class="mt-16 py-8 text-center text-sm text-zinc-400 relative border-t border-primary opacity-30 bg-gradient-to-t from-black via-zinc-900 to-transparent overflow-hidden" role="contentinfo">
-    <div aria-hidden="true" class="absolute inset-0 opacity-5 pointer-events-none bg-center bg-no-repeat bg-contain" style="background-image: url('{{ url_for('static', filename='images/logo.webp') }}');"></div>
-    <p>© {{ now.year }} {{ 'Connect ATX Elite' }} — {{ _('All rights reserved.') }}</p>
-    <p class="mt-2 text-xs text-yellow-400">{{ _('Built with 💛 by Angel Rodriguez Jr for the Connect ATX Elite / Starforge Team.') }}</p>
+<footer
+  class="mt-16 py-8 text-center text-sm text-zinc-400 relative border-t border-yellow-300 opacity-30 bg-gradient-to-t from-black via-zinc-900 to-transparent overflow-hidden"
+  role="contentinfo"
+>
+  <!-- Subtle background logo watermark for brand flex -->
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 opacity-5 pointer-events-none bg-center bg-no-repeat bg-contain"
+    style="background-image: url('{{ url_for('static', filename='images/logo.webp') }}');"
+  ></div>
+  <p>
+    © {{ now.year }} {{ team.team_name if team else 'Connect ATX Elite' }} — {{ _('All rights reserved.') }}
+  </p>
+  <p class="mt-2 text-xs text-yellow-400">
+    {{ _('Built with 💛 by Angel Rodriguez Jr for the Connect ATX Elite / Starforge Team.') }}
+  </p>
 </footer>
-
-{# Sponsor Spotlight Modal (Context-Aware, A11y Enhanced) #}
-<div id="sponsor-spotlight-modal-footer"
-     aria-hidden="true"
-     aria-describedby="sponsor-spotlight-desc-footer"
-     aria-labelledby="sponsor-spotlight-title-footer"
-     aria-modal="true"
-     role="dialog"
-     tabindex="-1"
-     class="fixed inset-0 z-[1000] flex items-center justify-center bg-black opacity-0 pointer-events-none backdrop-blur-sm transition-opacity duration-300">
-    
-    <div class="bg-gradient-to-br from-black via-red-900 opacity-90 to-gold rounded-3xl shadow-ambient border-4 border-gold max-w-lg w-full p-10 flex flex-col items-center text-center relative animate-fadeInUp">
-        
-        <!-- Close Button -->
-        <button aria-label="{{ 'Close Sponsor Spotlight' }}"
-                class="absolute top-4 right-4 text-gold hover:text-red-500 text-3xl font-bold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-gold opacity-80 rounded-full transition"
-                onclick="closeSpotlightFooter()" type="button">×</button>
-
-        <!-- Sponsor Logo -->
-        <img alt="{{ 'Connect ATX Elite Logo' }}" 
-             class="w-16 h-16 rounded-full shadow-inner-gold ring-2 ring-gold mb-4" 
-             loading="lazy" 
-             src="{{ url_for('static', filename='images/logo.webp') }}"/>
-
-        <!-- Sponsor Title -->
-        <h2 class="text-3xl font-extrabold text-gold mb-3" id="sponsor-spotlight-title-footer">
-            🔥 {{ 'NEW SPONSOR ALERT!' }} 🔥
-        </h2>
-
-        <!-- Sponsor Description -->
-        <p class="text-xl text-white mb-4" id="sponsor-spotlight-desc-footer">
-            {{ 'Thank you' }} 
-            <span class="text-red-400 font-bold" id="sponsor-name-footer">[Sponsor Name]</span> 
-            {{ 'for supporting the team!' }}
-        </p>
-
-        <!-- Sponsor Badge -->
-        <div aria-label="{{ 'Champion Sponsor Badge' }}" 
-             class="prestige-badge bg-gold text-zinc-900 font-bold px-6 py-2 mt-2 border border-white opacity-20 shadow-inner-gold select-none" 
-             role="note">
-            🏆 {{ 'Champion Sponsor!' }}
-        </div>
-    </div>
-</div>
-
-<script>
-    // Sponsor Spotlight Modal Logic (footer)
-function openSpotlightFooter(name) {
-    const modal = document.getElementById("sponsor-spotlight-modal-footer");
-    const sponsorNameElement = document.getElementById("sponsor-name-footer");
-
-    // Ensure sponsor name is set
-    sponsorNameElement.textContent = name || "[Sponsor Name]";
-    
-    // Check if modal exists and toggle visibility
-    if (modal) {
-        modal.classList.add("opacity-100", "pointer-events-auto");
-        modal.classList.remove("opacity-0", "pointer-events-none");
-
-        modal.focus();  // Focus modal for accessibility
-        document.body.style.overflow = "hidden"; // Prevent background scrolling
-    } else {
-        console.error("Modal element not found!");
-    }
-}
-
-function closeSpotlightFooter() {
-    const modal = document.getElementById("sponsor-spotlight-modal-footer");
-
-    // Close the modal and re-enable background scroll
-    if (modal) {
-        modal.classList.add("opacity-0", "pointer-events-none");
-        modal.classList.remove("opacity-100", "pointer-events-auto");
-
-        document.body.style.overflow = "";  // Re-enable background scrolling
-    } else {
-        console.error("Modal element not found!");
-    }
-}
-
-// Accessibility: Close modal on ESC key
-document.addEventListener("keydown", function (e) {
-    const modal = document.getElementById("sponsor-spotlight-modal-footer");
-    if (modal && modal.classList.contains("pointer-events-auto") && e.key === "Escape") {
-        closeSpotlightFooter();
-    }
-});
-
-// Accessibility: Close modal when clicking outside modal content
-document.getElementById("sponsor-spotlight-modal-footer")
-    .addEventListener("click", function (e) {
-        if (e.target === this) {
-            closeSpotlightFooter();
-        }
-    });
-</script>
 

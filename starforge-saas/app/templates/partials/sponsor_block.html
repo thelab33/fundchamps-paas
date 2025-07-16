@@ -1,93 +1,38 @@
-<!-- Sponsor Spotlight Modal -->
+{# ================== partials/sponsor_block.html ================== #}
 <div 
-  aria-hidden="true" 
-  aria-labelledby="sponsor-spotlight-title-footer" 
-  aria-modal="true" 
-  class="fixed inset-0 z-[1000] flex items-center justify-center bg-black opacity-70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
-  id="sponsor-spotlight-modal-footer" 
-  role="dialog" 
-  tabindex="-1">
-
-  <div class="bg-gradient-to-br from-black via-red-900 opacity-90 to-gold rounded-3xl shadow-ambient border-4 border-gold max-w-lg w-full p-10 flex flex-col items-center text-center relative animate-fadeInUp">
-    
+  id="sponsor-spotlight-modal"
+  aria-hidden="true"
+  aria-modal="true"
+  aria-labelledby="sponsor-spotlight-title"
+  aria-describedby="sponsor-spotlight-desc"
+  role="dialog"
+  tabindex="-1"
+  class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
+>
+  <div class="bg-gradient-to-br from-black via-red-900 to-yellow-300 rounded-3xl shadow-2xl border-4 border-yellow-300 max-w-lg w-full p-10 flex flex-col items-center text-center relative animate-fadeInUp">
     <!-- Close Button -->
-    <button 
-      aria-label="Close Sponsor Spotlight" 
-      class="absolute top-4 right-4 text-gold hover:text-red-500 text-3xl font-bold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-gold opacity-80 rounded-full transition"
-      onclick="closeSpotlightFooter()" 
-      type="button">
-      ×
-    </button>
-    
-    <img alt="Connect ATX Elite Logo" 
-      class="w-16 h-16 rounded-full shadow-inner-gold ring-2 ring-gold mb-4" 
-      loading="lazy" 
-      src="{{ url_for('static', filename='images/logo.webp') }}"/>
-    
-    <h2 class="text-3xl font-extrabold text-gold mb-3" id="sponsor-spotlight-title-footer">
+    <button aria-label="Close Sponsor Spotlight" class="absolute top-4 right-4 text-yellow-300 hover:text-red-500 text-3xl font-bold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded-full transition"
+      onclick="closeSponsorSpotlight()" type="button">×</button>
+    <!-- Logo/Avatar -->
+    <img alt="{{ team.team_name if team else 'Sponsor Logo' }}" class="w-16 h-16 rounded-full shadow-inner ring-2 ring-yellow-300 mb-4" loading="lazy"
+      src="{{ sponsor.logo if sponsor and sponsor.logo else url_for('static', filename='images/logo.webp') }}"/>
+    <!-- Title -->
+    <h2 class="text-3xl font-extrabold text-yellow-300 mb-3" id="sponsor-spotlight-title">
       🔥 NEW SPONSOR ALERT! 🔥
     </h2>
-    
-    <p class="text-xl text-white mb-4" id="sponsor-spotlight-desc-footer">
-      {{ 'Thank you' }}
-      <span class="text-red-400 font-bold" id="sponsor-name-footer">
-        [Sponsor Name]
+    <!-- Desc -->
+    <p class="text-xl text-white mb-4" id="sponsor-spotlight-desc">
+      Thank you
+      <span class="text-red-400 font-bold" id="sponsor-name">
+        {{ sponsor.name if sponsor else '[Sponsor Name]' }}
       </span>
-      {{ 'for supporting the team!' }}
+      for supporting the team!
     </p>
-    
-    <div 
-      aria-label="Champion Sponsor Badge" 
-      class="prestige-badge bg-gold text-zinc-900 font-bold px-6 py-2 mt-2 border border-white opacity-20 shadow-inner-gold select-none" 
-      role="note">
+    <!-- Badge -->
+    <div class="prestige-badge bg-yellow-300 text-zinc-900 font-bold px-6 py-2 mt-2 border border-white shadow select-none"
+      aria-label="Champion Sponsor Badge" role="note">
       🏆 Champion Sponsor!
     </div>
   </div>
 </div>
-
-<!-- Trigger Button (For Testing) -->
-<button onclick="openSpotlightFooter('ABC Company')" class="bg-blue-500 text-white p-3 rounded-lg">
-  Show Sponsor Spotlight
-</button>
-
-<script>
-// Sponsor Spotlight Modal Logic (footer)
-function openSpotlightFooter(name) {
-  const modal = document.getElementById("sponsor-spotlight-modal-footer");
-  document.getElementById("sponsor-name-footer").textContent = name || "[Sponsor Name]";
-  
-  modal.classList.add("opacity-100", "pointer-events-auto");
-  modal.classList.remove("opacity-0", "pointer-events-none");
-  
-  modal.focus();  // Optional: to focus on modal for accessibility
-  document.body.style.overflow = "hidden"; // Prevents background scrolling
-}
-
-// Close the sponsor spotlight modal
-function closeSpotlightFooter() {
-  const modal = document.getElementById("sponsor-spotlight-modal-footer");
-  
-  modal.classList.add("opacity-0", "pointer-events-none");
-  modal.classList.remove("opacity-100", "pointer-events-auto");
-  
-  document.body.style.overflow = "";  // Re-enable background scrolling
-}
-
-// Accessibility: Close modal on ESC key
-document.addEventListener("keydown", function(e) {
-  const modal = document.getElementById("sponsor-spotlight-modal-footer");
-  if (modal.classList.contains("pointer-events-auto") && e.key === "Escape") {
-    closeSpotlightFooter();
-  }
-});
-
-// Accessibility: Close modal when clicking outside modal content
-document
-  .getElementById("sponsor-spotlight-modal-footer")
-  .addEventListener("click", function(e) {
-    if (e.target === this) {
-      closeSpotlightFooter();
-    }
-  });
-</script>
 

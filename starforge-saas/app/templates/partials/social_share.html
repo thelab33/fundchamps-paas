@@ -1,0 +1,21 @@
+{% set campaign_url = url_for('main.home', _external=True) %}
+{% set social_links = {
+  'Facebook': 'https://facebook.com/sharer/sharer.php?u=' ~ campaign_url,
+  'Twitter/X': 'https://twitter.com/intent/tweet?text=Support+Connect+ATX+Elite!&url=' ~ campaign_url,
+  'Instagram': 'https://www.instagram.com/'
+} %}
+<section aria-label="Social Share Buttons" class="flex flex-wrap justify-center gap-4 bg-black opacity-90 py-6">
+  {% for name, url in social_links.items() %}
+  <a href="{{ url }}" target="_blank" rel="noopener noreferrer" aria-label="Share on {{ name }}" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-white shadow transition hover:brightness-110
+    {{ 'bg-blue-600' if name == 'Facebook' else 'bg-blue-400' if name == 'Twitter/X' else 'bg-pink-500' }}">
+    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor">
+      <use href="#icon-{{ name | lower | replace('x', 'x') }}"></use>
+    </svg>
+    {{ name }}
+  </a>
+  {% endfor %}
+  <button aria-label="Copy fundraising campaign link" class="inline-flex items-center gap-2 rounded-full bg-yellow-400 px-4 py-2 text-black shadow transition hover:bg-yellow-300" onclick="navigator.clipboard.writeText('{{ campaign_url }}'); this.textContent='Link Copied!'; setTimeout(() => this.textContent = 'Copy Campaign Link', 1500);" type="button">
+    📋 Copy Campaign Link
+  </button>
+</section>
+

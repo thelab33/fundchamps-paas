@@ -1,5 +1,8 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-tailwindcss"
+  ],
   "plugins": ["stylelint-order"],
   "rules": {
     "at-rule-no-unknown": [
@@ -15,3 +18,4 @@
     "order/properties-alphabetical-order": true
   }
 }
+

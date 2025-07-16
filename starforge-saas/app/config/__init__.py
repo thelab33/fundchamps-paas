@@ -1,34 +1,46 @@
-# Import base configurations for Development and Production
+import os
+"""Centralized config loader for Starforge SaaS."""
+
 from app.config.config import DevelopmentConfig, ProductionConfig
 
-# Import team-specific configuration, with error handling
+# Optional: add TestingConfig, StagingConfig, etc., as needed
+try:
+    from app.config.config import TestingConfig
+except ImportError:
+    TestingConfig = None
+
+# Try importing team config
 try:
     from app.config.team_config import TEAM_CONFIG
 except ImportError:
-    # Fallback to an empty dictionary if the team config is not found
     TEAM_CONFIG = {}
-    # You could also log an error or warning if desired
-    from app import current_app
+    # Optional: Log with Flask logger if app context, or print otherwise
+    try:
+        from flask import current_app
+        current_app.logger.warning("⚠️ TEAM_CONFIG not found, using empty config.")
+    except Exception:
+        print("⚠️ TEAM_CONFIG not found, using empty config.")
 
-    current_app.logger.warning(
-        "⚠️ TEAM_CONFIG not found, using default empty configuration."
-    )
-
-# Ensure that all the configurations are available at runtime.
-config = {
+# Master config map
+CONFIGS = {
     "development": DevelopmentConfig,
     "production": ProductionConfig,
-    "team_config": TEAM_CONFIG,
 }
+if TestingConfig:
+    CONFIGS["testing"] = TestingConfig
 
-# You could add other configurations here, like testing or staging if necessary.
-# For example:
-# config["testing"] = TestingConfig
+# Team-specific config is always available
+CONFIGS["team_config"] = TEAM_CONFIG
 
+def get_config(env: str = None):
+    """
+    Returns the config class based on environment variable or argument.
+    Defaults to 'development' if not specified or unknown.
+    """
+    env = env or os.getenv("FLASK_ENV", "development")
+    return CONFIGS.get(env, DevelopmentConfig)
 
-# Optionally, allow selecting the environment-specific config dynamically
-def get_config(env="development"):
-    """Function to get the appropriate config based on the environment."""
-    return config.get(
-        env, DevelopmentConfig
-    )  # Default to DevelopmentConfig if not found
+# Shorthand for quick import elsewhere
+config = get_config()
+team_config = TEAM_CONFIG
+

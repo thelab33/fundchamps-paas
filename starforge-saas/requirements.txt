@@ -1,69 +1,71 @@
-# ========================================================
-# Connect ATX Elite PaaS – Production-Ready requirements.txt
+# ==========================================================================
+# Connect ATX Elite PaaS – SaaS Production-Ready requirements.txt
 # Last security audit: July 2025
-# All dependencies pinned; CVEs checked with Safety
-# Onboarding Tip: Uncomment optional blocks as needed!
-# ========================================================
+# All dependencies pinned & CVEs checked (Safety, PyUp.io)
+# Pro Tip: Run `pip install -r requirements.txt && safety check` after updates
+# ==========================================================================
+# Onboarding Tip: Uncomment optional blocks as your stack grows!
+# ==========================================================================
 
-# ───────────── Core Framework ─────────────
+# ────────────── Core Framework ──────────────
 Flask==3.1.1
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.5
-Flask-Cors==4.0.2
+Flask-Cors==4.0.2                # Cross-origin support (JS/React integrations)
 
-# ────────── Real-time & Async (Pick One) ──────────
-Flask-SocketIO==5.3.6
-eventlet==0.37.0                # 🔥 SaaS default for async, CVE-patched
-# gevent==25.4.2                # Alt: Enterprise async engine (if needed)
-# gevent-websocket==0.10.1      # Only if using gevent
-redis==5.0.4
-Flask-Limiter[redis]==3.12.0
+# ──────── Real-time & Async (Pick One) ────────
+Flask-SocketIO==5.3.6            # Real-time features (leaderboard, live updates)
+eventlet==0.37.0                 # Async engine, CVE-patched (default)
+# gevent==25.4.2                 # Enterprise async, if you need scaling
+# gevent-websocket==0.10.1       # Only for gevent use
+redis==5.0.4                     # Caching, queues, rate limiting
+Flask-Limiter[redis]==3.12.0     # Rate limiting for SaaS endpoints
 
-# ─────────── Security & Auth ───────────
-Flask-Login==0.6.3              # User auth/session mgmt
-Flask-WTF==1.2.1                # Forms, CSRF protection
-passlib==1.7.4                  # Secure password hashing
+# ───────────── Security & Auth ─────────────
+Flask-Login==0.6.3               # User login, session mgmt
+Flask-WTF==1.2.1                 # Forms & CSRF
+passlib==1.7.4                   # Password hashing (bcrypt+)
 
-# ───────── Payments & Messaging ─────────
-stripe==9.7.0
-twilio==9.0.3
+# ────────── Payments & Messaging ──────────
+stripe==9.7.0                    # Stripe payments, subscriptions
+twilio==9.0.3                    # SMS for donations/alerts
 
-# ────────── Storage & File Uploads ──────────
-Flask-Uploads==0.2.1            # Image uploads (optional)
-# Flask-S3==0.3.4               # S3 integration if needed
+# ───────── Storage & File Uploads ─────────
+Flask-Uploads==0.2.1             # File/image uploads
+# Flask-S3==0.3.4                # S3 cloud storage (enable for scale)
 
-# ────────── AI & Monitoring ──────────
-openai==1.30.1
-sentry-sdk[flask]==2.8.0        # CVE-patched
+# ────── AI, Monitoring & Observability ──────
+openai==1.30.1                   # AI/LLM features (concierge/chat)
+sentry-sdk[flask]==2.8.0         # Sentry monitoring (bug/error tracking, CVE-patched)
 
-# ──────── Utility & CLI ────────
-python-dotenv==1.0.1
-ipython==8.25.0
-click==8.1.7                    # CLI commands, Flask integration
+# ────── Utility, CLI, & Environment ──────
+python-dotenv==1.0.1             # .env file support (secrets mgmt)
+ipython==8.25.0                  # Interactive shell, dev productivity
+click==8.1.7                     # CLI commands
 
 # ────── Static Assets & Minification ──────
-Flask-Assets==2.1.0             # CSS/JS bundling/minification
-cssmin==0.2.0                   # CSS minifier
-jsmin==3.0.1                    # JS minifier
+Flask-Assets==2.1.0              # Asset pipeline, minification
+cssmin==0.2.0                    # CSS minifier
+jsmin==3.0.1                     # JS minifier
 
-# ───── Production WSGI Server ─────
-gunicorn==23.0.0                # CVE-patched
+# ────── Production WSGI Server ──────
+gunicorn==23.0.0                 # Production server (eventlet for realtime)
 
-# ───── Database Drivers (Pick one) ─────
-# psycopg2-binary==2.9.9        # PostgreSQL
-# PyMySQL==1.1.1                # MySQL/MariaDB
-# sqlite3 (builtin)
+# ────── Database Drivers (Pick one) ──────
+# psycopg2-binary==2.9.9         # PostgreSQL (prod recommended)
+# PyMySQL==1.1.1                 # MySQL/MariaDB
+# sqlite3 (builtin; for dev/demo)
 
-# ───── Code Quality & Formatting ─────
+# ────── Code Quality & Formatting ──────
 black==24.4.2
-isort==5.13.2                   # Import sorting
+isort==5.13.2                    # Import sorting (CI-ready)
 
-# ────── Testing & Coverage ──────
+# ────── Testing & Coverage (Uncomment for TDD) ──────
 # pytest==8.2.2
 # pytest-cov==5.0.0
 # factory-boy==3.3.0
 
-# ────── Email (Optional) ──────
+# ────── Email & Notification (Optional) ──────
 # Flask-Mail==0.9.1
 
 # ────── Image Handling (Optional) ──────
@@ -81,20 +83,18 @@ isort==5.13.2                   # Import sorting
 
 # ────── API/Serialization (Optional) ──────
 # marshmallow==3.21.1
-# Flask-RESTX==1.3.0
+# Flask-RESTX==1.3.0             # API docs, OpenAPI, Swagger
 
-# ────── Caching (Optional) ──────
+# ────── Caching (Optional, Redis-backed) ──────
 # Flask-Caching==2.2.0
-
-# ────── Rate Limiting (already included via Flask-Limiter) ──────
 
 # ────── Monitoring/Profiling (Optional) ──────
 # Flask-Profiler==1.10.1
 
 # ────── Sentry, already above ──────
 
-# ────── [Extras] Frontend Build (if using React/Vite etc) ──────
-# (Handled by package.json)
+# ────── [Extras] Frontend Build (React, Vite, etc) ──────
+# (Handled by package.json, not here)
 
-# ===== End =====
+# ======= End: Run `pip check` and `safety check` monthly =======
 
