@@ -9,24 +9,17 @@
   Custom Variables – Global Brand Colors, Font Families
 ───────────────────────────────────────────────────────────────────────────────*/
 :root {
-  --gold: #facc15;
+--gold: #facc15;
   --gold-light: #fde68a;
   --red: #b91c1c;
   --blue: #0a1f44;
   --black: #18181b;
   --white: #fff;
-  --brand-shadow:
-    0 6px 20px rgba(10, 31, 68, 0.28), 0 4px 12px rgba(250, 204, 21, 0.06);
-  --starforge-gradient: linear-gradient(
-    90deg,
-    #facc15 0%,
-    #fde68a 50%,
-    #b91c1c 100%
-  );
+  --brand-shadow: ;
+  --starforge-gradient: linear-gradient(;
   --radius-xl: 2rem;
   --radius-lg: 1rem;
-  --transition: 0.25s cubic-bezier(0.69, 0.11, 0.38, 0.97);
-}
+  --transition: 0.25s cubic-bezier(0.69, 0.11, 0.38, 0.97);}
 
 /*───────────────────────────────────────────────────────────────────────────────
   Typography & Headings

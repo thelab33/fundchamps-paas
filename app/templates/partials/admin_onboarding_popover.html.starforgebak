@@ -1,0 +1,58 @@
+{# ===================== Admin Onboarding Popover (Premium Modular Partial) ===================== #}
+{% if current_user.is_authenticated and current_user.is_admin and not session.get('onboarded') %}
+<div
+  id="admin-onboarding-popover"
+  aria-labelledby="onboard-title"
+  aria-modal="true"
+  role="dialog"
+  tabindex="-1"
+  x-data="{ open: true }"
+  x-show="open"
+  x-transition.opacity.duration.500ms
+  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black opacity-90 p-6 text-white shadow-lg animate-fade-in"
+  @keydown.escape.window="open = false; dismissOnboarding()"
+>
+  <h3 class="mb-3 text-xl font-semibold text-yellow-400" id="onboard-title">Welcome, Admin!</h3>
+  <p class="mb-5 text-sm leading-relaxed">
+    Use your new dashboard to track sponsors, export CSVs, and monitor campaign progress in real
+    time.
+    <span class="block text-yellow-300 mt-1">Need help? Chat with our AI Concierge below!</span>
+  </p>
+  <button
+    @click="open = false; dismissOnboarding()"
+    aria-label="Dismiss onboarding popover"
+    class="inline-block rounded bg-yellow-400 px-4 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-400 transition"
+    type="button"
+  >
+    Got it!
+  </button>
+</div>
+{% endif %}
+
+<script>
+  function dismissOnboarding() {
+    fetch('{{ url_for("admin.dismiss_onboarding") }}', {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token() }}",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dismissed: true }),
+    }).catch((err) => console.error("Failed to dismiss onboarding:", err));
+  }
+</script>
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.35s ease forwards;
+  }
+</style>

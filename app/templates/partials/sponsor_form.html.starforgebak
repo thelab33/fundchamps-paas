@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{# =============================================================================
+   PARTIAL: sponsor_form.html — SaaS-Ready Sponsor Form with Quick Amounts & Impact
+============================================================================= #}
+
+<form
+  method="POST"
+  action="{{ url_for('main.sponsor') }}"
+  class="space-y-8 bg-gradient-to-tr from-yellow-100 via-white to-yellow-50 text-black rounded-2xl shadow-2xl p-8 max-w-lg mx-auto ring-2 ring-yellow-300/40"
+  aria-labelledby="sponsor-form-heading"
+  autocomplete="on"
+  id="sponsor-donation-form"
+>
+  <h2 id="sponsor-form-heading" class="text-2xl font-extrabold text-center mb-4 text-yellow-900">
+    🌟 Sponsor a Champion
+  </h2>
+  {{ form.hidden_tag() }}
+
+  <!-- Name or Company -->
+  <div>
+    <label for="name" class="block font-semibold text-sm mb-1">
+      Name or Company <span class="text-red-500">*</span>
+    </label>
+    {{ form.name(
+      class_="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition",
+      id="donor-name"
+    ) }}
+    {% if form.name.errors %}
+      <p class="text-red-600 text-xs mt-1">{{ form.name.errors[0] }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label for="email" class="block font-semibold text-sm mb-1">
+      Email <span class="text-red-500">*</span>
+    </label>
+    {{ form.email(
+      class_="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition",
+      id="donor-email"
+    ) }}
+    {% if form.email.errors %}
+      <p class="text-red-600 text-xs mt-1">{{ form.email.errors[0] }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Donation Amount (with quick-pick) -->
+  <div>
+    <label for="amount" class="block font-semibold text-sm mb-1">
+      Donation Amount (USD) <span class="text-red-500">*</span>
+    </label>
+    <div class="relative mb-2">
+      <span class="absolute left-3 top-2 text-yellow-400 font-bold">$</span>
+      {{ form.amount(
+        class_="pl-7 w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition font-bold text-lg",
+        min="5", step="1", placeholder="50", id="donation-amount"
+      ) }}
+    </div>
+    <div class="flex gap-2 mb-1">
+      {% for preset in [25, 50, 100] %}
+      <button
+        type="button"
+        class="px-4 py-1 rounded-full bg-yellow-300 text-zinc-900 font-bold shadow hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+        onclick="setDonationAmount({{ preset }})"
+        aria-label="Donate ${{ preset }}"
+      >
+        ${{ preset }}
+      </button>
+      {% endfor %}
+    </div>
+    <p class="text-xs text-zinc-500 mt-1">
+      <span class="text-yellow-500 font-bold">Tip:</span> $50 covers a team jersey. $150 sponsors a week of practice!
+    </p>
+    {% if form.amount.errors %}
+      <p class="text-red-600 text-xs mt-1">{{ form.amount.errors[0] }}</p>
+    {% endif %}
+  </div>
+
+  <!-- Payment Method -->
+  <div class="flex flex-col gap-2 pt-2">
+    <div class="flex items-center gap-4">
+      <input type="radio" id="pay-stripe" name="payment_method" value="stripe" checked class="accent-yellow-400" />
+      <label for="pay-stripe" class="font-semibold text-zinc-800">💳 Credit/Debit Card (Stripe)</label>
+      <input type="radio" id="pay-paypal" name="payment_method" value="paypal" class="accent-yellow-400" />
+      <label for="pay-paypal" class="font-semibold text-zinc-800">🅿️ PayPal</label>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="pt-4">
+    <button
+      type="submit"
+      class="w-full bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200 hover:brightness-110 text-zinc-900 font-extrabold py-3 px-4 rounded-xl shadow-lg transition focus:outline-none focus:ring-4 focus:ring-yellow-300"
+      aria-label="Sponsor Now"
+      id="sponsor-submit"
+    >
+      🌟 Sponsor Now
+    </button>
+    <p class="text-center mt-2 text-xs text-zinc-400">
+      100% of your gift supports team programs, scholarships, and court time.
+    </p>
+    <div id="impact-message" class="hidden mt-3 text-center text-yellow-600 font-bold text-sm"></div>
+  </div>
+</form>
+
+<script>
+  // 1️⃣ Auto-focus on Name field after DOM load
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+      var nameField = document.getElementById("donor-name");
+      if (nameField) { nameField.focus(); }
+    }, 250);
+  });
+
+  // 2️⃣ Enter key anywhere submits form (unless inside textarea)
+  document.getElementById("sponsor-donation-form").addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+      // Only submit if not in a button or link
+      if (e.target.type !== "submit" && e.target.type !== "button") {
+        e.preventDefault();
+        document.getElementById("sponsor-submit").click();
+      }
+    }
+  });
+
+  // 3️⃣ Quick-pick preset buttons
+  function setDonationAmount(val) {
+    var amt = document.getElementById("donation-amount");
+    if (amt) { amt.value = val; amt.focus(); }
+    // Optionally show an instant impact message for that amount
+    showImpact(val);
+  }
+
+  // 4️⃣ Show impact after donation (or when preset selected)
+  function showImpact(amount) {
+    var msg = document.getElementById("impact-message");
+    if (!msg) return;
+    let impactText = "";
+    if (amount >= 150) impactText = `🎓 Your $${amount} = 1 week of gym time for all players!`;
+    else if (amount >= 100) impactText = `🏀 Your $${amount} = Full scholarship for a player!`;
+    else if (amount >= 50) impactText = `👕 Your $${amount} = A new team jersey.`;
+    else impactText = `👏 Every dollar counts. Thank you!`;
+    msg.textContent = impactText;
+    msg.classList.remove("hidden");
+    msg.classList.add("animate-pulse");
+    setTimeout(()=>msg.classList.remove("animate-pulse"),1200);
+  }
+
+  // 5️⃣ On form submit, show impact for selected amount
+  document.getElementById("sponsor-donation-form").addEventListener("submit", function(e) {
+    var amt = parseFloat(document.getElementById("donation-amount").value || 0);
+    if (amt) showImpact(amt);
+    // Let backend handle real submit
+  });
+</script>
+

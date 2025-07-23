@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{# =================== Newsletter Modal Popup (SaaS Elite) =================== #}
+
+<div
+  id="newsletter-popup"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="newsletter-title"
+  aria-describedby="newsletter-form-heading"
+  tabindex="-1"
+  class="fixed inset-0 z-[12000] hidden items-center justify-center bg-black/80 backdrop-blur-lg transition-opacity duration-300"
+>
+  <div
+    id="newsletter-content"
+    tabindex="0"
+    class="relative w-[95vw] max-w-sm rounded-3xl bg-zinc-900 p-6 sm:p-8 text-center text-yellow-100 font-geist shadow-2xl animate-popIn"
+    style="animation-timing-function: cubic-bezier(0.4,2,0.2,1)"
+  >
+    <!-- ❌ Close Button -->
+    <button
+      type="button"
+      id="newsletter-close"
+      class="absolute top-4 right-4 text-3xl font-bold text-yellow-400 hover:text-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full transition-colors"
+      aria-label="Close"
+    >×</button>
+
+    <!-- 📨 Title + Pitch -->
+    <h2 id="newsletter-title" class="text-2xl sm:text-3xl font-extrabold text-yellow-300 mb-2">
+      Stay in the Loop with FundChamps!
+    </h2>
+    <p class="text-xs text-amber-200">Privacy: We’ll never sell or share your email.</p>
+    <p class="text-base text-yellow-100 opacity-90 mb-6">
+      Get exclusive updates, game invites, and ways to help <strong>{{ team.team_name or "Connect ATX Elite" }}</strong> shine.<br />
+      <span class="font-semibold text-yellow-200">One email a month, no spam ever.</span>
+    </p>
+
+    <!-- 💌 Form -->
+    <form id="newsletter-form" name="newsletter-form" novalidate autocomplete="off">
+      <div class="sr-only">
+        <h3 id="newsletter-form-heading">Newsletter Signup Form</h3>
+      </div>
+      <input
+        id="newsletter-email"
+        name="email"
+        type="email"
+        placeholder="Your email address"
+        required
+        autocomplete="email"
+        aria-label="Your email address"
+        class="w-[90%] rounded-full border-2 border-yellow-400 bg-yellow-50 text-gray-900 py-2 px-4 opacity-80 shadow-sm focus:border-yellow-400 focus:ring focus:ring-yellow-300 outline-none transition"
+      />
+
+      <!-- 🛑 Error Message -->
+      <div id="email-error" role="alert" aria-live="polite" class="mt-1 hidden text-sm font-bold text-red-600"></div>
+
+      <!-- ✅ Submit Button -->
+      <button
+        type="submit"
+        class="mt-4 rounded-full bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 px-8 py-3 font-bold text-zinc-900 shadow-md transition hover:brightness-110 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      >Subscribe</button>
+
+      <!-- 🙌 Thank You Message -->
+      <div id="newsletter-thankyou" class="mt-4 hidden text-center text-cyan-400 text-lg font-semibold tracking-wide">
+        Never miss an invite—exclusive to our email fam!
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  // SaaS-Ready Newsletter Popup (with confetti! 🎉)
+  import confetti from "https://cdn.skypack.dev/canvas-confetti@1.6.0";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById("newsletter-popup");
+    const closeBtn = document.getElementById("newsletter-close");
+    const form = document.getElementById("newsletter-form");
+    const emailInput = document.getElementById("newsletter-email");
+    const errorMsg = document.getElementById("email-error");
+    const thankYouMsg = document.getElementById("newsletter-thankyou");
+
+    // Show popup after 10s (only once per user/session)
+    if (!sessionStorage.getItem("newsletter_popup_shown")) {
+      setTimeout(() => {
+        popup.classList.remove("hidden");
+        popup.classList.add("flex");
+        popup.focus();
+        sessionStorage.setItem("newsletter_popup_shown", "1");
+      }, 10000);
+    }
+
+    // Dismiss (esc or close)
+    closeBtn?.addEventListener("click", () => popup.classList.add("hidden"));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") popup.classList.add("hidden");
+    });
+
+    // Trap focus inside modal
+    popup.addEventListener("keydown", function(e) {
+      if (e.key !== "Tab") return;
+      const focusable = popup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+      }
+    });
+
+    // Form validation and fake submit
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!isValid) {
+        errorMsg.classList.remove("hidden");
+        errorMsg.textContent = "Please enter a valid email address.";
+        return;
+      }
+      errorMsg.classList.add("hidden");
+      emailInput.disabled = true;
+      form.querySelector("button")?.classList.add("opacity-60");
+
+      // 🚀 Simulate success
+      setTimeout(() => {
+        thankYouMsg.classList.remove("hidden");
+        form.reset();
+        emailInput.disabled = false;
+        form.querySelector("button")?.classList.remove("opacity-60");
+        setTimeout(() => {
+          popup.classList.add("hidden");
+          thankYouMsg.classList.add("hidden");
+        }, 1600);
+        confetti();
+      }, 900);
+    });
+  });
+</script>
+
