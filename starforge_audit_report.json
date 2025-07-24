@@ -1,0 +1,283 @@
+{
+  "structure": {
+    "_files": [
+      "__init__.py.bak",
+      "routes.py",
+      "models.py",
+      "__init__.py",
+      "extensions.py"
+    ],
+    "config": {
+      "_files": [
+        "config.py"
+      ],
+      "__pycache__": {
+        "_files": [
+          "config.cpython-312.pyc"
+        ]
+      }
+    },
+    "static": {
+      "_files": [
+        "robots.txt",
+        "site.webmanifest",
+        "favicon.png"
+      ],
+      "js": {
+        "_files": [
+          "main.js",
+          "htmx.min.js",
+          "quotes.js",
+          "alpine.min.js",
+          "confetti.js",
+          "bundle.min.js.map",
+          "bundle.min.js",
+          "socket.io.js"
+        ]
+      },
+      "images": {
+        "_files": [
+          "connect-atx-team-mobile - Copy.webp",
+          "logo - Copy.avif",
+          ".gitkeep",
+          "connect-atx-team-mobile.jpg.webp",
+          "connect-atx-team-mobile.jpg - Copy.webp",
+          "player2.png:Zone.Identifier",
+          "logo.avif",
+          "connect-atx-team-mobile.jpg",
+          "player5.png:Zone.Identifier",
+          "connect-atx-team.jpg",
+          "connect-atx-team-mobile.webp",
+          "player4.png:Zone.Identifier",
+          "player3.png:Zone.Identifier",
+          "player1.png:Zone.Identifier",
+          "logo - Copy.webp",
+          "connect-atx-team.jpg.webp",
+          "logo.webp"
+        ]
+      },
+      "css": {
+        "_files": [
+          "globals.css.bak.1751924245",
+          "globals.css",
+          "globals.css.bak.1751924728",
+          "globals.css.bak.1751924761",
+          "globals.css.bak.1751925026",
+          "globals.css.bak.1751924982",
+          "variables.css",
+          "globals.css.bak.1751924473",
+          "elevated.css",
+          "luxury.css",
+          "tailwind.min.css"
+        ]
+      }
+    },
+    "models": {
+      "_files": [
+        "sponsor.py",
+        "transaction.py",
+        "sponsor.py.bak",
+        "player.py",
+        "campaign_goal.py",
+        "new 1.txt",
+        "foo_bar.py",
+        "transaction.py.bak",
+        "sms_log.py",
+        "example.py",
+        "foo_model.py",
+        "__init__.py"
+      ],
+      "__pycache__": {
+        "_files": [
+          "foo_model.cpython-312.pyc",
+          "sponsor.cpython-312.pyc",
+          "foo_bar.cpython-312.pyc",
+          "user.cpython-312.pyc",
+          "campaign_goal.cpython-312.pyc",
+          "core.cpython-312.pyc",
+          "team.cpython-312.pyc",
+          "player.cpython-312.pyc",
+          "transaction.cpython-312.pyc",
+          "__init__.cpython-312.pyc",
+          "example.cpython-312.pyc",
+          "sms_log.cpython-312.pyc"
+        ]
+      }
+    },
+    "admin": {
+      "_files": [
+        "routes.py",
+        "dashboard.html"
+      ],
+      "__pycache__": {
+        "_files": [
+          "routes.cpython-312.pyc"
+        ]
+      }
+    },
+    "templates": {
+      "_files": [
+        "index.html.bak.1751949275",
+        "index.html.bak.1751950073",
+        "index.html.bak.1751949682",
+        "base.html.bak",
+        "macros.html.bak",
+        "index.html.bak.1751949777",
+        "index.html.bak.1751949846",
+        "base.html",
+        "index.html",
+        "index.html.bak.1751950414",
+        "index.html.bak",
+        "fixed.tmp",
+        "index.html.bak.1751950563",
+        "macros.html",
+        "index.modular.html.bak",
+        "index.html.bak.1751950128"
+      ],
+      "partials": {
+        "_files": [
+          "hero_and_fundraising.html.bak",
+          "sponsor_leaderboard.html.bak",
+          "header.html.bak",
+          "header_and_announcement.html.bak",
+          "about_and_mission.html.bak",
+          "stats.html.bak",
+          "fundraiser_meter.html.bak",
+          "story_modal.html.bak",
+          "announcement_bar.html.bak",
+          "contact_countdown.html.bak",
+          "sponsor_form.html",
+          "hero_overlay_quote.html.bak",
+          "footer.html.bak",
+          "sponsor_spotlight.html.bak",
+          "dashboard_widgets.html.bak",
+          "hero_and_fundraiser.html.bak",
+          "program_stats_and_calendar.html.bak",
+          "testimonial_popover.html.bak",
+          "brand_and_location.html.bak",
+          "sponsor_block.html.bak",
+          "hero.html.bak",
+          "events_calendar.html.bak",
+          "testimonials.html.bak",
+          "newsletter.html.bak",
+          "impact_and_tiers.html.bak",
+          "sponsor_wall.html.bak",
+          "fundraising_progress.html.bak",
+          "tiers.html.bak",
+          "digital_hub.html.bak",
+          "about.html.bak"
+        ]
+      },
+      "admin": {
+        "_files": [
+          "base.html.bak",
+          "sponsors.html",
+          "base.html",
+          "dashboard.html",
+          "sponsors.html.bak",
+          "dashboard.html.bak"
+        ]
+      },
+      "macros": {
+        "_files": [
+          "ui.html",
+          "progress.html",
+          "starforge.html.bak",
+          "ui.html.bak",
+          "starforge.html",
+          "progress.html.bak"
+        ]
+      }
+    },
+    "__pycache__": {
+      "_files": [
+        "extensions.cpython-312.pyc",
+        "__init__.cpython-312.pyc"
+      ]
+    },
+    "forms": {
+      "_files": []
+    },
+    "routes": {
+      "_files": [
+        "api.py",
+        "stripe_routes.py",
+        "sms.py",
+        "main.py",
+        "api_autopatch.py",
+        "__init__.py",
+        "__init__.pyyyy"
+      ],
+      "__pycache__": {
+        "_files": [
+          "main_bp.cpython-312.pyc",
+          "api.cpython-312.pyc",
+          "sms.cpython-312.pyc",
+          "stripe_routes.cpython-312.pyc",
+          "main.cpython-312.pyc",
+          "__init__.cpython-312.pyc",
+          "api_bp.cpython-312.pyc",
+          "sms_bp.cpython-312.pyc"
+        ]
+      }
+    }
+  },
+  "partials": [
+    "sponsor_form.html"
+  ],
+  "macros": [
+    "progress.html",
+    "starforge.html",
+    "ui.html"
+  ],
+  "css": [
+    "elevated.css",
+    "globals.css",
+    "globals.css.bak.1751924245",
+    "globals.css.bak.1751924473",
+    "globals.css.bak.1751924728",
+    "globals.css.bak.1751924761",
+    "globals.css.bak.1751924982",
+    "globals.css.bak.1751925026",
+    "luxury.css",
+    "tailwind.min.css",
+    "variables.css"
+  ],
+  "js": [
+    "alpine.min.js",
+    "bundle.min.js",
+    "bundle.min.js.map",
+    "confetti.js",
+    "htmx.min.js",
+    "main.js",
+    "quotes.js",
+    "socket.io.js"
+  ],
+  "images": [
+    ".gitkeep",
+    "connect-atx-team-mobile - Copy.webp",
+    "connect-atx-team-mobile.jpg",
+    "connect-atx-team-mobile.jpg - Copy.webp",
+    "connect-atx-team-mobile.jpg.webp",
+    "connect-atx-team-mobile.webp",
+    "connect-atx-team.jpg",
+    "connect-atx-team.jpg.webp",
+    "logo - Copy.avif",
+    "logo - Copy.webp",
+    "logo.avif",
+    "logo.webp",
+    "player1.png:Zone.Identifier",
+    "player2.png:Zone.Identifier",
+    "player3.png:Zone.Identifier",
+    "player4.png:Zone.Identifier",
+    "player5.png:Zone.Identifier",
+    "players"
+  ],
+  "models": [],
+  "config": [
+    {
+      "file": "config.py",
+      "preview": "import os\n\nclass ProductionConfig:\n    SECRET_KEY = os.getenv(\"SECRET_KEY\")\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"DATABASE_URL\")\n    STRIPE_SECRET_KEY = os.getenv(\"STRIPE_SECRET_KEY\")\n    STRIPE_PUBLIC_KEY = os.getenv(\"STRIPE_PUBLIC_KEY\")\n    STRIPE_WEBHOOK_SECRET = os.getenv(\"STRIPE_WEBHOOK_SECRET\")\n    MAIL_SERVER = os.getenv(\"MAIL_SERVER\")\n    MAIL_PORT = int(os.getenv(\"MAIL_PORT\", 587))\n    MAIL_USE_TLS = os.getenv(\"MAIL_USE_TLS\", \"true\").lower() == \"true\"\n    MAIL_USERNAME = os.getenv(\"MAIL_USERNAME\")\n    MAIL_PASSWORD = os.getenv(\"MAIL_PASSWORD\")\n    MAIL_DEFAULT_SENDER = os.getenv(\"MAIL_DEFAULT_SENDER\")\n    REDIS_URL = os.getenv(\"REDIS_URL\")\n"
+    }
+  ]
+}

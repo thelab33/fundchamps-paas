@@ -5,7 +5,6 @@ Elite Partial Backup & Clean-up 🚀
 """
 
 import os
-import re
 from shutil import copyfile
 
 DIR = os.path.abspath(os.path.dirname(__file__))

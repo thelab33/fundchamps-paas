@@ -1,65 +1,16 @@
-{% extends 'base.html' %}
-{# =================== FundChamps Digital Hub (AI Concierge Only, SaaS-Ready) =================== #}
-
-<div class="container mx-auto px-4">
-  <section
-    id="fundchamps-digital-hub-section"
-    tabindex="-1"
-    class="my-20 px-4 sm:px-8 max-w-5xl mx-auto"
-  >
-    <h2
-      id="digital-hub-heading"
-      class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-yellow-400 via-yellow-100 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-shine text-center mb-10"
-      tabindex="0"
-    >
-      🤖 Digital Hub
-      <span class="block text-base font-semibold text-yellow-300/90 mt-2 animate-fade-in">
-        Where AI and Real Champions Connect
-      </span>
-    </h2>
-
-    <div class="flex flex-col items-center justify-center gap-12 md:gap-8 md:flex-row">
-      <!-- === AI Concierge Widget === -->
-      <div class="flex-1 min-w-[320px]">
-        <div class="bg-zinc-900/90 rounded-2xl shadow-yellow-400/40 p-8 hover:shadow-yellow-400/60 transition-all duration-300 focus-within:shadow-yellow-400/60 ring-1 ring-yellow-300/20">
-          <h3 class="text-3xl font-bold text-yellow-400 mb-4 flex items-center gap-2 select-none">
-            🤖 AI Concierge
-            <span class="relative flex items-center justify-center ml-2">
-              <span id="ai-status">AI is online</span>
-            </span>
-          </h3>
-          <p class="text-yellow-200 text-base mb-6 select-text">
-            Got a question? Ask our friendly AI about your team — schedules, events, fundraising, or how to help!
-            <span class="block text-yellow-300 font-semibold text-sm mt-2">
-              Instant, 24/7 support for parents, sponsors, and admins.
-            </span>
-          </p>
-          <button
-            id="ai-concierge-btn"
-            onclick="showAIModal(); trackWidgetClick('ai_concierge_open'); sparkleAIBtn(this);"
-            class="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 text-lg transition"
-          >
-            <span class="hidden animate-sparkle" id="ai-sparkle">✨</span>
-            💬 Chat with our AI Concierge
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-{# ==================== AI Concierge Chat Modal (Popup) ==================== #}
+<!-- AI Chat Modal (Pop-up) -->
 <div
   id="ai-concierge-modal"
   class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm transition-all duration-300 hidden"
   role="dialog"
   aria-modal="true"
+  aria-labelledby="ai-concierge-modal-title"
   tabindex="-1"
 >
   <div class="bg-zinc-900 rounded-2xl w-full max-w-md shadow-2xl border-2 border-yellow-400/40 relative flex flex-col overflow-hidden">
     <div class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 py-4 px-6 flex items-center gap-3 border-b border-yellow-300/30">
       <span class="text-2xl">🤖</span>
-      <h3 class="font-extrabold text-zinc-900 text-xl flex-1">AI Concierge</h3>
+      <h3 id="ai-concierge-modal-title" class="font-extrabold text-zinc-900 text-xl flex-1">AI Concierge</h3>
       <button
         class="ml-auto px-3 py-1 rounded-full bg-zinc-800/40 text-yellow-600 text-xl hover:text-red-500 focus-visible:ring-2 focus:ring-yellow-400"
         onclick="closeAIModal()"
@@ -110,21 +61,26 @@
         document.getElementById("ai-chat-input").focus();
       }, 100);
       document.body.style.overflow = "hidden";
+      document.getElementById("ai-concierge-btn").setAttribute("aria-expanded", "true");
     }
   }
+
   // Close AI Concierge Modal
   function closeAIModal() {
     const modal = document.getElementById("ai-concierge-modal");
     if (modal) {
       modal.classList.add("hidden");
       document.body.style.overflow = "";
+      document.getElementById("ai-concierge-btn").setAttribute("aria-expanded", "false");
     }
   }
-  // ESC to close
+
+  // ESC to close modal
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeAIModal();
   });
-  // AI chat handler (mock, connect to backend for prod)
+
+  // Mock AI chat handler (Connect to backend AI for production)
   function sendAIChatMsg(e) {
     e.preventDefault();
     const input = document.getElementById("ai-chat-input");
@@ -134,6 +90,7 @@
     messages.innerHTML += `<div class="my-2 text-right"><span class="inline-block bg-yellow-300 text-black px-4 py-2 rounded-2xl">${msg}</span></div>`;
     input.value = "";
     messages.scrollTop = messages.scrollHeight;
+
     // Demo AI reply (connect to backend here)
     setTimeout(() => {
       messages.innerHTML += `<div class="my-2 text-left"><span class="inline-block bg-zinc-800 text-yellow-200 px-4 py-2 rounded-2xl">🤖 <em>AI:</em> I'm here to help! (This is a demo reply. Ask about practice times, sponsorship, or the team!)</span></div>`;
@@ -141,6 +98,7 @@
     }, 800);
     return false;
   }
+
   // Event tracking for SaaS
   function trackWidgetClick(name) {
     if (window.gtag) {

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" data-theme="dark">
   <head>
@@ -122,7 +123,8 @@
 
     <!-- Load scripts at the end for best performance -->
     <script
-      src="{{ url_for('static', filename='js/alpine.min.js') }}"
+      {% set logo_src = team.logo if team and team.logo else None %}
+<img src="{% if logo_src and '://' in logo_src %}{{ logo_src }}{% else %}{{ url_for('static', filename=logo_src or 'images/logo.webp') }}{% endif %}" 
       defer
     ></script>
     <script

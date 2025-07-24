@@ -1,17 +1,17 @@
-{% extends 'base.html' %}
+{# =================== Elite Program Stats + Events Calendar Partial =================== #}
 
-{# ────────────── Elite Program Stats + Events Calendar Partial ────────────── #}
-{% set stats = stats if stats is defined else [
+{# Defensive defaults (never error, always works with or without passed context) #}
+{% set stats = stats if stats is defined and stats else [
     { 'label': 'GPA Avg', 'value': 3.5 },
     { 'label': 'Students', 'value': 22 },
     { 'label': 'Goal $', 'value': 10000 },
     { 'label': 'Sponsors', 'value': 17 }
 ] %}
-{% set events = events if events is defined else [
+{% set events = events if events is defined and events else [
     { 'date': '2025-07-20', 'name': 'AAU Tournament', 'location': 'East Austin Gym', 'time': '10:00 AM', 'is_upcoming': True, 'opponent': 'All Stars', 'result': '', 'highlight': 'Opening tourney!', 'sponsor': None, 'type': 'Tournament' },
     { 'date': '2025-07-22', 'name': 'Team Practice', 'location': 'East Austin Gym', 'time': '5:00 PM', 'is_upcoming': False, 'opponent': 'Scrimmage', 'result': 'W', 'highlight': 'Strong win', 'sponsor': 'Austin Realty', 'type': 'Practice' }
 ] %}
-{% set months = months if months is defined else ['2025-07', '2025-08'] %}
+{% set months = months if months is defined and months else ['2025-07', '2025-08'] %}
 
 <section
   id="program-stats-and-calendar"
@@ -23,8 +23,11 @@
   <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center mb-12" data-aos="fade-up" data-aos-delay="100">
     {% for stat in stats %}
     <div class="text-lg font-semibold text-yellow-300 opacity-90">
-      <span class="block text-4xl font-extrabold text-yellow-400 counter" data-target="{{ stat.value }}">0</span>
-      <p class="mt-2 text-sm text-white">{{ stat.label }}</p>
+      <span class="block text-4xl font-extrabold text-yellow-400 counter"
+            data-target="{% if stat is mapping and ('value' in stat) %}{{ stat['value']|float }}{% else %}0{% endif %}">0</span>
+      <p class="mt-2 text-sm text-white">
+        {{ stat.label if stat is mapping and ('label' in stat) else stat|string }}
+      </p>
     </div>
     {% endfor %}
   </div>
@@ -55,7 +58,10 @@
               <td class="px-4 py-2">{{ event.location }}</td>
               <td class="px-4 py-2">{{ event.time }}</td>
               <td class="px-4 py-2">
-                {% if 'W' in event.result %}🟢 Win{% elif 'L' in event.result %}🔴 Loss{% elif event.is_upcoming %}🟡 Upcoming{% else %}—{% endif %}
+                {% if 'W' in event.result %}🟢 Win
+                {% elif 'L' in event.result %}🔴 Loss
+                {% elif event.is_upcoming %}🟡 Upcoming
+                {% else %}—{% endif %}
               </td>
               <td class="px-4 py-2">
                 {% if event.sponsor %}
@@ -83,7 +89,7 @@
   document.querySelectorAll(".counter").forEach(function(counter) {
     let target = parseFloat(counter.dataset.target) || 0;
     let isInt = Number.isInteger(target);
-    let n = 0, step = target / 30, interval;
+    let n = 0, step = target / 30;
     function update() {
       n += step;
       if ((step > 0 && n >= target) || (step < 0 && n <= target)) n = target;

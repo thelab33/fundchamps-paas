@@ -1,4 +1,0 @@
-# Output for Raw Static Reference Audit - src
-
-
-# [!] Exit code 1

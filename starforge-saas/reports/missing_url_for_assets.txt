@@ -1,3 +1,0 @@
-app/templates/base.html:43:  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-# Output for Missing url_for in CSS/JS Includes
-

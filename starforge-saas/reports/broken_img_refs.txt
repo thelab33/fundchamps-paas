@@ -1,4 +1,0 @@
-# Output for Broken <img src=> Scan
-
-
-# [!] Exit code 1

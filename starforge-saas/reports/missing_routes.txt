@@ -1,5 +1,0 @@
-NO ROUTE: admin.dismiss_onboarding
-NO ROUTE: main.become_sponsor_legacy
-NO ROUTE: main.home
-NO ROUTE: main.sponsor
-NO ROUTE: static

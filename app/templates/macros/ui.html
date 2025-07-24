@@ -1,41 +1,76 @@
-<!DOCTYPE html>
-color="primary", size="base", icon=None, external=False, aria_label=None,
-loading=False, extra_classes="") -%} {%- set size_classes = { "sm": "px-4 py-1
-text-sm", "base": "px-6 py-2 text-base", "lg": "px-8 py-3 text-lg" }[size] if
-size in ["sm", "base", "lg"] else "px-6 py-2 text-base" -%}
-<a
-  href="{{ href }}"
-  class="inline-block rounded-lg font-semibold bg-{{ color }}-500 text-white shadow hover:bg-{{ color }}-600 transition {{ size_classes }} {{ extra_classes }} {% if loading %}opacity-60 pointer-events-none{% endif %}"
-  {%
-  if
-  external
-  %}
-  target="_blank"
-  rel="noopener noreferrer"
-  {%
-  endif
-  %}
-  {%
-  if
-  aria_label
-  %}
-  aria-label="{{ aria_label }}"
-  {%
-  endif
-  %}
->
-  {% if icon %}
-  <span class="mr-2 align-middle"
-    >{% if icon.startswith('fa') %}<i class="{{ icon }}"></i>{% else %}{{ icon
-    }}{% endif %}</span
+
+{# ========================= app/templates/macros/ui.html ========================== #}
+{# --- Elite Button Macro --- #}
+{# Usage: {% from 'macros/ui.html' import render_button %} 
+          {{ render_button("Donate Now", href="/donate", color="primary", size="md") }} #}
+{% macro render_button(label, href="#", color="primary", size="md", icon=None, loading=False, external=False, aria_label=None, extra_classes="") -%}
+  {%- set color_classes = {
+      "primary":   "bg-yellow-400 hover:bg-yellow-300 text-zinc-900",
+      "secondary": "bg-zinc-800 hover:bg-zinc-700 text-yellow-300",
+      "danger":    "bg-red-600 hover:bg-red-500 text-white",
+      "success":   "bg-green-600 hover:bg-green-500 text-white"
+    } -%}
+  {%- set size_classes = {
+      "sm":  "px-4 py-1.5 text-sm",
+      "md":  "px-6 py-2 text-base",
+      "lg":  "px-8 py-3 text-lg"
+    } -%}
+  <a
+    href="{{ href }}"
+    class="inline-block font-semibold rounded-xl shadow transition focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/80 {{ color_classes.get(color, color_classes['primary']) }} {{ size_classes.get(size, size_classes['md']) }} {{ extra_classes }} {% if loading %}opacity-60 pointer-events-none{% endif %}"
+    {% if external %}target="_blank" rel="noopener noreferrer"{% endif %}
+    {% if aria_label %}{% endif %}
+    role="button"
+    tabindex="0"
   >
-  {% endif %} {% if loading %}
-  <span
-    class="spinner-border spinner-border-sm mr-2"
-    role="status"
-    aria-hidden="true"
-  ></span>
-  {% endif %}
-  <span class="align-middle">{{ label }}</span>
-</a>
+    {% if icon %}
+      <span class="mr-2 align-middle">
+        {% if icon.startswith('fa') %}<i class="{{ icon }}"></i>{% else %}{{ icon }}{% endif %}
+      </span>
+    {% endif %}
+    {% if loading %}
+      <span class="spinner-border spinner-border-sm mr-2" role="status" ></span>
+    {% endif %}
+    <span class="align-middle">{{ label }}</span>
+  </a>
 {%- endmacro %}
+
+{# --- Badge Macro --- #}
+{# Usage: {{ render_badge("3.5 GPA", color="primary") }} #}
+{% macro render_badge(text, color="primary", extra_classes="") -%}
+  {%- set color_classes = {
+      "primary":   "bg-yellow-400 text-zinc-900",
+      "secondary": "bg-zinc-800 text-yellow-300",
+      "danger":    "bg-red-600 text-white",
+      "success":   "bg-green-600 text-white"
+    } -%}
+  <span class="inline-block rounded-full px-3 py-1 text-xs font-bold shadow {{ color_classes.get(color, color_classes['primary']) }} {{ extra_classes }}">
+    {{ text }}
+  </span>
+{%- endmacro %}
+
+{# --- Alert Macro --- #}
+{# Usage: {{ render_alert("Welcome to FundChamps!", color="success") }} #}
+{% macro render_alert(message, color="primary", icon="⚡", extra_classes="") -%}
+  {%- set color_classes = {
+      "primary":   "bg-yellow-100 text-yellow-900 border-yellow-300",
+      "secondary": "bg-zinc-900 text-yellow-300 border-zinc-800",
+      "danger":    "bg-red-100 text-red-700 border-red-400",
+      "success":   "bg-green-100 text-green-700 border-green-400"
+    } -%}
+  <div class="w-full flex items-center gap-3 rounded-xl border p-3 shadow {{ color_classes.get(color, color_classes['primary']) }} {{ extra_classes }}">
+    {% if icon %}<span class="text-lg">{{ icon }}</span>{% endif %}
+    <span class="font-semibold">{{ message }}</span>
+  </div>
+{%- endmacro %}
+
+{# --- Card Macro (for flex partials/testimonials/etc.) --- #}
+{# Usage: {{ render_card("Card Title", "Card content goes here.", icon="🏆") }} #}
+{% macro render_card(title, content, icon=None, extra_classes="") -%}
+  <div class="rounded-2xl bg-white/90 shadow-lg p-6 flex flex-col gap-2 {{ extra_classes }}">
+    {% if icon %}<span class="text-3xl mb-2">{{ icon }}</span>{% endif %}
+    <h3 class="text-lg font-bold mb-1">{{ title }}</h3>
+    <div class="text-base text-zinc-700">{{ content }}</div>
+  </div>
+{%- endmacro %}
+

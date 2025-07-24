@@ -1,8 +1,7 @@
-{# === STARFORGE / FUNDCHAMPS HEADER & ANNOUNCEMENT (SaaS Elite) === #}
-
-{# Defensive defaults: never fails standalone or as a SaaS include #}
+{# ========================= STARFORGE/FUNDCHAMPS HEADER & ANNOUNCEMENT ========================= #}
+{# Defensive defaults for SaaS reusability #}
 {% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
-{% set logo_src = team.logo if team.logo is defined and team.logo else 'images/logo.webp' %}
+{% set logo_src = (team.logo if team.logo is defined and team.logo else 'images/logo.webp') %}
 {% set nav_links = team.nav_links if team.nav_links is defined and team.nav_links else [
     ('about', 'About'), ('challenge', 'Challenge'), ('sponsor-wall', 'Sponsors'),
     ('tiers', 'Tiers'), ('testimonials', 'Testimonials'), ('contact', 'Contact')
@@ -15,7 +14,7 @@
     "theme": "gold"
 } %}
 
-{# ========== Announcement Bar ========== #}
+{# =========== ANNOUNCEMENT BAR =========== #}
 {% if announcement.visible %}
   <div id="announcement-bar"
        class="w-full z-50 bg-gradient-to-r from-yellow-400/95 via-yellow-200/85 to-yellow-100/85 text-black font-bold py-3 px-4 shadow-lg flex items-center justify-center gap-4 relative animate-slide-down select-none"
@@ -53,13 +52,15 @@
   </script>
 {% endif %}
 
-{# ========== Header / Navigation ========== #}
+{# =========== HEADER/NAVIGATION =========== #}
 <header class="sticky top-0 z-40 w-full backdrop-blur bg-black/85 border-b border-yellow-300/15 shadow-lg transition-all" role="banner">
   <div class="container mx-auto flex items-center justify-between px-4 py-4 lg:px-8">
+    {# ---- FLEXIBLE LOGO + TEAM NAME ---- #}
     <a href="{{ url_for('main.home') }}"
        class="flex items-center gap-3 focus-visible:ring-4 focus-visible:ring-yellow-400 rounded-lg group">
+      {% set is_url = logo_src.startswith('http') or '://' in logo_src %}
       <img
-        src="{% if logo_src.startswith('http') %}{{ logo_src }}{% else %}{{ url_for('static', filename=logo_src) }}{% endif %}"
+        src="{{ logo_src if is_url else url_for('static', filename=logo_src) }}"
         alt="{{ team.team_name or 'Connect ATX Elite' }} logo"
         class="h-12 w-12 rounded-full ring-2 ring-yellow-300 shadow-md transition-transform duration-200 group-hover:scale-110"
         loading="eager" decoding="async" fetchpriority="high"
@@ -68,7 +69,7 @@
         {{ team.team_name or 'Connect ATX Elite' }}
       </span>
     </a>
-    {% if current_user and current_user.is_authenticated %}
+    {% if current_user is defined and current_user and current_user.is_authenticated %}
       <span class="hidden md:inline ml-4 px-3 py-1 rounded-full bg-yellow-100 text-zinc-900 font-semibold shadow select-none">
         Hi, {{ current_user.name.split()[0] if current_user.name else 'User' }}
       </span>

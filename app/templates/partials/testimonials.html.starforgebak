@@ -1,4 +1,3 @@
-{% extends 'base.html' %}
 <section
   
   class="relative z-10 py-14 px-4 sm:px-8 max-w-5xl mx-auto"
@@ -80,7 +79,7 @@
   <div class="flex justify-center">
     <img
       alt="{{ team.team_name if team.team_name else 'Your Team' }} celebrating with championship"
-      src="{{ url_for('static', filename=team.jpg if team and team.jpg else 'images/connect-atx-team.jpg') }}"
+      src="{{ {% if team.jpg if team and team.jpg else 'images/connect-atx-team.jpg' and :// in team.jpg if team and team.jpg else 'images/connect-atx-team.jpg' %}{{ team.jpg if team and team.jpg else 'images/connect-atx-team.jpg' }}{% else %}{{ url_for('static', filename=team.jpg if team and team.jpg else 'images/connect-atx-team.jpg') }}{% endif %} }}"
       class="rounded-2xl shadow-2xl ring-4 ring-amber-300/50 object-cover max-w-md w-full"
       loading="lazy"
     />

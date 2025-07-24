@@ -9,20 +9,21 @@
   x-data="{ open: true }"
   x-show="open"
   x-transition.opacity.duration.500ms
-  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black opacity-90 p-6 text-white shadow-lg animate-fade-in"
+  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black/95 p-6 text-yellow-100 shadow-lg border-2 border-yellow-400/30 animate-fade-in focus:outline-none"
   @keydown.escape.window="open = false; dismissOnboarding()"
+  style="backdrop-filter: blur(2px);"
 >
-  <h3 class="mb-3 text-xl font-semibold text-yellow-400" id="onboard-title">Welcome, Admin!</h3>
+  <h3 class="mb-3 text-xl font-bold text-yellow-400 drop-shadow" id="onboard-title">Welcome, Admin!</h3>
   <p class="mb-5 text-sm leading-relaxed">
-    Use your new dashboard to track sponsors, export CSVs, and monitor campaign progress in real
-    time.
-    <span class="block text-yellow-300 mt-1">Need help? Chat with our AI Concierge below!</span>
+    Use your new dashboard to track sponsors, export CSVs, and monitor campaign progress in real time.
+    <span class="block text-yellow-300 mt-2">Need help? Chat with our AI Concierge below!</span>
   </p>
   <button
     @click="open = false; dismissOnboarding()"
     aria-label="Dismiss onboarding popover"
-    class="inline-block rounded bg-yellow-400 px-4 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-400 transition"
+    class="inline-block rounded bg-yellow-400 px-5 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-400 transition"
     type="button"
+    autofocus
   >
     Got it!
   </button>
@@ -43,16 +44,9 @@
 </script>
 <style>
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(12px);}
+    to   { opacity: 1; transform: translateY(0);}
   }
-  .animate-fade-in {
-    animation: fadeIn 0.35s ease forwards;
-  }
+  .animate-fade-in { animation: fadeIn 0.35s cubic-bezier(.44,2,.19,1) forwards; }
 </style>
+

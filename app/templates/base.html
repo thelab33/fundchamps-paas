@@ -1,75 +1,207 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ team.theme if team and team.theme else request.cookies.get('theme','dark') }}" class="scroll-smooth">
+<html lang="{{ lang_code or 'en' }}"
+      data-theme="{{ theme or 'dark' }}"
+      class="scroll-smooth antialiased bg-zinc-950 text-white font-sans{{ ' ' ~ team.body_class if team and team.body_class else '' }}">
 
 <head>
+  <!-- ✅ CORE META -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}{{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}{% endblock %}</title>
-  <link rel="canonical" href="{{ request.url_root }}" />
-  <meta name="description" content="{{ team.meta_description if team and team.meta_description else 'Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.' }}">
+  <title>
+    {% block title %}{{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}{% endblock %}
+  </title>
+  <link rel="canonical" href="{{ request.url_root|trim('/') }}" />
+
+  <!-- 🔍 SEO & SOCIAL META -->
+  <meta name="description" content="{{ team.meta_description or 'Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.' }}" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="theme-color" content="{{ team.theme_color if team and team.theme_color else '#facc15' }}" />
+  <meta name="theme-color" content="{{ team.theme_color or '#facc15' }}" />
+
+  <!-- 🟦 OPEN GRAPH -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="{{ team.og_title if team and team.og_title else 'Connect ATX Elite | Empowering Youth' }}" />
-  <meta property="og:description" content="{{ team.og_description if team and team.og_description else 'Support our basketball journey and invest in our next generation of leaders.' }}" />
-  <meta property="og:image" content="{{ url_for('static', filename=og_img) }}" />
+  <meta property="og:title" content="{{ team.og_title or 'Connect ATX Elite | Empowering Youth' }}" />
+  <meta property="og:description" content="{{ team.og_description or 'Support our basketball journey and invest in our next generation of leaders.' }}" />
+  <meta property="og:image" content="{{ team.og_image and url_for('static', filename=team.og_image) or url_for('static', filename='images/logo.avif') }}" />
+
+  <!-- 🐦 TWITTER CARD -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:creator" content="@ConnectATXElite" />
+  <meta name="twitter:creator" content="{{ team.twitter_handle or '@ConnectATXElite' }}" />
 
-  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename=team.favicon if team and team.favicon else 'favicon.png') }}">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename=team.apple_icon if team and team.apple_icon else 'images/logo.png') }}">
+  <!-- 📱 ICONS & MANIFEST -->
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ team.favicon and url_for('static', filename=team.favicon) or url_for('static', filename='images/favicon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ team.apple_icon and url_for('static', filename=team.apple_icon) or url_for('static', filename='images/logo.avif') }}" />
 
-  <link rel="preload" as="style" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}">
+  <!-- 🧠 FONTS & STYLES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- 💅 TAILWIND & CUSTOM CSS (ORDER MATTERS) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}" />
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-  {% if team and team.custom_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css) }}">
+  
+  {% if team.custom_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css) }}" />
   {% endif %}
 
   {% block head_extra %}{% endblock %}
 </head>
 
-<body class="bg-zinc-950 text-white font-sans antialiased {{ team.body_class if team and team.body_class else '' }}">
-  <a href="#main" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50">Skip to main content</a>
+<body class="bg-zinc-950 text-white font-sans antialiased{{ ' ' ~ team.body_class if team and team.body_class else '' }}">
 
+  <!-- ♿ ACCESSIBILITY: SKIP LINK -->
+  <a href="#main" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50">
+    Skip to main content
+  </a>
+
+  <!-- 🔔 ANNOUNCEMENT BAR -->
   {% block announcement %}{% endblock %}
 
+  <!-- 🧩 HEADER PARTIAL -->
+  {% include 'partials/header_and_announcement.html' %}
+
+  <!-- 🔥 MAIN CONTENT -->
   <main id="main" role="main" tabindex="-1">
     {% block content %}{% endblock %}
   </main>
 
+  <!-- 🦶 FOOTER PARTIAL -->
+  {% include 'partials/footer.html' %}
+
+  <!-- 🌟 GLOBAL MODALS -->
   {% block global_modals %}
-    <div id="newsletter-popup" class="fixed inset-0 hidden items-center justify-center bg-black/70 backdrop-blur-sm z-[99999]">
-      <div id="newsletter-content" class="relative bg-zinc-900 rounded-2xl shadow-2xl p-8 w-[380px] text-center text-yellow-100">
-        <button id="newsletter-close" class="absolute top-3 right-3 text-2xl text-yellow-300 hover:text-white">&times;</button>
-        <h2 class="text-2xl font-extrabold mb-2 text-yellow-300">Stay in the Loop!</h2>
-        <p class="mb-4">Get exclusive updates, game invites, and ways to help <strong>Connect ATX Elite</strong> shine.</p>
-        <form id="newsletter-form">
-          <input id="newsletter-email" name="email" type="email" required placeholder="Your email address" class="w-full p-3 rounded-full text-black border border-yellow-300/40" />
-          <button type="submit" class="w-full mt-3 py-2 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300">Subscribe</button>
-        </form>
-      </div>
-    </div>
+    {% include 'partials/newsletter.html' %}
   {% endblock %}
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
+  <!-- ⚙️ JS LIBRARIES (Deferred for performance) -->
+  <script defer src="{{ url_for('static', filename='js/htmx.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/aos.js') }}"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => { AOS.init({ duration: 900, once: true }); });
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof AOS !== "undefined") AOS.init({ duration: 900, once: true });
+    });
   </script>
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-  {% if analytics_id %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', '{{ analytics_id }}');
-    </script>
-  {% endif %}
+  <!-- ⚡ QUICK ANIMATIONS (Only here if not in Tailwind config yet) -->
+  <style>
+    @keyframes pop-in {
+      0% { transform: scale(0.86) translateY(60px); opacity: 0.7; }
+      100% { transform: none; opacity: 1; }
+    }
+    .animate-pop-in {
+      animation: pop-in 0.6s forwards;
+    }
+    #newsletter-popup.visible {
+      display: flex !important;
+      opacity: 1 !important;
+    }
+  </style>
 
-  {% block scripts %}{% endblock %}
+  <!-- 💬 AI CHATBOT FLOATING BUTTON -->
+  <button
+    id="ai-concierge-btn"
+    class="fixed bottom-6 right-6 z-40 bg-yellow-400 text-zinc-900 rounded-full p-4 shadow-xl hover:scale-110 transition focus:outline-none"
+    aria-label="Chat with AI Concierge"
+    onclick="showAIModal(); trackWidgetClick('ai_concierge_open'); sparkleAIBtn(this);"
+  >
+    💬
+  </button>
+
+  <!-- 💬 AI CONCIERGE MODAL -->
+  <div id="ai-concierge-modal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm transition-all duration-300 hidden" role="dialog" aria-modal="true" aria-labelledby="ai-concierge-modal-title" tabindex="-1">
+    <div class="bg-zinc-900 rounded-2xl w-full max-w-md shadow-2xl border-2 border-yellow-400/40 relative flex flex-col overflow-hidden">
+      <div class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 py-4 px-6 flex items-center gap-3 border-b border-yellow-300/30">
+        <span class="text-2xl">🤖</span>
+        <h3 id="ai-concierge-modal-title" class="font-extrabold text-zinc-900 text-xl flex-1">AI Concierge</h3>
+        <button class="ml-auto px-3 py-1 rounded-full bg-zinc-800/40 text-yellow-600 text-xl hover:text-red-500 focus-visible:ring-2 focus:ring-yellow-400" onclick="closeAIModal()" aria-label="Close chat">
+          &times;
+        </button>
+      </div>
+      <div class="flex-1 p-5 max-h-[50vh] overflow-y-auto" id="ai-chat-messages" style="background:rgba(0,0,0,0.08)">
+        <div class="text-yellow-200 mb-4">Welcome! Ask me anything about the program, events, or fundraising.</div>
+      </div>
+      <form id="ai-chat-form" class="flex gap-2 border-t border-yellow-300/10 p-4 bg-zinc-900" autocomplete="off" onsubmit="return sendAIChatMsg(event)">
+        <input type="text" id="ai-chat-input" name="message" placeholder="Type your question…" class="flex-1 px-4 py-2 rounded-lg border border-yellow-400/20 bg-zinc-800 text-yellow-100 focus:ring-2 focus:ring-yellow-400 outline-none" required autocomplete="off" />
+        <button type="submit" class="bg-yellow-400 text-black font-bold px-4 py-2 rounded-lg hover:bg-yellow-300 transition focus-visible:ring-2 focus:ring-yellow-400">
+          Send
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Sparkle animation for AI button
+    function sparkleAIBtn(btn) {
+      const icon = document.getElementById("ai-sparkle");
+      if (icon) {
+        icon.classList.remove("hidden");
+        setTimeout(() => icon.classList.add("hidden"), 900);
+      }
+    }
+
+    // Show AI Concierge Modal
+    function showAIModal() {
+      const modal = document.getElementById("ai-concierge-modal");
+      if (modal) {
+        modal.classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("ai-chat-input").focus();
+        }, 100);
+        document.body.style.overflow = "hidden";
+        document.getElementById("ai-concierge-btn").setAttribute("aria-expanded", "true");
+      }
+    }
+
+    // Close AI Concierge Modal
+    function closeAIModal() {
+      const modal = document.getElementById("ai-concierge-modal");
+      if (modal) {
+        modal.classList.add("hidden");
+        document.body.style.overflow = "";
+        document.getElementById("ai-concierge-btn").setAttribute("aria-expanded", "false");
+      }
+    }
+
+    // ESC to close modal
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAIModal();
+    });
+
+    // Mock AI chat handler (Connect to backend AI for production)
+    function sendAIChatMsg(e) {
+      e.preventDefault();
+      const input = document.getElementById("ai-chat-input");
+      const msg = input.value.trim();
+      if (!msg) return false;
+      const messages = document.getElementById("ai-chat-messages");
+      messages.innerHTML += `<div class="my-2 text-right"><span class="inline-block bg-yellow-300 text-black px-4 py-2 rounded-2xl">${msg}</span></div>`;
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+
+      // Demo AI reply (connect to backend here)
+      setTimeout(() => {
+        messages.innerHTML += `<div class="my-2 text-left"><span class="inline-block bg-zinc-800 text-yellow-200 px-4 py-2 rounded-2xl">🤖 <em>AI:</em> I'm here to help! (This is a demo reply. Ask about practice times, sponsorship, or the team!)</span></div>`;
+        messages.scrollTop = messages.scrollHeight;
+      }, 800);
+      return false;
+    }
+
+    // Event tracking for SaaS
+    function trackWidgetClick(name) {
+      if (window.gtag) {
+        window.gtag("event", "widget_click", {
+          event_category: "Dashboard",
+          event_label: name,
+        });
+      } else {
+        console.log("Widget click:", name);
+      }
+    }
+  </script>
 </body>
-
 </html>
 

@@ -1,0 +1,62 @@
+{% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
+{% set autopatched_img_src = team.img if team is defined and team.img is defined and team.img else 'images/fallback.jpg' %}
+{% set autopatched_img_src = autopatched_img_src if '://' in autopatched_img_src else url_for('static', filename=autopatched_img_src) %}
+
+<section
+  id="starforge-about"
+  class="relative py-20 px-4 sm:px-8 bg-gradient-to-b from-zinc-950 via-black to-zinc-950 text-white rounded-3xl shadow-2xl overflow-x-clip"
+  role="region"
+  tabindex="-1"
+>
+  <!-- Decorative, defensive SVG/IMG assets -->
+  <img
+    src="{{ autopatched_img_src }}"
+    alt=""
+    class="absolute left-0 top-14 w-24 md:w-36 opacity-70 animate-spin-slow pointer-events-none select-none"
+    loading="lazy"
+    decoding="async"
+    onerror="this.style.display='none';"
+    aria-hidden="true"
+  />
+  <img
+    src="{{ autopatched_img_src }}"
+    alt=""
+    class="absolute right-0 bottom-14 w-20 md:w-32 opacity-50 animate-spin-reverse-slow pointer-events-none select-none"
+    loading="lazy"
+    decoding="async"
+    onerror="this.style.display='none';"
+    aria-hidden="true"
+  />
+
+  <!-- About Core -->
+  <div class="max-w-4xl mx-auto text-center py-2 px-2 space-y-6 relative z-10">
+    <h2
+      class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-shine"
+      id="starforge-about-heading"
+      tabindex="0"
+    >
+      More Than Basketball — We’re Family On A Mission
+    </h2>
+    <p class="text-xl sm:text-2xl font-semibold text-white/90" tabindex="0">
+      <span class="text-yellow-400 font-bold">{{ team.team_name or "Your Team Name" }}</span> is more
+      than a team—it's a family-powered movement where
+      <strong>{{ team.region or "Your Region" }} kids and parents find a second home</strong>.
+      <span class="hidden sm:inline"><br /></span> We build
+      <strong>teamwork, respect, and championship character for life</strong>.
+    </p>
+    <p class="text-lg text-white/80" tabindex="0">
+      Founded by the {{ team.founder_lastname or "Smith" }} family, our {{ team.league or "Your League" }}
+      program grew from a father’s dream for his son into a thriving, supportive community. Every coach,
+      volunteer, and sponsor helps our students—
+      <span class="text-amber-300 font-bold">because every child matters here.</span>
+    </p>
+    <blockquote class="text-lg text-yellow-200/90 italic" tabindex="0">
+      “Family means showing up, believing in each other, and making sure no one is left behind. That’s
+      what we do—on the court, and off.”
+      <footer class="text-yellow-400 font-semibold mt-2">
+        — Coach Angel Rodriguez
+      </footer>
+    </blockquote>
+  </div>
+</section>
+

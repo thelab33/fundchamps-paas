@@ -1,17 +1,34 @@
-{% extends 'base.html' %}
+{# ================== Testimonial Popover Partial ================== #}
 
-<meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.8.0" />
+{% set challenge = challenge if challenge is defined and challenge else {} %}
+{% set author = challenge.author if challenge and challenge.author else "Team Parent, Class of 2030" %}
+{% set detail = challenge.detail if challenge and challenge.detail else "We missed practices due to lack of funding for gym rentals last season. Sponsors make all the difference!" %}
 
-<section id="starforge-testimonial-pop" 
-         class="starforge-popover absolute left-1/2 top-full -translate-x-1/2 mt-3 w-80 bg-black/95 text-yellow-200 rounded-xl px-5 py-4 shadow-xl border border-yellow-300 z-50 hidden" 
-         tabindex="-1" 
-         aria-hidden="true">
+<section
+  id="starforge-testimonial-pop"
+  class="starforge-popover absolute left-1/2 top-full -translate-x-1/2 mt-3 w-80 bg-black/95 text-yellow-200 rounded-xl px-5 py-4 shadow-xl border border-yellow-300 z-50 hidden animate-fade-in"
+  tabindex="-1"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="false"
+  aria-label="Testimonial"
+>
+  <!-- Pointer Arrow -->
+  <div class="absolute top-[-14px] left-1/2 -translate-x-1/2 w-6 h-6 pointer-events-none">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <polygon points="12,0 24,24 0,24" fill="#facc15" opacity="0.8" />
+    </svg>
+  </div>
   
-  <strong>
-    {{ challenge.author if challenge.author else "Team Parent, Class of 2030" }}
-  </strong>
-  <br />
-  {{ challenge.detail if challenge.detail else "We missed practices due to lack of funding for gym rentals last season. Sponsors make all the difference!" }}
+  <strong class="block text-yellow-400 mb-1">{{ author }}</strong>
+  <div class="text-base leading-relaxed">{{ detail }}</div>
   
+  <!-- Optional Close Button -->
+  <button type="button"
+    onclick="this.closest('.starforge-popover').classList.add('hidden')"
+    class="absolute top-2 right-2 text-yellow-400 hover:text-red-500 text-lg font-bold rounded-full focus:outline-none"
+    aria-label="Close testimonial">
+    ×
+  </button>
 </section>
 

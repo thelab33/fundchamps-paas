@@ -1,5 +1,7 @@
-{% extends 'base.html' %}
 {# =================== Newsletter Modal Popup (SaaS Elite) =================== #}
+
+{# Defensive default: team/team_name always exists #}
+{% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
 
 <div
   id="newsletter-popup"
@@ -26,7 +28,7 @@
 
     <!-- 📨 Title + Pitch -->
     <h2 id="newsletter-title" class="text-2xl sm:text-3xl font-extrabold text-yellow-300 mb-2">
-      Stay in the Loop with FundChamps!
+      Stay in the Loop with {{ team.team_name or "Connect ATX Elite" }}!
     </h2>
     <p class="text-xs text-amber-200">Privacy: We’ll never sell or share your email.</p>
     <p class="text-base text-yellow-100 opacity-90 mb-6">

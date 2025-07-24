@@ -1,0 +1,44 @@
+{% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
+
+<section
+  id="starforge-mission"
+  class="max-w-3xl mx-auto text-center space-y-6 mt-6 relative z-10"
+>
+  <h3
+    class="text-2xl sm:text-xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-shine"
+  >
+    Our Mission
+  </h3>
+  <article class="prose prose-invert mx-auto space-y-4 max-w-none" tabindex="0">
+    <p class="text-xl leading-relaxed" id="missionSummary">
+      <strong>{{ team.team_name or "Your Team Name" }}</strong> is a
+      <span class="text-yellow-300 font-bold">family-founded, community-powered</span>
+      12U AAU program in Austin, TX—built for <em>affordable, academics-first basketball</em>.
+    </p>
+    <p class="text-lg text-white/90">
+      Our mission:
+      <span class="text-yellow-300 font-bold">turn honor-roll students into champions—on and off the
+      court.</span>
+      Through teamwork, mentorship, and grit, we prepare our players for
+      <span class="text-amber-200 font-bold">life as well as sport</span>.
+    </p>
+    <p class="text-white/70">
+      Every sponsorship directly supports
+      <span class="text-yellow-200 font-semibold">gym access, tournament travel, and crucial academic
+      support</span>
+      for <strong>20+ student-athletes</strong>—most striving for honor roll, not just the scoreboard.
+    </p>
+  </article>
+  <a
+    class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-3 px-8 rounded-full shadow-lg transition hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 text-lg animate-pop mt-2"
+    href="#fundraiser"
+    tabindex="0"
+  >
+    Become a Champion for {{ team.region or "Your Region" }} Youth →
+  </a>
+  <p class="mt-2 text-sm text-white/60 max-w-md mx-auto" tabindex="0">
+    Every sponsorship fuels gym time, tutoring, travel, and more.
+    <strong>Keep our kids dreaming big.</strong>
+  </p>
+</section>
+

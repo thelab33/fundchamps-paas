@@ -1,9 +1,0 @@
-total 32
-drwxr-xr-x  4 cyberboyz cyberboyz 4096 Jul 15 17:49 .
-drwxr-xr-x 16 cyberboyz cyberboyz 4096 Jul 16 14:05 ..
--rw-r--r--  1 cyberboyz cyberboyz  857 Jul 15 17:49 alembic.ini
--rw-r--r--  1 cyberboyz cyberboyz 3292 Jul 15 17:49 env.py
-drwxr-xr-x  2 cyberboyz cyberboyz 4096 Jul 15 21:55 __pycache__
--rw-r--r--  1 cyberboyz cyberboyz   41 Jul 15 17:49 README
--rw-r--r--  1 cyberboyz cyberboyz  494 Jul 15 17:49 script.py.mako
-drwxr-xr-x  3 cyberboyz cyberboyz 4096 Jul 14 16:27 versions

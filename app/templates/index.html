@@ -1,42 +1,46 @@
-{# ================== app/templates/index.html (SaaS Homepage) ================== #}
 {% extends "base.html" %}
-{% block title %}Home · {{ team.team_name or 'Your Organization' }}{% endblock %}
+
+{% block title %}
+  {{ _('Home') }} · {{ team.team_name or 'Connect ATX Elite' }}
+{% endblock %}
 
 {% block content %}
-  {# ------------------ Universal UI Blocks (partials) ------------------- #}
-  {% include "partials/header.html" ignore missing %}         {# Site header, nav, logo #}
-  {% include "partials/flash_and_onboarding.html" ignore missing %}  {# Flash messages, onboarding steps #}
+  <!-- ─────────────────────────────────────────────────────────── HERO & FUNDRAISER ─────────────────────────────────────────────────────────── -->
+  {% include "partials/hero_and_fundraiser.html" %}
 
-  {# ------------------ Hero + Fundraising ------------------- #}
-  {% include "partials/hero_and_fundraising.html" ignore missing %}
-
-  {# ------------------ Motivation/Trust --------------------- #}
+  <!-- ─────────────────────────────────────────────────────────── TRUST/EMOTION OVERLAY ─────────────────────────────────────────────────────────── -->
   {% include "partials/hero_overlay_quote.html" ignore missing %}
 
-  {# ------------------ About & Mission ---------------------- #}
-  {% include "partials/about_and_mission.html" ignore missing %}
+  <!-- ─────────────────────────────────────────────────────────── DONOR TIERS & IMPACT BADGES ─────────────────────────────────────────────────────────── -->
+  {% include "partials/tiers.html" ignore missing %}
 
-  {# ------------------ Impact & Tiers ----------------------- #}
-  {% include "partials/impact_and_tiers.html" ignore missing %}
-
-  {# ------------------ Sponsorship Features ----------------- #}
-  {% include "partials/sponsor_leaderboard.html" ignore missing %}
-
-  {# ------------------ Digital Hub (links/resources) -------- #}
-  {% include "partials/digital_hub.html" ignore missing %}
-
-  {# ------------------ Calendar & Stats --------------------- #}
+  <!-- ─────────────────────────────────────────────────────────── PROGRAM STATS & CALENDAR ─────────────────────────────────────────────────────────── -->
   {% include "partials/program_stats_and_calendar.html" ignore missing %}
 
-  {# ------------------ Social Proof / Testimonials ---------- #}
+  <!-- ─────────────────────────────────────────────────────────── ABOUT SECTION ─────────────────────────────────────────────────────────── -->
+  {% include 'partials/about_section.html' %}
+
+  <!-- ─────────────────────────────────────────────────────────── MISSION SECTION ─────────────────────────────────────────────────────────── -->
+  {% include 'partials/mission_section.html' %}
+
+  <!-- ─────────────────────────────────────────────────────────── LIVE SPONSOR WALL & SPOTLIGHTS ─────────────────────────────────────────────────────────── -->
+  {% include "partials/sponsor_spotlight.html" ignore missing %}
+
+  <!-- ─────────────────────────────────────────────────────────── TESTIMONIALS ─────────────────────────────────────────────────────────── -->
   {% include "partials/testimonials.html" ignore missing %}
 
-  {# ------------------ Story/Video Modal -------------------- #}
-  {% include "partials/story_modal.html" ignore missing %}
+  <!-- ─────────────────────────────────────────────────────────── DIGITAL HUB ─────────────────────────────────────────────────────────── -->
+  {% include "partials/digital_hub.html" ignore missing %}
 
-  {# --------- Optional: Admin Dashboard Popover (admin only) ---------- #}
-  {% if current_user.is_authenticated and current_user.is_admin %}
+  <!-- ─────────────────────────────────────────────────────────── STORY/VIDEO MODAL ─────────────────────────────────────────────────────────── -->
+  {% include "partials/story_video_modal.html" ignore missing %}
+
+  <!-- ─────────────────────────────────────────────────────────── ADMIN ONBOARDING (only for authenticated admin users) ─────────────────────────────────────────────────────────── -->
+  {% if current_user and current_user.is_authenticated and current_user.is_admin %}
     {% include "partials/admin_onboarding_popover.html" ignore missing %}
   {% endif %}
+
+  <!-- ─────────────────────────────────────────────────────────── FUTURE MODULAR SECTIONS ─────────────────────────────────────────────────────────── -->
+  {# Add any additional modular sections here as needed. #}
 {% endblock %}
 

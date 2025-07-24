@@ -1,89 +1,88 @@
-"""
-app/__init__.py – Starforge core bootstrap
------------------------------------------
-Usage patterns:
-
-    from app import db
-    from app import socketio
-    from app import create_app
-"""
-
-from __future__ import annotations
-
-import os
-import pkgutil
-import importlib
-from pathlib import Path
+import logging  # Ensure logging is imported
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_socketio import SocketIO
-from flask_cors  import CORS
+from datetime import datetime
+from app.extensions import db, migrate, socketio, login_manager, babel
+from app.routes.main import main_bp
+from app.routes.api import api_bp
+from flask_cors import CORS
+from typing import Any
 
-# ── Core extensions ──────────────────────────────────────────────
-db       = SQLAlchemy()
-migrate  = Migrate()
-socketio = SocketIO(cors_allowed_origins="*")   # gevent/uvicorn autodetected
+def create_app(config_class: str = "app.config.DevelopmentConfig") -> Flask:
+    """
+    Flask application factory.
+    This function initializes the app with configuration, extensions, routes, and error handling.
+    
+    Args:
+        config_class (str): The import path for the config class. Defaults to DevelopmentConfig.
 
-__all__ = ["db", "migrate", "socketio", "create_app"]
+    Returns:
+        Flask app instance
+    """
+    
+    # ──────────────── Define Static Folder Path ────────────────
+    static_folder_path = '/home/cyberboyz/connectatx-fundraiser/app/static'
+    static_url_path = '/static'
 
+    # Create Flask app instance
+    app = Flask(
+        __name__,
+        static_folder=static_folder_path,
+        static_url_path=static_url_path
+    )
 
-# ── Factory ──────────────────────────────────────────────────────
-def create_app(config_class: str | object | None = None) -> Flask:
-    """Flask application factory with dynamic model discovery."""
-    app = Flask(__name__, static_folder="static", template_folder="templates")
+    # Load configuration from the provided config class
+    app.config.from_object(config_class)
 
-    # Smart config loader (str path, object, env var, or fallback)
-    if isinstance(config_class, str):
-        app.config.from_object(config_class)
-    elif config_class is not None:
-        app.config.from_object(config_class)
-    else:
-        app.config.from_object(os.getenv("FLASK_CONFIG") or "config.DevelopmentConfig")
-
-    # CORS (public API)
-    CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
-
-    # Initialise extensions
+    # ──────────────── Initialize Extensions ────────────────
     db.init_app(app)
     migrate.init_app(app, db)
-    socketio.init_app(app, cors_allowed_origins=cors_origins)
+    socketio.init_app(app)
+    login_manager.init_app(app)
+    babel.init_app(app)
+    
+    # ──────────────── Enable Cross-Origin Resource Sharing ────────────────
+    # Allow CORS for API routes to support cross-origin requests
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    # ── Auto-import every model file so SQLAlchemy sees each table ──
-    with app.app_context():
-        models_path = Path(__file__).parent / "models"
-        if models_path.exists():
-            for mod in pkgutil.iter_modules([str(models_path)]):
-                importlib.import_module(f"app.models.{mod.name}")
+    # ──────────────── Global Template Context ────────────────
+    # Inject global variables (like current_user and current time) into templates
+    from flask_login import current_user
+    from flask_babel import _
 
-    # ── Blueprints ────────────────────────────────────────────────
-    from app.routes import main_bp, api_bp, sms_bp
-    from app.routes.stripe_routes import stripe_bp         #  ← NEW
-    try:
-        from app.admin.routes import admin as admin_bp
-    except ImportError:
-        admin_bp = None
+    @app.context_processor
+    def inject_globals() -> dict[str, Any]:
+        """
+        Inject global variables (current_user, translation function, current time) into templates.
+        """
+        return dict(current_user=current_user, _=_, now=datetime.utcnow())
 
+    # ──────────────── Register Blueprints ────────────────
+    # Register the main blueprint for UI routes and the API blueprint
     app.register_blueprint(main_bp)
-    app.register_blueprint(api_bp,      url_prefix="/api")
-    app.register_blueprint(sms_bp,      url_prefix="/sms")
-    app.register_blueprint(stripe_bp)                     #  ← NEW
-    if admin_bp:
-        app.register_blueprint(admin_bp, url_prefix="/admin")
+    app.register_blueprint(api_bp)
 
-    # Simple health-check
-    @app.get("/healthz")
-    def healthz():
-        return {"status": "ok", "message": "Starforge Flask live!"}
-
-    # ── Inject Flask-Login current_user into every template ──
+    # ──────────────── API Error Handlers ────────────────
+    # Register custom error handlers for API routes
     try:
-        from flask_login import current_user
-        @app.context_processor
-        def inject_user():
-            return dict(current_user=current_user)
+        from app.routes.api import register_error_handlers
+        register_error_handlers(app)
     except ImportError:
-        pass  # Flask-Login not used; skip
+        logging.warning("No custom error handlers found for the API routes.")
+
+    # ──────────────── CLI Commands (Optional) ────────────────
+    # Register CLI commands if available
+    try:
+        from app.commands import register_commands
+        register_commands(app)
+    except ImportError:
+        logging.warning("No CLI commands found for the app.")
+
+    # ──────────────── Startup Banner ────────────────
+    # Print a startup banner with app details for debugging and CI/CD purposes
+    print("=" * 60)
+    print(f"🚀 Starforge App Booted | ENV={app.config.get('ENV')} | DEBUG={app.debug}")
+    print(f"📦 DB URI: {app.config.get('SQLALCHEMY_DATABASE_URI')}")
+    print("=" * 60)
 
     return app
 
