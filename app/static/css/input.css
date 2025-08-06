@@ -1,75 +1,417 @@
-/* input.css - Tailwind CSS Input File */
+/* ========================================================================== */
 
-/* ───────────────────────────────────────────────────────────────────────────────
-  Tailwind's Base Layer – Utility-first, loaded first!
-───────────────────────────────────────────────────────────────────────────────*/
+/* FundChamps Tailwind Input — Elite SaaS Edition                             */
+
+/* Next-level form UX: Gold accents • Modern dark mode • Floating labels      */
+
+/* Conversion-Driven • A11y-First • Silicon Valley polish                     */
+
+/* ========================================================================== */
+
+/* ==== Tailwind core (do not remove) ==== */
 @tailwind base;
-
-/* ───────────────────────────────────────────────────────────────────────────────
-  Tailwind's Component Layer – Custom components or utility overrides
-───────────────────────────────────────────────────────────────────────────────*/
 @tailwind components;
-
-/* ───────────────────────────────────────────────────────────────────────────────
-  Tailwind's Utility Layer – Utility classes for on-the-fly styling
-───────────────────────────────────────────────────────────────────────────────*/
 @tailwind utilities;
 
-/* ───────────────────────────────────────────────────────────────────────────────
-  Custom CSS / Global Styles – Add your own custom styles below
-───────────────────────────────────────────────────────────────────────────────*/
+/* ---------------------------------------- */
 
-/* Example: Setting global font family for better text rendering */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #18181b; /* Custom dark background */
-  color: #fff; /* White text */
-  line-height: 1.7; /* Ensuring better readability */
-  font-size: 1rem; /* Default font size */
+/* Design Tokens & Globals (via @layer base) */
+
+/* ---------------------------------------- */
+@layer base {
+  :root {
+    --brand-gold: #facc15;
+    --brand-gold-light: #fde047;
+    --brand-slate: #09090b;
+    --brand-glass: rgb(250 204 21 / 12%);
+    --input-bg: #18181b;
+    --input-bg-dark: #121212;
+    --input-border: rgb(250 204 21 / 40%);
+    --input-border-dark: rgb(250 204 21 / 60%);
+    --input-text: #facc15;
+    --input-text-dark: #fffacd;
+    --input-error: #dc2626;
+    --input-success: #16a34a;
+    --input-helper: rgb(250 204 21 / 67%);
+    --input-helper-error: rgb(220 38 38 / 80%);
+  }
+
+  .dark {
+    --input-bg: var(--input-bg-dark);
+    --input-border: var(--input-border-dark);
+    --input-text: var(--input-text-dark);
+    --brand-gold: var(--brand-gold-light);
+  }
 }
 
-/* Custom Styles for buttons or UI components */
+/* ---------------------------------------- */
 
-/* Example: Button styling for primary buttons */
-.btn-primary {
-  background-color: #facc15; /* Gold background */
-  color: #b91c1c; /* Red text color */
-  border-radius: 1rem; /* Rounded corners */
-  padding: 0.75rem 1.5rem; /* Padding for better spacing */
-  font-weight: 700; /* Bold text */
-  transition: background-color 0.3s ease, transform 0.3s ease;
+/* Inputs: Elite UX + A11y (via @layer components) */
+
+/* ---------------------------------------- */
+@layer components {
+  .input-group {
+    margin-bottom: 2.1rem;
+    position: relative;
+  }
+
+  /* Autofill (high specificity, always above focus state) */
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+    -webkit-text-fill-color: var(--input-text) !important;
+  }
+
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    @apply bg-zinc-800 opacity-60 cursor-not-allowed;
+  }
+
+  .input-group input,
+  .input-group textarea,
+  .input-group select {
+    background-color: var(--input-bg);
+    border: 2px solid var(--input-border);
+    color: var(--input-text);
+    font-size: 1rem;
+    line-height: 1.4;
+    padding-top: 1.45rem;
+
+    @apply w-full rounded-xl p-3 font-medium shadow-inner transition-colors duration-200 ease-in-out;
+  }
+
+  .input-group textarea {
+    max-height: 300px;
+    min-height: 44px;
+    overflow-y: hidden;
+    resize: none;
+  }
+
+  /* Focus + Focus-visible states (merge for polish) */
+  .input-group input:focus,
+  .input-group textarea:focus,
+  .input-group select:focus {
+    background-color: #232320;
+    border-color: var(--brand-gold);
+    box-shadow: 0 0 0 3px rgb(250 204 21 / 18%);
+    outline: none;
+  }
+
+  .input-group input:focus-visible,
+  .input-group textarea:focus-visible,
+  .input-group select:focus-visible {
+    animation: pulse-glow 1.3s infinite alternate;
+    box-shadow: 0 0 12px var(--brand-gold);
+    outline: 3px solid var(--brand-gold);
+    outline-offset: 3px;
+  }
+
+  /* Floating label */
+  .input-group label {
+    color: var(--input-text);
+    font-size: 1rem;
+    font-weight: 600;
+    left: 1rem;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    position: absolute;
+    top: 1.25rem;
+    transition: all 0.21s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    z-index: 10;
+  }
+
+  .input-group input:focus + label,
+  .input-group input:not(:placeholder-shown) + label,
+  .input-group textarea:focus + label,
+  .input-group textarea:not(:placeholder-shown) + label,
+  .input-group select:focus + label,
+  .input-group select:not([value='']) + label {
+    color: var(--brand-gold);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.97;
+    top: 0.28rem;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #ffe29a;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0.89;
+  }
+
+  .input-group input:invalid,
+  .input-group textarea:invalid,
+  .input-group select:invalid {
+    background-color: var(--neutral-dark);
+    border-color: var(--input-error);
+    box-shadow: 0 0 0 3px rgb(220 38 38 / 30%);
+  }
+
+  .input-group input[data-valid='true'],
+  .input-group textarea[data-valid='true'],
+  .input-group select[data-valid='true'] {
+    border-color: var(--input-success);
+    box-shadow: 0 0 0 3px rgb(22 163 74 / 50%);
+  }
+
+  .input-helper {
+    color: var(--input-helper);
+    display: block;
+    font-size: 0.83rem;
+    margin-left: 0.12rem;
+    margin-top: 0.28rem;
+    user-select: none;
+  }
+
+  .input-helper.error {
+    color: var(--input-helper-error);
+    font-weight: 700;
+  }
+
+  /* Inline clear button */
+  .input-clear {
+    background: none;
+    border: none;
+    color: var(--input-text);
+    cursor: pointer;
+    font-size: 1.13rem;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.2s;
+    z-index: 11;
+  }
+
+  .input-group input[type='text']:focus ~ .input-clear,
+  .input-group input[type='text']:hover ~ .input-clear,
+  .input-group input[type='email']:focus ~ .input-clear,
+  .input-group input[type='email']:hover ~ .input-clear,
+  .input-group input[type='search']:focus ~ .input-clear,
+  .input-group input[type='search']:hover ~ .input-clear {
+    opacity: 0.93;
+    pointer-events: auto;
+  }
+
+  /* Skeleton input loader */
+  .skeleton-input {
+    margin-bottom: 1.2rem;
+    min-height: 44px;
+
+    @apply bg-zinc-700 rounded-xl animate-pulse w-full h-10;
+  }
+
+  .input-stack {
+    @apply flex flex-col gap-2 sm:gap-3;
+  }
+
+  /* Loading button animation */
+  .btn-loading {
+    background: var(--brand-slate);
+    color: var(--input-text);
+    opacity: 0.75;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .btn-loading::after {
+    animation: spin 1.1s linear infinite;
+    border: 2.7px solid var(--brand-gold);
+    border-radius: 9999px;
+    border-top: 2.7px solid #fff;
+    content: '';
+    height: 1.2em;
+    position: absolute;
+    right: 1.6em;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.2em;
+  }
 }
 
-/* Hover effects for primary button */
-.btn-primary:hover {
-  background-color: #b91c1c; /* On hover, change to red */
-  color: #facc15; /* Change text color to gold */
-  transform: scale(1.05); /* Slightly scale button for hover effect */
+/* ---------------------------------------- */
+
+/* Utilities: Micro-interactions            */
+
+/* ---------------------------------------- */
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .focus-trap {
+    border-radius: 0.5rem;
+    box-shadow: 0 0 9px var(--brand-gold);
+    outline: none !important;
+  }
 }
 
-/* Input fields */
-input, textarea {
-  background-color: #27272a; /* Dark background for input fields */
-  color: #fff; /* White text */
-  border-radius: 0.5rem; /* Rounded corners */
-  padding: 0.8rem; /* Padding for better input area */
-  border: 2px solid #facc15; /* Gold border */
-  font-size: 1rem; /* Default font size */
+/* ---------------------------------------- */
+
+/* Responsive, Reduced Motion, A11y         */
+
+/* ---------------------------------------- */
+@media (pointer: coarse) {
+  .input-group input,
+  .input-group textarea,
+  .input-group select {
+    font-size: 1.12em;
+    min-height: 44px;
+  }
 }
 
-/* Focus effect for input fields */
-input:focus, textarea:focus {
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------- */
+
+/* UI/UX Micro-interactions & Animations    */
+
+/* ---------------------------------------- */
+
+/* Fundraising tooltip */
+#fundraising-tip {
+  background: var(--brand-gold);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 12px var(--brand-gold);
+  color: #222;
+  font-size: 0.875rem;
+  font-weight: 700;
+  left: 0;
+  opacity: 0;
+  padding: 0.75rem;
+  position: absolute;
+  top: -4rem;
+  transition: opacity 0.3s ease;
+  width: 16rem;
+  z-index: 1000;
+}
+
+.fundraising-meter:focus-within #fundraising-tip,
+.fundraising-meter:hover #fundraising-tip {
+  opacity: 1;
+}
+
+/* Skeleton shimmer loader */
+.skeleton-loader {
+  animation: shimmer 1.6s infinite;
+  background: linear-gradient(
+    90deg,
+    #facc1540 25%,
+    #facc1570 50%,
+    #facc1540 75%
+  );
+  background-size: 200% 100%;
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Toast notification */
+.toast-notification {
+  animation: fade-in-out 3.5s ease forwards;
+  background: var(--brand-gold);
+  border-radius: 9999px;
+  bottom: 20px;
+  box-shadow: 0 0 15px var(--brand-gold);
+  color: #222;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  position: fixed;
+  right: 20px;
+  z-index: 15000;
+}
+
+@keyframes fade-in-out {
+  0%,100% { opacity: 0; transform: translateY(20px);}
+  10%,90% { opacity: 1; transform: translateY(0);}
+}
+
+/* Donor badge animation */
+.donor-badge {
+  animation: pop-in 0.5s ease forwards;
+  background: var(--brand-gold);
+  border-radius: 9999px;
+  box-shadow: 0 0 8px var(--brand-gold);
+  color: #222;
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-right: 0.25rem;
+  padding: 0.2rem 0.5rem;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.7);}
+  to   { opacity: 1; transform: scale(1);}
+}
+
+/* Sponsor Tier Popover Styles */
+.tier-card {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.tier-card:focus,
+.tier-card:hover {
+  box-shadow: 0 8px 24px var(--brand-gold);
   outline: none;
-  border-color: #f59e0b; /* Focus color for input */
-  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.3); /* Subtle glow on focus */
+  transform: translateY(-4px);
 }
 
-/* Example of additional text classes */
-.text-gradient {
-  background: linear-gradient(to right, #facc15, #f59e0b);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  font-weight: bold;
+.tier-popover {
+  background-color: var(--brand-gold);
+  border-radius: 0.5rem;
+  bottom: 100%;
+  box-shadow: 0 0 18px var(--brand-gold);
+  color: #111;
+  font-size: 0.875rem;
+  font-weight: 700;
+  left: 50%;
+  opacity: 0;
+  padding: 0.5rem 0.75rem;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease;
+  user-select: none;
+  white-space: normal;
+  width: 16rem;
+  z-index: 9999;
+}
+
+/* Animations used in this file (all unique names, no duplicates with globals.css) */
+@keyframes spin {
+  to { transform: rotate(360deg);}
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 4px var(--brand-gold);}
+  100% { box-shadow: 0 0 20px var(--brand-gold);}
 }
 

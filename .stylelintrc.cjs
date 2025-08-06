@@ -1,4 +1,11 @@
 module.exports = {
-  extends: ['stylelint-config-tailwindcss'],
+  plugins: [
+    'stylelint-declaration-block-no-ignored-properties',
+    // other plugins...
+  ],
+  rules: {
+    'plugin/declaration-block-no-ignored-properties': true,
+    // other rules...
+  },
 };
 

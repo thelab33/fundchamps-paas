@@ -1,120 +1,217 @@
-{# ========================= STARFORGE/FUNDCHAMPS HEADER & ANNOUNCEMENT ========================= #}
-{# Defensive defaults for SaaS reusability #}
-{% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
-{% set logo_src = (team.logo if team.logo is defined and team.logo else 'images/logo.webp') %}
-{% set nav_links = team.nav_links if team.nav_links is defined and team.nav_links else [
-    ('about', 'About'), ('challenge', 'Challenge'), ('sponsor-wall', 'Sponsors'),
-    ('tiers', 'Tiers'), ('testimonials', 'Testimonials'), ('contact', 'Contact')
-] %}
-{% set announcement = announcement if announcement is defined and announcement else {
-    "message": "🚨 Championship Fundraiser is LIVE! Help us reach our goal — Become a sponsor",
-    "cta": "Sponsor Now",
-    "cta_url": "#tiers",
-    "visible": True,
-    "theme": "gold"
-} %}
+{% from "macros/ui.html" import render_button, progress_meter %}
 
-{# =========== ANNOUNCEMENT BAR =========== #}
-{% if announcement.visible %}
-  <div id="announcement-bar"
-       class="w-full z-50 bg-gradient-to-r from-yellow-400/95 via-yellow-200/85 to-yellow-100/85 text-black font-bold py-3 px-4 shadow-lg flex items-center justify-center gap-4 relative animate-slide-down select-none"
-       role="alert" aria-live="polite" tabindex="0">
-    <span class="text-lg md:text-xl animate-pulse" id="announcement-msg">{{ announcement.message }}</span>
-    {% if announcement.cta_url %}
-      <a href="{{ announcement.cta_url }}"
-         class="ml-3 px-5 py-2 rounded-full bg-black/90 text-yellow-300 font-extrabold hover:bg-yellow-400 hover:text-black transition-all shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-400"
-         tabindex="0">{{ announcement.cta or "Become a Sponsor" }}</a>
-    {% else %}
-      <button type="button" onclick="openSponsorModal()"
-              class="ml-3 px-5 py-2 rounded-full bg-black/90 text-yellow-300 font-extrabold hover:bg-yellow-400 hover:text-black transition-all shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-400"
-              tabindex="0">{{ announcement.cta or "Become a Sponsor" }}</button>
-    {% endif %}
-    <button type="button"
-            class="absolute right-3 top-2 text-xl text-black/60 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full"
-            onclick="dismissAnnouncementBar(this)" tabindex="0" aria-label="Dismiss announcement">&times;</button>
-  </div>
-  <script>
-    function dismissAnnouncementBar(btn) {
-      const bar = btn.closest('div[role="alert"]');
-      if (!bar) return;
-      bar.style.transition = "opacity 0.4s, height 0.4s, margin 0.4s, padding 0.4s";
-      bar.style.opacity = "0"; bar.style.height = "0"; bar.style.margin = "0"; bar.style.padding = "0";
-      try { localStorage.setItem("announcement_dismissed", "1"); } catch (e) {}
-      setTimeout(() => bar.remove(), 450);
-    }
-    document.addEventListener("DOMContentLoaded", () => {
-      try {
-        if (localStorage.getItem("announcement_dismissed") === "1") {
-          const bar = document.querySelector('div[role="alert"]'); if (bar) bar.remove();
-        }
-      } catch (e) {}
-    });
-  </script>
-{% endif %}
+<header
+  id="site-header"
+  x-data="{ mobileOpen: false }"
+  @keydown.window.escape="mobileOpen = false"
+  class="sticky top-0 left-0 right-0 z-50 w-full bg-black/90 backdrop-blur border-b border-yellow-400/20 shadow-xl transition-shadow duration-300"
+  itemscope itemtype="https://schema.org/Organization" itemprop="brand"
+  style="backdrop-filter: blur(9px);"
+>
 
-{# =========== HEADER/NAVIGATION =========== #}
-<header class="sticky top-0 z-40 w-full backdrop-blur bg-black/85 border-b border-yellow-300/15 shadow-lg transition-all" role="banner">
-  <div class="container mx-auto flex items-center justify-between px-4 py-4 lg:px-8">
-    {# ---- FLEXIBLE LOGO + TEAM NAME ---- #}
-    <a href="{{ url_for('main.home') }}"
-       class="flex items-center gap-3 focus-visible:ring-4 focus-visible:ring-yellow-400 rounded-lg group">
-      {% set is_url = logo_src.startswith('http') or '://' in logo_src %}
+  {# --- Announcement Bar (optional, dynamic) --- #}
+  {% if announcement and announcement.visible %}
+    <div
+      id="announcement-bar"
+      class="flex items-center justify-center gap-2 text-xs md:text-sm font-semibold py-1 px-2 md:px-4 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-100 text-black shadow-inner"
+      style="min-height: 36px"
+      hx-get="{{ url_for('main.announcement_partial') }}"
+      hx-trigger="every 5m"
+      hx-swap="outerHTML"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span>{{ announcement.message|safe }}</span>
+      {% if announcement.cta and announcement.cta_url %}
+        <a
+          href="{{ announcement.cta_url }}"
+          class="underline font-bold hover:no-underline focus-visible:ring-2 ring-black rounded px-1"
+          target="_blank" rel="noopener"
+        >{{ announcement.cta }}</a>
+      {% endif %}
+      <button
+        type="button"
+        aria-label="Dismiss announcement"
+        class="ml-2 text-lg leading-none hover:text-red-600 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 rounded"
+        @click="$el.parentElement.remove()"
+        style="font-size: 1.25rem"
+      >×</button>
+    </div>
+  {% endif %}
+
+  {# --- Optional Fundraising Countdown (mobile-first) --- #}
+  {% if fundraising_deadline %}
+    <div class="w-full bg-yellow-900/95 py-1 text-center text-xs text-yellow-200 tracking-wide font-semibold animate-fade-in"
+         role="region" aria-live="polite" aria-atomic="true">
+      ⏰
+      <span class="font-bold" id="header-countdown"
+        data-deadline="{{ fundraising_deadline.isoformat() if fundraising_deadline.__class__.__name__ in ('datetime', 'date') else fundraising_deadline }}">
+        {{ fundraising_deadline }}
+      </span>
+      left to reach our goal!
+    </div>
+  {% endif %}
+
+  {# --- Sponsor Marquee (optional) --- #}
+  {% include "partials/header_sponsor_ticker.html" ignore missing %}
+
+  {# --- Main nav row: always flex, never vertical --- #}
+  <div class="mx-auto flex flex-row items-center justify-between max-w-7xl px-3 py-2 md:px-6 md:py-3 w-full space-x-2">
+
+    {# --- Branding --- #}
+    {% set logo_src = (team.logo if team and team.logo else url_for('static', filename='images/logo.webp')) %}
+    <a
+      href="{{ url_for('main.home') }}"
+      class="group flex items-center gap-2 focus-visible:ring-2 ring-yellow-300 rounded-lg shrink-0"
+      itemprop="url"
+    >
       <img
-        src="{{ logo_src if is_url else url_for('static', filename=logo_src) }}"
-        alt="{{ team.team_name or 'Connect ATX Elite' }} logo"
-        class="h-12 w-12 rounded-full ring-2 ring-yellow-300 shadow-md transition-transform duration-200 group-hover:scale-110"
-        loading="eager" decoding="async" fetchpriority="high"
+        src="{{ logo_src }}"
+        alt="{{ (team.team_name if team and team.team_name else 'Connect ATX Elite') ~ ' logo' }}"
+        class="h-9 w-9 md:h-10 md:w-10 rounded-full ring-2 ring-yellow-300 shadow-md transition-transform group-hover:scale-110 bg-white"
+        loading="eager" decoding="async" onerror="this.onerror=null;this.src='/static/images/logo.webp';"
+        itemprop="logo"
       />
-      <span class="text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-50 bg-clip-text text-transparent drop-shadow-sm select-none">
-        {{ team.team_name or 'Connect ATX Elite' }}
+      <span class="text-lg md:text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-50 bg-clip-text text-transparent drop-shadow"
+            itemprop="name">
+        {{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}
       </span>
     </a>
-    {% if current_user is defined and current_user and current_user.is_authenticated %}
-      <span class="hidden md:inline ml-4 px-3 py-1 rounded-full bg-yellow-100 text-zinc-900 font-semibold shadow select-none">
-        Hi, {{ current_user.name.split()[0] if current_user.name else 'User' }}
-      </span>
-    {% endif %}
-    <nav class="hidden lg:flex items-center gap-7 text-base font-semibold text-zinc-100">
-      {% for id, label in nav_links %}
-        <a href="#{{ id }}" class="relative transition hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded px-1 py-0.5 group">
+
+    {# --- Canonical Nav Links --- #}
+    {% set _links = nav_links if nav_links is defined and nav_links else [
+      ('mission', 'Mission'),
+      ('tiers', 'Sponsorship Tiers'),
+      ('sponsor-wall', 'Sponsors'),
+      ('program-stats-calendar', 'Schedule'),
+      ('about', 'About'),
+      ('digital-hub', 'Media')
+    ] %}
+    <nav class="hidden lg:flex flex-row items-center gap-7 font-semibold text-zinc-100 ml-4" aria-label="Main navigation">
+      {% for id, label in (_links.items() if _links.__class__.__name__ == 'dict' else _links) %}
+        <a href="#{{ id }}" class="relative px-1 py-0.5 transition hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded group">
           {{ label }}
-          <span class="absolute left-0 bottom-0 w-full h-0.5 bg-yellow-300 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+          <span class="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-yellow-300 transition-transform group-hover:scale-x-100" aria-hidden="true"></span>
         </a>
       {% endfor %}
-      <button type="button" onclick="openSponsorModal()" class="ml-5 px-5 py-2 bg-gradient-to-r from-yellow-400 to-yellow-200 text-black font-bold rounded-full shadow-xl hover:scale-105 focus-visible:ring-4 focus-visible:ring-yellow-400 transition-all">
-        🌟 Sponsor Now
-      </button>
-      <a href="#donate" class="ml-2 px-5 py-2 bg-black/70 border-yellow-300/50 text-yellow-300 font-bold rounded-full shadow hover:bg-yellow-400 hover:text-black transition-all">
-        💸 Donate
-      </a>
+
+      {% set _raised = (funds_raised if funds_raised is defined and funds_raised is not none else 0) %}
+      {% set _goal   = (fundraising_goal if fundraising_goal is defined and fundraising_goal is not none else 0) %}
+      {% if _goal > 0 %}
+        <div class="flex items-center mx-2 min-w-[180px]">
+          <div class="flex items-baseline gap-2 px-3 py-1 rounded-lg bg-zinc-900/80 border border-yellow-400/30 shadow-gold-glow">
+            <span class="text-lg font-extrabold text-yellow-400 drop-shadow-sm" aria-label="Funds raised">
+              ${{ '{:,}'.format((_raised|int) if _raised else 0) }}
+            </span>
+            <span class="text-xs text-yellow-100 font-bold" aria-label="Out of goal">
+              / ${{ '{:,}'.format((_goal|int) if _goal else 0) }}
+            </span>
+            {% set _pct = ((_raised / _goal * 100) if _goal else 0) %}
+            <span class="ml-1 text-[11px] font-black text-yellow-300 tracking-tight">
+              ({{ '%.1f' % _pct }}%)
+            </span>
+          </div>
+        </div>
+      {% endif %}
+
+      {{ render_button('💸 Donate', '#donate', color='primary', extra_classes='ml-1') }}
+      {{ render_button('🌟 Sponsor', '#tiers', color='primary', extra_classes='ml-1 bg-gold-gradient text-black hover:opacity-90', aria_label='Sponsor Connect ATX Elite') }}
+      {{ render_button('🏆 VIP Sponsor', '#tiers', color='secondary', extra_classes='ml-2 animate-pulse shadow-gold-glow', aria_label='Become a VIP Sponsor') }}
     </nav>
-    <button id="mobile-nav-toggle" onclick="toggleMobileNav()" class="lg:hidden inline-flex items-center justify-center p-2 rounded-lg border-yellow-300/40 hover:bg-yellow-300/10 focus-visible:ring-2 ring-yellow-300" aria-controls="mobile-nav" aria-expanded="false" aria-label="Toggle mobile navigation">
-      <svg class="w-7 h-7 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
+    {# --- User Menu (if logged in, desktop) --- #}
+    {% if current_user and current_user.is_authenticated %}
+      <div class="hidden md:flex items-center ml-4 relative group">
+        <button
+          type="button"
+          id="user-menu-button"
+          class="flex items-center gap-2 px-2 py-1 rounded-full bg-yellow-100 text-zinc-900 font-medium shadow select-none focus-visible:ring-2 ring-yellow-400"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="user-menu"
+        >
+          <span>Hi, {{ (current_user.name or '').split()[0] or 'Friend' }}</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div
+          id="user-menu"
+          role="menu"
+          aria-labelledby="user-menu-button"
+          class="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-yellow-200 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition duration-200 z-50"
+        >
+          <a href="/dashboard" class="block px-4 py-2 hover:bg-yellow-50" role="menuitem" tabindex="-1">Dashboard</a>
+          <a href="/my-donations" class="block px-4 py-2 hover:bg-yellow-50" role="menuitem" tabindex="-1">My Donations</a>
+          <a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-yellow-100" role="menuitem" tabindex="-1">Log out</a>
+        </div>
+      </div>
+    {% endif %}
+
+    {# --- Hamburger menu (mobile only) --- #}
+    <button
+      x-cloak aria-label="Toggle navigation"
+      class="lg:hidden p-2 rounded-lg border border-yellow-300/40 hover:bg-yellow-300/10 focus-visible:ring-2 ring-yellow-300"
+      @click="mobileOpen = !mobileOpen"
+      :aria-expanded="mobileOpen.toString()"
+      aria-controls="mobile-nav"
+      type="button"
+    >
+      <svg class="h-7 w-7 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </div>
-  <!-- Mobile Nav -->
-  <nav id="mobile-nav" class="fixed inset-0 z-[9998] hidden flex-col items-center justify-center gap-8 bg-black/90 backdrop-blur-lg shadow-2xl" role="dialog" aria-modal="true" tabindex="-1">
-    <button type="button" onclick="toggleMobileNav()" class="absolute top-6 right-6 text-2xl text-yellow-300 p-2 rounded-full bg-zinc-800/70 hover:text-red-500 focus-visible:ring-4 ring-yellow-300" aria-label="Close mobile navigation">&times;</button>
-    {% for id, label in nav_links %}
-      <a href="#{{ id }}" onclick="toggleMobileNav()" class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl hover:scale-105 transition">{{ label }}</a>
+
+  {# --- Trust Bar (desktop only) --- #}
+  <div class="hidden lg:block border-t border-yellow-400/20 py-1 text-center text-xs italic text-yellow-200/80 select-none bg-gradient-to-r from-black/90 via-zinc-900/85 to-black/90">
+    🏅 Trusted by 500+ Families · 3.5 GPA · AAU Gold Certified · Austin, TX · Est. 2023
+  </div>
+
+  {# --- Mobile Nav --- #}
+  <nav
+    x-cloak x-show="mobileOpen" x-transition.opacity
+    class="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-4 bg-black/95 backdrop-blur-lg px-2 sm:px-8 lg:hidden"
+    style="width: 100vw; max-width: 100vw"
+    aria-label="Mobile navigation"
+    @click.outside="mobileOpen = false"
+    @keydown.escape.window="mobileOpen = false"
+    id="mobile-nav"
+  >
+    <button
+      aria-label="Close navigation"
+      class="absolute top-6 right-6 text-3xl text-yellow-300 hover:text-red-500"
+      @click="mobileOpen = false"
+      type="button"
+    >×</button>
+    {% for id, label in (_links.items() if _links.__class__.__name__ == 'dict' else _links) %}
+      <a
+        href="#{{ id }}"
+        @click="mobileOpen = false"
+        class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent transition-transform hover:scale-105 py-2"
+      >{{ label }}</a>
     {% endfor %}
-    <button type="button" onclick="openSponsorModal()" class="mt-8 px-7 py-3 bg-yellow-400 text-black font-bold rounded-full shadow-xl text-2xl hover:scale-105 focus-visible:ring-4 ring-yellow-300">
-      🌟 Sponsor Now
-    </button>
+    {{ render_button('🌟 Sponsor Now', '#tiers', size='lg', extra_classes='mt-4 bg-gold-gradient text-black hover:opacity-90', aria_label='Sponsor Connect ATX Elite') }}
+    {{ render_button('💸 Donate', '#donate', size='lg', color='primary', extra_classes='mt-2') }}
   </nav>
 </header>
-<script>
-  function toggleMobileNav() {
-    const nav = document.getElementById("mobile-nav");
-    const btn = document.getElementById("mobile-nav-toggle");
-    const open = nav.classList.contains("flex");
-    nav.classList.toggle("hidden", open);
-    nav.classList.toggle("flex", !open);
-    btn.setAttribute("aria-expanded", String(!open));
-    document.body.style.overflow = open ? "" : "hidden";
-    if (!open) nav.focus();
-  }
-</script>
+
+<a
+  href="#donate"
+  class="fixed z-[9999] bottom-4 right-4 bg-yellow-400 text-black px-6 py-3 rounded-full shadow-lg font-bold text-lg lg:hidden focus-visible:ring-2 ring-yellow-400 animate-bounce"
+  aria-label="Quick Donate"
+>
+  💸 Quick Donate
+</a>
+
+{% if confetti_triggered %}
+  <script defer>
+    (async () => {
+      try {
+        const confetti = (await import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm')).default;
+        confetti({ particleCount: 160, spread: 70, origin: { y: 0.7 } });
+      } catch (_) {}
+    })();
+  </script>
+{% endif %}
 

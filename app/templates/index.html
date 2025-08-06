@@ -1,46 +1,70 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {{ _('Home') }} · {{ team.team_name or 'Connect ATX Elite' }}
+  {{ _("Home") }} · {{ team.team_name | default("Connect ATX Elite", true) }}
+{% endblock %}
+
+{# ---- HERO (one and only!) ---- #}
+{% block hero %}
+  {% include "partials/hero_and_fundraiser.html" ignore missing %}
 {% endblock %}
 
 {% block content %}
-  <!-- ─────────────────────────────────────────────────────────── HERO & FUNDRAISER ─────────────────────────────────────────────────────────── -->
-  {% include "partials/hero_and_fundraiser.html" %}
+<div class="flex flex-col gap-20 max-w-6xl mx-auto w-full px-4 sm:px-8">
 
-  <!-- ─────────────────────────────────────────────────────────── TRUST/EMOTION OVERLAY ─────────────────────────────────────────────────────────── -->
-  {% include "partials/hero_overlay_quote.html" ignore missing %}
+  {% set page_sections = [
+    {
+      "id": "mission",
+      "label": _("Our Mission"),
+      "partial": "partials/mission_section.html"
+    },
+    {
+      "id": "tiers",
+      "label": _("Sponsorship Tiers"),
+      "partial": "partials/tiers.html"
+    },
+    {
+      "id": "sponsor-wall",
+      "label": _("Sponsor Wall"),
+      "partial": "partials/sponsor_wall.html"
+    },
+    {
+      "id": "program-stats-calendar",
+      "label": _("Program Stats & Schedule"),
+      "partial": "partials/program_stats_and_calendar.html"
+    },
+    {
+      "id": "about",
+      "label": _("About Connect ATX Elite"),
+      "partial": "partials/about_section.html"
+    },
+  ] %}
 
-  <!-- ─────────────────────────────────────────────────────────── DONOR TIERS & IMPACT BADGES ─────────────────────────────────────────────────────────── -->
-  {% include "partials/tiers.html" ignore missing %}
+  {# ---- Canonical Section Renderer ---- #}
+  {% for section in page_sections %}
+    <section
+      id="{{ section.id }}"
+      aria-labelledby="{{ section.id }}-heading"
+      class="pb-16 scroll-mt-20"
+      role="region"
+    >
+      <h2 id="{{ section.id }}-heading" class="sr-only">{{ section.label }}</h2>
+      {% include section.partial ignore missing %}
+    </section>
+  {% endfor %}
 
-  <!-- ─────────────────────────────────────────────────────────── PROGRAM STATS & CALENDAR ─────────────────────────────────────────────────────────── -->
-  {% include "partials/program_stats_and_calendar.html" ignore missing %}
+  {# --- (Optional) Floating CTA / Announce bar / Extra --- #}
+  {% block extra_cta %}
+    {# Use this block for conversion banners, floating CTAs, A/B tests, etc. #}
+  {% endblock %}
 
-  <!-- ─────────────────────────────────────────────────────────── ABOUT SECTION ─────────────────────────────────────────────────────────── -->
-  {% include 'partials/about_section.html' %}
-
-  <!-- ─────────────────────────────────────────────────────────── MISSION SECTION ─────────────────────────────────────────────────────────── -->
-  {% include 'partials/mission_section.html' %}
-
-  <!-- ─────────────────────────────────────────────────────────── LIVE SPONSOR WALL & SPOTLIGHTS ─────────────────────────────────────────────────────────── -->
-  {% include "partials/sponsor_spotlight.html" ignore missing %}
-
-  <!-- ─────────────────────────────────────────────────────────── TESTIMONIALS ─────────────────────────────────────────────────────────── -->
-  {% include "partials/testimonials.html" ignore missing %}
-
-  <!-- ─────────────────────────────────────────────────────────── DIGITAL HUB ─────────────────────────────────────────────────────────── -->
-  {% include "partials/digital_hub.html" ignore missing %}
-
-  <!-- ─────────────────────────────────────────────────────────── STORY/VIDEO MODAL ─────────────────────────────────────────────────────────── -->
-  {% include "partials/story_video_modal.html" ignore missing %}
-
-  <!-- ─────────────────────────────────────────────────────────── ADMIN ONBOARDING (only for authenticated admin users) ─────────────────────────────────────────────────────────── -->
+  {# --- ADMIN ONBOARDING (visible only to admin) --- #}
   {% if current_user and current_user.is_authenticated and current_user.is_admin %}
-    {% include "partials/admin_onboarding_popover.html" ignore missing %}
+    <div id="admin-onboarding" class="relative z-40">
+      {% include "partials/admin_onboarding_popover.html" ignore missing %}
+    </div>
   {% endif %}
 
-  <!-- ─────────────────────────────────────────────────────────── FUTURE MODULAR SECTIONS ─────────────────────────────────────────────────────────── -->
-  {# Add any additional modular sections here as needed. #}
+</div>
 {% endblock %}
 

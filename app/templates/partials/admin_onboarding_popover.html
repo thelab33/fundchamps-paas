@@ -1,4 +1,4 @@
-{# ===================== Admin Onboarding Popover (Premium Modular Partial) ===================== #}
+{# ================== Admin Onboarding Popover (Elite SaaS Partial, Next-Level) ================== #}
 {% if current_user.is_authenticated and current_user.is_admin and not session.get('onboarded') %}
 <div
   id="admin-onboarding-popover"
@@ -6,22 +6,60 @@
   aria-modal="true"
   role="dialog"
   tabindex="-1"
-  x-data="{ open: true }"
+  x-data="{ open: true, steps: [false, false, false] }"
+  x-init="setTimeout(() => { launchConfetti(); }, 400)"
   x-show="open"
-  x-transition.opacity.duration.500ms
-  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black/95 p-6 text-yellow-100 shadow-lg border-2 border-yellow-400/30 animate-fade-in focus:outline-none"
+  x-transition.opacity.duration.400ms
+  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black/95 p-6 text-yellow-100 shadow-lg border-2 border-yellow-400/30 animate-fade-in focus:outline-none ring-2 ring-yellow-400/10"
   @keydown.escape.window="open = false; dismissOnboarding()"
   style="backdrop-filter: blur(2px);"
 >
   <h3 class="mb-3 text-xl font-bold text-yellow-400 drop-shadow" id="onboard-title">Welcome, Admin!</h3>
-  <p class="mb-5 text-sm leading-relaxed">
-    Use your new dashboard to track sponsors, export CSVs, and monitor campaign progress in real time.
-    <span class="block text-yellow-300 mt-2">Need help? Chat with our AI Concierge below!</span>
-  </p>
+
+  <!-- Onboarding Checklist -->
+  <ul class="mb-5 space-y-2 text-sm" aria-label="Admin onboarding steps">
+    <li class="flex items-center gap-2">
+      <button type="button" class="text-green-400" x-on:click="steps[0]=true" :aria-checked="steps[0]" aria-label="Step 1: Visit Dashboard">
+        <span x-show="steps[0]" class="inline-block w-5 h-5">✔️</span>
+        <span x-show="!steps[0]" class="inline-block w-5 h-5 border-2 border-yellow-400 rounded-full"></span>
+      </button>
+      <span :class="steps[0] ? 'line-through text-green-300' : ''">Visit your Dashboard</span>
+    </li>
+    <li class="flex items-center gap-2">
+      <button type="button" class="text-green-400" x-on:click="steps[1]=true" :aria-checked="steps[1]" aria-label="Step 2: Invite Sponsors">
+        <span x-show="steps[1]" class="inline-block w-5 h-5">✔️</span>
+        <span x-show="!steps[1]" class="inline-block w-5 h-5 border-2 border-yellow-400 rounded-full"></span>
+      </button>
+      <span :class="steps[1] ? 'line-through text-green-300' : ''">Invite sponsors to your program</span>
+    </li>
+    <li class="flex items-center gap-2">
+      <button type="button" class="text-green-400" x-on:click="steps[2]=true" :aria-checked="steps[2]" aria-label="Step 3: Import Contacts">
+        <span x-show="steps[2]" class="inline-block w-5 h-5">✔️</span>
+        <span x-show="!steps[2]" class="inline-block w-5 h-5 border-2 border-yellow-400 rounded-full"></span>
+      </button>
+      <span :class="steps[2] ? 'line-through text-green-300' : ''">Import your team contacts</span>
+    </li>
+  </ul>
+
+  <!-- Quick Links (replace # with real URLs as needed) -->
+  <div class="mb-5 flex flex-col gap-2">
+    <a href="/dashboard" class="rounded bg-yellow-400 text-black font-bold py-2 px-4 shadow hover:bg-yellow-300 transition" @click="steps[0]=true">Go to Dashboard</a>
+    <a href="/admin/invite" class="rounded bg-yellow-300/90 text-black font-semibold py-2 px-4 shadow hover:bg-yellow-200 transition" @click="steps[1]=true">Invite Sponsors</a>
+    <a href="/admin/import" class="rounded bg-yellow-200/90 text-black font-semibold py-2 px-4 shadow hover:bg-yellow-100 transition" @click="steps[2]=true">Import Contacts</a>
+  </div>
+
+  <div class="mb-3 text-xs text-yellow-300">
+    💡 Need help? <b>AI Concierge</b> is always available — look for the <span class="font-bold">💬</span> chat button below!
+  </div>
+
   <button
-    @click="open = false; dismissOnboarding()"
+    @click="
+      open = false;
+      dismissOnboarding();
+      if(window.analytics) analytics.track('admin_onboarding_dismissed');
+    "
     aria-label="Dismiss onboarding popover"
-    class="inline-block rounded bg-yellow-400 px-5 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-400 transition"
+    class="inline-block rounded bg-yellow-400 px-5 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400 transition"
     type="button"
     autofocus
   >
@@ -30,7 +68,38 @@
 </div>
 {% endif %}
 
+<!-- Floating AI Concierge Tooltip -->
+<div id="ai-concierge-tip" class="fixed z-[9999] bottom-24 right-12 bg-yellow-400 text-black px-3 py-2 rounded-xl font-bold shadow-lg text-xs pointer-events-none opacity-0 transition-all"
+     style="transition: opacity 0.3s, transform 0.3s;">
+  👋 Need help? Click here to chat with AI!
+</div>
+
 <script>
+  // ---- Confetti on First Open (uses CDN for zero-config) ----
+  function launchConfetti() {
+    import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm').then(({ default: confetti }) => {
+      confetti({
+        particleCount: 80,
+        spread: 80,
+        origin: { y: 0.7 }
+      });
+    }).catch(()=>{});
+  }
+
+  // ---- Show AI Concierge Tooltip on first onboarding only ----
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const aiTip = document.getElementById('ai-concierge-tip');
+      aiTip.style.opacity = 1;
+      aiTip.style.transform = 'translateY(-12px) scale(1.04)';
+      setTimeout(() => {
+        aiTip.style.opacity = 0;
+        aiTip.style.transform = '';
+      }, 4200);
+    }, 2000);
+  });
+
+  // ---- Analytics (track onboarding dismissed) ----
   function dismissOnboarding() {
     fetch('{{ url_for("admin.dismiss_onboarding") }}', {
       method: "POST",
@@ -40,6 +109,8 @@
       },
       body: JSON.stringify({ dismissed: true }),
     }).catch((err) => console.error("Failed to dismiss onboarding:", err));
+    // Optional: send custom analytics event here if window.analytics present
+    if(window.analytics) window.analytics.track && window.analytics.track('admin_onboarding_dismissed');
   }
 </script>
 <style>
@@ -48,5 +119,7 @@
     to   { opacity: 1; transform: translateY(0);}
   }
   .animate-fade-in { animation: fadeIn 0.35s cubic-bezier(.44,2,.19,1) forwards; }
+  #admin-onboarding-popover:focus { outline: 3px solid #facc15; }
+  #ai-concierge-tip { pointer-events: none; }
 </style>
 

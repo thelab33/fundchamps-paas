@@ -1,0 +1,113 @@
+{# =================== Sponsor Wall Partial =================== #}
+<section
+  id="sponsor-wall"
+  class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 relative z-10 py-20 px-4 sm:px-8 max-w-7xl mx-auto"
+  role="region"
+  aria-labelledby="sponsor-wall-heading"
+  tabindex="-1"
+>
+  <!-- Headline & Impact Stats -->
+  <div class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mb-12 flex flex-col items-center gap-2 text-center">
+    <h2
+      id="sponsor-wall-heading"
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-2xl animate-shine"
+    >
+      🙌 Meet Our Champions
+    </h2>
+    <p class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-lg mt-1 text-yellow-300 font-semibold">
+      {{ sponsors_sorted|length or 0 }} incredible supporters &mdash; ${{ sponsors_total|int|comma|default(0) }} raised for our youth!
+    </p>
+    <p class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 max-w-2xl mt-2 text-zinc-400">
+      Every sponsor fuels tournaments, gym time, and brighter futures. Interested?  
+      <a href="#" class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-yellow-400 font-bold underline underline-offset-2 hover:text-yellow-200 transition" onclick="openSponsorModal()">Become a sponsor</a>
+    </p>
+  </div>
+
+  <!-- 🏆 Platinum+ Sponsors Row -->
+  {% set platinum_sponsors = sponsors_sorted | selectattr('tier', 'equalto', 'Platinum') | list %}
+  {% if platinum_sponsors %}
+    <div
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mb-10 flex flex-wrap items-center justify-center gap-7"
+      aria-label="Platinum Sponsors"
+    >
+      {% for sponsor in platinum_sponsors %}
+        {{ sponsor_card(sponsor, 'platinum-' ~ loop.index) }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- 🥇 All Sponsors Responsive Grid (with tier styling) -->
+  <div
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    role="list"
+    aria-label="Sponsor Wall"
+  >
+    {% for sponsor in sponsors_sorted %}
+      {{ sponsor_card(sponsor, loop.index) }}
+    {% endfor %}
+
+    {# If you want to show "empty" slots, keep a few placeholders for FOMO #}
+    {% set slots = (12 - sponsors_sorted|length) if sponsors_sorted|length < 12 else 0 %}
+    {% for _ in range(slots) %}
+      <div
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 flex flex-col items-center justify-center h-full min-h-[260px] rounded-3xl border-2 border-dashed border-yellow-400/30 bg-zinc-900/60 text-yellow-300/70 shadow-inner p-6"
+        role="listitem"
+        aria-label="Available sponsorship spot"
+        tabindex="0"
+      >
+        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-3xl mb-3 animate-pulse" aria-hidden="true">✨</span>
+        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-center font-bold mb-1">Your Logo Here</span>
+        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-xs text-zinc-400 mb-3">Limited premium slots left!</span>
+        <button
+          onclick="openSponsorModal()"
+          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 rounded-full bg-yellow-400 px-6 py-2 font-extrabold text-black shadow-lg transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"
+          aria-label="Become a Sponsor"
+        >
+          🌟 Become a Sponsor
+        </button>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Ribbon: All sponsor logos (FOMO strip) -->
+  <div
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-14 flex flex-wrap justify-center gap-5"
+    aria-label="All sponsor logos"
+  >
+    {% for sponsor in sponsors_sorted[:18] %}
+      {% set logo_src = (
+        sponsor.logo if sponsor.logo and sponsor.logo.startswith('http') else
+        (url_for('static', filename='images/sponsors/' ~ sponsor.logo) if sponsor.logo else url_for('static', filename='images/logo.webp'))
+      ) %}
+      <img
+        src="{{ logo_src }}"
+        alt="{{ sponsor.name or 'Sponsor' }} logo"
+        title="{{ sponsor.name or 'Sponsor' }}"
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 h-12 w-12 rounded-full border-2 border-yellow-300 bg-white object-cover shadow-inner grayscale transition duration-300 hover:grayscale-0"
+        loading="lazy"
+        decoding="async"
+      />
+    {% endfor %}
+    <span
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-4 flex items-center rounded-full border border-yellow-400/40 bg-zinc-800 px-4 py-1 text-xs font-bold text-yellow-200 shadow"
+    >+ Add Your Brand</span>
+  </div>
+
+  <!-- Micro-fomo CTA bar, mobile sticky (optional) -->
+  <div
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-2 bg-yellow-400/95 px-6 py-2 shadow-xl border-t border-yellow-400/40
+    md:hidden"
+    role="status"
+    aria-live="polite"
+  >
+    <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-zinc-900 font-bold text-sm">
+      Sponsor slots filling fast!
+    </span>
+    <button
+      onclick="openSponsorModal()"
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 rounded-full bg-zinc-900 px-4 py-1.5 text-yellow-300 font-bold shadow-md hover:bg-yellow-800 transition"
+      aria-label="Become a Sponsor"
+    >Become a Sponsor</button>
+  </div>
+</section>
+

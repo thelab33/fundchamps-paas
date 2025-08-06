@@ -1,43 +1,107 @@
-{% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
+{# ================== Mission Section (Elite SaaS Edition) ================== #}
+{% set team = team if team is defined and team else { "team_name": "Connect ATX Elite", "region": "Austin, TX" } %}
+{% set badges = [
+  {"txt": team.team_name, "bg": "bg-black/70", "txtc": "text-yellow-200"},
+  {"txt": "Family‑Founded", "bg": "bg-yellow-300", "txtc": "text-yellow-900"},
+  {"txt": "Community‑Powered", "bg": "bg-amber-100", "txtc": "text-yellow-900"},
+  {"txt": "Academics‑First", "bg": "bg-indigo-900", "txtc": "text-yellow-200"}
+] %}
+{% set impact = [
+  {"v": "20+", "lbl": "Student‑Athletes"},
+  {"v": "3.5+", "lbl": "GPA Average"},
+  {"v": "100%", "lbl": "Funds to Access & Education"}
+] %}
 
 <section
   id="starforge-mission"
-  class="max-w-3xl mx-auto text-center space-y-6 mt-6 relative z-10"
+  class="max-w-2xl mx-auto my-12 text-center space-y-8 px-2 sm:px-0"
+  role="region"
+  aria-labelledby="mission-heading"
+  tabindex="-1"
+  data-aos="fade-up"
+  data-aos-delay="70"
 >
-  <h3
-    class="text-2xl sm:text-xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-shine"
+  <!-- ✨ Animated Heading -->
+  <h2
+    id="mission-heading"
+    class="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent animate-shine drop-shadow-xl mb-3"
+    aria-label="Our Mission"
   >
     Our Mission
-  </h3>
-  <article class="prose prose-invert mx-auto space-y-4 max-w-none" tabindex="0">
-    <p class="text-xl leading-relaxed" id="missionSummary">
-      <strong>{{ team.team_name or "Your Team Name" }}</strong> is a
-      <span class="text-yellow-300 font-bold">family-founded, community-powered</span>
-      12U AAU program in Austin, TX—built for <em>affordable, academics-first basketball</em>.
-    </p>
-    <p class="text-lg text-white/90">
-      Our mission:
-      <span class="text-yellow-300 font-bold">turn honor-roll students into champions—on and off the
-      court.</span>
-      Through teamwork, mentorship, and grit, we prepare our players for
-      <span class="text-amber-200 font-bold">life as well as sport</span>.
-    </p>
-    <p class="text-white/70">
-      Every sponsorship directly supports
-      <span class="text-yellow-200 font-semibold">gym access, tournament travel, and crucial academic
-      support</span>
-      for <strong>20+ student-athletes</strong>—most striving for honor roll, not just the scoreboard.
-    </p>
-  </article>
-  <a
-    class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-3 px-8 rounded-full shadow-lg transition hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 text-lg animate-pop mt-2"
-    href="#fundraiser"
-    tabindex="0"
+  </h2>
+
+  <!-- Core Program Badges (micro-trust, keyboard focusable, a11y) -->
+  <ul class="flex flex-wrap justify-center gap-2" aria-label="Core program values" role="list">
+    {% for b in badges %}
+    <li
+      class="inline-flex items-center px-3 py-1 rounded-full {{ b.bg }} {{ b.txtc }}
+             font-semibold text-xs uppercase shadow-sm ring-1 ring-yellow-400/15 select-none animate-bounce-in focus:ring-2 focus:ring-yellow-300"
+      tabindex="0"
+      aria-label="{{ b.txt }}"
+      role="listitem"
+    >
+      {{ b.txt }}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Mission Statement (conversion-optimized, high-contrast, accessible) -->
+  <div
+    class="bg-zinc-900/85 rounded-xl shadow-md px-5 py-6 space-y-3 mx-auto border border-yellow-300/10"
+    data-aos="fade-up"
+    data-aos-delay="120"
+    role="group"
+    aria-label="Mission Statement"
   >
-    Become a Champion for {{ team.region or "Your Region" }} Youth →
+    <p class="text-base font-semibold text-yellow-200 leading-relaxed">
+      <span class="text-yellow-300 font-bold">Our Purpose:</span>
+      Turn <span class="text-amber-200 font-bold">honor‑roll students into champions</span> — on and off the court.
+    </p>
+    <p class="text-base text-white/90 max-w-lg mx-auto">
+      Through teamwork, mentorship, and grit we prepare every player for <em>life</em> as well as sport.
+    </p>
+  </div>
+
+  <!-- Impact Stats (compact, a11y, conversion-ready) -->
+  <div class="flex flex-wrap justify-center gap-4" role="list" aria-label="Team impact stats">
+    {% for s in impact %}
+    <div
+      role="region"
+      aria-label="{{ s.lbl }}"
+      class="flex-1 min-w-[110px] max-w-[145px] bg-black/75 border border-yellow-300/10 rounded-lg p-4 shadow focus-within:ring-2 ring-yellow-400"
+      tabindex="0"
+    >
+      <span class="block text-2xl font-extrabold text-yellow-300 select-text">{{ s.v }}</span>
+      <span class="block mt-1 text-[11px] uppercase text-yellow-100 tracking-wide select-text">
+        {{ s.lbl }}
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Conversion Callout (FOMO, high-contrast, screen reader accessible) -->
+  <p
+    class="bg-yellow-400/90 rounded-xl py-3 px-5 font-bold shadow text-black text-base max-w-xl mx-auto animate-pop-in"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    Every sponsorship powers
+    <span class="text-yellow-900">gym access, travel, and academic support</span> for our team.
+  </p>
+
+  <!-- Call to action button -->
+  <a
+    href="#fundraiser"
+    class="inline-block mt-5 bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-3 px-7 rounded-full shadow transition motion-safe:hover:scale-105 focus-visible:ring-4 ring-yellow-300 text-base animate-bounce-in"
+    role="button"
+    aria-label="Become a Champion for {{ team.region }} youth"
+  >
+    Become a Champion for {{ team.region }} Youth →
   </a>
-  <p class="mt-2 text-sm text-white/60 max-w-md mx-auto" tabindex="0">
-    Every sponsorship fuels gym time, tutoring, travel, and more.
+
+  <!-- Supporting text (micro-reassurance) -->
+  <p class="mt-2 text-xs text-white/70 max-w-xs mx-auto select-text">
+    Your support fuels gym time, tutoring, tournament travel, and lifelong opportunities.
     <strong>Keep our kids dreaming big.</strong>
   </p>
 </section>

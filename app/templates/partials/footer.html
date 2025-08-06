@@ -1,192 +1,259 @@
-<footer
-  id="fundchamps-site-footer"
-  role="contentinfo"
-  class="mt-16 py-10 px-2 sm:px-8 text-center text-sm text-zinc-400 relative border-t border-yellow-300/30 opacity-95 bg-gradient-to-t from-black via-zinc-900 to-transparent overflow-hidden"
-  tabindex="-1"
->
-  {# --- Dynamic Watermark (Brand) --- #}
-  {% set footer_logo = team.footer_logo_url if team and team.footer_logo_url else url_for('static', filename='images/logo.webp') %}
-  <div
-    class="absolute inset-0 opacity-5 pointer-events-none bg-center bg-no-repeat bg-contain"
-    style="background-image: url('{{ footer_logo }}');"
-    aria-hidden="true"
-  ></div>
+{# =================== FundChamps Elite Footer v3 — SaaS Showpiece =================== #}
+{% set now_year = now.year if now is defined else 2025 %}
+{% set footer_logo = team.footer_logo_url if team and team.footer_logo_url else url_for('static', filename='images/logo.webp') %}
+{% set raised = stats.raised if stats is defined and stats.raised is defined else 0 %}
+{% set goal = stats.goal if stats is defined and stats.goal is defined else 10_000 %}
+{% set pct = (raised / goal * 100) | round(1) if goal else 0 %}
 
-  {# --- Accessibility: Skip Link --- #}
-  <a href="#main" class="sr-only focus:not-sr-only absolute left-2 top-2 bg-yellow-300 text-black px-3 py-1 rounded z-50 shadow-lg focus:outline-none transition">
-    Skip to main content
+<footer
+  id="site-footer"
+  role="contentinfo"
+  tabindex="-1"
+  class="relative mt-16 bg-gradient-to-t from-black via-zinc-900 to-transparent border-t border-yellow-300/30 py-14 px-3 sm:px-8 text-center text-sm text-zinc-400 select-none shadow-gold-glow overflow-hidden"
+>
+  <!-- Watermark logo for trust/brand -->
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-10">
+    <img
+      src="{{ footer_logo }}"
+      alt=""
+      class="h-56 sm:h-80 mx-auto blur-[2px] grayscale"
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+
+  <!-- A11y skip-link -->
+  <a
+    href="#main"
+    class="sr-only focus:not-sr-only absolute left-2 top-2 z-50 rounded bg-yellow-300 px-3 py-1 font-semibold text-black shadow-lg"
+    tabindex="0"
+  >
+    Skip to Main
   </a>
 
-  <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10">
-    <!-- 1️⃣ Brand & Socials -->
-    <section class="flex flex-col items-center space-y-2">
-      <div class="text-2xl font-black bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent animate-shine tracking-tight drop-shadow">
-        {{ team.team_name if team and team.team_name else "FundChamps" }}
-      </div>
-      <div class="text-xs opacity-90">
-        {{ team.division if team and team.division else "AAU 12U" }} |
-        {{ team.location if team and team.location else "Austin, TX" }}
-      </div>
-      <div class="text-xs text-yellow-300/70">© {{ now.year if now is defined else 2025 }}</div>
-      <div class="flex gap-2 mt-1">
+  <div class="relative z-10 container mx-auto grid gap-12 md:grid-cols-3">
+    <!-- 1️⃣  Brand &amp; Socials -->
+    <section aria-label="Team brand and social links" class="flex flex-col items-center gap-2">
+      <img
+        src="{{ footer_logo }}"
+        alt="{{ team.team_name or 'FundChamps' }} logo"
+        class="h-14 w-14 mb-2 rounded-full border-2 border-yellow-300 bg-white shadow-xl"
+        loading="lazy"
+        decoding="async"
+      />
+      <h3
+        class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-2xl font-black text-transparent drop-shadow animate-shine"
+      >
+        {{ team.team_name or 'FundChamps' }}
+      </h3>
+      <p class="text-xs opacity-90 select-text">
+        {{ team.division or 'AAU 12U' }} | {{ team.location or 'Austin, TX' }}
+      </p>
+      <p class="text-xs text-yellow-300/70 select-text">© {{ now_year }}</p>
+      <nav class="mt-1 flex gap-3" aria-label="Social media links">
         {% if team and team.instagram %}
-        <a href="{{ team.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg class="w-5 h-5 text-yellow-400 hover:text-pink-400 transition" fill="currentColor" viewBox="0 0 24 24"><!-- SVG PATH --></svg>
+        <a
+          href="{{ team.instagram }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition"
+        >
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke-width="2" /><circle cx="12" cy="12" r="5" stroke-width="2" /><circle cx="18" cy="6" r="1.5" fill="currentColor" /></svg>
         </a>
         {% endif %}
         {% if team and team.facebook %}
-        <a href="{{ team.facebook }}" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg class="w-5 h-5 text-yellow-400 hover:text-blue-500 transition" fill="currentColor" viewBox="0 0 24 24"><!-- SVG PATH --></svg>
+        <a href="{{ team.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke-width="2" /><path d="M16 8h-2a2 2 0 0 0-2 2v2h4l-1 4h-3v4" stroke-width="2" /></svg>
         </a>
         {% endif %}
         {% if team and team.twitter %}
-        <a href="{{ team.twitter }}" target="_blank" rel="noopener" aria-label="Twitter/X">
-          <svg class="w-5 h-5 text-yellow-400 hover:text-blue-400 transition" fill="currentColor" viewBox="0 0 24 24"><!-- SVG PATH --></svg>
+        <a href="{{ team.twitter }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke-width="2" /><path d="M7 17L17 7M7 7l10 10" stroke-width="2" /></svg>
         </a>
         {% endif %}
-      </div>
-    </section>
-
-    <!-- 2️⃣ Fundraising Progress & Links -->
-    <section class="flex flex-col items-center space-y-3">
-      {% set raised = stats.raised if stats is defined and stats.raised is defined else 0 %}
-      {% set goal = stats.goal if stats is defined and stats.goal is defined else 10000 %}
-      <div
-        role="progressbar"
-        aria-valuenow="{{ ((raised / goal) * 100) | round(1) if goal else 0 }}"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        class="w-full bg-zinc-800 rounded-full overflow-hidden h-5 shadow-inner border border-yellow-300/30 max-w-xs mx-auto"
-      >
-        <div
-          class="h-full bg-gradient-to-r from-yellow-400 to-amber-300 transition-all duration-700 ease-in-out"
-          id="footer-fund-bar"
-          style="width: {{ ((raised / goal) * 100) | round(1) if goal else 0 }}%;"
-        ></div>
-      </div>
-      <div class="font-semibold text-yellow-400" id="footer-fund-status">
-        ${{ "{:,}".format(raised) }} of ${{ "{:,}".format(goal) }} raised
-        {% if goal and raised >= goal %}
-        <span class="ml-2 animate-pop text-xl">🎉 Goal Met!</span>
-        {% endif %}
-      </div>
-      <nav class="flex flex-wrap gap-3 justify-center text-yellow-200 mt-2">
-        <a href="mailto:{{ team.email if team and team.email else 'arodgps@gmail.com' }}" class="hover:underline">📧 Email</a>
-        <a href="{{ team.website if team and team.website else 'https://www.connectatxelite.com' }}" target="_blank" rel="noopener" class="hover:underline">🌐 Website</a>
-        <a href="{{ team.paypal if team and team.paypal else 'https://www.paypal.com/donate/your-link' }}" target="_blank" rel="noopener" class="font-bold hover:underline">💸 Donate</a>
-        {# <a href="#" onclick="openStripeDonateModal(); return false;" class="font-bold text-yellow-300">💳 Quick Donate</a> #}
       </nav>
     </section>
 
-    <!-- 3️⃣ Contact & Next Event -->
-    <section class="flex flex-col items-center space-y-2">
-      <div>
-        <strong>Contact:</strong>
-        <a href="mailto:{{ team.email if team and team.email else 'arodgps@gmail.com' }}" class="hover:underline">
-          {{ team.email if team and team.email else 'arodgps@gmail.com' }}
-        </a>
-      </div>
-      <div>
-        <strong>Phone:</strong>
-        <a href="tel:{{ team.phone if team and team.phone else '(512) 820-0475' }}" class="hover:underline">
-          {{ team.phone if team and team.phone else '(512) 820-0475' }}
-        </a>
-      </div>
-      <div id="fundchamps-next-game-countdown" class="mt-1">
-        Next Tournament: <span id="fundchamps-next-tournament">Loading…</span>
-      </div>
-      <button
-        type="button"
-        onclick="openSupportersModal()"
-        class="mt-2 text-yellow-400 text-xs underline hover:text-yellow-200 transition focus:outline-none"
+    <!-- 2️⃣  Fundraising progress &amp; quick links -->
+    <section aria-label="Fundraising progress and quick links" class="flex flex-col items-center gap-3">
+      <div
+        role="progressbar"
+        aria-valuenow="{{ pct }}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        class="h-5 w-full max-w-xs overflow-hidden rounded-full border border-yellow-300/30 bg-zinc-800 shadow-inner"
       >
-        View All Supporters
+        <div
+          id="footer-bar"
+          style="width:{{ pct }}%;"
+          class="h-full bg-gradient-to-r from-yellow-400 to-amber-300 transition-[width] duration-700"
+        ></div>
+      </div>
+      <p id="footer-status" class="font-semibold text-yellow-400 select-text">
+        ${{ '{:,}'.format(raised) }} of ${{ '{:,}'.format(goal) }} raised
+        {% if raised >= goal %}
+        <span
+          class="ml-2 animate-pop text-xl"
+          id="footer-confetti"
+          aria-label="Goal reached celebration"
+          role="img"
+          >🎉</span
+        >
+        {% endif %}
+      </p>
+      <nav
+        class="mt-2 flex flex-wrap justify-center gap-3 text-yellow-200"
+        aria-label="Contact and donation quick links"
+      >
+        <a class="hover:underline" href="mailto:{{ team.email or 'arodgps@gmail.com' }}">📧 Email</a>
+        <a class="hover:underline" href="{{ team.website or 'https://www.connectatxelite.com' }}" target="_blank" rel="noopener noreferrer">🌐 Website</a>
+        <a class="font-bold hover:underline" href="{{ team.paypal or 'https://www.paypal.com/donate/your-link' }}" target="_blank" rel="noopener noreferrer">💸 Donate</a>
+      </nav>
+    </section>
+
+    <!-- 3️⃣  Contact &amp; Next Event -->
+    <section aria-label="Direct contact and next event countdown" class="flex flex-col items-center gap-2">
+      <p><strong>Contact:</strong> <a class="hover:underline" href="mailto:{{ team.email or 'arodgps@gmail.com' }}">{{ team.email or 'arodgps@gmail.com' }}</a></p>
+      <p><strong>Phone:</strong> <a class="hover:underline" href="tel:{{ team.phone or '(512) 820‑0475' }}">{{ team.phone or '(512) 820‑0475' }}</a></p>
+      <p id="next-event" aria-live="polite" aria-atomic="true" class="mt-1">
+        Next Tournament: <span id="next-event-text" aria-live="polite">Loading…</span>
+      </p>
+      <button type="button" onclick="openSupporters()" class="mt-1 text-xs text-yellow-400 underline transition hover:text-yellow-200 focus-visible:outline focus-visible:outline-yellow-400 focus-visible:outline-2 rounded" aria-label="View all supporters">
+        View All Supporters
       </button>
     </section>
   </div>
 
-  <!-- 🎉 Recent Supporters Scroll (No <marquee>!) -->
-  <div class="mt-8 text-center text-sm text-yellow-200 max-w-2xl mx-auto overflow-x-auto whitespace-nowrap" id="footer-supporters-scroll">
-    <b>Recent Supporters:</b>
-    <span id="supporter-scroll">
-      {% if recent_supporters is defined and recent_supporters %}
-        {% for supporter in recent_supporters %}
-          <span class="inline-block mx-2">{{ supporter }}</span>
+  <!-- 🎉 Supporter ticker -->
+  <div id="supporter-ticker" class="relative mx-auto mt-10 max-w-2xl overflow-x-auto whitespace-nowrap text-center text-base text-yellow-200 font-semibold rounded-lg bg-black/30 py-2 px-3 shadow-inner glassy" tabindex="0" aria-label="Recent supporters">
+    <strong class="mr-2 select-text">Recent Supporters:</strong>
+    <span id="ticker-items" class="inline-flex gap-2 items-center select-text">
+      {% if recent_supporters %}
+        {% for s in recent_supporters %}
+          <span class="mx-2 inline-block">{{ s }}</span>
           {% if not loop.last %}<span class="text-yellow-300">•</span>{% endif %}
         {% endfor %}
+        <span class="mx-2 font-bold text-amber-400/90">+ Your Brand Next!</span>
       {% else %}
-        <span>Acme Corp</span> <span class="text-yellow-300">•</span>
-        <span>Jane D.</span> <span class="text-yellow-300">•</span>
-        <span>Smith &amp; Co</span> <span class="text-yellow-300">•</span>
-        <span>Austin Hoops</span>
+        <span>Acme Corp</span><span class="text-yellow-300">•</span><span>Jane D.</span><span class="text-yellow-300">•</span><span>Smith &amp; Co</span><span class="mx-2 font-bold text-amber-400/90">+ Your Brand Next!</span>
       {% endif %}
     </span>
   </div>
-  <div class="mt-4 text-center text-yellow-400/80 text-xs">
-    Built with 💛 by Angel Rodriguez Jr for FundChamps.
-    <span class="block text-xs text-zinc-400/60 mt-1">SaaS platform, all rights reserved.</span>
-  </div>
+
+  <p class="mt-5 text-xs text-yellow-400/80 font-bold select-text">
+    Built with 💛 by Angel Rodriguez Jr for FundChamps.<br />
+    <span class="block text-zinc-400/60 font-normal">
+      All rights reserved. Powered by families &amp; volunteers — every dollar changes lives.
+    </span>
+  </p>
 
   <!-- Supporters Modal -->
-  <div id="supporters-modal" class="fixed inset-0 bg-black/80 z-[99999] flex items-center justify-center hidden" aria-modal="true" role="dialog">
-    <div class="bg-zinc-950 rounded-xl shadow-xl border-2 border-yellow-400/30 max-w-lg w-full p-8 relative animate-pop-in">
-      <button onclick="closeSupportersModal()" class="absolute top-2 right-2 text-xl text-yellow-300 hover:text-red-500 focus:outline-none" aria-label="Close">&times;</button>
-      <h3 class="text-2xl font-extrabold text-yellow-400 mb-4">🏆 All Supporters</h3>
-      <ul class="space-y-2 text-yellow-100 text-base max-h-80 overflow-y-auto">
-        {% for supporter in all_supporters if all_supporters is defined %}
-          <li>{{ supporter }}</li>
+  <dialog
+    id="supporters-modal"
+    aria-modal="true"
+    aria-labelledby="supporters-title"
+    class="fixed inset-0 z-[9999] hidden h-full w-full items-center justify-center bg-black/80 backdrop-blur"
+  >
+    <div class="relative w-full max-w-lg rounded-xl border-2 border-yellow-400/30 bg-zinc-950 p-8 shadow-xl">
+      <button type="button" class="absolute right-2 top-2 text-xl text-yellow-300 hover:text-red-500 focus:outline-yellow-400 focus:outline-2 rounded" aria-label="Close supporters modal" onclick="closeSupporters()">×</button>
+      <h3 id="supporters-title" class="mb-4 text-2xl font-extrabold text-yellow-400">
+        🏆 All Supporters
+      </h3>
+      <ul class="max-h-80 overflow-y-auto text-base text-yellow-100" tabindex="0">
+        {% if all_supporters %}
+          {% for s in all_supporters %}
+            <li>{{ s }}</li>
+          {% endfor %}
         {% else %}
-          <li>No supporters found yet.</li>
-        {% endfor %}
+          <li>No supporters yet.</li>
+        {% endif %}
       </ul>
-      <div class="mt-4 text-xs text-yellow-300/60">Thank you for supporting our mission!</div>
+      <p class="mt-4 text-xs text-yellow-300/60">Thank you for championing our mission!</p>
     </div>
-  </div>
+  </dialog>
 </footer>
 
+<!-- Mobile sticky donate/cta (only on small screens) -->
+<a
+  href="{{ team.paypal or '#donate' }}"
+  class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] px-7 py-3 bg-yellow-400 text-black font-black rounded-full shadow-lg ring-2 ring-yellow-300 text-base lg:hidden animate-bounce-in focus-visible:ring-4 focus-visible:ring-yellow-300"
+  style="min-width: 170px"
+  aria-label="Donate now"
+>
+  💸 Donate Now
+</a>
+
 <script>
-  // --- Next Tournament Countdown ---
-  document.addEventListener("DOMContentLoaded", () => {
-    {% set next_event = next_event if next_event is defined and next_event else None %}
-    {% set event_date = next_event.date if next_event and next_event.date is defined else None %}
-    {% if event_date %}
-      const targetDate = new Date("{{ event_date }}T00:00:00");
-      const el = document.getElementById("fundchamps-next-tournament");
-      function updateCountdown() {
-        const now = new Date();
-        const diff = targetDate - now;
+  // Next event countdown
+  document.addEventListener('DOMContentLoaded', () => {
+    {% if next_event and next_event.date %}
+      const target = new Date('{{ next_event.date }}T00:00:00');
+      const out = document.getElementById('next-event-text');
+      const tick = () => {
+        const diff = target - new Date();
         if (diff > 0) {
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          el.textContent = days === 0 ? "Today!" : `In ${days} day${days !== 1 ? 's' : ''}`;
+          const days = Math.floor(diff / 86400000);
+          out.textContent = days ? `In ${days} day${days > 1 ? 's' : ''}` : 'Today!';
         } else {
-          el.textContent = "Happening now!";
+          out.textContent = 'Happening now!';
         }
-      }
-      updateCountdown();
-      setInterval(updateCountdown, 3600000);
+      };
+      tick();
+      setInterval(tick, 3600000);
     {% else %}
-      document.getElementById("fundchamps-next-tournament").textContent = "See calendar for next event!";
+      document.getElementById('next-event-text').textContent = 'See calendar for next event!';
     {% endif %}
 
-    // --- Supporter Flex Scroll Animation ---
-    const scroll = document.getElementById('footer-supporters-scroll');
-    if (scroll && scroll.scrollWidth > scroll.clientWidth) {
+    // Supporter ticker scroll (accessibility enhanced)
+    const ticker = document.getElementById('supporter-ticker');
+    if (ticker && ticker.scrollWidth > ticker.clientWidth) {
       let x = 0;
-      setInterval(() => {
-        x = (x + 1) % (scroll.scrollWidth - scroll.clientWidth + 60);
-        scroll.scrollLeft = x;
-      }, 60);
+      let scrollSpeed = 50;
+      let tickerInterval = setInterval(() => {
+        x = (x + 1) % (ticker.scrollWidth - ticker.clientWidth + 40);
+        ticker.scrollLeft = x;
+      }, scrollSpeed);
+
+      // Pause scroll on hover/focus for accessibility
+      ticker.addEventListener('mouseenter', () => clearInterval(tickerInterval));
+      ticker.addEventListener('mouseleave', () => {
+        tickerInterval = setInterval(() => {
+          x = (x + 1) % (ticker.scrollWidth - ticker.clientWidth + 40);
+          ticker.scrollLeft = x;
+        }, scrollSpeed);
+      });
+      ticker.addEventListener('focusin', () => clearInterval(tickerInterval));
+      ticker.addEventListener('focusout', () => {
+        tickerInterval = setInterval(() => {
+          x = (x + 1) % (ticker.scrollWidth - ticker.clientWidth + 40);
+          ticker.scrollLeft = x;
+        }, scrollSpeed);
+      });
     }
+
+    // Goal confetti pop (if goal reached)
+    {% if raised >= goal %}
+      setTimeout(() => {
+        import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm').then(({ default: confetti }) => {
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.88 } });
+        });
+      }, 900);
+    {% endif %}
   });
 
-  // --- Supporters Modal Logic ---
-  function openSupportersModal() {
-    document.getElementById('supporters-modal').classList.remove('hidden');
-    document.body.style.overflow = "hidden";
+  // Supporters Modal functions
+  const modal = document.getElementById('supporters-modal');
+  window.openSupporters = function() {
+    modal.classList.remove('hidden');
+    modal.showModal();
+    document.body.style.overflow = 'hidden';
   }
-  function closeSupportersModal() {
-    document.getElementById('supporters-modal').classList.add('hidden');
-    document.body.style.overflow = "";
+  window.closeSupporters = function() {
+    modal.classList.add('hidden');
+    modal.close();
+    document.body.style.overflow = '';
   }
 </script>
 

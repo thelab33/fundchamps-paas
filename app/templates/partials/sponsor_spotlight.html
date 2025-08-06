@@ -1,134 +1,190 @@
-<section id="starforge-sponsor-spotlight-wall" class="my-20 px-4 sm:px-8 max-w-5xl mx-auto">
-  <h2 id="starforge-sponsor-spotlight-heading" class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-shine text-center mb-10">
+{# macros/sponsor_card.html #}
+{% macro sponsor_card(sponsor, idx) %}
+  {% set tier = sponsor.tier | default('default') %}
+  {% set tier_styles = {
+    'Platinum': 'border-yellow-400 bg-yellow-300 text-yellow-900',
+    'Gold': 'border-yellow-300 bg-yellow-200 text-yellow-800',
+    'Silver': 'border-yellow-200 bg-yellow-100 text-yellow-700',
+    'Bronze': 'border-orange-300 bg-orange-200 text-orange-900',
+    'default': 'border-indigo-600 bg-indigo-900 text-yellow-300',
+  } %}
+  {% set tier_emojis = {
+    'Platinum': '🥇',
+    'Gold': '🥈',
+    'Silver': '🥉',
+    'Bronze': '🏅',
+    'default': '🏆',
+  } %}
+
+  {% set logo_src = (
+    sponsor.logo if sponsor.logo and sponsor.logo.startswith('http') else
+    (url_for('static', filename='images/sponsors/' ~ sponsor.logo) if sponsor.logo else url_for('static', filename='images/logo.webp'))
+  ) %}
+
+  <article
+    tabindex="0"
+    aria-label="{{ sponsor.name or 'Sponsor' }}"
+    aria-describedby="tooltip-{{ idx }}"
+    role="listitem"
+    itemscope
+    itemtype="https://schema.org/Organization"
+    itemprop="sponsor"
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 group relative flex flex-col items-center px-6 py-7 rounded-3xl border-2
+           {{ tier_styles.get(tier, tier_styles['default']) }}
+           hover:scale-105 focus-within:ring-4 focus-within:ring-yellow-400
+           transition duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400"
+  >
+    {% if tier == 'Platinum' %}
+      <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 absolute top-2 right-2 pointer-events-none animate-pulse" aria-hidden="true">
+        <svg width="32" height="32" aria-hidden="true" focusable="false" role="img" >
+          <circle cx="16" cy="16" r="13" fill="#fde68a" opacity=".7" />
+        </svg>
+      </span>
+    {% endif %}
+
+    {% if sponsor.url %}
+      <a href="{{ sponsor.url }}" target="_blank" rel="noopener sponsored" tabindex="-1" aria-label="Visit {{ sponsor.name }} website" itemprop="url">
+    {% endif %}
+      <img
+        src="{{ logo_src }}"
+        alt="{{ sponsor.name or 'Sponsor' }} logo"
+        width="96" height="96"
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 w-24 h-24 mb-4 rounded-full border-4 border-yellow-400 shadow-lg bg-white object-cover transition-transform grayscale group-hover:grayscale-0 group-hover:scale-110"
+        loading="lazy"
+        decoding="async"
+        itemprop="logo"
+      />
+    {% if sponsor.url %}</a>{% endif %}
+
+    <div class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 flex flex-col items-center text-center">
+      <h3
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-xl font-extrabold transition group-hover:text-yellow-600 text-yellow-900/90"
+        itemprop="name"
+      >
+        {{ sponsor.name or 'Sponsor' }}
+        {% if sponsor.is_new %}
+          <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-2 animate-pulse bg-emerald-400/80 text-emerald-900 px-2 py-0.5 rounded-full text-[11px] font-bold" aria-label="New sponsor badge">NEW</span>
+        {% elif sponsor.is_returning %}
+          <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-2 animate-bounce bg-blue-300/80 text-blue-900 px-2 py-0.5 rounded-full text-[11px] font-bold" aria-label="Returning sponsor badge">Returning</span>
+        {% endif %}
+      </h3>
+      <span
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-0.5 font-mono text-lg text-yellow-900/80"
+        aria-label="Sponsor amount raised"
+        itemprop="donation"
+      >
+        ${{ sponsor.amount | int |comma | default(0) }}
+      </span>
+      <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-2">
+        <span
+          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
+            {% if tier == 'Platinum' %}bg-yellow-300 text-yellow-900
+            {% elif tier == 'Gold' %}bg-yellow-200 text-yellow-800
+            {% elif tier == 'Silver' %}bg-yellow-100 text-yellow-700
+            {% elif tier == 'Bronze' %}bg-orange-200 text-orange-900
+            {% else %}bg-indigo-900 text-yellow-300{% endif %}"
+          itemprop="memberOf"
+        >
+          {{ tier_emojis.get(tier, '🏆') }} {{ tier if tier != 'default' else 'Champion' }}
+        </span>
+      </span>
+      {% if sponsor.description %}
+        <p
+          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-2 max-w-xs text-sm text-zinc-700"
+          aria-label="Sponsor description"
+          itemprop="description"
+        >{{ sponsor.description }}</p>
+      {% endif %}
+    </div>
+
+    <div
+      id="tooltip-{{ idx }}"
+      role="tooltip"
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 pointer-events-none absolute left-1/2 bottom-[-2.3rem] translate-x-[-50%] rounded-xl bg-black/90 px-3 py-1 text-xs text-yellow-200 opacity-0 transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+      aria-hidden="true"
+    >
+      {{ sponsor.tooltip or sponsor.description or 'Thanks for supporting us!' }}
+    </div>
+  </article>
+{% endmacro %}
+
+{# ================== Sponsor Spotlight Section ================== #}
+<section
+  id="sponsor-spotlight"
+  class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 relative z-20 my-20 px-4 sm:px-8 max-w-6xl mx-auto"
+  role="region"
+  tabindex="-1"
+  aria-labelledby="sponsor-spotlight-heading"
+>
+  <h2
+    id="sponsor-spotlight-heading"
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mb-10 text-center text-4xl font-extrabold bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-shine"
+  >
     🏆 Sponsor Spotlight Wall
-    <span class="block text-base font-semibold text-yellow-300/80 mt-2 animate-fade-in">
-      {{ sponsors_sorted|length }} Champions | ${{ sponsors_total|int|default(0) }} raised
+    <span
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 block mt-2 text-base font-semibold text-yellow-300/80 animate-fade-in"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {{ sponsors_sorted|length or 0 }} Champions | ${{ sponsors_total|int|comma|default(0) }} raised
     </span>
   </h2>
 
-  <!-- Ribbon of Fame (Sponsor logos) -->
-  <div class="flex flex-wrap justify-center gap-4 mb-8">
-    {% for sponsor in sponsors_sorted %}
-      <img 
-        src="{% if sponsor.logo and sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% elif sponsor.logo %}{{ url_for('static', filename='images/sponsors/' ~ sponsor.logo) }}{% else %}{{ url_for('static', filename='images/logo.webp') }}{% endif %}"
+  <!-- Top Sponsors (up to 4 premium slots) -->
+  <div
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 justify-center"
+    role="list"
+    aria-label="Top Sponsors"
+  >
+    {% for sponsor in sponsors_sorted[:4] %}
+      {{ sponsor_card(sponsor, loop.index) }}
+    {% endfor %}
+
+    {# Placeholder tiles if less than 4 sponsors #}
+    {% set needed = 4 - (sponsors_sorted|length) %}
+    {% for _ in range(needed if needed > 0 else 0) %}
+      <div
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 flex min-w-[200px] h-[255px] flex-col items-center justify-center rounded-3xl border-2 border-dashed border-yellow-400/40 bg-zinc-900/60 text-yellow-300/80 shadow-inner"
+        role="listitem"
+        tabindex="0"
+        aria-label="Available sponsorship spot"
+      >
+        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-2xl" aria-hidden="true">✨</span>
+        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-4 text-center font-bold">This spot is waiting for you!</span>
+        <button
+          onclick="openSponsorModal()"
+          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-4 rounded-full bg-yellow-400 px-6 py-2 font-extrabold text-black shadow-lg transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"
+          aria-label="Become a Sponsor"
+        >
+          🌟 Become a Sponsor
+        </button>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Ribbon: ALL sponsor logos (FOMO, even if not top 4) -->
+  <div
+    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-12 mb-2 flex flex-wrap justify-center gap-4"
+    aria-label="All sponsor logos"
+  >
+    {% for sponsor in sponsors_sorted[:8] %}
+      {% set logo_src = (
+        sponsor.logo if sponsor.logo and sponsor.logo.startswith('http') else
+        (url_for('static', filename='images/sponsors/' ~ sponsor.logo) if sponsor.logo else url_for('static', filename='images/logo.webp'))
+      ) %}
+      <img
+        src="{{ logo_src }}"
         alt="{{ sponsor.name or 'Sponsor' }} logo"
-        class="w-16 h-16 rounded-full border-2 border-yellow-300 shadow-inner bg-white object-cover grayscale hover:grayscale-0 transition-all duration-300"
-        loading="lazy" decoding="async" title="{{ sponsor.name or 'Sponsor' }}">
+        title="{{ sponsor.name or 'Sponsor' }}"
+        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 h-16 w-16 rounded-full border-2 border-yellow-300 bg-white object-cover shadow-inner grayscale transition duration-300 hover:grayscale-0"
+        loading="lazy"
+        decoding="async"
+      />
     {% endfor %}
-    {% if sponsors_sorted|length < 12 %}
-      <span class="inline-flex items-center px-3 py-1 rounded-full bg-zinc-800 text-yellow-200 text-xs font-bold shadow border border-yellow-400/40"> + Your Brand Here </span>
-    {% endif %}
-  </div>
-
-  <!-- Sponsor Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-    {% for sponsor in sponsors_sorted %}
-      {% set t = sponsor.tier if sponsor.tier is defined else 'Champion' %}
-      <div class="relative flex flex-col items-center px-6 py-7 rounded-3xl border-2 
-        {% if t == 'Platinum' %}
-          border-yellow-400/50 bg-gradient-to-tr from-yellow-400 via-amber-200 to-yellow-400 text-yellow-900 shadow-xl shimmer
-        {% elif t == 'Gold' %}
-          border-yellow-400/40 bg-gradient-to-tr from-yellow-300 via-amber-100 to-yellow-200 text-yellow-900 shadow-lg gold-glow
-        {% elif t == 'Silver' %}
-          border-yellow-400/30 bg-gradient-to-tr from-zinc-200 via-yellow-200 to-zinc-100 text-yellow-800 shadow-lg silver-glow
-        {% elif t == 'Bronze' %}
-          border-yellow-400/20 bg-gradient-to-tr from-orange-200 via-yellow-100 to-orange-300 text-orange-900 shadow-md bronze-glow
-        {% else %}
-          border-zinc-700 bg-gradient-to-tr from-indigo-900 via-zinc-800 to-black text-blue-100 shadow-inner
-        {% endif %} group hover:scale-105 transition duration-300 focus-within:ring-4 focus-within:ring-yellow-400 min-w-[210px] max-w-xs outline-none"
-        tabindex="0">
-        {% if t == 'Platinum' %}
-          <span class="absolute top-2 right-2 shimmer animate-pulse pointer-events-none">
-            <svg width="32" height="32"><circle cx="16" cy="16" r="13" fill="#fde68a" opacity="0.7"></circle></svg>
-          </span>
-        {% endif %}
-        {% if sponsor.url %}
-          <a href="{{ sponsor.url }}" target="_blank" rel="noopener sponsored" tabindex="-1">
-        {% endif %}
-        <img src="{% if sponsor.logo and sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% elif sponsor.logo %}{{ url_for('static', filename='images/sponsors/' ~ sponsor.logo) }}{% else %}{{ url_for('static', filename='images/logo.webp') }}{% endif %}"
-          alt="{{ sponsor.name or 'Sponsor' }} logo"
-          class="w-24 h-24 mb-4 rounded-full border-4 border-yellow-400 shadow-lg bg-white object-cover transition-all hover:grayscale-0 grayscale group-hover:scale-110"
-          loading="lazy" decoding="async">
-        {% if sponsor.url %}</a>{% endif %}
-        <div class="flex flex-col items-center">
-          <span class="text-xl font-extrabold text-yellow-900/90 group-hover:text-yellow-600 transition text-center">
-            {{ sponsor.name or "Sponsor" }}
-            {% if sponsor.is_new %}
-              <span class="ml-2 px-2 py-0.5 rounded-full text-[11px] bg-emerald-400/80 text-emerald-900 font-bold animate-pulse"> New! </span>
-            {% elif sponsor.is_returning %}
-              <span class="ml-2 px-2 py-0.5 rounded-full text-[11px] bg-blue-300/80 text-blue-900 font-bold animate-bounce"> Returning </span>
-            {% endif %}
-          </span>
-          <span class="text-lg text-yellow-900/80 font-mono">${{ sponsor.amount|int|default(0) }}</span>
-          <span class="mt-2 flex gap-2 items-center">
-            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
-              {% if t == 'Platinum' %}bg-yellow-300 text-yellow-900
-              {% elif t == 'Gold' %}bg-yellow-200 text-yellow-800
-              {% elif t == 'Silver' %}bg-yellow-100 text-yellow-700
-              {% elif t == 'Bronze' %}bg-orange-200 text-orange-900
-              {% else %}bg-indigo-900 text-yellow-300{% endif %}">
-              {% if t == 'Platinum' %}🥇 Platinum
-              {% elif t == 'Gold' %}🥈 Gold
-              {% elif t == 'Silver' %}🥉 Silver
-              {% elif t == 'Bronze' %}🏅 Bronze
-              {% else %}🏆 Champion{% endif %}
-            </span>
-          </span>
-          {% if sponsor.description %}
-            <span class="mt-2 text-sm text-zinc-700 text-center max-w-xs">{{ sponsor.description }}</span>
-          {% endif %}
-        </div>
-        <div class="absolute left-1/2 -translate-x-1/2 bottom-[-2.3rem] bg-black/90 text-yellow-200 text-xs px-3 py-1 rounded-xl shadow pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 sponsor-tooltip">
-          {{ sponsor.tooltip or sponsor.description or "Thanks for supporting us!" }}
-        </div>
-      </div>
-    {% endfor %}
-
-    {% if sponsors_sorted|length < 9 %}
-      {% for _ in range(9 - sponsors_sorted|length) %}
-        <div class="flex flex-col items-center justify-center px-6 py-8 rounded-3xl border-2 border-dashed border-yellow-400/40 bg-zinc-900/60 shadow-inner text-yellow-300/80 min-w-[200px] h-[255px]">
-          <span>✨</span>
-          <span class="mt-4 font-bold text-center">This spot is waiting for you!</span>
-          <button onclick="openSponsorModal()" class="mt-4 px-6 py-2 bg-yellow-400 text-black font-extrabold rounded-full shadow-lg hover:scale-105 transition">🌟 Become a Sponsor</button>
-        </div>
-      {% endfor %}
-    {% endif %}
+    <span
+      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-3 inline-flex items-center rounded-full border border-yellow-400/40 bg-zinc-800 px-3 py-1 text-xs font-bold text-yellow-200 shadow"
+    >
+      + Your Brand Here
+    </span>
   </div>
 </section>
-
-<!-- 💛 Sponsor Logo Marquee Strip -->
-<section id="starforge-sponsor-logo-strip" class="py-4 bg-zinc-900/85">
-  <div class="max-w-4xl mx-auto px-4">
-    <h2 id="starforge-sponsor-logos-heading" class="sr-only">Our Sponsors</h2>
-    {% if sponsors_sorted %}
-      <div class="flex flex-wrap items-center justify-center gap-8 animate-marquee overflow-x-auto">
-        {% for sponsor in sponsors_sorted %}
-          <div class="transition-transform duration-300 hover:scale-110 bg-zinc-800/60 rounded-2xl p-4 shadow-lg">
-            <img src="{% if sponsor.logo and sponsor.logo.startswith('http') %}{{ sponsor.logo }}{% elif sponsor.logo %}{{ url_for('static', filename='images/sponsors/' ~ sponsor.logo) }}{% else %}{{ url_for('static', filename='images/logo.webp') }}{% endif %}"
-              alt="{{ sponsor.name or 'Sponsor' }} logo"
-              class="h-16 w-auto max-w-xs grayscale hover:grayscale-0 transition-all duration-300"
-              loading="lazy">
-          </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="text-center text-lg text-yellow-300 font-semibold py-6">
-        No sponsors yet—your logo could headline here!
-      </div>
-    {% endif %}
-  </div>
-</section>
-
-<script>
-  // Tooltip on hover/focus
-  function showTooltip(card) {
-    const tooltip = card.querySelector(".sponsor-tooltip");
-    if (tooltip) tooltip.style.opacity = 1;
-  }
-
-  function hideTooltip(card) {
-    const tooltip = card.querySelector(".sponsor-tooltip");
-    if (tooltip) tooltip.style.opacity = 0;
-  }
-</script>
-

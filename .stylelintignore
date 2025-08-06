@@ -1,0 +1,8 @@
+**/*.min.css
+**/*.map
+dist/**
+build/**
+app/static/css/tailwind.min.css
+app/static/css/**/*.min.css
+app/static/css/vendor/**
+app/static/css/output.css

@@ -1,76 +1,316 @@
-{# starforge_tiers.html - NO {% extends %}! #}
-{% set default_tiers = [
-  { "emoji": "🥉", "title": "Bronze",   "amount": "$100+",   "details": ["Website mention", "Thank You card"], "border": "border-yellow-400/30", "gradient": "from-orange-200 via-yellow-50 to-orange-100", "text": "text-orange-900", "shadow": "shadow-xl", "cta": "Choose Bronze" },
-  { "emoji": "🥈", "title": "Silver",   "amount": "$500+",   "details": ["Logo on banners", "All Bronze perks"], "border": "border-yellow-400/50", "gradient": "from-zinc-200 via-yellow-100 to-zinc-100", "text": "text-yellow-900", "shadow": "shadow-xl", "cta": "Choose Silver" },
-  { "emoji": "🥇", "title": "Gold",     "amount": "$1,000+", "details": ["Shoutout at games", "All Silver perks"], "border": "border-yellow-400/70", "gradient": "from-yellow-200 via-yellow-50 to-yellow-300", "text": "text-yellow-900", "shadow": "shadow-xl", "cta": "Choose Gold" },
-  { "emoji": "🏆", "title": "Platinum", "amount": "$2,500+", "details": ["Logo on uniforms", "VIP access to events", "All Gold perks"], "border": "border-yellow-400/80", "gradient": "from-yellow-300 via-yellow-50 to-amber-100", "text": "text-yellow-900", "shadow": "shadow-xl", "cta": "Choose Platinum" }
-] %}
-{% set tiers = tiers if tiers is defined else default_tiers %}
-
 <section
-  id="starforge-tiers"
-  class="py-16 px-4 sm:px-8 max-w-5xl mx-auto"
+  id="tiers"
+  class="connect-tiers py-24 bg-zinc-900 text-white shadow-gold-glow transition-all duration-300 hover:scale-105"
   role="region"
-  aria-labelledby="starforge-tiers-heading"
+  aria-labelledby="tiers-heading"
   tabindex="-1"
 >
   <h2
-    id="starforge-tiers-heading"
-    tabindex="0"
-    class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-yellow-400 via-yellow-100 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-shine text-center mb-12"
+    id="tiers-heading"
+    class="mb-12 text-3xl md:text-4xl font-extrabold text-amber-400 text-center tracking-tight animate-shine drop-shadow shadow-gold-glow transition-all duration-300 hover:scale-105"
+    data-aos="fade-up"
   >
-    🌟 Choose Your Sponsorship Tier
+    Sponsorship&nbsp;Tiers
   </h2>
-  <div class="flex flex-wrap gap-10 justify-center">
+
+  {% set tiers = tiers or [
+    {'title': 'Platinum', 'amount': '5,000+', 'benefits': ['Logo on jerseys', 'Shout-outs on social', 'VIP invites'], 'emoji': '🏆', 'badge': 'VIP', 'fomo': 'Only 2 Platinum spots left!'},
+    {'title': 'Gold', 'amount': '2,500', 'benefits': ['Warm-ups logo', 'Social features', 'Appreciation invites'], 'emoji': '🥇', 'popular': true, 'fomo': 'Most Popular! Limited to 4 sponsors.'},
+    {'title': 'Silver', 'amount': '1,000', 'benefits': ['Social shout-outs', 'Thank-you certificate', 'Board listing'], 'emoji': '🥈', 'fomo': 'Recognition on sponsor board.'},
+    {'title': 'Bronze', 'amount': '500', 'benefits': ['Public thank-you', 'Board listing'], 'emoji': '🥉', 'fomo': 'Perfect for first-timers.'},
+    {'title': 'Custom', 'amount': 'Custom', 'benefits': ['Tailored benefits', 'Personalized impact'], 'emoji': '✨', 'fomo': 'We build a package for you.'}
+  ] %}
+
+  <div
+    class="grid gap-8 md:gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto shadow-gold-glow transition-all duration-300 hover:scale-105"
+    role="list"
+    aria-label="Sponsorship tiers"
+  >
     {% for tier in tiers %}
-    <div
-      class="flex flex-col items-center px-7 py-8 rounded-3xl border-2 {{ tier.border }} bg-gradient-to-br {{ tier.gradient }} {{ tier.text }} {{ tier.shadow }} w-[310px] min-h-[410px] transition-transform hover:scale-105 focus-within:scale-105 focus-within:ring-4 focus-within:ring-yellow-400 relative overflow-hidden group"
-      tabindex="0"
-      role="listitem"
-      aria-label="{{ tier.title }} Sponsorship Tier"
-    >
-      <span class="text-5xl mb-4 {% if tier.title == 'Platinum' %}animate-shine{% endif %} drop-shadow-xl group-hover:animate-spin-reverse-slow">
-        {{ tier.emoji }}
-      </span>
-      <h3 class="text-2xl font-bold mb-2 tracking-tight drop-shadow-sm">
-        {{ tier.title }}
-      </h3>
-      <div class="text-lg font-mono mb-4 font-extrabold tracking-widest">
-        {{ tier.amount }}
-      </div>
-      <ul class="text-sm mb-6 text-center space-y-2 opacity-90">
-        {% for perk in tier.details %}
-        <li class="relative pl-3 before:content-['✓'] before:absolute before:left-0 before:text-yellow-400 before:font-bold">
-          {{ perk }}
-        </li>
-        {% endfor %}
-      </ul>
-      <button
-        onclick="openSponsorModal('{{ tier.title }}')"
-        class="mt-auto px-7 py-2 bg-yellow-400 text-black font-bold rounded-full shadow-lg transition-transform hover:scale-110 hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-300 uppercase tracking-wide"
-        aria-label="Choose {{ tier.title }} sponsorship"
+      {% set is_premium = tier.title in ['Gold','Platinum'] %}
+      {% set delay = 120 + (loop.index0 * 90) %}
+      <article
+        tabindex="0"
+        role="button"
+        aria-pressed="false"
+        aria-labelledby="tier-{{ loop.index }}-title"
+        aria-describedby="tier-{{ loop.index }}-benefits"
+        class="flip-card group relative outline-none cursor-pointer focus-visible:outline-yellow-400 focus-visible:outline-4 focus-visible:outline-offset-4 shadow-gold-glow transition-all duration-300 hover:scale-105"
+        data-aos="fade-up"
+        data-aos-delay="{{ delay }}"
+        onkeydown="if(event.key==='Enter' || event.key===' ') {
+          event.preventDefault();
+          this.classList.toggle('card-flipped');
+          this.setAttribute('aria-pressed', this.classList.contains('card-flipped'));
+        }"
+        onclick="this.classList.toggle('card-flipped'); this.setAttribute('aria-pressed', this.classList.contains('card-flipped'));"
       >
-        {{ tier.cta }}
-      </button>
-      {% if tier.title == "Platinum" %}
-      <span class="absolute top-4 right-4 text-yellow-500 text-xs font-bold bg-black/70 px-3 py-1 rounded-full shadow animate-pop">
-        LIMITED VIP
-      </span>
-      {% endif %}
-    </div>
+        <div
+          class="flip-card-inner card-glow rounded-2xl p-[1.5px] transition-transform duration-300
+            {{ 'premium hover:scale-[1.04] hover:shadow-2xl' if is_premium else 'standard' }}"
+        >
+          <!-- Front -->
+          <div
+            class="flip-card-front rounded-2xl bg-zinc-900/90 ring-1 ring-white/5 overflow-hidden shadow-2xl group-hover:card-flipped transition-transform duration-300 shadow-gold-glow transition-all duration-300 hover:scale-105"
+          >
+            <div class="relative flex items-center gap-3 px-6 pt-6 shadow-gold-glow transition-all duration-300 hover:scale-105">
+              <div
+                class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-700 ring-1 ring-white/10 shadow-inner shadow-gold-glow transition-all duration-300 hover:scale-105"
+              >
+                <span class="text-2xl shadow-gold-glow transition-all duration-300 hover:scale-105" aria-hidden="true">{{ tier.emoji }}</span>
+              </div>
+              <div class="flex flex-col shadow-gold-glow transition-all duration-300 hover:scale-105">
+                <h3
+                  id="tier-{{ loop.index }}-title"
+                  class="text-xl md:text-2xl font-extrabold {{ 'text-amber-300' if is_premium else 'text-white' }} shadow-gold-glow transition-all duration-300 hover:scale-105"
+                >
+                  {{ tier.title }}
+                </h3>
+                <p class="text-sm text-white/70 shadow-gold-glow transition-all duration-300 hover:scale-105">
+                  {% if (tier.amount|string).lower() == 'custom' %}
+                    Custom package
+                  {% else %}
+                    From <span class="font-bold text-white/90 shadow-gold-glow transition-all duration-300 hover:scale-105">${{ tier.amount }}</span>
+                    {% if '+' in (tier.amount|string) %}
+                      <span class="text-white/40 align-middle shadow-gold-glow transition-all duration-300 hover:scale-105">+</span>
+                    {% endif %}
+                  {% endif %}
+                </p>
+              </div>
+
+              {% if tier.popular %}
+                <span
+                  class="ml-auto inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold bg-amber-400/20 text-amber-300 ring-1 ring-amber-300/30 shadow animate-shimmer shadow-gold-glow transition-all duration-300 hover:scale-105"
+                  aria-label="Most popular sponsorship tier"
+                >
+                  Most popular
+                </span>
+              {% endif %}
+
+              {% if tier.badge %}
+                <span
+                  class="ml-2 inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-black tracking-wide bg-black/70 text-amber-300 ring-1 ring-amber-300/40 shadow-gold-glow transition-all duration-300 hover:scale-105"
+                >
+                  {{ tier.badge }}
+                </span>
+              {% endif %}
+            </div>
+
+            <div class="px-6 pb-6 pt-4 shadow-gold-glow transition-all duration-300 hover:scale-105">
+              <ul
+                id="tier-{{ loop.index }}-benefits"
+                class="space-y-2 text-sm md:text-[15px] text-white/85 shadow-gold-glow transition-all duration-300 hover:scale-105"
+              >
+                {% for benefit in tier.benefits %}
+                  <li class="flex items-start gap-2 shadow-gold-glow transition-all duration-300 hover:scale-105">
+                    <svg
+                      class="mt-0.5 h-4 w-4 flex-none {{ 'text-amber-300' if is_premium else 'text-zinc-300' }} shadow-gold-glow transition-all duration-300 hover:scale-105"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414l2.293 2.293 6.543-6.543a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span>{{ benefit }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+
+              <div class="mt-6 shadow-gold-glow transition-all duration-300 hover:scale-105">
+                <button
+                  class="tier-cta inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-base font-extrabold text-black shadow-gold-glow hover:bg-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 active:scale-[0.98] transition animate-pulse-slow shadow-gold-glow transition-all duration-300 hover:scale-105"
+                  data-tier-cta
+                  data-amount="{{ (tier.amount|string).lower() == 'custom' and '' or (tier.amount|string).replace('+','').replace(',','') }}"
+                  aria-label="Sponsor the {{ tier.title }} tier{% if (tier.amount|string).lower() != 'custom' %} for ${{ tier.amount }}{% endif %}"
+                  type="button"
+                  aria-describedby="tier-{{ loop.index }}-benefits"
+                >
+                  Sponsor {{ tier.title }}
+                  <svg class="h-4 w-4 shadow-gold-glow transition-all duration-300 hover:scale-105" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
+                    <path d="M12.293 4.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 11-1.414-1.414L14.586 10H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" />
+                  </svg>
+                </button>
+                <p
+                  class="mt-2 text-center text-xs font-semibold {{ 'text-amber-300/90' if is_premium else 'text-zinc-300/90' }} shadow-gold-glow transition-all duration-300 hover:scale-105"
+                >
+                  Limited spots • Quick sign-up
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Back -->
+          <div
+            class="flip-card-back rounded-2xl bg-gradient-to-br from-amber-300 via-amber-200 to-yellow-100 flex flex-col justify-center items-center p-8 shadow-xl text-black shadow-gold-glow transition-all duration-300 hover:scale-105"
+          >
+            <span
+              class="text-3xl md:text-4xl mb-3 animate-pulse shadow-gold-glow transition-all duration-300 hover:scale-105"
+              aria-hidden="true"
+            >{{ tier.emoji }}</span>
+            <h3 class="text-2xl font-black mb-2 tracking-tight shadow-gold-glow transition-all duration-300 hover:scale-105">{{ tier.title }} Tier</h3>
+            <p class="text-base font-semibold text-center mb-4 shadow-gold-glow transition-all duration-300 hover:scale-105">
+              {{ tier.fomo or "Sponsor now for max impact!" }}
+            </p>
+            <button
+              class="tier-cta inline-flex items-center justify-center gap-2 rounded-xl bg-black/85 px-5 py-3 text-base font-extrabold text-amber-300 shadow-gold-glow hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-black active:scale-[0.98] transition shadow-gold-glow transition-all duration-300 hover:scale-105"
+              type="button"
+              data-tier-cta
+              aria-label="Sponsor the {{ tier.title }} tier now"
+            >
+              Become a {{ tier.title }} Sponsor
+              <svg class="h-4 w-4 shadow-gold-glow transition-all duration-300 hover:scale-105" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M12.293 4.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 11-1.414-1.414L14.586 10H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
     {% endfor %}
   </div>
-  <div class="mt-12 text-center text-yellow-700 text-base font-medium max-w-2xl mx-auto px-2 animate-fade-in">
-    <b>
-      All sponsors receive recognition, impact reports, and lifelong gratitude from the team.
-    </b>
-    <span class="block text-yellow-400 mt-2 font-bold">
-      Want to discuss a custom partnership or recurring support?
-      <a href="#contact" class="underline hover:text-yellow-600 transition">
-        Contact us
-      </a>
-      →
-    </span>
+
+  <!-- Conversion Callout -->
+  <div class="flex justify-center my-12 shadow-gold-glow transition-all duration-300 hover:scale-105">
+    <p
+      class="bg-yellow-400/90 rounded-xl py-4 px-7 font-bold shadow-lg text-black text-base md:text-lg max-w-2xl mx-auto animate-pop-in border-2 border-yellow-300/60 shadow-gold-glow transition-all duration-300 hover:scale-105"
+    >
+      Every sponsorship powers
+      <span class="text-yellow-900 shadow-gold-glow transition-all duration-300 hover:scale-105">gym access, travel and academic support</span> for our team.
+    </p>
+  </div>
+
+  <!-- FAQ Toggle -->
+  <button
+    id="tiers-faq-toggle"
+    class="mt-10 mx-auto flex items-center gap-2 font-bold text-amber-400 focus-visible:outline-2 focus-visible:outline-amber-400 transition text-lg shadow-gold-glow transition-all duration-300 hover:scale-105"
+    aria-expanded="false"
+    aria-controls="tiers-faq-body"
+    type="button"
+    aria-haspopup="true"
+  >
+    <span id="tiers-faq-icon" class="inline-block transition-transform shadow-gold-glow transition-all duration-300 hover:scale-105" aria-hidden="true">▶</span>
+    <span class="underline decoration-dotted shadow-gold-glow transition-all duration-300 hover:scale-105">Frequently Asked Questions</span>
+  </button>
+
+  <div
+    id="tiers-faq-body"
+    class="mt-4 mx-auto max-w-xl rounded-2xl border-amber-400/30 bg-zinc-800 p-7 space-y-3 text-white/90 shadow transition-all duration-300 shadow-gold-glow transition-all duration-300 hover:scale-105"
+    hidden
+    role="region"
+    aria-live="polite"
+  >
+    <p><strong>Can I sponsor anonymously?</strong> Yes — just let us know.</p>
+    <p><strong>Where does my sponsorship go?</strong> 100% supports gym rental, travel, academics, and gear.</p>
+    <p><strong>How do I sponsor?</strong> Click a tier button or email us.</p>
   </div>
 </section>
 
+<style>
+  /* Flip card container &amp; perspective */
+  .flip-card {
+    perspective: 1600px;
+    outline: none;
+    min-height: 400px;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  /* Flip card inner wrapper */
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 370px;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 1.6, 0.6, 1);
+  }
+
+  /* Flip toggle states */
+  .flip-card:focus-visible .flip-card-inner,
+  .flip-card:hover .flip-card-inner,
+  .flip-card.card-flipped .flip-card-inner,
+  .flip-card.group-hover\:card-flipped:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Front and back faces */
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  /* Back face rotated */
+  .flip-card-back {
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .flip-card-inner {
+      transition: none !important;
+    }
+  }
+
+  /* Shimmer animation for popular badge */
+  .animate-shimmer {
+    animation: shimmer 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes shimmer {
+    0% { opacity: 0.65; }
+    100% { opacity: 1; }
+  }
+
+  /* Slow pulse animation for buttons */
+  .animate-pulse-slow {
+    animation: pulse-glow 2.2s ease-in-out infinite alternate;
+  }
+  @keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 12px rgb(250 204 21 / 50%);
+    }
+    100% {
+      box-shadow: 0 0 24px rgb(250 204 21 / 85%);
+    }
+  }
+</style>
+
+<script>
+  // FAQ toggle logic with accessible ARIA states
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('tiers-faq-toggle');
+    const faqBody = document.getElementById('tiers-faq-body');
+    const faqIcon = document.getElementById('tiers-faq-icon');
+
+    if (toggleBtn &amp;& faqBody &amp;& faqIcon) {
+      toggleBtn.addEventListener('click', () => {
+        const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+        toggleBtn.setAttribute('aria-expanded', !expanded);
+        faqBody.hidden = expanded;
+        faqIcon.style.transform = expanded ? 'rotate(0deg)' : 'rotate(90deg)';
+      });
+    }
+  });
+
+  // Init AOS animation (make sure AOS library is loaded globally)
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.AOS) {
+      AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
+    }
+  });
+</script>

@@ -1,89 +1,89 @@
 import os
+from pathlib import Path
 
-# Team-specific configuration (overrides from environment variables or default values)
+# ───────────────────────────────────────────────
+# TEAM CONFIG — Dynamic, reusable, multi-org ready
+# ───────────────────────────────────────────────
+
 TEAM_CONFIG = {
-    # Basic Team Info
-    "team_name": os.getenv("TEAM_NAME", "Connect ATX Elite"),
-    "about_heading": os.getenv("ABOUT_HEADING", "About Connect ATX Elite"),
-    "about_text": os.getenv(
-        "ABOUT_TEXT",
-        "Family-run AAU program turning East Austin students into honor-roll athletes and leaders.",
-    ),
-    "about_poster": os.getenv("ABOUT_POSTER", "connect-atx-team.jpg"),  # Default team image
-    "cta_label": os.getenv("CTA_LABEL", "Join Our Champion Circle"),
-    "cta_url": os.getenv("CTA_URL", "mailto:connectatxelite@gmail.com"),
-    
-    # Impact Stats
+    "team_name": "Connect ATX Elite",
+    "location": "Austin, TX",
+    "logo": "images/logo.webp",
+    "contact_email": "info@connectatxelite.org",
+    "instagram": "https://instagram.com/connectatxelite",
+    "is_trial": True,  # 🚧 Show trial banners / lock premium-only features
+    "brand_color": "amber-400",
+    "fundraising_goal": 10000,
+    "amount_raised": 7850,
+
+    # 🔥 About/Mission Section
+    "about": [
+        "Connect ATX Elite is a community-powered, non-profit 12U AAU basketball program based in Austin, TX.",
+        "We develop skilled athletes, but also confident, disciplined, and academically driven young leaders.",
+    ],
+
+    # 🏀 Player Roster (used in Hero / About partials)
+    "players": [
+        {"name": "Andre", "role": "Guard"},
+        {"name": "Jordan", "role": "Forward"},
+        {"name": "Malik", "role": "Center"},
+        {"name": "CJ", "role": "Guard"},
+        {"name": "Terrance", "role": "Forward"},
+    ],
+
+    # 📊 Impact Stats (used in mission & fundraising section)
     "impact_stats": [
-        {"label": "Players Enrolled", "value": int(os.getenv("IMPACT_PLAYERS", 16))},
-        {"label": "Honor Roll Scholars", "value": int(os.getenv("IMPACT_SCHOLARS", 11))},
+        {"label": "Players Enrolled", "value": 16},
+        {"label": "Honor Roll Scholars", "value": 11},
+        {"label": "Tournaments Played", "value": 12},
+        {"label": "Years Running", "value": 3},
     ],
-    
-    # Challenge Info
-    "challenge_heading": os.getenv("CHALLENGE_HEADING", "The Challenge We Face"),
-    "challenge_text": os.getenv(
-        "CHALLENGE_TEXT",
-        "Despite our passion, we struggle with gym space. Sponsorships make it possible for our youth to train, grow, and succeed.",
-    ),
-    "funding_label": os.getenv("FUNDING_LABEL", "Gym Rental Funding"),
-    "challenge_cta_label": os.getenv("CHALLENGE_CTA_LABEL", "Sponsor a Practice"),
-    "challenge_testimonial_text": os.getenv(
-        "CHALLENGE_TESTIMONIAL_TEXT", "Without enough court time, our team can't develop their potential."
-    ),
-    "challenge_testimonial_author": os.getenv("CHALLENGE_TESTIMONIAL_AUTHOR", "Team Parent, Class of 2030"),
-    "challenge_testimonial_detail": os.getenv(
-        "CHALLENGE_TESTIMONIAL_DETAIL",
-        "We missed practices last season due to lack of funding for gym rentals. Sponsors make all the difference!",
-    ),
-    
-    # Mission Info
-    "mission_heading": os.getenv("MISSION_HEADING", "Our Mission"),
-    "mission_text": os.getenv("MISSION_TEXT", "Empowering the next generation through basketball, academics, and leadership."),
-    "mission_poster": os.getenv("MISSION_POSTER", "connect-atx-team-poster.jpg"),
-    "mission_bg_video": os.getenv("MISSION_BG_VIDEO", "mission-bg.mp4"),
-    "mission_story_btn_label": os.getenv("MISSION_STORY_BTN_LABEL", "Read Our Story"),
-    "mission_share_label": os.getenv("MISSION_SHARE_LABEL", "Share Mission"),
-    
-    # Mission stories (can be set through environment variables as a fallback)
-    "mission_stories": [
-        {
-            "text": os.getenv("MISSION_STORY_1_TEXT", "“Basketball taught my son confidence and leadership.”"),
-            "meta": os.getenv("MISSION_STORY_1_META", "Maria R."),
-            "title": os.getenv("MISSION_STORY_1_TITLE", "Parent"),
-        },
-        {
-            "text": os.getenv("MISSION_STORY_2_TEXT", "“The team helped me stay on track in school.”"),
-            "meta": os.getenv("MISSION_STORY_2_META", "David L."),
-            "title": os.getenv("MISSION_STORY_2_TITLE", "Class of 2026"),
-        },
-    ],
-    
-    # Fundraising
-    "fundraising_goal": int(os.getenv("FUNDRAISING_GOAL", 10000)),
-    "amount_raised": int(os.getenv("AMOUNT_RAISED", 0)),  # Dynamically populate if needed
-    "stripe_key": os.getenv("STRIPE_KEY", "your-stripe-api-key-here"),
-    
-    # Example Sponsors
-    "sponsors": [
-        {"name": os.getenv("SPONSOR_1_NAME", "Company A"), "amount": int(os.getenv("SPONSOR_1_AMOUNT", 500)), "status": "approved"},
-        {"name": os.getenv("SPONSOR_2_NAME", "Company B"), "amount": int(os.getenv("SPONSOR_2_AMOUNT", 1000)), "status": "approved"},
-        {"name": os.getenv("SPONSOR_3_NAME", "Company C"), "amount": int(os.getenv("SPONSOR_3_AMOUNT", 250)), "status": "pending"},
-    ],
-    
-    # Featured Sponsors (as logos or images)
-    "featured_logos": [
-        {"src": os.getenv("SPONSOR_1_LOGO", "images/sponsor_a_logo.png"), "alt": "Company A"},
-        {"src": os.getenv("SPONSOR_2_LOGO", "images/sponsor_b_logo.png"), "alt": "Company B"},
-        {"src": os.getenv("SPONSOR_3_LOGO", "images/sponsor_c_logo.png"), "alt": "Company C"},
-    ],
-    
-    # Additional Configurable Information (optional)
-    "nav_links": [
-        ("about", os.getenv("NAV_ABOUT", "About")),
-        ("challenge", os.getenv("NAV_CHALLENGE", "Challenge")),
-        ("sponsor-wall-wrapper", os.getenv("NAV_SPONSORS", "Sponsors")),
-        ("testimonials", os.getenv("NAV_TESTIMONIALS", "Testimonials")),
-        ("contact", os.getenv("NAV_CONTACT", "Contact")),
-    ],
+
+    # ⬇️ Expand with onboarding form later
+    # "sponsor_tiers": [...],
+    # "event_countdown": {...},
+    # "custom_domain": "elite.connectatx.org",
 }
+
+
+# ───────────────────────────────────────────────
+# CONFIG CLASSES — Per-environment overrides
+# ───────────────────────────────────────────────
+
+class Config:
+    SECRET_KEY = os.getenv("SECRET_KEY", "dev_secret")
+
+    @staticmethod
+    def get_db_uri() -> str:
+        """
+        Construct full absolute path to the SQLite database.
+        """
+        db_path = Path(__file__).resolve().parent.parent / "data" / "app.db"
+        print(f"[team_config.py] 🗃️ Using SQLite DB at: {db_path}")
+        return f"sqlite:///{db_path}"
+
+    SQLALCHEMY_DATABASE_URI = get_db_uri.__func__()
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # ── Defaults for CORS, rate limiting, logging ──
+    CORS_ALLOW_ORIGINS = "*"
+    LIMITER_REDIS_URL = "memory://"
+    LOG_LEVEL = "INFO"
+    LOG_FILE = None
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+    LOG_LEVEL = "DEBUG"
+    LOG_FILE = "development.log"
+    CORS_ALLOW_ORIGINS = "*"
+    LIMITER_REDIS_URL = "memory://"
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+    LOG_LEVEL = "INFO"
+    LOG_FILE = "/var/log/connect_atx_elite/app.log"  # Set by deploy target
+    CORS_ALLOW_ORIGINS = "https://yourproductiondomain.com"
+    LIMITER_REDIS_URL = "redis://localhost:6379"
 

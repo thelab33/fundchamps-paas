@@ -1,21 +1,22 @@
-<section id="fundchamps-stats" class="connect-stats relative overflow-visible py-12 sm:py-16" role="region" tabindex="-1">
-  <h2 id="fundchamps-stats-heading" class="sr-only">Program Stats</h2>
-  <div class="stats-grid grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-4xl mx-auto">
+<!DOCTYPE html>
+<section id="fundchamps-stats" class="connect-stats relative overflow-visible py-12 sm:py-16 shadow-gold-glow transition-all duration-300 hover:scale-105" role="region" tabindex="-1">
+  <h2 id="fundchamps-stats-heading" class="sr-only shadow-gold-glow transition-all duration-300 hover:scale-105">Program Stats</h2>
+  <div class="stats-grid grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-4xl mx-auto shadow-gold-glow transition-all duration-300 hover:scale-105">
     {% set stats_defaults = { 'players': 16, 'honor_roll': 11, 'tournaments': 12, 'years': 3 } %}
     {% set stat_labels = { 'players': 'Players Enrolled', 'honor_roll': 'Honor Roll Scholars', 'tournaments': 'Tournaments Played', 'years': 'Years Running' } %}
     {% for key, label in stat_labels.items() %}
-      <div class="stat-card flex flex-col items-center justify-center bg-zinc-900/80 rounded-2xl p-6 shadow-lg border border-yellow-300/10 relative group" tabindex="0">
-        <span class="stat-confetti absolute -top-5 left-1/2 -translate-x-1/2 text-2xl select-none pointer-events-none transition-opacity duration-500" style="opacity: 0;">🎉</span>
-        <span class="counter text-4xl sm:text-5xl font-black text-yellow-400 drop-shadow" data-target="{{ stats[key] if stats is defined and stats[key] is defined else stats_defaults[key] }}">0</span>
-        <div class="label mt-2 text-base sm:text-lg text-yellow-200 font-semibold text-center">{{ label }}</div>
-        <span class="info absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-zinc-400 hover:text-yellow-300 cursor-pointer" tabindex="0" role="button" title="How is this stat tracked?" onclick="alert('This stat is updated after every season &amp; verified by the coaches.')" aria-label="How is this stat tracked?">ℹ️</span>
+      <div class="stat-card flex flex-col items-center justify-center bg-zinc-900/80 rounded-2xl p-6 shadow-lg border border-yellow-300/10 relative group shadow-gold-glow transition-all duration-300 hover:scale-105" tabindex="0">
+        <span class="stat-confetti absolute -top-5 left-1/2 -translate-x-1/2 text-2xl select-none pointer-events-none transition-opacity duration-500 shadow-gold-glow transition-all duration-300 hover:scale-105" style="opacity: 0;">🎉</span>
+        <span class="counter text-4xl sm:text-5xl font-black text-yellow-400 drop-shadow shadow-gold-glow transition-all duration-300 hover:scale-105" data-target="{{ stats[key] if stats is defined and stats[key] is defined else stats_defaults[key] }}">0</span>
+        <div class="label mt-2 text-base sm:text-lg text-yellow-200 font-semibold text-center shadow-gold-glow transition-all duration-300 hover:scale-105">{{ label }}</div>
+        <span class="info absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-zinc-400 hover:text-yellow-300 cursor-pointer shadow-gold-glow transition-all duration-300 hover:scale-105" tabindex="0" role="button" title="How is this stat tracked?" onclick="alert('This stat is updated after every season &amp; verified by the coaches.')" aria-label="How is this stat tracked?">ℹ️</span>
       </div>
     {% endfor %}
   </div>
 
-  <div class="mt-10 text-center text-yellow-300/90 font-semibold text-lg">
+  <div class="mt-10 text-center text-yellow-300/90 font-semibold text-lg shadow-gold-glow transition-all duration-300 hover:scale-105">
     <span>🏆 Our stats are real — and growing.</span>
-    <a href="#tiers" class="underline hover:text-yellow-100 transition">Sponsor the next milestone →</a>
+    <a href="#tiers" class="underline hover:text-yellow-100 transition shadow-gold-glow transition-all duration-300 hover:scale-105">Sponsor the next milestone →</a>
   </div>
 
   <script>
@@ -32,7 +33,7 @@
             count += increment;
             if (count >= target) {
               el.textContent = target;
-              if (!confettiFired && i === 0) {
+              if (!confettiFired &amp;& i === 0) {
                 const confetti = el.closest(".stat-card").querySelector(".stat-confetti");
                 if (confetti) {
                   confetti.style.opacity = 1;
@@ -62,4 +63,3 @@
     });
   </script>
 </section>
-

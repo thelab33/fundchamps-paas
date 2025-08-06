@@ -1,6 +1,6 @@
-{# =============================================================================
-   PARTIAL: sponsor_form.html — SaaS-Ready Sponsor Form with Quick Amounts & Impact
-============================================================================= #}
+{# ============================================================================= #}
+   PARTIAL: sponsor_form.html — SaaS-Ready Sponsor Form with Quick Amounts &amp; Impact
+============================================================================= 
 
 <form
   method="POST"
@@ -127,9 +127,9 @@
 
   // 2️⃣ Enter key anywhere submits form (unless inside textarea)
   document.getElementById("sponsor-donation-form").addEventListener("keydown", function(e) {
-    if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+    if (e.key === "Enter" &amp;& e.target.tagName !== "TEXTAREA") {
       // Only submit if not in a button or link
-      if (e.target.type !== "submit" && e.target.type !== "button") {
+      if (e.target.type !== "submit" &amp;& e.target.type !== "button") {
         e.preventDefault();
         document.getElementById("sponsor-submit").click();
       }
@@ -166,4 +166,3 @@
     // Let backend handle real submit
   });
 </script>
-

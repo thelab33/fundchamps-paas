@@ -1,0 +1,4 @@
+<- SQLALCHEMY_DATABASE_URI = os.getenv(DATABASE_URL)
++SQLALCHEMY_DATABASE_URI = (
++    os.getenv(DATABASE_URL)
++    or fsqlite:///{BASE_DIR}/app/data/app.db   # unstoppable fallback TODO: announcement_bar partial -->

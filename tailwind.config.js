@@ -1,129 +1,162 @@
+// tailwind.config.cjs
+const plugin = require('tailwindcss/plugin');
+const {
+  zinc, yellow, black, white, red, blue, emerald, amber, indigo, orange, pink,
+  transparent, sky, slate, gray, neutral, stone,
+} = require('tailwindcss/colors');
+
+// Safe loader so missing plugins never crash builds
+const noop = plugin(() => {});
+const safe = (name) => {
+  try { return require(name); }
+  catch { console.warn(`⚠️ Skipping optional plugin: ${name}`); return noop; }
+};
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // Enable dark mode toggle by adding 'class' to <html> or <body>
   darkMode: 'class',
 
-  // Define paths to all templates and JS/CSS files where Tailwind classes might appear
   content: [
-    './app/templates/**/*.{html,jinja2}', // HTML and Jinja2 templates
-    './app/static/**/*.{js,css}', // JS and CSS for dynamic classes
+    './app/templates/**/*.{html,jinja,jinja2}',
+    './app/templates/partials/**/*.{html,jinja,jinja2}',
+    './app/templates/macros/**/*.{html,jinja,jinja2}',
+    './app/templates/admin/**/*.{html,jinja,jinja2}',
+    './app/static/js/**/*.{js,ts}',
+    './app/static/css/src/**/*.css',
+    './app/**/*.py',
+    './app/static/data/**/*.{json,txt}',
   ],
 
-  // Safelist: Retain classes even if not directly referenced in the content files
   safelist: [
+    'bg-zinc-950', 'bg-zinc-900', 'bg-black', 'bg-yellow-400', 'text-yellow-400',
+    'rounded-xl', 'rounded-2xl', 'sr-only',
+    'shadow-gold-glow', 'shadow-xl-gold',
+    { pattern: /^animate-(kenburns|bounce-in|fade-in|sparkle|shine|spin(-reverse-slow|-slow)?)$/ },
     {
-      pattern: /^(animate|bg|text|hover:bg|hover:text|focus:ring|border|ring|shadow|scale|opacity|translate|pointer-events|grid-cols|flex|hidden|block|rounded|p|m|gap|font|uppercase|tracking|shadow)-/,
+      pattern:
+        /^(from|via|to)-(yellow|zinc|black|white|amber|blue|red|emerald|indigo|orange|pink|sky|slate|gray|neutral|stone)-(50|100|200|300|400|500|600|700|800|900|950)(\/[0-9]{1,3})?$/
     },
-    // Explicitly safelisted classes used dynamically or via JS/templates
-    'bg-zinc-900',
-    'text-primary',
-    'bg-primary-yellow',
-    'font-bold',
-    'rounded-xl',
-    'shadow-gold-glow',
-    'text-white/90',
-    'animate-bounce-in',
-    'animate-delay-700',
-    'animate-delay-900',
-    'animate-fade-in-up',
-    'animate-kenburns',
-    'animate-marquee',
-    'animate-pop',
-    'animate-sparkle',
-    'animate-spin-reverse-slow',
-    'animate-spin-slow',
+    { pattern: /^(bg|text|border|ring|opacity|rounded|z|p[trblxy]?|m[trblxy]?|gap|font|tracking|h-|w-)/ },
+    { pattern: /^z-\d+$/ },
+    { pattern: /^z-\[\d+\]$/ },
   ],
 
-  // Extend Tailwind's default theme for custom configurations
   theme: {
+    container: {
+      center: true,
+      padding: '1rem',
+      screens: { sm: '640px', md: '768px', lg: '1024px', xl: '1280px', '2xl': '1440px' },
+    },
     extend: {
-      // Custom font families
       fontFamily: {
-        roboto: ['"Roboto"', 'Arial', 'sans-serif'],
-        montserrat: ['"Montserrat"', '"Roboto"', 'Arial', 'sans-serif'],
+        sans: ['Inter', 'Montserrat', 'Roboto', 'Segoe UI', 'Arial', 'sans-serif'],
       },
-
-      // Custom color palette
       colors: {
-        primary: '#facc15', // Primary yellow
-        'primary-yellow': '#fde68a', // Lighter yellow for highlighting
-        red: '#b91c1c', // Red accent
-        blue: '#0a1f44', // Dark blue accents
-        black: '#18181b', // Black base
-        white: '#ffffff', // White
-        zinc: {
-          900: '#18181b', // Dark zinc for text and backgrounds
-          800: '#27272a', // Lighter zinc for accents
-        },
+        zinc, yellow, black, white, red, blue, emerald, amber, indigo, orange, pink,
+        transparent, sky, slate, gray, neutral, stone,
+        primary: '#facc15',
+        'primary-gold': '#fbbf24',
+        'primary-yellow': '#fde68a',
+        'brand-black': '#09090b',
       },
-
-      // Custom animations
-      animation: {
-        'shine-move': 'shine-move 2.8s linear infinite', // Shine animation
-        'fade-in-up': 'fadeInUp 0.7s ease forwards', // Fade in animation
-        kenburns: 'kenburns 20s ease infinite', // Ken Burns effect
-        marquee: 'marquee 25s linear infinite', // Marquee animation
-        pop: 'pop 0.3s ease forwards', // Pop effect
-        sparkle: 'sparkle 1.8s ease-in-out infinite', // Sparkling effect
-        'spin-reverse-slow': 'spin-reverse 5s linear infinite', // Slow reverse spin
-        'spin-slow': 'spin 7s linear infinite', // Slow spin animation
+      boxShadow: {
+        'gold-glow': '0 0 8px 2px #facc15, 0 0 24px 0 #fde68a44',
+        glass: '0 4px 32px 0 rgba(250,204,21,0.06), 0 1.5px 4.5px rgba(60,60,60,0.05)',
+        'xl-gold': '0 20px 25px -5px rgba(250, 204, 21, 0.4), 0 10px 10px -5px rgba(250, 204, 21, 0.2)',
+        'inner-glow': 'inset 0 0 15px #facc15cc',
       },
-
-      // Custom keyframes for animations
       keyframes: {
-        'shine-move': {
-          '0%': { 'background-position': '200% 0' },
-          '100%': { 'background-position': '-200% 0' },
-        },
-        fadeInUp: {
-          '0%': { opacity: 0, transform: 'translateY(15px)' },
-          '100%': { opacity: 1, transform: 'translateY(0)' },
-        },
         kenburns: {
-          '0%': { transform: 'scale(1.1) translate(0, 0)' },
-          '100%': { transform: 'scale(1) translate(-20px, -20px)' },
+          '0%': { transform: 'scale(1.12) translateY(6px)', opacity: '0.94' },
+          '100%': { transform: 'scale(1.01) translateY(0)', opacity: '1' },
         },
-        marquee: {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-100%)' },
+        'bounce-in': {
+          '0%': { transform: 'scale(0.9) translateY(22px)', opacity: '0' },
+          '70%': { transform: 'scale(1.08) translateY(-3px)', opacity: '1' },
+          '100%': { transform: 'scale(1) translateY(0)', opacity: '1' },
         },
-        pop: {
-          '0%': { transform: 'scale(0.86)' },
-          '100%': { transform: 'scale(1)' },
-        },
+        shine: { '100%': { backgroundPosition: '200% center' } },
         sparkle: {
-          '0%, 100%': { opacity: 0.6, transform: 'translateY(0)' },
-          '50%': { opacity: 1, transform: 'translateY(-3px)' },
+          '0%,100%': { opacity: '.8', transform: 'scale(1)' },
+          '60%': { opacity: '1', transform: 'scale(1.28)' },
         },
-        spin: {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-        'spin-reverse': {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(-360deg)' },
+        'fade-in': {
+          '0%': { opacity: 0, transform: 'translateY(30px)' },
+          '100%': { opacity: 1, transform: 'none' },
         },
       },
+      animation: {
+        kenburns: 'kenburns 18s ease-in-out infinite',
+        'bounce-in': 'bounce-in 0.7s cubic-bezier(.22,1.61,.36,1) 1',
+        shine: 'shine 2.1s linear infinite',
+        sparkle: 'sparkle 1.3s ease-in-out infinite',
+        'fade-in': 'fade-in 1.5s cubic-bezier(.39,.575,.565,1) both',
+      },
+      backgroundImage: {
+        'gold-gradient': 'linear-gradient(90deg, #facc15 0%, #fbbf24 100%)',
+        'amber-gradient': 'linear-gradient(45deg, #fbbf24 0%, #fde68a 100%)',
+      },
+      ringColor: { DEFAULT: '#facc15', 'primary-focus': '#fbbf24' },
+      outline: { primary: ['2px solid #facc15', '4px'] },
+      transitionProperty: {
+        colors: 'color, background-color, border-color, text-decoration-color, fill, stroke',
+        shadow: 'box-shadow',
+        opacity: 'opacity',
+      },
+      transitionTimingFunction: { 'ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)' },
+      zIndex: { 99: '99', 999: '999', 9999: '9999', 99999: '99999' },
     },
   },
 
-  // Tailwind plugins
   plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
+    // Official plugins (loaded safely)
+    safe('@tailwindcss/forms'),
+    safe('@tailwindcss/typography'),
+    safe('@tailwindcss/aspect-ratio'),
+    safe('@tailwindcss/line-clamp'),
+
+    // Animations: use community plugin (you installed it)
+    safe('tailwindcss-animate'),
+
+    // Elite UX utilities & variants
+    plugin(function ({ addUtilities, addVariant, theme }) {
+      addUtilities(
+        {
+          '.focus-ring-primary': {
+            outline: `2px solid ${theme('colors.primary')}`,
+            outlineOffset: '4px',
+          },
+          '.shadow-xl-gold': {
+            boxShadow:
+              '0 20px 25px -5px rgba(250, 204, 21, 0.4), 0 10px 10px -5px rgba(250, 204, 21, 0.2)',
+          },
+          '.transition-smooth': {
+            transitionProperty:
+              'color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, opacity',
+            transitionDuration: '300ms',
+            transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          },
+          '.bg-gold-gradient': { backgroundImage: theme('backgroundImage.gold-gradient') },
+          '.bg-amber-gradient': { backgroundImage: theme('backgroundImage.amber-gradient') },
+        },
+        ['responsive', 'hover', 'focus', 'focus-visible']
+      );
+
+      addVariant('hocus', ['&:hover', '&:focus']);
+      addVariant('supports-hover', '@media (hover: hover)');
+      addVariant('aria-current', '&[aria-current="page"]');
+      addVariant('aria-expanded', '&[aria-expanded="true"]');
+      addVariant('aria-selected', '&[aria-selected="true"]');
+      addVariant('data-open', '&[data-open="true"]');
+      addVariant('data-active', '&[data-active="true"]');
+    }),
   ],
 
-  // Enable core plugins
-  corePlugins: {
-    preflight: true, // Tailwind's CSS reset
-  },
+  corePlugins: { preflight: true },
 
-  // Future-proof features
   future: {
-    hoverOnlyWhenSupported: true, // Hover optimized styles
-    optimizeUniversalDefaults: true, // Improved default optimizations
+    hoverOnlyWhenSupported: true,
+    optimizeUniversalDefaults: true,
   },
 };
 

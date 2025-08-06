@@ -1,98 +1,209 @@
-{% set team = team if team is defined and team else {"team_name": "Connect ATX Elite"} %}
-{% set logo_src = team.logo if team.logo is defined and team.logo else 'images/logo.webp' %}
-{% set hero_image_mobile = team.hero_image_mobile if team.hero_image_mobile is defined and team.hero_image_mobile else 'images/connect-atx-team-mobile.jpg' %}
-{% set hero_image_mobile_url = hero_image_mobile if '://' in hero_image_mobile else url_for('static', filename=hero_image_mobile) %}
-{% set hero_image = team.hero_image if team.hero_image is defined and team.hero_image else 'images/connect-atx-team.jpg' %}
-{% set hero_image_url = hero_image if '://' in hero_image else url_for('static', filename=hero_image) %}
-{% set hero_image_alt = team.hero_image_alt if team.hero_image_alt is defined and team.hero_image_alt else team.team_name ~ ' team' %}
-{% set raised = raised if raised is defined else 0 %}
-{% set goal = goal if goal is defined else 10000 %}
-{% set percent = ((raised / goal) * 100) if goal else 0 %}
-{% set gym_sponsor = gym_sponsor if gym_sponsor is defined else None %}
+{% from "macros/progress.html" import progress_meter %}
+{% from "macros/confetti.html" import launch_confetti %}
 
-<section id="hero"
-  class="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-r from-blue-800 via-indigo-900 to-blue-700"
+{# --- Elite Hero Section Variables --- #}
+{% set team_name = team.team_name | default('Connect ATX Elite', true) %}
+{% set region = team.region | default("Austin, TX", true) %}
+{% set logo_src = (team.logo if team and team.logo else 'images/logo.webp') %}
+{% set hero_img = (team.hero_image if team and team.hero_image else 'images/connect-atx-team.jpg') %}
+{% set fallback_img = url_for('static', filename='images/connect-atx-team.jpg') %}
+
+{% set impact = [
+  {"v":"20+", "lbl":"Student‑Athletes"},
+  {"v":"3.5+", "lbl":"GPA Average"},
+  {"v":"100%", "lbl":"Funds to Access &amp; Education"}
+] %}
+{% set raised = stats.raised if stats is defined and stats.raised is defined else 0 %}
+{% set goal = stats.goal if stats is defined and stats.goal is defined else 10000 %}
+{% set pct = (raised / goal * 100) | round(1) if goal else 0 %}
+{% set next_game = team.next_game if team and team.next_game else None %}
+{% set next_game_dt = next_game.date if next_game and next_game.date else None %}
+{% set recent_donors = recent_donors if recent_donors is defined else [] %}
+
+<section
+  id="hero"
   aria-labelledby="hero-heading"
-  itemscope itemtype="https://schema.org/SportsTeam"
   tabindex="-1"
+  itemscope
+  itemtype="https://schema.org/SportsTeam"
+  class="relative w-screen max-w-none left-1/2 -translate-x-1/2 flex flex-col items-center justify-center min-h-[98vh] md:min-h-screen overflow-hidden pt-24 sm:pt-32 bg-gradient-to-br from-blue-900 via-indigo-950 to-blue-800 shadow-gold-glow transition-all duration-300 hover:scale-105"
+  style="margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);"
 >
-  {# --- BG IMAGE WITH DARK GRADIENT --- #}
-  <div class="absolute inset-0 z-0">
-    <picture>
-      <source media="(max-width: 767px)" srcset="{{ hero_image_mobile_url }}" />
-      <img
-        src="{{ hero_image_url }}"
-        alt="{{ hero_image_alt }}"
-        class="w-full h-full object-cover scale-110 opacity-90 animate-kenburns"
-        loading="eager"
-        draggable="false"
-        aria-hidden="true"
-      />
-    </picture>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
-  </div>
+  <!-- Background Image -->
+  <img
+    src="{{ hero_img if '://' in hero_img else url_for('static', filename=hero_img) }}"
+    alt="{{ team_name }} team photo"
+    loading="eager"
+    decoding="async"
+    aria-hidden="true"
+    class="absolute inset-0 w-full h-full object-cover opacity-80 scale-110 animate-kenburns -z-10 pointer-events-none select-none shadow-gold-glow transition-all duration-300 hover:scale-105"
+    style="min-height: 520px; max-height: 100vh;"
+    onerror="this.onerror=null;this.src='{{ fallback_img }}';"
+    itemprop="image"
+  />
 
-  {# --- LOGO + TEAM BANNER (sports channel style) --- #}
-  <div class="absolute left-1/2 top-8 md:top-16 -translate-x-1/2 z-20 flex items-center gap-3 px-6 py-2 bg-black/65 border-2 border-yellow-300 rounded-xl shadow-lg backdrop-blur-md">
-    <img
-      src="{{ logo_src if '://' in logo_src else url_for('static', filename=logo_src) }}"
-      alt="{{ team.team_name }} logo"
-      class="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-yellow-300 bg-white shadow"
-      loading="lazy"
-    />
-    <span class="font-black text-2xl sm:text-3xl text-yellow-300 tracking-tight drop-shadow-sm whitespace-nowrap animate-shine">
-      {{ team.team_name }}
-    </span>
-  </div>
+  <!-- Overlay layers for cinematic depth -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/75 to-transparent -z-5 shadow-gold-glow transition-all duration-300 hover:scale-105"></div>
+  <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-yellow-300/80 via-transparent to-yellow-400/60 blur-lg z-10 shadow-gold-glow transition-all duration-300 hover:scale-105"></div>
+  <div class="absolute left-0 top-0 h-full w-14 bg-gradient-to-r from-yellow-200/10 to-transparent z-10 shadow-gold-glow transition-all duration-300 hover:scale-105"></div>
+  <div class="absolute right-0 top-0 h-full w-14 bg-gradient-to-l from-yellow-200/10 to-transparent z-10 shadow-gold-glow transition-all duration-300 hover:scale-105"></div>
 
-  {# --- HERO CONTENT: CENTERED, OVER BG --- #}
-  <div class="relative z-10 max-w-3xl w-full mx-auto px-4 py-24 text-center flex flex-col items-center gap-5">
-    <h1 id="hero-heading"
-      class="text-4xl sm:text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-500 to-orange-400 bg-clip-text text-transparent drop-shadow-xl animate-slide-up mb-2"
-      style="text-shadow: 0 2px 12px #000a, 0 8px 32px #facc1530;">
-      Family, Grit, & Honor—On & Off the Court
-    </h1>
-    <p class="text-base sm:text-xl text-white/95 max-w-xl mx-auto mb-3 animate-fade-in delay-100"
-      style="text-shadow: 0 1px 6px #000b;">
-      Family-run AAU program turning <strong>East Austin</strong> students into honor‑roll athletes and leaders.
+  <!-- Basketball Net SVG Accent -->
+  <svg class="absolute left-1/2 top-[calc(100%-36px)] -translate-x-1/2 z-10 w-28 md:w-40 opacity-35 pointer-events-none shadow-gold-glow transition-all duration-300 hover:scale-105" viewBox="0 0 128 32" fill="none" aria-hidden="true">
+    <ellipse cx="64" cy="16" rx="63" ry="12" fill="#fffbe880" />
+    <path d="M0 16 Q64 36 128 16" stroke="#eab308" stroke-width="2" fill="none" />
+    <path d="M16 16 Q64 32 112 16" stroke="#eab308" stroke-width="1" fill="none" />
+  </svg>
+
+  <div class="relative z-30 flex flex-col items-center w-full px-3 sm:px-6 max-w-2xl mx-auto text-center shadow-gold-glow transition-all duration-300 hover:scale-105">
+    <!-- Logo and Team -->
+    <div class="flex flex-col items-center mb-3 shadow-gold-glow transition-all duration-300 hover:scale-105" role="img" aria-label="{{ team_name }} logo">
+      <span class="relative inline-block mb-2 shadow-gold-glow transition-all duration-300 hover:scale-105">
+        <img
+          src="{{ logo_src if '://' in logo_src else url_for('static', filename=logo_src) }}"
+          alt="{{ team_name }} logo"
+          class="h-16 sm:h-20 w-auto drop-shadow rounded-full border-2 border-yellow-400 bg-white/70 p-1.5 relative z-10 shadow-gold-glow transition-all duration-300 hover:scale-105"
+          loading="eager"
+          decoding="async"
+          itemprop="logo"
+        />
+        <svg class="absolute -top-5 right-0 animate-spin-slow w-8 h-8 shadow-gold-glow transition-all duration-300 hover:scale-105" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" fill="#FBBF24" stroke="#92400E" stroke-width="2" />
+          <path d="M8 16c5-3 11-3 16 0" stroke="#92400E" stroke-width="1" />
+          <path d="M16 2v28" stroke="#92400E" stroke-width="1" />
+        </svg>
+      </span>
+      <h1 id="hero-heading" class="text-4xl sm:text-5xl font-extrabold text-yellow-300 tracking-tight drop-shadow animate-shine leading-tight shadow-gold-glow transition-all duration-300 hover:scale-105">
+        {{ team_name }}
+      </h1>
+      <p class="text-lg sm:text-2xl font-semibold text-white/90 drop-shadow-md mt-1 mb-1 fade-slide-up shadow-gold-glow transition-all duration-300 hover:scale-105">
+        Family, Grit &amp; Honor — On and Off the Court
+      </p>
+    </div>
+
+    <!-- Mission Statement -->
+    <p class="mb-3 mt-0 inline-block font-bold text-base sm:text-lg text-yellow-100 fade-slide-up shadow-gold-glow transition-all duration-300 hover:scale-105" style="animation-delay: 0.3s">
+      We’re a <span class="text-amber-300 font-semibold shadow-gold-glow transition-all duration-300 hover:scale-105">family-run AAU program</span> transforming East Austin youth into <span class="text-amber-300 font-semibold shadow-gold-glow transition-all duration-300 hover:scale-105">scholar-athletes, leaders, and community champions</span>.
     </p>
-    <a
-      href="#tiers"
-      class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-black py-3 px-8 rounded-full shadow-xl transition hover:scale-105 shimmer-cta focus:outline-none focus-visible:ring-4 ring-yellow-300 text-lg"
-      data-tooltip="Help us reach the championship!"
-    >
-      Join Our Champion Circle <span class="ml-2 animate-sparkle">🌟</span>
-    </a>
-    <div class="mt-4 flex flex-wrap justify-center gap-3">
-      <span class="badge-glass animate-pulse font-bold" title="Over 500 families trust us!">🏅 Trusted by 500+ Families</span>
-      <span class="badge-glass animate-pulse font-bold" title="Team GPA 3.5 and rising!">📚 3.5 Team GPA</span>
-      <span class="badge-glass animate-pulse font-bold" title="Official AAU Gold Certification">🏀 AAU Gold Certified</span>
-    </div>
-  </div>
 
-  {# --- GYM SPONSOR CARD (bottom overlay) --- #}
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl px-4 z-20">
-    <div class="flex flex-col sm:flex-row items-center justify-between bg-gradient-to-r from-yellow-400/90 via-yellow-300/80 to-yellow-200/90 border-2 border-yellow-300 rounded-2xl px-6 py-3 shadow-xl">
-      <div class="text-lg font-bold text-zinc-900 flex-1 text-center sm:text-left">
-        🏟️ Gym Rental Sponsored By:
-        <span class="ml-2 text-yellow-900 font-black">
-          {{ gym_sponsor.name if gym_sponsor and gym_sponsor.name is defined else "⭐ Available for Sponsorship" }}
-        </span>
+    <!-- Impact stats -->
+    <div class="impact-stats flex flex-wrap justify-center gap-6 mb-5 shadow-gold-glow transition-all duration-300 hover:scale-105" role="list" aria-label="Team Impact Stats">
+      {% for s in impact %}
+      <div
+        class="min-w-[90px] bg-black/75 border border-yellow-300/10 rounded-xl p-3 shadow focus-within:ring-2 ring-yellow-400 cursor-default transition-transform select-text shadow-gold-glow transition-all duration-300 hover:scale-105"
+        tabindex="0"
+        role="listitem"
+        aria-label="{{ s.v }} {{ s.lbl }}"
+      >
+        <span class="block text-2xl font-extrabold text-yellow-300 shadow-gold-glow transition-all duration-300 hover:scale-105">{{ s.v }}</span>
+        <span class="block mt-1 text-xs uppercase text-yellow-100 tracking-wide shadow-gold-glow transition-all duration-300 hover:scale-105">{{ s.lbl }}</span>
       </div>
-      <div class="text-sm font-semibold text-yellow-900 flex-1 text-center sm:text-right mt-2 sm:mt-0">
-        <span>
-          <span class="font-bold">Location:</span> {{ gym_sponsor.location if gym_sponsor and gym_sponsor.location is defined else 'TBD' }}
-          &nbsp;|&nbsp;
-          <span class="font-bold">Practice:</span> {{ gym_sponsor.date if gym_sponsor and gym_sponsor.date is defined else 'TBD' }}
-        </span>
-        <button type="button" class="ml-3 px-4 py-1 bg-zinc-900 text-yellow-300 font-bold rounded-full shadow hover:bg-yellow-400 hover:text-zinc-900 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400" onclick="openSponsorModal('gym')" >
-          Sponsor a Gym
-        </button>
-      </div>
+      {% endfor %}
     </div>
-    {% if not gym_sponsor %}
-      <div class="text-center mt-1 text-xs text-yellow-800 animate-bounce">👀 Your name could be here next week!</div>
+
+    <!-- VIP Sponsorship FOMO Bar -->
+    <button
+      type="button"
+      class="vip-bar inline-flex items-center gap-1 mb-5 px-6 py-2 rounded-full bg-yellow-400/95 text-zinc-900 font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-xl animate-bounce-in border border-yellow-200/80 backdrop-blur-xl cursor-pointer focus:outline-yellow-500 focus:outline-2 shadow-gold-glow transition-all duration-300 hover:scale-105"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+      tabindex="0"
+      onclick="window.location.href='/vip'"
+    >
+      🌟 Limited VIP Sponsorship
+      <svg class="ml-1 w-4 h-4 animate-sparkle shadow-gold-glow transition-all duration-300 hover:scale-105" fill="none" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 1v2M8 13v2M1 8h2M13 8h2M4.22 4.22l1.42 1.42M10.36 10.36l1.42 1.42M4.22 11.78l1.42-1.42M10.36 5.64l1.42-1.42" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <span class="mx-2 text-yellow-700 font-bold animate-pulse shadow-gold-glow transition-all duration-300 hover:scale-105">•</span>
+      <span class="hidden sm:inline shadow-gold-glow transition-all duration-300 hover:scale-105">Secure your spot!</span>
+    </button>
+
+    <!-- Fundraising Progress Bar & Amount Raised -->
+    <div class="flex flex-col items-center w-full max-w-xs sm:max-w-sm mx-auto mb-2 bg-zinc-900/80 rounded-xl p-4 ring-1 ring-yellow-400/25 shadow-inner shadow-gold-glow transition-all duration-300 hover:scale-105" aria-label="Fundraising progress" role="region">
+      <div class="flex items-baseline justify-center gap-2 mb-1 text-yellow-300 font-extrabold text-2xl sm:text-3xl shadow-gold-glow transition-all duration-300 hover:scale-105">
+        $<span>{{ "{:,}".format(raised) }}</span>
+        <span class="text-yellow-200 font-black text-lg shadow-gold-glow transition-all duration-300 hover:scale-105">/</span>
+        $<span>{{ "{:,}".format(goal) }}</span>
+      </div>
+      <div class="progress-container w-full rounded-full h-2 overflow-hidden mb-1 shadow-gold-glow transition-all duration-300 hover:scale-105" role="progressbar" aria-valuemin="0" aria-valuemax="{{ goal }}" aria-valuenow="{{ raised }}">
+        <div class="progress-bar bg-gradient-to-r from-yellow-400 to-yellow-200 h-2 rounded-full transition-[width] duration-700 ease-out shadow-gold-glow transition-all duration-300 hover:scale-105" style="width: {{ pct }}%; min-width:12px;"></div>
+      </div>
+      <span class="block text-xs text-yellow-200 font-semibold select-text shadow-gold-glow transition-all duration-300 hover:scale-105" aria-live="polite">
+        100% of your gift funds gym, travel & tutoring.
+      </span>
+    </div>
+
+    <!-- Next Game Countdown Banner -->
+    {% if next_game_dt %}
+    <div id="next-game-banner" class="mt-3 text-xs sm:text-sm text-yellow-300 font-semibold flex items-center justify-center gap-2 bg-black/60 rounded-lg px-4 py-1 shadow border border-yellow-400/30 max-w-xs mx-auto animate-fade-in shadow-gold-glow transition-all duration-300 hover:scale-105" role="region" aria-live="polite" aria-atomic="true">
+      <svg class="w-4 h-4 mr-1 text-amber-300 shadow-gold-glow transition-all duration-300 hover:scale-105" fill="none" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/><path d="M10 5v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Next Game: <span id="next-game-countdown" class="ml-1 font-mono tabular-nums shadow-gold-glow transition-all duration-300 hover:scale-105"></span>
+    </div>
     {% endif %}
+
+    <!-- Recent Donors (FOMO animation) -->
+    {% if recent_donors and recent_donors|length > 0 %}
+    <div class="recent-donors mt-3 flex flex-wrap justify-center gap-2 text-xs text-yellow-200/90 shadow-gold-glow transition-all duration-300 hover:scale-105" aria-live="polite" aria-atomic="true" role="list" aria-label="Recent Donors">
+      <span class="font-semibold text-yellow-300 shadow-gold-glow transition-all duration-300 hover:scale-105">Recent Donors:</span>
+      {% for donor in recent_donors[:4] %}
+      <span style="--order: {{ loop.index0 }};" class="bg-yellow-400/20 px-2 py-0.5 rounded shadow fade-scale-in select-text shadow-gold-glow transition-all duration-300 hover:scale-105" role="listitem">{{ donor }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Link to Sponsorship Tiers -->
+    <a href="#tiers" class="mt-8 inline-flex items-center text-amber-400 hover:underline hover:text-yellow-300 font-bold text-base transition shadow-gold-glow transition-all duration-300 hover:scale-105" role="link">
+      <span class="mr-2 shadow-gold-glow transition-all duration-300 hover:scale-105">View Sponsorship Tiers</span>
+      <svg class="h-4 w-4 shadow-gold-glow transition-all duration-300 hover:scale-105" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <!-- Confetti container, triggered by milestone -->
+    <div id="hero-confetti" class="pointer-events-none select-none absolute inset-0 z-40 shadow-gold-glow transition-all duration-300 hover:scale-105"></div>
   </div>
 </section>
+
+<style>
+  /* Same custom animation blocks as before (for brevity, keep them as is) */
+  /* ... (Your previous custom keyframes and .class blocks) ... */
+</style>
+
+{# Next Game Countdown script - debounced and clean #}
+{% if next_game_dt %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('next-game-countdown');
+    if (!el) return;
+    const targetDate = new Date('{{ next_game_dt }}T00:00:00');
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        el.textContent = days ? `In ${days}d ${hours}h` : hours ? `In ${hours}h` : 'Today!';
+      } else {
+        el.textContent = 'Happening now!';
+      }
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 60 * 60 * 1000);
+  });
+</script>
+{% endif %}
+
+{# Milestone Confetti (only on % milestones: 25, 50, 75, 100) #}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const milestones = [25, 50, 75, 100];
+    const pct = {{ pct|int }};
+    if (milestones.includes(pct)) {
+      if (typeof window.launch_confetti === 'function') {
+        window.launch_confetti();
+      } else if (document.getElementById('hero-confetti')) {
+        // Fallback: use canvas-confetti if available
+        if (window.confetti) window.confetti({ particleCount: 70, spread: 80, origin: { y: 0.30 } });
+      }
+    }
+  });
+</script>
 

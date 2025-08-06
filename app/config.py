@@ -1,111 +1,115 @@
+from __future__ import annotations
+
+"""
+Starforge SaaS — Flask Config Loader
+
+Usage:
+    app.config.from_object("app.config.config.DevelopmentConfig")
+
+Priority:
+1. Explicit `app.config`
+2. Environment variables (12-factor style)
+3. Safe fallback defaults (NEVER for prod secrets)
+"""
+
+import json
+import logging
 import os
 from datetime import timedelta
-from typing import Final
+from pathlib import Path
+from typing import Final, Iterable
 
-# ────────────── Directory Constants ──────────────
-BASE_DIR: Final = os.path.abspath(os.path.dirname(__file__))
+# ─── Env Helper Functions ─────────────────────────────────────────────────────
 
-# ────────────── Env Helpers ──────────────
-def _bool(key: str, default: bool = False) -> bool:
-    """
-    Helper function to convert an environment variable to a boolean.
-    Returns True if the environment variable is '1', 'true', 'yes', or 'on', else returns default.
-    """
-    return os.getenv(key, str(int(default))).strip().lower() in {"1", "true", "yes", "on"}
+def _bool(key: str, default: str | bool = "false") -> bool:
+    val = os.getenv(key, str(default)).strip().lower()
+    return val in {"1", "true", "yes", "on"}
 
-def _int(key: str, default: int) -> int:
-    """
-    Helper function to convert an environment variable to an integer.
-    Raises an error if the value cannot be converted.
-    """
+def _int(key: str, default: int | str) -> int:
     try:
         return int(os.getenv(key, default))
-    except (ValueError, TypeError):
-        raise RuntimeError(f"Env var {key} must be integer, got: {os.getenv(key)}")
+    except ValueError:
+        raise RuntimeError(f"⚠️ Env var {key} must be an integer, got: {os.getenv(key)}")
 
-# ────────────── Base Config ──────────────
+# ─── Base Path for Relatives ──────────────────────────────────────────────────
+
+BASE_DIR: Final[Path] = Path(__file__).resolve().parents[2]
+
+# ─── Base Config ─ Shared across all environments ─────────────────────────────
+
 class BaseConfig:
-    """
-    Base configuration class containing common settings for the app.
-    Other configurations inherit from this class.
-    """
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me-before-prod")
-    ENV: Final = os.getenv("FLASK_ENV", "production")
-    DEBUG: bool = _bool("DEBUG", False)
-    LOG_LEVEL: Final = os.getenv("LOG_LEVEL", "INFO").upper()
-    PERMANENT_SESSION_LIFETIME: timedelta = timedelta(days=7)
-    SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
-    SQLALCHEMY_DATABASE_URI: str = os.getenv("DATABASE_URL") or f"sqlite:///{BASE_DIR}/app/data/app.db"
+    # ─── Core Flask ───────────────────────────────
+    SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-override-me")
+    SESSION_COOKIE_SECURE = _bool("SESSION_COOKIE_SECURE", False)
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
-    # Stripe API keys (Optional)
-    STRIPE_SECRET_KEY: str | None = os.getenv("STRIPE_SECRET_KEY")
-    STRIPE_PUBLIC_KEY: str | None = os.getenv("STRIPE_PUBLIC_KEY")
+    # ─── SQLAlchemy ──────────────────────────────
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Mail server configuration
-    MAIL_SERVER: str = os.getenv("MAIL_SERVER", "smtp.example.com")
-    MAIL_PORT: int = _int("MAIL_PORT", 587)
-    MAIL_USE_TLS: bool = _bool("MAIL_USE_TLS", True)
-    MAIL_USERNAME: str | None = os.getenv("MAIL_USERNAME")
-    MAIL_PASSWORD: str | None = os.getenv("MAIL_PASSWORD")
-    MAIL_DEFAULT_SENDER: str = os.getenv("MAIL_DEFAULT_SENDER", "noreply@fundchamps.com")  # Updated for FundChamps
+    # ─── Email (Flask-Mail) ──────────────────────
+    MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.example.com")
+    MAIL_PORT = _int("MAIL_PORT", 587)
+    MAIL_USE_TLS = _bool("MAIL_USE_TLS", True)
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "noreply@example.com")
 
-    # Feature flags and settings
-    FEATURE_DARK_MODE: bool = _bool("FEATURE_DARK_MODE", True)
+    # ─── Stripe ──────────────────────────────────
+    STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+    STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+    STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
-    # Branding settings
-    BRAND_NAME: str = os.getenv("BRAND_NAME", "FundChamps")  # Default to FundChamps branding
-    BRAND_TAGLINE: str = os.getenv("BRAND_TAGLINE", "Empowering Youth Sports and Building Champions.")
-    PRIMARY_COLOR: str = os.getenv("PRIMARY_COLOR", "#facc15")
+    # ─── Redis / Caching ─────────────────────────
+    REDIS_URL = os.getenv("REDIS_URL")
+    CACHE_TYPE = os.getenv("CACHE_TYPE", "simple")
+    CACHE_REDIS_URL = os.getenv("CACHE_REDIS_URL", REDIS_URL)
 
-    # Demo team settings for Connect ATX Elite
-    DEMO_TEAM_NAME: str = os.getenv("DEMO_TEAM_NAME", "Connect ATX Elite")
-    DEMO_TEAM_TAGLINE: str = os.getenv("DEMO_TEAM_TAGLINE", "Family-run AAU basketball building future leaders in East Austin.")
+    # ─── Feature Flags ───────────────────────────
+    FEATURE_CONFETTI = _bool("FEATURE_CONFETTI")
+    FEATURE_DARK_MODE = _bool("FEATURE_DARK_MODE")
+    FEATURE_AI_THANK_YOU = _bool("FEATURE_AI_THANK_YOU")
 
-    # Define TEAM_CONFIG for the demo team or production team settings
-    TEAM_CONFIG = {
-        "team_name": os.getenv("DEMO_TEAM_NAME", "Connect ATX Elite"),
-        "team_tagline": os.getenv("DEMO_TEAM_TAGLINE", "Family-run AAU basketball building future leaders in East Austin."),
-        "fundraising_goal": 10000,  # Example goal, can be updated via environment variables
-        # Other team-related configuration settings...
-    }
+    # ─── Logging ─────────────────────────────────
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
     @classmethod
     def init_app(cls, app):
-        """
-        Attach the configuration to the Flask app and set up logging.
-        Logs the loaded config when PRINT_CONFIG is set.
-        """
-        import logging
-        logging.basicConfig(
-            level=cls.LOG_LEVEL,
-            format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
-        )
-        if _bool("PRINT_CONFIG", False):
-            app.logger.info(f"Loaded config: {cls.__name__}")
-            print(
-                json.dumps(
-                    {k: v for k, v in cls.__dict__.items() if k.isupper()},
-                    indent=2,
-                )
-            )
+        logging.basicConfig(level=cls.LOG_LEVEL, format="[%(levelname)s] %(message)s")
+        if _bool("PRINT_CONFIG_AT_BOOT"):
+            print("🔧 Loaded Config:", cls.__name__)
+            cfg = {k: v for k, v in cls.__dict__.items() if k.isupper() and not callable(v)}
+            print(json.dumps(cfg, indent=2, default=str))
 
-# ────────────── Environment-Specific Configurations ──────────────
+
+# ─── Environment-Specific Configs ─────────────────────────────────────────────
+
 class DevelopmentConfig(BaseConfig):
     ENV = "development"
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        "DATABASE_URL",
+        "mysql+pymysql://starforge_user:StarforgeDevPass@localhost:3306/starforge_dev"
+    )
+
 
 class TestingConfig(BaseConfig):
     ENV = "testing"
     TESTING = True
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") or f"sqlite:///{BASE_DIR}/app/data/app.db"
+    DEBUG = False
+    WTF_CSRF_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+
 
 class ProductionConfig(BaseConfig):
     ENV = "production"
     DEBUG = False
     SESSION_COOKIE_SECURE = True
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        "DATABASE_URL",
+        f"sqlite:///{BASE_DIR}/app/data/app.db"
+    )
 
-    REQUIRED_VARS: Final[tuple[str, ...]] = (
+    REQUIRED_VARS: Iterable[str] = (
         "SECRET_KEY",
         "STRIPE_SECRET_KEY",
         "STRIPE_PUBLIC_KEY",
@@ -116,27 +120,17 @@ class ProductionConfig(BaseConfig):
 
     @classmethod
     def init_app(cls, app):
-        """
-        In production, check for required environment variables.
-        """
         super().init_app(app)
         missing = [v for v in cls.REQUIRED_VARS if not os.getenv(v)]
         if missing:
-            raise RuntimeError(
-                f"Missing required environment vars: {', '.join(missing)}"
-            )
+            raise RuntimeError(f"❌ Missing required environment variables: {', '.join(missing)}")
 
-# ────────────── Configuration Mapping ──────────────
-config_map: dict[str, type[BaseConfig]] = {
+
+# ─── Config Mapping for Factory Use ───────────────────────────────────────────
+
+config_by_name = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig,
 }
-
-def get_config() -> type[BaseConfig]:
-    """Return the appropriate config class based on FLASK_ENV."""
-    return config_map.get(os.getenv("FLASK_ENV", "production"), ProductionConfig)
-
-# Assign the appropriate config to `config`
-config = get_config()
 

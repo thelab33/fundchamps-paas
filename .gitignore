@@ -11,3 +11,5 @@ web-frontend/node_modules/
 # VS Code
 .vscode/
 node_modules/
+app/data/
+app/data/app.db

@@ -4,17 +4,14 @@ from app.extensions import db, mail
 from app.forms.sponsor_form import SponsorForm
 from app.models import CampaignGoal, Sponsor
 from flask_mail import Message
-
-from app.config.team_config import TEAM_CONFIG  # Ensure this import is here
-
-from typing import Tuple, Dict, Any, Optional
+from app.config.team_config import TEAM_CONFIG
+from typing import Tuple, Dict, Any, Optional, List
 from threading import Thread
 
-# Blueprint for the main routes
 main_bp = Blueprint("main", __name__)
 
+# ---------- Async Email Sending ----------
 def send_async_email(app, msg: Message):
-    """Send email asynchronously to avoid blocking HTTP requests."""
     with app.app_context():
         try:
             mail.send(msg)
@@ -22,33 +19,45 @@ def send_async_email(app, msg: Message):
         except Exception as e:
             current_app.logger.error(f"Error sending email to {msg.recipients}: {e}")
 
+# ---------- Home / Index ----------
 @main_bp.route("/")
 def home():
-    sponsor = Sponsor.query.filter_by(status="approved", deleted=False).first()  # Get the first approved sponsor
-    if not sponsor:
-        current_app.logger.error("No sponsor found to spotlight.")
-    
-    # Ensure TEAM_CONFIG is available or fallback to an empty dictionary
+    # -- Team config and campaign goal --
     team = TEAM_CONFIG if 'TEAM_CONFIG' in globals() else {}
 
-    # Generate sections dynamically based on the team data
+    # -- Sponsors data: always pass sorted + total (never undefined!) --
+    sponsors_sorted: List[Sponsor] = []
+    sponsors_total = 0.0
+
+    try:
+        sponsors_sorted = (
+            Sponsor.query.filter_by(status="approved", deleted=False)
+            .order_by(Sponsor.amount.desc())
+            .all() or []
+        )
+        sponsors_total = sum((s.amount or 0) for s in sponsors_sorted)
+    except Exception as e:
+        current_app.logger.error(f"[Starforge] Failed fetching sponsors: {e}")
+
+    # -- Spotlight: single sponsor for hero/banner, can be None --
+    sponsor = sponsors_sorted[0] if sponsors_sorted else None
+
+    # -- Fundraising stats --
+    raised, goal, percent_raised = _get_fundraising_stats()
+
+    # -- Section content: hydrate each section from team or fallback --
     about = _generate_about_section(team)
     impact_stats = _generate_impact_stats(team)
     challenge = _generate_challenge_section(team, impact_stats)
     mission = _generate_mission_section(team, impact_stats)
-
-    raised, goal, percent_raised = _get_fundraising_stats()
     stats = _prepare_stats(team, raised, goal, percent_raised)
-
     challenge["funded"] = f"{percent_raised:.1f}%" if goal else "—"
 
     features = {
-        "digital_hub_enabled": True,  # Set this dynamically based on your config or database
+        "digital_hub_enabled": True,  # Toggle from config/db as you grow!
     }
 
-    # Calculate total sponsors and pass to template
-    sponsors_total = _get_sponsors_total()
-
+    # --- Render index with all needed context (never missing keys) ---
     return render_template(
         "index.html",
         team=team,
@@ -58,22 +67,14 @@ def home():
         stats=stats,
         raised=raised,
         goal=goal,
-        sponsors_total=sponsors_total,  # Pass sponsors_total to the template
-        features=features,  # Pass features to the template
-        sponsor=sponsor,  # Pass sponsor data to the template
+        sponsors_total=sponsors_total,
+        sponsors_sorted=sponsors_sorted,
+        sponsor=sponsor,
+        features=features,
     )
 
-def _get_sponsors_total() -> float:
-    """Get the total amount raised from all sponsors."""
-    try:
-        total = db.session.query(func.sum(Sponsor.amount)).filter_by(status="approved", deleted=False).scalar() or 0.0
-    except Exception as e:
-        current_app.logger.error(f"[Starforge] Failed fetching total sponsors amount: {e}")
-        total = 0.0
-    return total
-
+# ---------- Helper Functions ----------
 def _prepare_stats(team: Dict[str, Any], raised: float, goal: Optional[float], percent_raised: float) -> Dict[str, Any]:
-    """Prepare fundraising stats."""
     return {
         "raised": raised,
         "goal": goal,
@@ -82,7 +83,6 @@ def _prepare_stats(team: Dict[str, Any], raised: float, goal: Optional[float], p
     }
 
 def _generate_about_section(team: Dict[str, Any]) -> Dict[str, Any]:
-    """Build the About section content."""
     return {
         "heading": team.get("about_heading", "About Connect ATX Elite"),
         "text": team.get("about_text", "Family-run AAU program turning East Austin students into honor-roll athletes and leaders."),
@@ -90,12 +90,11 @@ def _generate_about_section(team: Dict[str, Any]) -> Dict[str, Any]:
         "poster": team.get("about_poster", "connect-atx-team.jpg"),
         "cta": {
             "label": team.get("cta_label", "Join Our Champion Circle"),
-            "url": "mailto:connectatxelite@gmail.com",  # Keep for demo org
+            "url": "mailto:connectatxelite@gmail.com",
         },
     }
 
 def _default_players() -> list:
-    """Provide default player list."""
     return [
         {"name": "Dame", "role": "Guard"},
         {"name": "Kacen", "role": "Forward"},
@@ -105,14 +104,12 @@ def _default_players() -> list:
     ]
 
 def _generate_impact_stats(team: Dict[str, Any]) -> list:
-    """Build impact statistics list."""
     return team.get(
-        "impact_stats", 
+        "impact_stats",
         [{"label": "Players Enrolled", "value": 16}, {"label": "Honor Roll Scholars", "value": 11}]
     )
 
 def _generate_challenge_section(team: Dict[str, Any], impact_stats: list) -> Dict[str, Any]:
-    """Build challenge section content."""
     return {
         "heading": team.get("challenge_heading", "The Challenge We Face"),
         "text": team.get("challenge_text", "Despite our passion, we struggle with gym space. Sponsorships make it possible for our youth to train, grow, and succeed."),
@@ -129,7 +126,6 @@ def _generate_challenge_section(team: Dict[str, Any], impact_stats: list) -> Dic
     }
 
 def _generate_mission_section(team: Dict[str, Any], impact_stats: list) -> Dict[str, Any]:
-    """Build mission section content."""
     return {
         "heading": team.get("mission_heading", "Our Mission"),
         "text": team.get("mission_text", "Empowering the next generation through basketball, academics, and leadership."),
@@ -142,14 +138,12 @@ def _generate_mission_section(team: Dict[str, Any], impact_stats: list) -> Dict[
     }
 
 def _default_mission_stories() -> list:
-    """Provide default mission stories."""
     return [
         {"text": "“Basketball taught my son confidence and leadership.”", "meta": "Maria R.", "title": "Parent"},
         {"text": "“The team helped me stay on track in school.”", "meta": "David L.", "title": "Class of 2026"},
     ]
 
 def _get_fundraising_stats() -> Tuple[float, Optional[float], float]:
-    """Calculate fundraising totals from the DB."""
     try:
         raised = db.session.query(func.sum(Sponsor.amount)).filter_by(deleted=False, status="approved").scalar() or 0.0
     except Exception as e:
@@ -159,19 +153,17 @@ def _get_fundraising_stats() -> Tuple[float, Optional[float], float]:
     goal_row = CampaignGoal.query.filter_by(active=True).first()
     goal = getattr(goal_row, "goal_amount", None) or TEAM_CONFIG.get("fundraising_goal", 10000)
     percent_raised = (raised / goal * 100) if goal else 0.0
-
     return raised, goal, percent_raised
 
+# ---------- Sponsor Form, Lists, and Static Pages ----------
 @main_bp.route("/become-sponsor", methods=["GET", "POST"])
 def become_sponsor():
-    """Sponsor sign-up with form validation and async email notification."""
     form = SponsorForm()
     if form.validate_on_submit():
         sponsor = Sponsor(name=form.name.data, email=form.email.data, amount=form.amount.data, status="pending")
         try:
             db.session.add(sponsor)
             db.session.commit()
-            # Async email send to avoid blocking response
             Thread(target=send_async_email, args=(current_app._get_current_object(), _create_thank_you_msg(form.name.data, form.email.data))).start()
             flash("Thank you for your sponsorship! We'll be in touch soon.", "success")
             return redirect(url_for("main.home"))
@@ -181,11 +173,9 @@ def become_sponsor():
             flash("Something went wrong. Please try again.", "danger")
     elif request.method == "POST":
         flash("Please correct the errors in the form.", "warning")
-
     return render_template("become_sponsor.html", form=form)
 
 def _create_thank_you_msg(name: str, email: str) -> Message:
-    """Create the thank-you email message."""
     return Message(
         subject="Thank you for sponsoring Connect ATX Elite!",
         recipients=[email],
@@ -194,17 +184,13 @@ def _create_thank_you_msg(name: str, email: str) -> Message:
 
 @main_bp.route("/sponsors")
 def sponsor_list():
-    """Display paginated list of approved sponsors, ordered by amount descending."""
     page = request.args.get("page", 1, type=int)
-    per_page = 20  # Paginate 20 per page
-
+    per_page = 20
     sponsors_pagination = Sponsor.query.filter_by(status="approved", deleted=False).order_by(Sponsor.amount.desc()).paginate(page=page, per_page=per_page, error_out=False)
-
     return render_template("sponsor_list.html", sponsors=sponsors_pagination.items, pagination=sponsors_pagination)
 
 @main_bp.route("/calendar")
 def calendar():
-    """Render the calendar page."""
     return render_template("calendar.html")
 
 @main_bp.route('/sponsor-guide')
