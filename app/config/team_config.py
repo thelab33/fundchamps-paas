@@ -51,6 +51,8 @@ TEAM_CONFIG = {
 # ───────────────────────────────────────────────
 
 class Config:
+    """Base configuration with defaults and helper methods."""
+    
     SECRET_KEY = os.getenv("SECRET_KEY", "dev_secret")
 
     @staticmethod
@@ -73,6 +75,7 @@ class Config:
 
 
 class DevelopmentConfig(Config):
+    """Development environment configuration."""
     DEBUG = True
     LOG_LEVEL = "DEBUG"
     LOG_FILE = "development.log"
@@ -81,6 +84,7 @@ class DevelopmentConfig(Config):
 
 
 class ProductionConfig(Config):
+    """Production environment configuration."""
     DEBUG = False
     LOG_LEVEL = "INFO"
     LOG_FILE = "/var/log/connect_atx_elite/app.log"  # Set by deploy target

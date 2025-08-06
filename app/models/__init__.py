@@ -1,11 +1,15 @@
 # app/models/__init__.py — Autoload all models & mixins for Starforge SaaS
 
-from app.extensions import db  # ✅ Expose db for use in mixins and models
+from app.extensions import db  # Expose db for use in mixins and models
 
+# ───────────────────────────────────────────────────────────────
 # Mixins
+# ───────────────────────────────────────────────────────────────
 from .mixins import TimestampMixin, SoftDeleteMixin
 
+# ───────────────────────────────────────────────────────────────
 # Core Models
+# ───────────────────────────────────────────────────────────────
 from .campaign_goal import CampaignGoal
 from .example import Example
 from .player import Player
@@ -15,19 +19,32 @@ from .transaction import Transaction
 from .sms_log import SMSLog
 from .user import User
 
-# Optional/experimental
+# ───────────────────────────────────────────────────────────────
+# Optional/experimental imports
+# ───────────────────────────────────────────────────────────────
 try:
-    # Try to import something real, or just:
+    # Try to import optional or experimental models
+    # e.g., from .some_optional_model import SomeOptionalModel
     pass
 except ImportError:
+    # If the module doesn't exist, handle the exception gracefully
     pass
 
+# ───────────────────────────────────────────────────────────────
+# Exporting public API
+# ───────────────────────────────────────────────────────────────
 __all__ = [
-    "db",
+    "db",  # Database instance
+
+    # ─────────────────────────────────────────────────────────────
     # Mixins
+    # ─────────────────────────────────────────────────────────────
     "TimestampMixin",
     "SoftDeleteMixin",
+
+    # ─────────────────────────────────────────────────────────────
     # Core models
+    # ─────────────────────────────────────────────────────────────
     "CampaignGoal",
     "Example",
     "Player",
@@ -36,5 +53,9 @@ __all__ = [
     "Transaction",
     "SMSLog",
     "User",
-    # Experimental
+
+    # ─────────────────────────────────────────────────────────────
+    # Experimental models (if any)
+    # ─────────────────────────────────────────────────────────────
 ]
+

@@ -6,6 +6,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_babel import Babel
 import logging
+from threading import Thread
 
 # Initialize the Flask extensions as singletons for app-wide usage
 db = SQLAlchemy()             # Database ORM
@@ -16,8 +17,8 @@ login_manager = LoginManager()  # User session/authentication manager
 mail = Mail()                 # SMTP mail sender
 babel = Babel()               # Internationalization and localization
 
-# LoginManager configuration
-login_manager.login_view = "auth.login"  # Redirect unauthorized users here (update route as needed)
+# Configure Flask-Login
+login_manager.login_view = "auth.login"  # Redirect unauthorized users to the login page
 login_manager.session_protection = "strong"  # Adds extra session security
 
 # User loader for Flask-Login
@@ -39,8 +40,6 @@ def send_email_async(app, msg):
     """
     Send emails asynchronously to avoid blocking the main thread.
     """
-    from threading import Thread
-
     def send(msg):
         with app.app_context():
             try:

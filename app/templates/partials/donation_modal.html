@@ -1,98 +1,63 @@
-<!-- Donation Modal -->
-<div
-  id="donation-modal"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
-  role="dialog"
-  aria-labelledby="donation-modal-title"
-  aria-hidden="true"
-  tabindex="-1"
->
-  <div
-    class="relative w-[90vw] sm:w-[450px] max-w-lg bg-zinc-900 text-yellow-100 rounded-3xl p-8 sm:p-10 shadow-xl ring-2 ring-amber-400/50 ring-offset-4 ring-offset-zinc-900"
-    role="document"
-  >
-    <!-- Close Button -->
-    <button
-      id="close-donation-modal"
-      class="absolute top-4 right-4 text-white bg-transparent hover:bg-zinc-800 rounded-full p-2"
-      aria-label="Close donation modal"
-    >
-      <span class="text-2xl">&times;</span>
-    </button>
+<form action="{{ url_for('main.donate') }}" method="POST" id="donation-form" class="space-y-6">
+  {{ form.hidden_tag() }}  <!-- This will render the CSRF token automatically -->
 
-    <!-- Modal Title -->
-    <h2
-      id="donation-modal-title"
-      class="text-3xl sm:text-4xl font-bold text-center mb-6 text-yellow-300"
-      tabindex="0"
-    >
-      Support Our Mission
-    </h2>
-
-    <!-- Donation Form -->
-    <form
-      action="{{ url_for('donate') }}" 
-      method="POST"
-      id="donation-form"
-      class="space-y-6"
-    >
-      <div>
-        <label for="donation-amount" class="block text-lg font-medium text-yellow-200">
-          Choose Your Donation Amount
-        </label>
-        <input
-          type="number"
-          id="donation-amount"
-          name="amount"
-          required
-          placeholder="$100"
-          class="mt-2 w-full p-3 rounded-xl bg-zinc-800 text-yellow-100 placeholder-yellow-500 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-          min="5"
-          max="10000"
-        />
-      </div>
-
-      <div class="flex justify-between gap-4">
-        <!-- Payment Methods -->
-        <div class="flex-1">
-          <label for="payment-method" class="block text-lg font-medium text-yellow-200">
-            Payment Method
-          </label>
-          <select
-            id="payment-method"
-            name="payment_method"
-            required
-            class="mt-2 w-full p-3 rounded-xl bg-zinc-800 text-yellow-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-          >
-            <option value="stripe">Stripe</option>
-            <option value="paypal">PayPal</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Payment Form based on selected method -->
-      <div id="stripe-form" class="payment-form">
-        <!-- Stripe Elements Form (injected with JS) -->
-        <div id="stripe-element"></div>
-      </div>
-
-      <div id="paypal-form" class="payment-form hidden">
-        <!-- PayPal Payment Integration (rendered via JS) -->
-        <div id="paypal-button-container"></div>
-      </div>
-
-      <!-- Donation Button -->
-      <div class="text-center">
-        <button
-          type="submit"
-          id="donate-button"
-          class="w-full py-3 px-8 text-xl font-bold bg-yellow-400 hover:bg-yellow-300 rounded-full transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500"
-        >
-          Donate Now
-        </button>
-      </div>
-    </form>
+  <div>
+    <label for="donation-amount" class="block text-lg font-medium text-yellow-200">
+      Choose Your Donation Amount
+    </label>
+    <input
+      type="number"
+      id="donation-amount"
+      name="amount"
+      required
+      placeholder="$100"
+      class="mt-2 w-full p-3 rounded-xl bg-zinc-800 text-yellow-100 placeholder-yellow-500 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+      min="5"
+      max="10000"
+    />
   </div>
+
+  <div class="flex justify-between gap-4">
+    <!-- Payment Methods -->
+    <div class="flex-1">
+      <label for="payment-method" class="block text-lg font-medium text-yellow-200">
+        Payment Method
+      </label>
+      <select
+        id="payment-method"
+        name="payment_method"
+        required
+        class="mt-2 w-full p-3 rounded-xl bg-zinc-800 text-yellow-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+      >
+        <option value="stripe">Stripe</option>
+        <option value="paypal">PayPal</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Payment Form based on selected method -->
+  <div id="stripe-form" class="payment-form">
+    <!-- Stripe Elements Form (injected with JS) -->
+    <div id="stripe-element"></div>
+  </div>
+
+  <div id="paypal-form" class="payment-form hidden">
+    <!-- PayPal Payment Integration (rendered via JS) -->
+    <div id="paypal-button-container"></div>
+  </div>
+
+  <!-- Donation Button -->
+  <div class="text-center">
+    <button
+      type="submit"
+      id="donate-button"
+      class="w-full py-3 px-8 text-xl font-bold bg-yellow-400 hover:bg-yellow-300 rounded-full transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500"
+    >
+      Donate Now
+    </button>
+  </div>
+</form>
+</div>
 </div>
 
 <!-- Donation Modal JavaScript -->
@@ -105,7 +70,7 @@
   const stripeForm = document.getElementById('stripe-form');
   const paypalForm = document.getElementById('paypal-form');
   
-  // Open Modal (you can trigger this with a button or event)
+  // Open Modal (trigger with button or event)
   function openModal() {
     modal.classList.remove('opacity-0', 'pointer-events-none');
     modal.classList.add('opacity-100', 'pointer-events-auto');
@@ -131,8 +96,6 @@
   });
 
   // Example: Load Stripe Integration (or PayPal)
-  // Replace this with actual Stripe or PayPal setup for your use case.
-  // Stripe Integration Example
   if (window.Stripe) {
     const stripe = Stripe("your-publishable-key-here");
     const elements = stripe.elements();
@@ -184,4 +147,35 @@
     }).render('#paypal-button-container');
   }
 </script>
+
+<!-- Styles for the Modal -->
+<style>
+  /* Fade-in transition */
+  #donation-modal {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Modal content animation */
+  #donation-modal .relative {
+    transform: scale(0.95);
+    transition: transform 0.3s ease-out;
+  }
+  #donation-modal[aria-hidden="false"] .relative {
+    transform: scale(1);
+  }
+
+  /* Button hover effects */
+  #donate-button:hover {
+    background-color: #fbbf24;
+    transform: scale(1.05);
+  }
+
+  /* Responsive adjustments for small screens */
+  @media (max-width: 768px) {
+    #donation-modal .relative {
+      width: 90vw;
+      padding: 6vw;
+    }
+  }
+</style>
 

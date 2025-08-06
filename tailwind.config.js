@@ -54,16 +54,40 @@ module.exports = {
       colors: {
         zinc, yellow, black, white, red, blue, emerald, amber, indigo, orange, pink,
         transparent, sky, slate, gray, neutral, stone,
+
+        // Elite brand colors
+        brand: {
+          gold: '#d4af37',           // refined gold
+          goldLight: '#c99a2c',      // lighter amber for hovers
+          amber: {
+            400: '#b8860b',          // amber shades for shadows, focus rings
+            500: '#a97406',
+            600: '#8c6703',
+          },
+          slate: '#09090b',          // deep dark base
+          glass: 'rgba(250, 204, 21, 0.12)',
+          inputBg: '#18181b',
+          inputBgDark: '#121212',
+          inputBorder: '#333',
+          inputBorderDark: '#222',
+          inputText: '#d4af37',
+          inputTextDark: '#fffacd',
+          inputError: '#dc2626',
+          inputSuccess: '#16a34a',
+          inputHelper: 'rgba(250, 204, 21, 0.67)',
+          inputHelperError: 'rgba(220, 38, 38, 0.8)',
+        },
+
         primary: '#facc15',
         'primary-gold': '#fbbf24',
         'primary-yellow': '#fde68a',
         'brand-black': '#09090b',
       },
       boxShadow: {
-        'gold-glow': '0 0 8px 2px #facc15, 0 0 24px 0 #fde68a44',
+        'gold-glow': '0 0 8px 2px #b8860b, 0 0 24px 0 #c99a2c44',
         glass: '0 4px 32px 0 rgba(250,204,21,0.06), 0 1.5px 4.5px rgba(60,60,60,0.05)',
-        'xl-gold': '0 20px 25px -5px rgba(250, 204, 21, 0.4), 0 10px 10px -5px rgba(250, 204, 21, 0.2)',
-        'inner-glow': 'inset 0 0 15px #facc15cc',
+        'xl-gold': '0 20px 25px -5px rgba(184,134,11, 0.4), 0 10px 10px -5px rgba(201,154,44,0.2)',
+        'inner-glow': 'inset 0 0 15px #b8860bcc',
       },
       keyframes: {
         kenburns: {
@@ -84,6 +108,23 @@ module.exports = {
           '0%': { opacity: 0, transform: 'translateY(30px)' },
           '100%': { opacity: 1, transform: 'none' },
         },
+
+        // New pulse-glow for brand gold
+        'pulse-glow': {
+          '0%': { boxShadow: '0 0 4px #b8860b' },
+          '100%': { boxShadow: '0 0 20px #b8860b' },
+        },
+        'pop-in': {
+          from: { opacity: 0, transform: 'scale(0.7)' },
+          to: { opacity: 1, transform: 'scale(1)' },
+        },
+        spin: {
+          to: { transform: 'rotate(360deg)' },
+        },
+        'bounce-in-smooth': {
+          '0%': { opacity: 0, transform: 'translateY(30px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
       },
       animation: {
         kenburns: 'kenburns 18s ease-in-out infinite',
@@ -91,20 +132,39 @@ module.exports = {
         shine: 'shine 2.1s linear infinite',
         sparkle: 'sparkle 1.3s ease-in-out infinite',
         'fade-in': 'fade-in 1.5s cubic-bezier(.39,.575,.565,1) both',
+
+        // New animations
+        'pulse-glow': 'pulse-glow 1.3s infinite alternate',
+        'pop-in': 'pop-in 0.5s ease forwards',
+        'spin-slow': 'spin 12s linear infinite',
+        'bounce-in-smooth': 'bounce-in-smooth 0.7s ease forwards',
       },
       backgroundImage: {
-        'gold-gradient': 'linear-gradient(90deg, #facc15 0%, #fbbf24 100%)',
-        'amber-gradient': 'linear-gradient(45deg, #fbbf24 0%, #fde68a 100%)',
+        'gold-gradient': 'linear-gradient(90deg, #d4af37 0%, #c99a2c 100%)',
+        'amber-gradient': 'linear-gradient(45deg, #b8860b 0%, #c99a2c 100%)',
       },
-      ringColor: { DEFAULT: '#facc15', 'primary-focus': '#fbbf24' },
-      outline: { primary: ['2px solid #facc15', '4px'] },
+      ringColor: {
+        DEFAULT: '#b8860b',
+        focus: '#b8860b',
+        primary: '#b8860b',
+      },
+      outline: {
+        primary: ['2px solid #b8860b', '4px'],
+      },
       transitionProperty: {
         colors: 'color, background-color, border-color, text-decoration-color, fill, stroke',
         shadow: 'box-shadow',
         opacity: 'opacity',
       },
-      transitionTimingFunction: { 'ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)' },
-      zIndex: { 99: '99', 999: '999', 9999: '9999', 99999: '99999' },
+      transitionTimingFunction: {
+        'ease-in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      zIndex: {
+        99: '99',
+        999: '999',
+        9999: '9999',
+        99999: '99999',
+      },
     },
   },
 
@@ -123,18 +183,17 @@ module.exports = {
       addUtilities(
         {
           '.focus-ring-primary': {
-            outline: `2px solid ${theme('colors.primary')}`,
+            outline: `2px solid ${theme('colors.brand.amber.400')}`,
             outlineOffset: '4px',
           },
           '.shadow-xl-gold': {
-            boxShadow:
-              '0 20px 25px -5px rgba(250, 204, 21, 0.4), 0 10px 10px -5px rgba(250, 204, 21, 0.2)',
+            boxShadow: theme('boxShadow.xl-gold'),
           },
           '.transition-smooth': {
             transitionProperty:
               'color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, opacity',
             transitionDuration: '300ms',
-            transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            transitionTimingFunction: theme('transitionTimingFunction.ease-in-out'),
           },
           '.bg-gold-gradient': { backgroundImage: theme('backgroundImage.gold-gradient') },
           '.bg-amber-gradient': { backgroundImage: theme('backgroundImage.amber-gradient') },

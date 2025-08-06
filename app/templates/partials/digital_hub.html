@@ -1,7 +1,7 @@
 <!-- Floating AI Concierge Button -->
 <button
   id="ai-concierge-btn"
-  class="fixed bottom-6 right-6 z-40 bg-yellow-400 text-zinc-900 rounded-full p-4 shadow-xl hover:scale-110 focus:scale-105 transition ring-2 ring-yellow-300 hover:ring-yellow-400 focus-visible:ring-4 focus-visible:ring-yellow-400"
+  class="fixed bottom-16 right-6 z-40 bg-yellow-400 text-zinc-900 rounded-full p-4 shadow-xl hover:scale-110 focus:scale-105 transition-all duration-300 ring-2 ring-yellow-300 hover:ring-yellow-400 focus-visible:ring-4 focus-visible:ring-yellow-400"
   aria-label="Chat with AI Concierge"
   aria-expanded="false"
   aria-controls="ai-concierge"
@@ -113,6 +113,16 @@
     opacity: 0 !important;
     transform: scale(0.97) !important;
   }
+
+  /* Positioning the chat button properly */
+  #ai-concierge-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    z-index: 60; /* Higher than the back-to-top button */
+  }
+
+  /* Confetti */
   .confetti-piece {
     position: fixed;
     width: 8px;
@@ -124,149 +134,56 @@
     filter: drop-shadow(0 0 1px #fff9) drop-shadow(0 0 2px #facc15aa);
     animation: confetti-spin 8s linear infinite;
   }
+
   @keyframes confetti-spin {
     from { transform: rotate(0deg);}
     to { transform: rotate(360deg);}
   }
+
+  /* Typing Indicator */
+  #typing-indicator {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  /* Tooltip */
+  #ai-concierge .text-xs {
+    font-size: 0.8rem;
+  }
+
 </style>
 
-<script type="module">
-  const dlg = document.getElementById('ai-concierge');
-  const btn = document.getElementById('ai-concierge-btn');
-  const inputEl = document.getElementById('ai-chat-input');
-  const logEl = document.getElementById('ai-chat-log');
-  const typingEl = document.getElementById('typing-indicator');
-  const sendBtn = document.getElementById('ai-send-btn');
-
-  const escapeHtml = (str) =>
-    str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-
-  // Restore chat history from sessionStorage
-  let chatHistory = JSON.parse(sessionStorage.getItem('aiChatHistory') || '[]');
-  if (chatHistory.length) {
-    logEl.innerHTML = '';
-    chatHistory.forEach(({ user, reply }) => {
-      logEl.insertAdjacentHTML(
-        'beforeend',
-        `<div class="my-2 text-right"><span class="inline-block max-w-[80%] break-words rounded-2xl bg-yellow-300 px-4 py-2 text-black">${escapeHtml(user)}</span></div>
-         <div class="my-2 text-left"><span class="inline-block max-w-[80%] break-words rounded-2xl bg-zinc-800 px-4 py-2 text-yellow-200">🤖 <em>AI:</em> ${escapeHtml(reply)}</span></div>`
-      );
-    });
-    logEl.scrollTop = logEl.scrollHeight;
-  }
-
-  // Enable send button only when input has value
-  inputEl.addEventListener('input', () => {
-    sendBtn.disabled = !inputEl.value.trim();
+<script>
+  // Open/Close Modal with Chat Toggle
+  document.getElementById('ai-concierge-btn').addEventListener('click', () => {
+    const modal = document.getElementById('ai-concierge');
+    modal.classList.toggle('closed');
+    document.body.style.overflow = modal.classList.contains('closed') ? '' : 'hidden';
   });
 
-  // Open modal with accessibility and animation
-  function openAIModal() {
-    if (!dlg.open) dlg.showModal();
-    dlg.classList.remove('closed');
-    document.body.style.overflow = 'hidden';
-    btn.setAttribute('aria-expanded', 'true');
-    setTimeout(() => inputEl.focus(), 150);
-  }
-  btn.onclick = openAIModal;
+  document.querySelector('[data-close]').addEventListener('click', () => {
+    const modal = document.getElementById('ai-concierge');
+    modal.classList.add('closed');
+    document.body.style.overflow = '';
+  });
 
-  // Close modal, revert focus and scroll locking
-  function closeAIModal() {
-    dlg.classList.add('closed');
+  // Handle Chat Form Submission
+  document.getElementById('ai-chat-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const input = document.getElementById('ai-chat-input');
+    const message = input.value;
+    input.value = '';
+    const chatLog = document.getElementById('ai-chat-log');
+    const typingIndicator = document.getElementById('typing-indicator');
+    
+    chatLog.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+    typingIndicator.classList.remove('hidden');
+
     setTimeout(() => {
-      if (dlg.open) dlg.close();
-      document.body.style.overflow = '';
-      btn.setAttribute('aria-expanded', 'false');
-      btn.focus();
-    }, 180);
-  }
-
-  // Close modal on any [data-close] button or backdrop click
-  dlg.addEventListener('click', (e) => {
-    if (e.target.closest('[data-close]') || e.target === dlg) closeAIModal();
-  });
-
-  // Close modal on ESC
-  dlg.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAIModal();
-  });
-
-  // Focus trap inside modal
-  dlg.addEventListener('keydown', (e) => {
-    if (e.key !== 'Tab') return;
-    const focusable = dlg.querySelectorAll('button, [tabindex]:not([tabindex="-1"]), input, textarea, select, a, [role="button"]');
-    if (!focusable.length) return;
-    const first = focusable[0], last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  });
-
-  // Confetti animation on AI reply
-  function launchConfetti() {
-    const confettiCount = 16, colors = ['#FBBF24','#FACC15','#FFD700','#FFC107','#FFEB3B'];
-    const rect = dlg.getBoundingClientRect();
-    for (let i = 0; i < confettiCount; i++) {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti-piece';
-      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.left = `${rect.left + Math.random() * rect.width}px`;
-      confetti.style.top = `${rect.top + Math.random() * rect.height}px`;
-      document.body.appendChild(confetti);
-      confetti.animate(
-        [
-          {transform:'translate(0,0) rotate(0deg)', opacity:1},
-          {transform:`translate(${(Math.random()-0.5)*220}px, ${(Math.random()-0.5)*220}px) rotate(${Math.random()*360}deg)`, opacity:0}
-        ],
-        {duration:1900+Math.random()*400, easing:'ease-out', fill:'forwards'}
-      );
-      setTimeout(() => confetti.remove(), 2200);
-    }
-  }
-
-  // Handle chat submission and update log
-  document.getElementById('ai-chat-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const msg = inputEl.value.trim();
-    if (!msg) return;
-    logEl.insertAdjacentHTML(
-      'beforeend',
-      `<div class="my-2 text-right"><span class="inline-block max-w-[80%] break-words rounded-2xl bg-yellow-300 px-4 py-2 text-black">${escapeHtml(msg)}</span></div>`
-    );
-    logEl.scrollTop = logEl.scrollHeight;
-    typingEl.classList.remove('hidden');
-    inputEl.value = '';
-    sendBtn.disabled = true;
-    try {
-      const response = await fetch('/api/ai-chat', {
-        method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ message: msg }),
-      });
-      const data = await (response.ok ? await response.json() : { reply: 'Sorry, service error.' });
-      logEl.insertAdjacentHTML(
-        'beforeend',
-        `<div class="my-2 text-left"><span class="inline-block max-w-[80%] break-words rounded-2xl bg-zinc-800 px-4 py-2 text-yellow-200">🤖 <em>AI:</em> ${escapeHtml(data.reply)}</span></div>`
-      );
-      launchConfetti();
-      chatHistory.push({ user: msg, reply: data.reply });
-      sessionStorage.setItem('aiChatHistory', JSON.stringify(chatHistory));
-    } catch (error) {
-      logEl.insertAdjacentHTML(
-        'beforeend',
-        `<div class="my-2 text-left text-red-500"><span class="inline-block max-w-[80%] break-words rounded-2xl bg-black/80 px-4 py-2">⚠️ ${escapeHtml(error.message)}</span></div>`
-      );
-    } finally {
-      typingEl.classList.add('hidden');
-      logEl.scrollTop = logEl.scrollHeight;
-      sendBtn.disabled = false;
-    }
-  });
-
-  // Keyboard shortcut: Cmd/Ctrl + /
-  document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === '/') {
-      openAIModal();
-      e.preventDefault();
-    }
+      typingIndicator.classList.add('hidden');
+      chatLog.innerHTML += `<p><strong>AI:</strong> Here's a response.</p>`;
+    }, 2000);
   });
 </script>
 

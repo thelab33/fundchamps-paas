@@ -43,7 +43,7 @@ def stripe_webhook():
     event_type = event.get("type")
     data = event.get("data", {}).get("object", {})
 
-    # Dispatch event handlers
+    # Dispatch event handlers based on the event type
     if event_type == "checkout.session.completed":
         handle_checkout_completed(data)
     elif event_type == "payment_intent.succeeded":
@@ -65,7 +65,7 @@ def handle_checkout_completed(data: Dict[str, Any]) -> None:
     session_id = data.get("id")
     customer_email = data.get("customer_email")
     amount_total_cents = data.get("amount_total", 0)
-    amount_total = float(amount_total_cents) / 100.0 if amount_total_cents else 0.0
+    amount_total = amount_total_cents / 100.0 if amount_total_cents else 0.0
 
     current_app.logger.info(
         f"✅ Stripe Checkout Completed — {customer_email} | Session ID: {session_id} | Total: ${amount_total:.2f}"
@@ -100,7 +100,7 @@ def handle_payment_succeeded(data: Dict[str, Any]) -> None:
     """
     payment_id = data.get("id")
     amount_received_cents = data.get("amount_received", 0)
-    amount_received = float(amount_received_cents) / 100.0 if amount_received_cents else 0.0
+    amount_received = amount_received_cents / 100.0 if amount_received_cents else 0.0
     customer = data.get("customer", "Unknown")
 
     current_app.logger.info(

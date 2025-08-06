@@ -11,12 +11,12 @@
 =========================================================================== #}
 {% macro progress_meter(raised, goal, size="md") -%}
   {# Compute percentage, clamp to 0..100 #}
-  {%- set _goal = (goal|float) if goal else 0.0 -%}
-  {%- set _raised = (raised|float) if raised else 0.0 -%}
+  {%- set _goal = goal | float if goal else 0.0 -%}
+  {%- set _raised = raised | float if raised else 0.0 -%}
   {%- set _pct = (0.0 if _goal == 0.0 else (_raised / _goal * 100.0)) -%}
-  {%- set _pct = (0.0 if _pct < 0.0 else (100.0 if _pct > 100.0 else _pct)) -%}
+  {%- set _pct = (_pct if _pct >= 0.0 else 0.0) | min(100.0) -%}
   {%- set pct_f = '%.1f' % _pct -%}
-  {%- set raised_display = '{:,}'.format(raised|int) -%}
+  {%- set raised_display = '{:,}'.format(raised | int) -%}
 
   {%- set sizes = {
     "sm": "max-w-[7.5rem] h-2 text-[10px] py-0.5",
@@ -127,23 +127,7 @@
       ></span>
     {% endif %}
 
-    <span class="align-middle">{{ label|safe }}</span>
+    <span class="align-middle">{{ label | safe }}</span>  {# Ensure the label is rendered as safe text #}
   </a>
-{%- endmacro %}
-
-{# ===========================================================================
-   IMAGE RESOLVER
-   Returns an absolute static or external image URL with a safe fallback
-=========================================================================== #}
-{% macro resolve_image(img) -%}
-  {%- if img and img.startswith('http') -%}
-    {{ img }}
-  {%- elif img and img.startswith('/static/') -%}
-    {{ img }}
-  {%- elif img -%}
-    {{ url_for('static', filename=img.lstrip('/')) }}
-  {%- else -%}
-    {{ url_for('static', filename='images/connect-atx-team.jpg') }}
-  {%- endif -%}
 {%- endmacro %}
 

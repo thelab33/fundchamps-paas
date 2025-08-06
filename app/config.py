@@ -22,10 +22,18 @@ from typing import Final, Iterable
 # ─── Env Helper Functions ─────────────────────────────────────────────────────
 
 def _bool(key: str, default: str | bool = "false") -> bool:
+    """
+    Fetches and converts an environment variable to a boolean.
+    Handles common truthy and falsy values.
+    """
     val = os.getenv(key, str(default)).strip().lower()
     return val in {"1", "true", "yes", "on"}
 
 def _int(key: str, default: int | str) -> int:
+    """
+    Fetches and converts an environment variable to an integer.
+    Raises a runtime exception if the conversion fails.
+    """
     try:
         return int(os.getenv(key, default))
     except ValueError:
@@ -38,6 +46,9 @@ BASE_DIR: Final[Path] = Path(__file__).resolve().parents[2]
 # ─── Base Config ─ Shared across all environments ─────────────────────────────
 
 class BaseConfig:
+    """
+    Base configuration with common settings shared across all environments.
+    """
     # ─── Core Flask ───────────────────────────────
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-override-me")
     SESSION_COOKIE_SECURE = _bool("SESSION_COOKIE_SECURE", False)
@@ -74,6 +85,9 @@ class BaseConfig:
 
     @classmethod
     def init_app(cls, app):
+        """
+        Initializes the Flask app with logging and optional configuration printing.
+        """
         logging.basicConfig(level=cls.LOG_LEVEL, format="[%(levelname)s] %(message)s")
         if _bool("PRINT_CONFIG_AT_BOOT"):
             print("🔧 Loaded Config:", cls.__name__)
@@ -84,6 +98,7 @@ class BaseConfig:
 # ─── Environment-Specific Configs ─────────────────────────────────────────────
 
 class DevelopmentConfig(BaseConfig):
+    """Development environment configuration."""
     ENV = "development"
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv(
@@ -93,6 +108,7 @@ class DevelopmentConfig(BaseConfig):
 
 
 class TestingConfig(BaseConfig):
+    """Testing environment configuration."""
     ENV = "testing"
     TESTING = True
     DEBUG = False
@@ -101,6 +117,7 @@ class TestingConfig(BaseConfig):
 
 
 class ProductionConfig(BaseConfig):
+    """Production environment configuration."""
     ENV = "production"
     DEBUG = False
     SESSION_COOKIE_SECURE = True
@@ -120,6 +137,9 @@ class ProductionConfig(BaseConfig):
 
     @classmethod
     def init_app(cls, app):
+        """
+        Initializes the Flask app for production, ensuring all required variables are set.
+        """
         super().init_app(app)
         missing = [v for v in cls.REQUIRED_VARS if not os.getenv(v)]
         if missing:

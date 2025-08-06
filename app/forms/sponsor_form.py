@@ -1,12 +1,6 @@
-"""
-SponsorForm 🔒
-Form for collecting supporter info — validated, clean, and ready for Stripe flow.
-"""
-
 from flask_wtf import FlaskForm
 from wtforms import DecimalField, StringField
 from wtforms.validators import DataRequired, Email, Length, NumberRange
-
 
 class SponsorForm(FlaskForm):
     name = StringField(
@@ -37,7 +31,3 @@ class SponsorForm(FlaskForm):
         render_kw={"placeholder": "100.00"},
     )
 
-    def validate_amount(self, field):
-        """Custom validation to ensure amount is greater than 0."""
-        if field.data <= 0:
-            raise ValueError("Amount must be greater than zero.")

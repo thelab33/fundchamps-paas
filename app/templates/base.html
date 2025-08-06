@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-<html lang="{{ lang_code|default('en', true) }}" data-theme="{{ theme|default('dark', true) }}" class="no-js scroll-smooth antialiased bg-zinc-950 text-white font-sans{% if team and team.body_class %} {{ team.body_class }}{% endif %}">
+<html lang="{{ lang_code|default('en', true) }}"
+  data-theme="{{ theme|default('dark', true) }}"
+  class="no-js scroll-smooth antialiased bg-zinc-950 text-white font-sans{% if team and team.body_class %} {{ team.body_class }}{% endif %}"
+  style="min-height: 100%;"
+  itemscope itemtype="https://schema.org/WebSite"
+>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="{{ team.theme_color|default('#facc15', true) }}" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <link rel="canonical" href="{{ request.url_root|trim('/') }}" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest', v=asset_version) }}" />
 
   <title>{% block title %}{{ team.team_name|default('Connect ATX Elite', true) }}{% endblock %}</title>
-
-  <!-- SEO Meta Description -->
   <meta name="description" content="{{ team.meta_description|default('Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.', true) }}" />
 
-  <!-- Open Graph / Twitter Cards -->
+  <!-- OG / Twitter Meta -->
   {% set _raw_og = team.og_image if team and team.og_image else 'images/logo.avif' %}
   {% set ogimg = _raw_og if _raw_og.startswith('http') else url_for('static', filename=_raw_og) %}
   <meta property="og:type" content="website" />
@@ -24,41 +29,42 @@
   <meta property="og:site_name" content="{{ team.team_name|default('Connect ATX Elite', true) }}" />
   <meta property="og:image:alt" content="{{ team.og_alt|default(team.og_title|default('Connect ATX Elite', true), true) }}" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:creator" content="{{ team.twitter_handle|default('@ConnectATXElite', true) }}" />
+  <meta name="twitter:site" content="{{ team.twitter_handle|default('@ConnectATXElite', true) }}" />
+  <meta name="twitter:title" content="{{ team.og_title|default('Connect ATX Elite | Empowering Youth', true) }}" />
+  <meta name="twitter:description" content="{{ team.og_description|default('Support our basketball journey and invest in our next generation of leaders.', true) }}" />
+  <meta name="twitter:image" content="{{ ogimg }}" />
 
-  <!-- Favicon & Apple Touch Icon -->
+  <!-- Favicon & PWA icons -->
   <link rel="icon" type="image/png" sizes="32x32" href="{{ (team and team.favicon) and url_for('static', filename=team.favicon, v=asset_version) or url_for('static', filename='images/favicon.png', v=asset_version) }}" />
   <link rel="apple-touch-icon" href="{{ (team and team.apple_icon) and url_for('static', filename=team.apple_icon, v=asset_version) or url_for('static', filename='images/logo.avif', v=asset_version) }}" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <!-- Performance: Preconnect to critical origins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <!-- Preconnects & Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://api.stripe.com" />
-  
-  <!-- Fonts: Google Fonts (self-host when possible) -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://api.stripe.com" />
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" crossorigin="anonymous" />
 
-  <!-- Preload Team Logo Image -->
+  <!-- Preload critical logo -->
   <link rel="preload" href="{{ url_for('static', filename=team.logo if team and team.logo else 'images/logo.webp') }}" as="image" type="image/webp" />
 
-  <!-- Stylesheets: preload + main CSS -->
+  <!-- Stylesheets -->
   <link rel="preload" href="{{ url_for('static', filename='css/tailwind.min.css', v=asset_version) }}" as="style" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css', v=asset_version) }}" media="all" />
-
-  <!-- Dev-only CSS for Tailwind content scanning verification -->
   {% if app_env != 'production' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css', v=asset_version) }}">
   {% endif %}
-
-  <!-- Per-team custom CSS overrides -->
   {% if team and team.custom_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css, v=asset_version) }}">
   {% endif %}
 
-  <!-- Structured Data JSON-LD for SEO -->
+  <!-- SEO: JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -79,89 +85,77 @@
   }
   </script>
 
-  <!-- Placeholder for page-specific head extensions -->
   {% block head_extra %}{% endblock %}
-
-  <!-- Autoscroll to top on page reload -->
-  <script>
-    window.addEventListener('load', function() {
-      window.scrollTo(0, 0);
-    });
-  </script>
 </head>
 
-<body class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col{% if team and team.body_class %} {{ team.body_class }}{% endif %}" role="document" aria-live="polite" aria-busy="false">
+<body class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col{% if team and team.body_class %} {{ team.body_class }}{% endif %}"
+      role="document"
+      aria-live="polite"
+      aria-busy="false"
+      x-data="{ dark: localStorage.getItem('theme') === 'dark' }"
+>
   <script>
     (function(d){ d.documentElement.classList.remove('no-js'); d.documentElement.classList.add('js'); })(document);
   </script>
 
-  <!-- Accessible Skip Link for keyboard users -->
   <a href="#main-content" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50" tabindex="0">Skip to main content</a>
 
-  <!-- Dark Mode Toggle Button -->
-  <button id="dark-mode-toggle" aria-label="Toggle dark mode" class="fixed bottom-6 left-6 z-50 rounded-full bg-yellow-400 p-3 shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-300">
-    🌙
+  <!-- Dark Mode Toggle -->
+  <button id="dark-mode-toggle" aria-label="Toggle dark mode"
+    class="fixed bottom-6 left-6 z-50 rounded-full bg-yellow-400 p-3 shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-300">
+    <span aria-hidden="true" class="block text-lg">🌙</span>
+    <span class="sr-only">Toggle dark mode</span>
   </button>
 
-  <!-- Loading Spinner Overlay -->
-  <div id="page-loader" class="fixed inset-0 flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+  <!-- Page Loader -->
+  <div id="page-loader"
+    class="fixed inset-0 flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-50"
+    aria-label="Loading" aria-live="polite">
     <svg class="animate-spin h-12 w-12 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
     </svg>
   </div>
 
-  <!-- Header & Announcement Bar -->
   {% block announcement %}{% endblock %}
   {% include 'partials/header_and_announcement.html' ignore missing %}
-
-  <!-- Optional per-page hero block -->
   {% block hero %}{% endblock %}
 
-  <!-- Main page content -->
-  <main id="main-content" role="main" tabindex="-1" class="min-h-[60vh] flex flex-col gap-14 max-w-6xl w-full mx-auto px-2 sm:px-8 pt-6" style="scroll-margin-top: 80px;">
+  <main id="main-content" role="main" tabindex="-1"
+        class="min-h-[60vh] flex flex-col gap-14 max-w-6xl w-full mx-auto px-2 sm:px-8 pt-6"
+        style="scroll-margin-top: 80px;">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Footer -->
   {% include 'partials/footer.html' ignore missing %}
-
-  <!-- Global modals & popups -->
   {% block global_modals %}
     {% include 'partials/newsletter.html' ignore missing %}
   {% endblock %}
-
-  <!-- Pre-script hooks -->
   {% block pre_scripts %}{% endblock %}
 
-  <!-- Vendor scripts (prefer self-hosted for privacy) -->
-  <!-- Example: <script src="{{ url_for('static', filename='js/vendor/htmx.min.js', v=asset_version) }}" defer></script> -->
-
-  <!-- Main JS bundle -->
   <script src="{{ url_for('static', filename='js/main.js', v=asset_version) }}" defer></script>
-
-  <!-- Dark mode toggle script -->
+  <!-- Enhanced dark mode, loader logic -->
   <script>
-    const dmToggle = document.getElementById('dark-mode-toggle');
-    dmToggle.addEventListener('click', () => {
-      const html = document.documentElement;
-      if (html.classList.contains('dark')) {
-        html.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      } else {
-        html.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
+    // Toggle dark mode and persist in localStorage
+    (function() {
+      const btn = document.getElementById('dark-mode-toggle');
+      btn.addEventListener('click', () => {
+        const html = document.documentElement;
+        if(html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        } else {
+          html.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+      // Load theme preference
+      if(localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
       }
-    });
-
-    (function(){
-      const saved = localStorage.getItem('theme');
-      if(saved === 'dark') document.documentElement.classList.add('dark');
     })();
-  </script>
 
-  <!-- Loading spinner show/hide helpers -->
-  <script>
+    // Page loader (window.showLoader/hideLoader)
     window.showLoader = () => {
       const loader = document.getElementById('page-loader');
       loader.classList.remove('opacity-0', 'pointer-events-none');
@@ -171,25 +165,8 @@
       loader.classList.add('opacity-0', 'pointer-events-none');
     };
   </script>
-
-  <!-- Page-specific scripts -->
-  {% block scripts %}
-    <!-- Example AOS init if included globally: -->
-    <!-- <script defer>
-      document.addEventListener('DOMContentLoaded',function(){ if(window.AOS){ AOS.init({ once:true, duration:600 }); } });
-    </script> -->
-  {% endblock %}
-
-  <!-- Post-script hooks -->
+  {% block scripts %}{% endblock %}
   {% block post_scripts %}{% endblock %}
 </body>
 </html>
-
-{# Trusted badge bar fixed outside HTML for flexibility #}
-<div class="w-full text-center py-2 bg-gradient-to-r from-yellow-900 via-yellow-800 to-yellow-900 text-yellow-100 text-xs font-semibold tracking-wide shadow-inner select-none">
-  🏅 Trusted by 500+ Families · AAU Gold Certified · Austin, TX
-</div>
-
-{# Optional countup.js inclusion if you want #}
-<script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.umd.js" defer></script>
 

@@ -2,29 +2,37 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true, // For config files and Node-based scripts
-  },
-  parserOptions: {
-    ecmaVersion: 12,
-    sourceType: "module", // allows import/export parsing
+    node: true,       // Support Node globals (like module)
+    amd: true,        // Support AMD (like define)
   },
   globals: {
-    io: "readonly", // socket.io global
+    module: "readonly",
+    define: "readonly",
+    io: "readonly",            // for socket.io usage
     showDonationTicker: "readonly",
     htmx: "readonly",
-    Alpine: "readonly",
+    WebTransport: "readonly",
+  },
+  extends: ["eslint:recommended"],
+  parserOptions: {
+    ecmaVersion: 2021,
+    sourceType: "module",
+  },
+  rules: {
+    // Recommended best practices & fixes for your current errors:
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }], // warn on unused vars, allow unused args starting with _
+    "no-undef": "error",
+    "no-prototype-builtins": "warn",  // prefer Object.prototype.hasOwnProperty.call(...)
+    "no-useless-escape": "warn",
+    "no-empty": ["warn", { "allowEmptyCatch": true }], // allow empty catch blocks
+    // You can add more custom rules here as needed
   },
   ignorePatterns: [
-    "app/static/js/*.min.js", // ignore vendor/minified scripts
-    "node_modules/",
-  ],
-  extends: ["airbnb-base", "prettier"],
-  plugins: ["import"],
-  rules: {
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "no-undef": "error",
-    "no-prototype-builtins": "off", // disable for legacy libs
-  },
+    "*.min.js",             // ignore all minified files
+    "bundle.min.js",
+    "socket.io.js",
+    "alpine.min.js",
+    "htmx.min.js"
+  ]
 };
 

@@ -1,4 +1,3 @@
-{# ================== macros/sponsor_card.html ================== #}
 {% macro sponsor_card(sponsor, idx) %}
   {% set tier = sponsor.tier | default('default') %}
   {% set tier_styles = {
@@ -108,7 +107,6 @@
   </article>
 {% endmacro %}
 
-{# ================== Sponsor Spotlight Section ================== #}
 <section
   id="sponsor-spotlight"
   class="relative z-20 my-20 px-4 sm:px-8 max-w-6xl mx-auto"

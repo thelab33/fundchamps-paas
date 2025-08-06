@@ -1,7 +1,4 @@
 import os
-"""Centralized config loader for Starforge SaaS."""
-
-# Try importing specific config classes
 from app.config.config import DevelopmentConfig, ProductionConfig
 
 # Optional: add TestingConfig, StagingConfig, etc., as needed
@@ -36,7 +33,7 @@ if TestingConfig:
 # Always include TEAM_CONFIG in the config dictionary
 CONFIGS["team_config"] = TEAM_CONFIG
 
-def get_config(env: str = None):
+def get_config(env: str = None) -> object:
     """
     Returns the config class based on environment variable or argument.
     Defaults to 'development' if not specified or unknown.
