@@ -23,8 +23,7 @@
   id="hero"
   aria-labelledby="hero-heading"
   tabindex="-1"
-  itemscope
-  itemtype="https://schema.org/SportsTeam"
+  itemscope itemtype="https://schema.org/SportsTeam"
   class="relative w-screen max-w-none left-1/2 -translate-x-1/2 flex flex-col items-center justify-center
          min-h-[98vh] md:min-h-screen overflow-hidden py-36 px-6 sm:px-12
          bg-gradient-to-br from-blue-900 via-indigo-950 to-blue-800
@@ -32,9 +31,9 @@
   style="margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);"
 >
 
-  <!-- Background Image -->
+  <!-- Background Image with Fallback -->
   <img
-    src="{{ hero_img if '://' in hero_img else url_for('static', filename=hero_img) }}"
+    src="{{ url_for('static', filename=(hero_img if hero_img and '://' not in hero_img else 'images/' ~ hero_img)) }}"
     alt="{{ team_name }} team photo"
     loading="eager"
     decoding="async"
@@ -42,7 +41,7 @@
     class="absolute inset-0 w-full h-full object-cover opacity-80 scale-110 animate-kenburns -z-10 pointer-events-none select-none
            shadow-[0_0_30px_rgba(251,191,36,0.7)] transition-transform duration-300 will-change-transform hover:scale-105"
     style="min-height: 520px; max-height: 100vh;"
-    onerror="this.onerror=null;this.src='{{ fallback_img }}';"
+    onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/connect-atx.jpg') }}';"
     itemprop="image"
   />
 

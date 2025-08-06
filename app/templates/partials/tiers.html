@@ -27,31 +27,26 @@
     aria-label="Sponsorship tiers"
   >
     {% for tier in tiers %}
-      {% set is_premium = tier.title in ['Gold','Platinum'] %}
-      {% set delay = 120 + (loop.index0 * 90) %}
+      {% set is_premium = tier.title in ['Gold', 'Platinum'] %}
       <article
         tabindex="0"
-        role="button"
-        aria-pressed="false"
-        aria-labelledby="tier-{{ loop.index }}-title"
-        aria-describedby="tier-{{ loop.index }}-benefits"
-        class="flip-card group relative outline-none cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-gold-glow focus-visible:shadow-gold-glow"
+        class="flip-card group relative outline-none cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-gold-glow focus-visible:shadow-gold-glow"
         data-aos="fade-up"
-        data-aos-delay="{{ delay }}"
-        onkeydown="if(event.key==='Enter' || event.key===' ') {
-          event.preventDefault();
-          this.classList.toggle('card-flipped');
-          this.setAttribute('aria-pressed', this.classList.contains('card-flipped'));
-        }"
-        onclick="this.classList.toggle('card-flipped'); this.setAttribute('aria-pressed', this.classList.contains('card-flipped'));"
+        style="--aos-delay: {{ 120 + (loop.index0 * 90) }}ms;"
+        aria-label="Toggle details for {{ tier.title }} sponsorship tier"
       >
         <div
-          class="flip-card-inner card-glow rounded-2xl p-[1.5px] transition-transform duration-300
-            {{ 'premium hover:scale-[1.04] hover:shadow-2xl' if is_premium else 'standard' }}"
+          class="flip-card-inner card-glow rounded-2xl p-[1.5px] transition-transform duration-700
+          {% if is_premium %}
+            premium hover:scale-[1.04] hover:shadow-2xl
+          {% else %}
+            standard
+          {% endif %}
+          "
         >
           <!-- Front -->
           <div
-            class="flip-card-front rounded-2xl bg-zinc-900/90 ring-1 ring-white/5 overflow-hidden shadow-2xl group-hover:card-flipped transition-transform duration-300"
+            class="flip-card-front rounded-2xl bg-zinc-900/90 ring-1 ring-white/5 overflow-hidden shadow-2xl group-hover:card-flipped transition-transform duration-700"
           >
             <div class="relative flex items-center gap-3 px-6 pt-6">
               <div
@@ -123,12 +118,12 @@
 
               <div class="mt-6">
                 <button
+                  type="button"
                   class="tier-cta inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-base font-extrabold text-black hover:bg-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 active:scale-[0.98] transition animate-pulse-slow hover:shadow-gold-glow focus-visible:shadow-gold-glow"
                   data-tier-cta
                   data-amount="{{ (tier.amount|string).lower() == 'custom' and '' or (tier.amount|string).replace('+','').replace(',','') }}"
-                  aria-label="Sponsor the {{ tier.title }} tier{% if (tier.amount|string).lower() != 'custom' %} for ${{ tier.amount }}{% endif %}"
-                  type="button"
                   aria-describedby="tier-{{ loop.index }}-benefits"
+                  aria-label="Sponsor the {{ tier.title }} tier{% if (tier.amount|string).lower() != 'custom' %} for ${{ tier.amount }}{% endif %}"
                 >
                   Sponsor {{ tier.title }}
                   <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
@@ -157,8 +152,8 @@
               {{ tier.fomo or "Sponsor now for max impact!" }}
             </p>
             <button
-              class="tier-cta inline-flex items-center justify-center gap-2 rounded-xl bg-black/85 px-5 py-3 text-base font-extrabold text-amber-300 hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-black active:scale-[0.98] transition hover:shadow-gold-glow focus-visible:shadow-gold-glow"
               type="button"
+              class="tier-cta inline-flex items-center justify-center gap-2 rounded-xl bg-black/85 px-5 py-3 text-base font-extrabold text-amber-300 hover:bg-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-black active:scale-[0.98] transition hover:shadow-gold-glow focus-visible:shadow-gold-glow"
               data-tier-cta
               aria-label="Sponsor the {{ tier.title }} tier now"
             >
@@ -208,99 +203,4 @@
     <p><strong>How do I sponsor?</strong> Click a tier button or email us.</p>
   </div>
 </section>
-
-<style>
-  /* Flip card container & perspective */
-  .flip-card {
-    perspective: 1600px;
-    outline: none;
-    min-height: 400px;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-  /* Flip card inner wrapper */
-  .flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 370px;
-    transform-style: preserve-3d;
-    transition: transform 0.7s cubic-bezier(0.4, 1.6, 0.6, 1);
-  }
-  /* Flip toggle states */
-  .flip-card:focus-visible .flip-card-inner,
-  .flip-card:hover .flip-card-inner,
-  .flip-card.card-flipped .flip-card-inner,
-  .flip-card.group-hover\:card-flipped:hover .flip-card-inner {
-    transform: rotateY(180deg);
-  }
-  /* Front and back faces */
-  .flip-card-front,
-  .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    backface-visibility: hidden;
-    border-radius: 1rem;
-    overflow: hidden;
-    z-index: 1;
-  }
-  .flip-card-back {
-    transform: rotateY(180deg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .flip-card-inner {
-      transition: none !important;
-    }
-  }
-  .animate-shimmer {
-    animation: shimmer 1.6s ease-in-out infinite alternate;
-  }
-  @keyframes shimmer {
-    0% { opacity: 0.65; }
-    100% { opacity: 1; }
-  }
-  .animate-pulse-slow {
-    animation: pulse-glow 2.2s ease-in-out infinite alternate;
-  }
-  @keyframes pulse-glow {
-    0% {
-      box-shadow: 0 0 12px rgb(250 204 21 / 50%);
-    }
-    100% {
-      box-shadow: 0 0 24px rgb(250 204 21 / 85%);
-    }
-  }
-</style>
-
-<script>
-  // FAQ toggle logic with accessible ARIA states
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('tiers-faq-toggle');
-    const faqBody = document.getElementById('tiers-faq-body');
-    const faqIcon = document.getElementById('tiers-faq-icon');
-
-    if (toggleBtn && faqBody && faqIcon) {
-      toggleBtn.addEventListener('click', () => {
-        const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-        toggleBtn.setAttribute('aria-expanded', !expanded);
-        faqBody.hidden = expanded;
-        faqIcon.style.transform = expanded ? 'rotate(0deg)' : 'rotate(90deg)';
-      });
-    }
-  });
-
-  // Init AOS animation (make sure AOS library is loaded globally)
-  document.addEventListener('DOMContentLoaded', () => {
-    if (window.AOS) {
-      AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
-    }
-  });
-</script>
 

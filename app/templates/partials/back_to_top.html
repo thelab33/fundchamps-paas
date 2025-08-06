@@ -1,4 +1,10 @@
-<- SQLALCHEMY_DATABASE_URI = os.getenv(DATABASE_URL)
-+SQLALCHEMY_DATABASE_URI = (
-+    os.getenv(DATABASE_URL)
-+    or fsqlite:///{BASE_DIR}/app/data/app.db   # unstoppable fallback TODO: back_to_top partial -->
+<!-- back_to_top.html partial -->
+<button 
+  id="back-to-top" 
+  class="fixed bottom-4 right-4 p-3 bg-yellow-400 text-white rounded-full shadow-md focus:outline-none"
+  onclick="window.scrollTo({top: 0, behavior: 'smooth'});"
+  aria-label="Scroll to top"
+>
+  ↑
+</button>
+

@@ -10,7 +10,7 @@
    Animated, responsive, accessible fundraising progress bar
 =========================================================================== #}
 {% macro progress_meter(raised, goal, size="md") -%}
-  {# compute percent, clamp 0..100 #}
+  {# Compute percentage, clamp to 0..100 #}
   {%- set _goal = (goal|float) if goal else 0.0 -%}
   {%- set _raised = (raised|float) if raised else 0.0 -%}
   {%- set _pct = (0.0 if _goal == 0.0 else (_raised / _goal * 100.0)) -%}
@@ -69,9 +69,7 @@
    BUTTON
    Multi-color, multi-size, accessible, optional spinner & icon
 =========================================================================== #}
-{% macro render_button(label, href="#", color="primary", size="md",
-                       icon=None, loading=False, external=False,
-                       aria_label=None, extra_classes="") -%}
+{% macro render_button(label, href="#", color="primary", size="md", icon=None, loading=False, external=False, aria_label=None, extra_classes="", type="button") -%}
   {%- set COLORS = {
     "primary":   {"bg":"bg-yellow-400 hover:bg-yellow-300 text-zinc-900", "text":"text-yellow-400"},
     "secondary": {"bg":"bg-zinc-800 hover:bg-zinc-700 text-yellow-300",  "text":"text-yellow-300"},
@@ -83,6 +81,20 @@
     "md": "px-4 py-2 text-sm",
     "lg": "px-5 py-2.5 text-base"
   } -%}
+
+  {# Default fallback for any empty values #}
+  {%- set label = label or 'Click Here' %}
+  {%- set href = href or '#' %}
+  {%- set icon = icon or '' %}
+
+  {# Error handling for potential empty or malformed URL #}
+  {% if not href.startswith('http') %}
+    {% if href == "#" %}
+      {% set href = "javascript:void(0);" %}
+    {% else %}
+      {% set href = "#" %}
+    {% endif %}
+  {% endif %}
 
   <a
     href="{{ href }}"
@@ -96,6 +108,7 @@
            {% if loading %}opacity-60 pointer-events-none{% endif %}"
     {% if external %}target="_blank" rel="noopener noreferrer"{% endif %}
     {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+    type="{{ type }}"  <!-- Handle the type argument here -->
   >
     {% if icon %}
       <span class="mr-2 inline-flex items-center" aria-hidden="true">

@@ -1,66 +1,60 @@
-{# =================== Sponsor Wall Partial =================== #}
+<!-- Sponsor Wall Floating Widget Container -->
 <section
-  id="sponsor-wall"
-  class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 relative z-10 py-20 px-4 sm:px-8 max-w-7xl mx-auto"
-  role="region"
-  aria-labelledby="sponsor-wall-heading"
+  id="sponsor-wall-widget"
+  class="fixed bottom-8 right-8 z-50 max-w-md w-full max-h-[80vh] rounded-3xl bg-zinc-900/95 shadow-2xl ring-2 ring-yellow-400 ring-opacity-60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="sponsor-wall-title"
+  aria-describedby="sponsor-wall-desc"
   tabindex="-1"
+  aria-hidden="true"
 >
-  <!-- Headline & Impact Stats -->
-  <div class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mb-12 flex flex-col items-center gap-2 text-center">
+  <!-- Header -->
+  <header class="flex items-center justify-between px-6 py-4 border-b border-yellow-400/30">
     <h2
-      id="sponsor-wall-heading"
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-2xl animate-shine"
+      id="sponsor-wall-title"
+      class="text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 bg-clip-text text-transparent drop-shadow-lg"
     >
       🙌 Meet Our Champions
     </h2>
-    <p class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-lg mt-1 text-yellow-300 font-semibold">
-      {{ sponsors_sorted|length or 0 }} incredible supporters &mdash; ${{ sponsors_total|int|comma|default(0) }} raised for our youth!
-    </p>
-    <p class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 max-w-2xl mt-2 text-zinc-400">
-      Every sponsor fuels tournaments, gym time, and brighter futures. Interested?  
-      <a href="#" class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-yellow-400 font-bold underline underline-offset-2 hover:text-yellow-200 transition" onclick="openSponsorModal()">Become a sponsor</a>
-    </p>
+    <button
+      id="sponsor-wall-close"
+      aria-label="Close sponsor wall"
+      class="text-yellow-400 hover:text-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded"
+    >
+      ✕
+    </button>
+  </header>
+
+  <!-- Description / Impact -->
+  <div
+    id="sponsor-wall-desc"
+    class="px-6 py-3 text-yellow-300 font-semibold text-sm sm:text-base border-b border-yellow-400/20"
+  >
+    {{ sponsors_sorted|length or 0 }} incredible supporters &mdash;
+    ${{ sponsors_total|int|comma|default(0) }} raised for our youth!
   </div>
 
-  <!-- 🏆 Platinum+ Sponsors Row -->
-  {% set platinum_sponsors = sponsors_sorted | selectattr('tier', 'equalto', 'Platinum') | list %}
-  {% if platinum_sponsors %}
-    <div
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mb-10 flex flex-wrap items-center justify-center gap-7"
-      aria-label="Platinum Sponsors"
-    >
-      {% for sponsor in platinum_sponsors %}
-        {{ sponsor_card(sponsor, 'platinum-' ~ loop.index) }}
-      {% endfor %}
-    </div>
-  {% endif %}
-
-  <!-- 🥇 All Sponsors Responsive Grid (with tier styling) -->
-  <div
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-    role="list"
-    aria-label="Sponsor Wall"
-  >
+  <!-- Sponsor Grid Scrollable Content -->
+  <div class="p-6 overflow-y-auto max-h-[calc(80vh-140px)] grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     {% for sponsor in sponsors_sorted %}
       {{ sponsor_card(sponsor, loop.index) }}
     {% endfor %}
-
-    {# If you want to show "empty" slots, keep a few placeholders for FOMO #}
     {% set slots = (12 - sponsors_sorted|length) if sponsors_sorted|length < 12 else 0 %}
     {% for _ in range(slots) %}
       <div
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 flex flex-col items-center justify-center h-full min-h-[260px] rounded-3xl -2 -dashed  bg-zinc-900/60 text-yellow-300/70 shadow-inner p-6"
+        class="flex flex-col items-center justify-center min-h-[260px] rounded-3xl bg-zinc-800/60 text-yellow-300/70 shadow-inner p-6 border border-yellow-400/40 border-dashed"
         role="listitem"
         aria-label="Available sponsorship spot"
         tabindex="0"
       >
-        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-3xl mb-3 animate-pulse" aria-hidden="true">✨</span>
-        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-center font-bold mb-1">Your Logo Here</span>
-        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-xs text-zinc-400 mb-3">Limited premium slots left!</span>
+        <span class="text-4xl mb-3" aria-hidden="true">✨</span>
+        <span class="text-center font-bold mb-1">Your Logo Here</span>
+        <span class="text-xs text-zinc-400 mb-4">Limited premium slots left!</span>
         <button
+          type="button"
           onclick="openSponsorModal()"
-          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 rounded-full bg-yellow-400 px-6 py-2 font-extrabold text-black shadow-lg transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:"
+          class="rounded-full bg-yellow-400 px-6 py-2 font-extrabold text-black shadow-lg transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           aria-label="Become a Sponsor"
         >
           🌟 Become a Sponsor
@@ -69,45 +63,114 @@
     {% endfor %}
   </div>
 
-  <!-- Ribbon: All sponsor logos (FOMO strip) -->
-  <div
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-14 flex flex-wrap justify-center gap-5"
-    aria-label="All sponsor logos"
-  >
-    {% for sponsor in sponsors_sorted[:18] %}
-      {% set logo_src = (
-        sponsor.logo if sponsor.logo and sponsor.logo.startswith('http') else
-        (url_for('static', filename='images/sponsors/' ~ sponsor.logo) if sponsor.logo else url_for('static', filename='images/logo.webp'))
-      ) %}
-      <img
-        src="{{ logo_src }}"
-        alt="{{ sponsor.name or 'Sponsor' }} logo"
-        title="{{ sponsor.name or 'Sponsor' }}"
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 h-12 w-12 rounded-full -2  bg-white object-cover shadow-inner grayscale transition duration-300 hover:grayscale-0"
-        loading="lazy"
-        decoding="async"
-      />
-    {% endfor %}
-    <span
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-4 flex items-center rounded-full   bg-zinc-800 px-4 py-1 text-xs font-bold text-yellow-200 shadow"
-    >+ Add Your Brand</span>
-  </div>
-
-  <!-- Micro-fomo CTA bar, mobile sticky (optional) -->
-  <div
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-2 bg-yellow-400/95 px-6 py-2 shadow-xl -t 
-    md:hidden"
-    role="status"
-    aria-live="polite"
-  >
-    <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-zinc-900 font-bold text-sm">
-      Sponsor slots filling fast!
-    </span>
+  <!-- Footer CTA -->
+  <footer class="px-6 py-4 border-t border-yellow-400/20 text-center">
     <button
+      type="button"
       onclick="openSponsorModal()"
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 rounded-full bg-zinc-900 px-4 py-1.5 text-yellow-300 font-bold shadow-md hover:bg-yellow-800 transition"
+      class="inline-block rounded-full bg-yellow-400 px-8 py-3 font-extrabold text-black shadow-lg transition hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 active:scale-[0.97]"
       aria-label="Become a Sponsor"
-    >Become a Sponsor</button>
-  </div>
+    >
+      Become a Sponsor
+    </button>
+  </footer>
 </section>
+
+<!-- Sponsor Wall Toggle Button -->
+<button
+  id="sponsor-wall-toggle"
+  aria-expanded="false"
+  aria-controls="sponsor-wall-widget"
+  aria-label="Open Sponsor Wall"
+  class="fixed bottom-8 right-8 z-50 rounded-full bg-yellow-400 shadow-lg p-4 text-black font-extrabold hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition transform active:scale-95"
+>
+  🙌 Sponsors
+</button>
+
+<style>
+  /* Fade in/out Sponsor Wall */
+  #sponsor-wall-widget[aria-hidden="false"] {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Scrollbar styling for sponsor grid */
+  #sponsor-wall-widget div[style*="overflow-y:auto"]::-webkit-scrollbar {
+    width: 8px;
+  }
+  #sponsor-wall-widget div[style*="overflow-y:auto"]::-webkit-scrollbar-thumb {
+    background-color: rgba(250, 204, 21, 0.5);
+    border-radius: 4px;
+  }
+  
+  /* Reduce motion for users with preference set */
+  @media (prefers-reduced-motion: reduce) {
+    #sponsor-wall-widget,
+    #sponsor-wall-toggle {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const toggleBtn = document.getElementById('sponsor-wall-toggle');
+    const widget = document.getElementById('sponsor-wall-widget');
+    const closeBtn = document.getElementById('sponsor-wall-close');
+
+    function openWidget() {
+      widget.setAttribute('aria-hidden', 'false');
+      widget.focus();
+      toggleBtn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeWidget() {
+      widget.setAttribute('aria-hidden', 'true');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.focus();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = widget.getAttribute('aria-hidden') === 'false';
+      if (isOpen) closeWidget();
+      else openWidget();
+    });
+
+    closeBtn.addEventListener('click', closeWidget);
+
+    // Close on ESC
+    widget.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeWidget();
+      }
+    });
+
+    // Focus trap inside widget
+    widget.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        const focusableElements = widget.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    });
+
+    // Expose openSponsorModal to global if needed
+    window.openSponsorModal = openWidget;
+  })();
+</script>
 

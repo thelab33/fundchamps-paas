@@ -1,18 +1,37 @@
-<!DOCTYPE html>
-
 {# macros/confetti.html #}
-{% macro launch_confetti(sound="yes") %}
+{% macro launch_confetti(sound="yes", particle_count=120, spread=80, duration=3, audio_file="cheer.mp3") %}
 <script>
   window.launchConfetti = function() {
-    // Confetti.js (canvas-confetti) integration
-    if (window.confetti) confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-    // Play sound if available and allowed
+    // Confetti.js (canvas-confetti) integration with customizable options
+    if (window.confetti) {
+      confetti({
+        particleCount: {{ particle_count }},
+        spread: {{ spread }},
+        origin: { y: 0.6 },
+        angle: 90,  // You can change the angle of spread
+        scalar: 1.2,  // Scaling factor for the size of confetti pieces
+        colors: ['#FBBF24', '#FACC15', '#FFD700', '#FFC107', '#FFEB3B'],  // Customizable confetti colors
+      });
+    }
+
+    // Play sound if enabled and available
     {% if sound == "yes" %}
     try {
-      let audio = new Audio("{{ url_for('static', filename='audio/cheer.mp3') }}");
-      audio.volume = 0.5; audio.play();
-    } catch(e) {}
+      let audio = new Audio("{{ url_for('static', filename='audio/' ~ audio_file) }}");
+      audio.volume = 0.5; // Adjust volume as needed
+      audio.play();
+    } catch(e) {
+      console.error("Error playing audio:", e);
+    }
     {% endif %}
+
+    // Optionally, stop the confetti after the given duration
+    setTimeout(function() {
+      if (window.confetti) {
+        window.confetti.reset();
+      }
+    }, {{ duration }} * 1000); // Duration is in seconds
   };
 </script>
 {% endmacro %}
+

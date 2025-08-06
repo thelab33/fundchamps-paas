@@ -1,246 +1,147 @@
-{% from "macros/ui.html" import render_button, progress_meter %}
+{% from "macros/ui.html" import render_button %}
+{% from "macros/progress.html" import progress_meter %}
+{% from "macros/confetti.html" import launch_confetti %}
 
 <header
   id="site-header"
+  class="sticky top-0 z-50 bg-black/90 backdrop-blur-xl shadow-2xl border-b border-yellow-400/20 transition-all duration-300"
   x-data="{ mobileOpen: false }"
   @keydown.window.escape="mobileOpen = false"
-  class="sticky top-0 left-0 right-0 z-50 w-full bg-black/90 backdrop-blur shadow-xl transition-shadow duration-300"
   itemscope itemtype="https://schema.org/Organization" itemprop="brand"
-  style="backdrop-filter: blur(9px);"
 >
 
-  {# --- Announcement Bar (optional) --- #}
+  <!-- Announcement Bar -->
   {% if announcement and announcement.visible %}
   <div
     id="announcement-bar"
-    class="flex items-center justify-center gap-2 text-xs md:text-sm font-semibold py-1 px-4 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-100 text-black shadow-inner select-none"
-    style="min-height: 36px"
+    class="flex justify-center items-center gap-2 py-2 px-4 text-sm font-semibold bg-gradient-to-r from-yellow-500 to-yellow-100 text-black shadow-inner"
     hx-get="{{ url_for('main.announcement_partial') }}"
-    hx-trigger="every 5m"
-    hx-swap="outerHTML"
-    aria-live="polite"
-    aria-atomic="true"
+    hx-trigger="every 5m" hx-swap="outerHTML"
+    aria-live="polite" aria-atomic="true"
   >
     <span>{{ announcement.message|safe }}</span>
     {% if announcement.cta and announcement.cta_url %}
     <a
       href="{{ announcement.cta_url }}"
-      class="underline font-bold hover:no-underline focus-visible:ring-2 ring-black rounded px-1"
+      class="underline font-bold hover:no-underline focus-visible:ring-2 ring-black rounded"
       target="_blank" rel="noopener noreferrer"
     >{{ announcement.cta }}</a>
     {% endif %}
     <button
-      type="button"
-      aria-label="Dismiss announcement"
-      class="ml-2 text-lg leading-none hover:text-red-600 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 rounded"
       @click="$el.parentElement.remove()"
-      style="font-size: 1.25rem"
+      aria-label="Close Announcement"
+      class="ml-2 hover:text-red-600 transition"
     >×</button>
   </div>
   {% endif %}
 
-  {# --- Optional Fundraising Countdown --- #}
+  <!-- Countdown Bar (Fundraising Deadline) -->
   {% if fundraising_deadline %}
-  <div
-    class="w-full bg-yellow-900/95 py-1 text-center text-xs text-yellow-200 tracking-wide font-semibold animate-fade-in select-none"
-    role="region" aria-live="polite" aria-atomic="true"
-  >
-    ⏰
-    <span
-      class="font-bold"
-      id="header-countdown"
-      data-deadline="{{ fundraising_deadline.isoformat() if fundraising_deadline.__class__.__name__ in ('datetime', 'date') else fundraising_deadline }}"
-    >
-      {{ fundraising_deadline }}
-    </span>
-    left to reach our goal!
+  <div class="text-xs font-semibold bg-yellow-800 text-yellow-100 py-1 text-center animate-pulse">
+    ⏰ <span id="header-countdown">{{ fundraising_deadline|countdown }}</span> left—help us reach our goal!
   </div>
   {% endif %}
 
-  {# --- Sponsor Marquee (optional) --- #}
+  <!-- Sponsor Marquee -->
   {% include "partials/header_sponsor_ticker.html" ignore missing %}
 
-  {# --- Main nav row --- #}
-  <div class="mx-auto flex items-center justify-between max-w-7xl px-4 py-3 md:px-6 space-x-4">
+  <!-- Main Nav & Branding -->
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-3">
 
-    {# Branding #}
-    {% set logo_src = (team.logo if team and team.logo else url_for('static', filename='images/logo.webp')) %}
+    <!-- Logo and Team Name -->
     <a
       href="{{ url_for('main.home') }}"
-      class="group flex items-center gap-2 focus-visible:ring-2 ring-yellow-300 rounded-lg shrink-0"
       itemprop="url"
-      aria-label="Go to homepage"
+      class="flex items-center gap-3 group"
     >
       <img
-        src="{{ logo_src }}"
-        alt="{{ (team.team_name if team and team.team_name else 'Connect ATX Elite') ~ ' logo' }}"
-        class="h-10 w-10 md:h-11 md:w-11 rounded-full ring-2 ring-yellow-300 shadow-md bg-white transition-transform group-hover:scale-110"
-        loading="eager" decoding="async" onerror="this.onerror=null;this.src='/static/images/logo.webp';"
-        itemprop="logo"
+        src="{{ team.logo or url_for('static', filename='images/logo.webp') }}"
+        alt="{{ team.team_name or 'Connect ATX Elite' }} logo"
+        class="h-11 w-11 rounded-full ring-2 ring-yellow-300 shadow-lg transition group-hover:scale-105 bg-white"
       />
-      <span
-        class="text-xl md:text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-50 bg-clip-text text-transparent drop-shadow"
-        itemprop="name"
-      >
-        {{ team.team_name if team and team.team_name else 'Connect ATX Elite' }}
+      <span class="text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-50 bg-clip-text text-transparent">
+        {{ team.team_name or 'Connect ATX Elite' }}
       </span>
     </a>
 
-    {# Navigation Links #}
-    {% set _links = nav_links if nav_links is defined and nav_links else [
-      ('mission', 'Mission'),
-      ('tiers', 'Sponsorship Tiers'),
-      ('sponsor-wall', 'Sponsors'),
-      ('program-stats-calendar', 'Schedule'),
-      ('about', 'About'),
-      ('digital-hub', 'Media')
-    ] %}
-    <nav
-      class="hidden lg:flex items-center gap-8 font-semibold text-zinc-100 ml-6"
-      aria-label="Primary navigation"
-    >
-      {% for id, label in (_links.items() if _links.__class__.__name__ == 'dict' else _links) %}
+    <!-- Desktop Nav + Fundraising Meter + CTAs -->
+    <nav class="hidden lg:flex items-center gap-6 text-zinc-200 font-semibold">
+
+      {% for id, label in [('mission','Mission'),('tiers','Sponsorship Tiers'),('program-stats-calendar','Schedule')] %}
       <a
         href="#{{ id }}"
-        class="relative px-2 py-1 transition hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 rounded group"
+        class="relative px-2 py-1 hover:text-yellow-300 transition group"
       >
         {{ label }}
-        <span
-          class="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-yellow-300 transition-transform group-hover:scale-x-100"
-          aria-hidden="true"
-        ></span>
+        <span class="absolute bottom-0 left-0 h-0.5 w-full bg-yellow-300 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
       </a>
       {% endfor %}
 
-      {% set _raised = (funds_raised if funds_raised is defined and funds_raised is not none else 0) %}
-      {% set _goal = (fundraising_goal if fundraising_goal is defined and fundraising_goal is not none else 0) %}
-      {% if _goal > 0 %}
-      <div class="flex items-center ml-4 min-w-[200px]">
-        <div class="flex items-baseline gap-2 px-4 py-1 rounded-lg bg-zinc-900/80 shadow-gold-glow select-none">
-          <span class="text-lg font-extrabold text-yellow-400 drop-shadow-sm" aria-label="Funds raised">
-            ${{ '{:,}'.format((_raised|int) if _raised else 0) }}
+      <!-- Fundraising Meter -->
+      {% set raised = funds_raised|default(0)|int %}
+      {% set goal = fundraising_goal|default(0)|int %}
+      {% if goal > 0 %}
+      <div class="flex flex-col items-start ml-4">
+        <div class="flex items-baseline gap-2">
+          <span class="text-yellow-400 font-extrabold text-lg">
+            ${{ raised|comma }}
           </span>
-          <span class="text-xs text-yellow-100 font-bold" aria-label="Out of goal">
-            / ${{ '{:,}'.format((_goal|int) if _goal else 0) }}
+          <span class="text-yellow-100 text-xs">
+            / ${{ goal|comma }}
           </span>
-          {% set _pct = ((_raised / _goal * 100) if _goal else 0) %}
-          <span class="ml-2 text-[11px] font-black text-yellow-300 tracking-tight" aria-label="Percentage raised">
-            ({{ '%.1f' % _pct }}%)
+          <span class="ml-1 text-yellow-300 text-xs font-black">
+            ({{ ((raised/goal*100)|round(1)) }}%)
           </span>
+        </div>
+        <div class="w-40 mt-1 h-2 bg-zinc-700 rounded-full overflow-hidden">
+          <div
+            class="h-full bg-gradient-to-r from-yellow-500 to-yellow-300"
+            style="width: {{ (raised/goal*100)|round(1) }}%;"
+          ></div>
         </div>
       </div>
       {% endif %}
 
-      {{ render_button('💸 Donate', '#donate', color='primary', extra_classes='ml-3') }}
-      {{ render_button('🌟 Sponsor', '#tiers', color='primary', extra_classes='ml-3 bg-gold-gradient text-black hover:opacity-90', aria_label='Sponsor Connect ATX Elite') }}
-      {{ render_button('🏆 VIP Sponsor', '#tiers', color='secondary', extra_classes='ml-3 animate-pulse shadow-gold-glow', aria_label='Become a VIP Sponsor') }}
+      <!-- Action Buttons -->
+      {{ render_button('💸 Donate', '#donate', extra_classes='ml-4') }}
+      {{ render_button('🌟 Sponsor', '#tiers', extra_classes='ml-2 bg-gradient-to-r from-yellow-400 to-yellow-200 text-black hover:opacity-90') }}
+      {{ render_button('🏆 VIP Sponsor', '#tiers', extra_classes='ml-2 animate-pulse shadow-lg') }}
     </nav>
 
-    {# User Menu for logged in desktop #}
-    {% if current_user and current_user.is_authenticated %}
-    <div class="hidden md:flex items-center ml-6 relative group">
-      <button
-        type="button"
-        id="user-menu-button"
-        class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 text-zinc-900 font-medium shadow select-none focus-visible:ring-2 ring-yellow-400"
-        aria-haspopup="true"
-        aria-expanded="false"
-        aria-controls="user-menu"
-      >
-        <span>Hi, {{ (current_user.name or '').split()[0] or 'Friend' }}</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
-        </svg>
-      </button>
-      <div
-        id="user-menu"
-        role="menu"
-        aria-labelledby="user-menu-button"
-        class="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition duration-200 z-50"
-      >
-        <a href="/dashboard" class="block px-4 py-2 hover:bg-yellow-50" role="menuitem" tabindex="-1">Dashboard</a>
-        <a href="/my-donations" class="block px-4 py-2 hover:bg-yellow-50" role="menuitem" tabindex="-1">My Donations</a>
-        <a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-yellow-100" role="menuitem" tabindex="-1">Log out</a>
-      </div>
-    </div>
-    {% endif %}
-
-    {# Hamburger Menu (Mobile) #}
+    <!-- Mobile Menu Toggle -->
     <button
-      x-cloak
-      aria-label="Toggle navigation"
-      class="lg:hidden p-2 rounded-lg hover:bg-yellow-300/10 focus-visible:ring-2 ring-yellow-300"
+      class="lg:hidden p-2 text-yellow-300"
+      aria-label="Menu"
       @click="mobileOpen = !mobileOpen"
-      :aria-expanded="mobileOpen.toString()"
-      aria-controls="mobile-nav"
-      type="button"
     >
-      <svg
-        class="h-7 w-7 text-yellow-300"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
+      <svg class="w-7 h-7" stroke-width="2" fill="none" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </div>
 
-  {# Trust Bar (desktop only) #}
-  <div
-    class="hidden lg:block py-1 text-center text-xs italic text-yellow-200/80 select-none bg-gradient-to-r from-black/90 via-zinc-900/85 to-black/90"
-  >
-    🏅 Trusted by 500+ Families · 3.5 GPA · AAU Gold Certified · Austin, TX · Est. 2023
+  <!-- Trust Bar -->
+  <div class="hidden lg:block text-center py-1 text-xs italic text-yellow-200/80">
+    🏅 Trusted by 500+ Families · 3.5 GPA Avg · AAU Gold Certified · Austin, TX · Est. 2023
   </div>
 
-  {# Mobile Navigation Menu #}
-  <nav
-    x-cloak
-    x-show="mobileOpen"
-    x-transition.opacity
-    class="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-5 bg-black/95 backdrop-blur-lg px-4 sm:px-8 lg:hidden"
-    style="width: 100vw; max-width: 100vw"
-    aria-label="Mobile navigation"
-    @click.outside="mobileOpen = false"
-    @keydown.escape.window="mobileOpen = false"
-    id="mobile-nav"
-  >
-    <button
-      aria-label="Close navigation"
-      class="absolute top-6 right-6 text-4xl text-yellow-300 hover:text-red-500"
-      @click="mobileOpen = false"
-      type="button"
-    >×</button>
-    {% for id, label in (_links.items() if _links.__class__.__name__ == 'dict' else _links) %}
+  <!-- Mobile Nav Overlay -->
+  <nav x-show="mobileOpen" x-transition class="fixed inset-0 bg-black/95 backdrop-blur flex flex-col items-center justify-center gap-6 lg:hidden z-[60]">
+    <button @click="mobileOpen = false" aria-label="Close" class="absolute top-5 right-5 text-4xl text-yellow-300 hover:text-red-500">×</button>
+    {% for id, label in [('mission','Mission'),('tiers','Sponsorship Tiers'),('program-stats-calendar','Schedule')] %}
     <a
       href="#{{ id }}"
       @click="mobileOpen = false"
-      class="text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-transparent transition-transform hover:scale-110 py-2 px-4 rounded-lg"
+      class="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent hover:scale-105 transition"
     >{{ label }}</a>
     {% endfor %}
-    {{ render_button('🌟 Sponsor Now', '#tiers', size='lg', extra_classes='mt-6 bg-gold-gradient text-black hover:opacity-90', aria_label='Sponsor Connect ATX Elite') }}
-    {{ render_button('💸 Donate', '#donate', size='lg', color='primary', extra_classes='mt-3') }}
+    {{ render_button('🌟 Sponsor Now', '#tiers', size='lg', extra_classes='bg-gradient-to-r from-yellow-400 to-yellow-200 text-black') }}
+    {{ render_button('💸 Donate', '#donate', size='lg', extra_classes='mt-2') }}
   </nav>
 </header>
 
-<a
-  href="#donate"
-  class="fixed z-[9999] bottom-6 right-6 bg-yellow-400 text-black px-6 py-3 rounded-full shadow-lg font-bold text-lg lg:hidden focus-visible:ring-2 ring-yellow-400 animate-bounce"
-  aria-label="Quick Donate"
->
-  💸 Quick Donate
-</a>
+<!-- Quick Donate Button (Mobile Only) -->
+<a href="#donate" class="fixed bottom-6 right-6 bg-yellow-400 px-6 py-3 rounded-full shadow-2xl animate-bounce lg:hidden">💸 Quick Donate</a>
 
-{% if confetti_triggered %}
-<script defer>
-  (async () => {
-    try {
-      const confetti = (await import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm')).default;
-      confetti({ particleCount: 160, spread: 70, origin: { y: 0.7 } });
-    } catch (_) {}
-  })();
-</script>
-{% endif %}
+{% if confetti_triggered %}{{ launch_confetti() }}{% endif %}
 

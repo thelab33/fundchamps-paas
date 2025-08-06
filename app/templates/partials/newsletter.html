@@ -177,10 +177,8 @@
     const ball = document.getElementById('newsletter-ball');
     let lastFocus = null, debounceTimeout = null;
 
-    // Email validation helper
     const validEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    // Open modal
     function openModal() {
       lastFocus = document.activeElement;
       modal.classList.remove('hidden');
@@ -193,7 +191,6 @@
       window.dispatchEvent(new CustomEvent('newsletterModalViewed'));
     }
 
-    // Close modal
     function closeModal() {
       box.classList.remove('animate-popIn');
       box.classList.add('animate-popOut');
@@ -213,7 +210,6 @@
       }, 350);
     }
 
-    // Debounced validation
     emailInp.addEventListener('input', () => {
       clearTimeout(debounceTimeout);
       debounceTimeout = setTimeout(() => {
@@ -233,7 +229,6 @@
       }, 400);
     });
 
-    // One-shot modal show per session (unless opted out)
     if (!sessionStorage.getItem('newsletter_shown') && !sessionStorage.getItem('newsletter_optout')) {
       setTimeout(() => { openModal(); sessionStorage.setItem('newsletter_shown', '1'); }, 10000);
     }
@@ -248,7 +243,6 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     window.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
 
-    // Focus trap
     modal.addEventListener('keydown', e => {
       if (e.key !== 'Tab') return;
       const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -257,7 +251,6 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
 
-    // Ripple on submit
     form.querySelector('button[type="submit"]').addEventListener('click', e => {
       const btn = e.currentTarget;
       const ripple = document.createElement('span');
@@ -269,14 +262,12 @@
       setTimeout(() => ripple.remove(), 600);
     });
 
-    // Basketball SVG bounce
     ball.addEventListener('click', () => {
       ball.classList.add('bounce-temp');
       setTimeout(() => ball.classList.remove('bounce-temp'), 600);
     });
     ball.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ball.click(); } });
 
-    // Confetti
     function launchConfetti() {
       const confettiCount = 24;
       const colors = ['#FBBF24', '#FACC15', '#FFD700', '#FFC107', '#FFEB3B'];
@@ -299,7 +290,6 @@
       }
     }
 
-    // Form submit handler
     form.addEventListener('submit', e => {
       e.preventDefault();
       const email = emailInp.value.trim(), invite = friendInp.value.trim();
@@ -317,8 +307,7 @@
       form.querySelector('button[type="submit"]').classList.add('animate-bounce');
       setTimeout(() => form.querySelector('button[type="submit"]').classList.remove('animate-bounce'), 900);
 
-      // --- YOUR API GOES HERE ---
-      // fetch('/api/newsletter/subscribe', ...)
+      // API placeholder — replace with your backend call
       setTimeout(() => {
         thanksEl.classList.remove('hidden');
         launchConfetti();

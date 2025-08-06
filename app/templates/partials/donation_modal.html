@@ -1,4 +1,187 @@
-<- SQLALCHEMY_DATABASE_URI = os.getenv(DATABASE_URL)
-+SQLALCHEMY_DATABASE_URI = (
-+    os.getenv(DATABASE_URL)
-+    or fsqlite:///{BASE_DIR}/app/data/app.db   # unstoppable fallback TODO: donation_modal partial -->
+<!-- Donation Modal -->
+<div
+  id="donation-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
+  role="dialog"
+  aria-labelledby="donation-modal-title"
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <div
+    class="relative w-[90vw] sm:w-[450px] max-w-lg bg-zinc-900 text-yellow-100 rounded-3xl p-8 sm:p-10 shadow-xl ring-2 ring-amber-400/50 ring-offset-4 ring-offset-zinc-900"
+    role="document"
+  >
+    <!-- Close Button -->
+    <button
+      id="close-donation-modal"
+      class="absolute top-4 right-4 text-white bg-transparent hover:bg-zinc-800 rounded-full p-2"
+      aria-label="Close donation modal"
+    >
+      <span class="text-2xl">&times;</span>
+    </button>
+
+    <!-- Modal Title -->
+    <h2
+      id="donation-modal-title"
+      class="text-3xl sm:text-4xl font-bold text-center mb-6 text-yellow-300"
+      tabindex="0"
+    >
+      Support Our Mission
+    </h2>
+
+    <!-- Donation Form -->
+    <form
+      action="{{ url_for('donate') }}" 
+      method="POST"
+      id="donation-form"
+      class="space-y-6"
+    >
+      <div>
+        <label for="donation-amount" class="block text-lg font-medium text-yellow-200">
+          Choose Your Donation Amount
+        </label>
+        <input
+          type="number"
+          id="donation-amount"
+          name="amount"
+          required
+          placeholder="$100"
+          class="mt-2 w-full p-3 rounded-xl bg-zinc-800 text-yellow-100 placeholder-yellow-500 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          min="5"
+          max="10000"
+        />
+      </div>
+
+      <div class="flex justify-between gap-4">
+        <!-- Payment Methods -->
+        <div class="flex-1">
+          <label for="payment-method" class="block text-lg font-medium text-yellow-200">
+            Payment Method
+          </label>
+          <select
+            id="payment-method"
+            name="payment_method"
+            required
+            class="mt-2 w-full p-3 rounded-xl bg-zinc-800 text-yellow-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          >
+            <option value="stripe">Stripe</option>
+            <option value="paypal">PayPal</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Payment Form based on selected method -->
+      <div id="stripe-form" class="payment-form">
+        <!-- Stripe Elements Form (injected with JS) -->
+        <div id="stripe-element"></div>
+      </div>
+
+      <div id="paypal-form" class="payment-form hidden">
+        <!-- PayPal Payment Integration (rendered via JS) -->
+        <div id="paypal-button-container"></div>
+      </div>
+
+      <!-- Donation Button -->
+      <div class="text-center">
+        <button
+          type="submit"
+          id="donate-button"
+          class="w-full py-3 px-8 text-xl font-bold bg-yellow-400 hover:bg-yellow-300 rounded-full transition-colors focus:outline-none focus:ring-4 focus:ring-yellow-500"
+        >
+          Donate Now
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Donation Modal JavaScript -->
+<script>
+  const modal = document.getElementById('donation-modal');
+  const closeModalBtn = document.getElementById('close-donation-modal');
+  const donationForm = document.getElementById('donation-form');
+  const donationAmountInput = document.getElementById('donation-amount');
+  const paymentMethodSelect = document.getElementById('payment-method');
+  const stripeForm = document.getElementById('stripe-form');
+  const paypalForm = document.getElementById('paypal-form');
+  
+  // Open Modal (you can trigger this with a button or event)
+  function openModal() {
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.classList.add('opacity-100', 'pointer-events-auto');
+  }
+
+  // Close Modal
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('opacity-100', 'pointer-events-auto');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+  });
+
+  // Switch Payment Method
+  paymentMethodSelect.addEventListener('change', (e) => {
+    const paymentMethod = e.target.value;
+
+    if (paymentMethod === 'stripe') {
+      stripeForm.classList.remove('hidden');
+      paypalForm.classList.add('hidden');
+    } else {
+      stripeForm.classList.add('hidden');
+      paypalForm.classList.remove('hidden');
+    }
+  });
+
+  // Example: Load Stripe Integration (or PayPal)
+  // Replace this with actual Stripe or PayPal setup for your use case.
+  // Stripe Integration Example
+  if (window.Stripe) {
+    const stripe = Stripe("your-publishable-key-here");
+    const elements = stripe.elements();
+    const style = {
+      base: {
+        color: "#fff",
+        fontFamily: '"Inter", sans-serif',
+        fontSize: "16px",
+      },
+    };
+    const card = elements.create("card", { style });
+    card.mount("#stripe-element");
+
+    donationForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      stripe
+        .createPaymentMethod({
+          type: "card",
+          card: card,
+        })
+        .then(function (result) {
+          if (result.error) {
+            alert(result.error.message);
+          } else {
+            // Handle the payment here (e.g., send to your server for processing)
+          }
+        });
+    });
+  }
+
+  // PayPal Integration Example
+  if (window.paypal) {
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: donationAmountInput.value
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Handle the successful donation
+        });
+      }
+    }).render('#paypal-button-container');
+  }
+</script>
+

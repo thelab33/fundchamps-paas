@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-    🚀 Starforge Flask SaaS Entrypoint
-    ----------------------------------
-    This script handles app creation, configuration, graceful shutdown, and real-time server launch.
-    Elite-polished for both production and local development environments.
+    🚀 Starforge Flask SaaS Entrypoint (2025 Ultra Edition)
+    -------------------------------------------------------
+    Next-gen Flask app launcher with modern DX, CI/CD logs, and cloud/local flexibility.
 """
 
 import os
@@ -11,32 +10,32 @@ import sys
 import signal
 import logging
 from dotenv import load_dotenv
-from app import create_app  # Ensure this import is correct
-from flask_socketio import SocketIO
+
+try:
+    from flask_socketio import SocketIO
+except ImportError:
+    SocketIO = None
+
+try:
+    import eventlet
+except ImportError:
+    eventlet = None
 
 # ──────────────────────────────────────────────
 # 🛑 Graceful Shutdown Handler
 # ──────────────────────────────────────────────
 def handle_shutdown(signum, frame):
-    """
-    Handles graceful shutdown when a termination signal is received.
-    Logs the shutdown process and exits cleanly.
-    """
     logging.info(f"🛑 Received shutdown signal ({signum}). Exiting gracefully...")
     sys.exit(0)
 
 # ──────────────────────────────────────────────
 # ⚙️ Config Class Path Resolver
 # ──────────────────────────────────────────────
-def get_config_path() -> str:
-    """
-    Resolves the configuration path based on environment variables.
-    Returns the appropriate config class for the current environment (development, testing, production).
-    """
+def get_config_path():
     flask_config = os.getenv("FLASK_CONFIG")
     if flask_config:
         return flask_config
-    
+
     env = os.getenv("FLASK_ENV", "production").lower()
     config_map = {
         "development": "app.config.DevelopmentConfig",
@@ -48,11 +47,7 @@ def get_config_path() -> str:
 # ──────────────────────────────────────────────
 # 📣 Structured Logging Setup
 # ──────────────────────────────────────────────
-def setup_logging(debug: bool):
-    """
-    Configures the logging setup. Sets the logging level based on the debug flag.
-    The log format includes timestamp, log level, and the message.
-    """
+def setup_logging(debug):
     logging.basicConfig(
         level=logging.DEBUG if debug else logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -62,24 +57,21 @@ def setup_logging(debug: bool):
 # 🚀 Main Entrypoint
 # ──────────────────────────────────────────────
 def main():
-    """
-    Main entrypoint for launching the Starforge Flask app.
-    This function sets up the environment, logging, and starts the application with SocketIO support.
-    """
-    load_dotenv()  # Load environment variables from .env file, great for SaaS onboarding
+    load_dotenv()
 
-    # Dynamically resolve the configuration path based on the environment
     config_path = get_config_path()
-    
-    # Set the debug flag and port/host settings from environment variables
     debug_flag = os.getenv("FLASK_DEBUG", "0").lower() in ("1", "true", "yes")
     port = int(os.getenv("PORT", 5000))
     host = os.getenv("HOST", "0.0.0.0")
+    reloader = debug_flag
 
-    # Set up logging based on the debug flag
     setup_logging(debug_flag)
+    signal.signal(signal.SIGINT, handle_shutdown)
+    signal.signal(signal.SIGTERM, handle_shutdown)
 
-    # Log important startup information (great for CI/CD & support)
+    # Import here so env vars are loaded
+    from app import create_app
+
     logging.info("=" * 60)
     logging.info("🚀 Launching Starforge Flask SaaS App")
     logging.info(f"🌎 ENV        = {os.getenv('FLASK_ENV', 'production')}")
@@ -87,34 +79,39 @@ def main():
     logging.info(f"🐞 Debug      = {debug_flag}")
     logging.info(f"🔌 Host:Port  = {host}:{port}")
     logging.info("=" * 60)
-
-    # Set up signal handlers for graceful shutdown
-    signal.signal(signal.SIGINT, handle_shutdown)
-    signal.signal(signal.SIGTERM, handle_shutdown)
+    # Pro: Print a clickable URL for local/dev
+    if host in ("127.0.0.1", "0.0.0.0", "localhost"):
+        url = f"http://127.0.0.1:{port}"
+        logging.info(f"💻 Local Dev URL: \033[1;34m{url}\033[0m")
+    sys.stdout.flush()
 
     try:
-        # Create the Flask app based on the resolved config path
         app = create_app(config_path)
-        
-        # Initialize SocketIO with the Flask app
-        socketio = SocketIO(app, async_mode='eventlet')
 
-        # Run the Flask-SocketIO application with Eventlet
-        socketio.run(
-            app,
-            host=host,
-            port=port,
-            debug=debug_flag,
-            use_reloader=debug_flag,  # Use the reloader in development mode
-        )
-
+        # --- SocketIO/WS support ---
+        if SocketIO:
+            async_mode = 'eventlet' if eventlet else 'threading'
+            socketio = SocketIO(app, async_mode=async_mode)
+            socketio.run(
+                app,
+                host=host,
+                port=port,
+                debug=debug_flag,
+                use_reloader=reloader,
+                allow_unsafe_werkzeug=True,  # Needed for newer Flask/SocketIO
+            )
+        else:
+            # Pure Flask fallback
+            app.run(
+                host=host,
+                port=port,
+                debug=debug_flag,
+                use_reloader=reloader,
+            )
     except Exception as e:
         logging.error(f"❌ Failed to start Starforge Flask app: {e}", exc_info=True)
         sys.exit(1)
 
-# ──────────────────────────────────────────────
-# Check if the script is being run directly
-# ──────────────────────────────────────────────
 if __name__ == "__main__":
     main()
 

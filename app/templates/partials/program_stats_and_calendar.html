@@ -1,6 +1,5 @@
 {# =================== Elite Program Stats + Events Calendar Partial =================== #}
 
-{# Defensive defaults #}
 {% set stats = stats if stats is defined and stats else [
     {'label': 'GPA Avg', 'value': 3.5},
     {'label': 'Student-Athletes', 'value': 22},
@@ -8,8 +7,8 @@
     {'label': 'Active Sponsors', 'value': 17}
 ] %}
 {% set events = events if events is defined and events else [
-    {'date': '2025-07-20', 'name': 'AAU Tournament', 'location': 'East Austin Gym', 'time': '10:00 AM', 'is_upcoming': True, 'opponent': 'All Stars', 'result': '', 'highlight': 'Opening tourney!', 'sponsor': None, 'type': 'Tournament'},
-    {'date': '2025-07-22', 'name': 'Team Practice', 'location': 'East Austin Gym', 'time': '5:00 PM', 'is_upcoming': False, 'opponent': 'Scrimmage', 'result': 'W', 'highlight': 'Strong win', 'sponsor': 'Austin Realty', 'type': 'Practice'}
+    {'date': '2025-07-20', 'name': 'AAU Tournament', 'location': 'East Austin Gym', 'time': '10:00 AM', 'is_upcoming': true, 'opponent': 'All Stars', 'result': '', 'highlight': 'Opening tourney!', 'sponsor': null, 'type': 'Tournament'},
+    {'date': '2025-07-22', 'name': 'Team Practice', 'location': 'East Austin Gym', 'time': '5:00 PM', 'is_upcoming': false, 'opponent': 'Scrimmage', 'result': 'W', 'highlight': 'Strong win', 'sponsor': 'Austin Realty', 'type': 'Practice'}
 ] %}
 
 <section
@@ -23,13 +22,17 @@
   <!-- 🎯 Stats Grid -->
   <div
     class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center mb-12"
-    data-aos="fade-up" data-aos-delay="100"
+    data-aos="fade-up"
+    data-aos-delay="100"
+    role="list"
+    aria-label="Program statistics"
   >
     {% for stat in stats %}
       <div
-        class="text-lg font-semibold text-yellow-300 opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 rounded transition"
         tabindex="0"
+        role="listitem"
         aria-label="{{ stat.label }}: {{ stat.value }}"
+        class="text-lg font-semibold text-yellow-300 opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 rounded transition"
       >
         <span
           class="block text-4xl font-extrabold text-yellow-400 counter"
@@ -105,16 +108,18 @@
         </tbody>
       </table>
       <div class="mt-4 text-center">
-        <a href="/calendar" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-2 px-6 rounded-full shadow-lg transition-all duration-300 focus-visible:ring-2 focus-visible:ring-yellow-400">
-          View Full Calendar
-        </a>
+        <a
+          href="/calendar"
+          class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-2 px-6 rounded-full shadow-lg transition-all duration-300 focus-visible:ring-2 focus-visible:ring-yellow-400"
+          >View Full Calendar</a
+        >
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  // Animated stat counters — silky smooth, performant
+  // Smooth animated counters
   document.querySelectorAll(".counter").forEach((counter) => {
     const target = parseFloat(counter.dataset.target) || 0;
     const isInt = Number.isInteger(target);

@@ -1,125 +1,95 @@
-{# ================== Admin Onboarding Popover (Elite SaaS Partial, Next-Level) ================== #}
 {% if current_user.is_authenticated and current_user.is_admin and not session.get('onboarded') %}
 <div
   id="admin-onboarding-popover"
-  aria-labelledby="onboard-title"
-  aria-modal="true"
-  role="dialog"
-  tabindex="-1"
-  x-data="{ open: true, steps: [false, false, false] }"
-  x-init="setTimeout(() => { launchConfetti(); }, 400)"
+  x-data="{ open: true, steps: Array(3).fill(false) }"
   x-show="open"
-  x-transition.opacity.duration.400ms
-  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black/95 p-6 text-yellow-100 shadow-lg -2  animate-fade-in focus:outline-none ring-2 ring-yellow-400/10"
-  @keydown.escape.window="open = false; dismissOnboarding()"
-  style="backdrop-filter: blur(2px);"
+  x-transition.opacity.duration.500ms
+  @keydown.window.escape="open=false; dismissOnboarding()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="onboard-title"
+  tabindex="-1"
+  class="fixed bottom-8 right-8 max-w-sm bg-black/90 text-yellow-100 p-6 rounded-2xl shadow-2xl ring-1 ring-yellow-400/20 animate-fade-in focus:outline-none"
+  style="backdrop-filter:blur(4px);"
+  x-init="setTimeout(launchConfetti,400)"
 >
-  <h3 class="mb-3 text-xl font-bold text-yellow-400 drop-shadow" id="onboard-title">Welcome, Admin!</h3>
+  <h3 id="onboard-title" class="text-2xl font-extrabold text-yellow-300 mb-4 drop-shadow-lg">Welcome, Admin!</h3>
 
-  <!-- Onboarding Checklist -->
-  <ul class="mb-5 space-y-2 text-sm" aria-label="Admin onboarding steps">
-    <li class="flex items-center gap-2">
-      <button type="button" class="text-green-400" x-on:click="steps[0]=true" :aria-checked="steps[0]" aria-label="Step 1: Visit Dashboard">
-        <span x-show="steps[0]" class="inline-block w-5 h-5">✔️</span>
-        <span x-show="!steps[0]" class="inline-block w-5 h-5 -2  rounded-full"></span>
-      </button>
-      <span :class="steps[0] ? 'line-through text-green-300' : ''">Visit your Dashboard</span>
-    </li>
-    <li class="flex items-center gap-2">
-      <button type="button" class="text-green-400" x-on:click="steps[1]=true" :aria-checked="steps[1]" aria-label="Step 2: Invite Sponsors">
-        <span x-show="steps[1]" class="inline-block w-5 h-5">✔️</span>
-        <span x-show="!steps[1]" class="inline-block w-5 h-5 -2  rounded-full"></span>
-      </button>
-      <span :class="steps[1] ? 'line-through text-green-300' : ''">Invite sponsors to your program</span>
-    </li>
-    <li class="flex items-center gap-2">
-      <button type="button" class="text-green-400" x-on:click="steps[2]=true" :aria-checked="steps[2]" aria-label="Step 3: Import Contacts">
-        <span x-show="steps[2]" class="inline-block w-5 h-5">✔️</span>
-        <span x-show="!steps[2]" class="inline-block w-5 h-5 -2  rounded-full"></span>
-      </button>
-      <span :class="steps[2] ? 'line-through text-green-300' : ''">Import your team contacts</span>
-    </li>
-  </ul>
+  <!-- Onboarding Steps -->
+  <ol class="space-y-3 mb-4 text-sm" aria-label="Onboarding Steps">
+    <template x-for="(step, i) in ['Visit Dashboard','Invite Sponsors','Import Contacts']" :key="i">
+      <li class="flex items-start gap-2">
+        <button
+          type="button"
+          class="mt-1 w-6 h-6 flex-none rounded-full border-2 border-yellow-300 text-yellow-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          :class="steps[i] ? 'bg-green-400 border-green-400 text-white' : ''"
+          @click="steps[i]=true"
+          :aria-checked="steps[i]"
+          role="checkbox"
+        >
+          <span x-show="steps[i]">✔️</span>
+        </button>
+        <span :class="steps[i] ? 'line-through text-green-300' : ''" class="flex-1">{{ step }}</span>
+      </li>
+    </template>
+  </ol>
 
-  <!-- Quick Links (replace # with real URLs as needed) -->
-  <div class="mb-5 flex flex-col gap-2">
-    <a href="/dashboard" class="rounded bg-yellow-400 text-black font-bold py-2 px-4 shadow hover:bg-yellow-300 transition" @click="steps[0]=true">Go to Dashboard</a>
-    <a href="/admin/invite" class="rounded bg-yellow-300/90 text-black font-semibold py-2 px-4 shadow hover:bg-yellow-200 transition" @click="steps[1]=true">Invite Sponsors</a>
-    <a href="/admin/import" class="rounded bg-yellow-200/90 text-black font-semibold py-2 px-4 shadow hover:bg-yellow-100 transition" @click="steps[2]=true">Import Contacts</a>
+  <!-- Quick Actions -->
+  <div class="space-y-2 mb-4">
+    <a href="/dashboard" @click="steps[0]=true" class="block text-center bg-yellow-400 text-black font-bold py-2 rounded-lg hover:bg-yellow-300 transition">Dashboard</a>
+    <a href="/admin/invite" @click="steps[1]=true" class="block text-center bg-yellow-300 text-black font-semibold py-2 rounded-lg hover:bg-yellow-200 transition">Invite Sponsors</a>
+    <a href="/admin/import" @click="steps[2]=true" class="block text-center bg-yellow-200 text-black font-semibold py-2 rounded-lg hover:bg-yellow-100 transition">Import Contacts</a>
   </div>
 
-  <div class="mb-3 text-xs text-yellow-300">
-    💡 Need help? <b>AI Concierge</b> is always available — look for the <span class="font-bold">💬</span> chat button below!
-  </div>
+  <p class="text-xs text-yellow-400 mb-4">💡 Need help? Use the AI Concierge (💬) at any time.</p>
 
   <button
-    @click="
-      open = false;
-      dismissOnboarding();
-      if(window.analytics) analytics.track('admin_onboarding_dismissed');
-    "
-    aria-label="Dismiss onboarding popover"
-    class="inline-block rounded bg-yellow-400 px-5 py-2 font-bold text-zinc-900 shadow hover:bg-yellow-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400 transition"
-    type="button"
-    autofocus
-  >
-    Got it!
-  </button>
+    @click="open=false; dismissOnboarding()"
+    class="w-full bg-yellow-500 text-black font-bold py-2 rounded-full shadow-lg hover:bg-yellow-400 transition focus:outline-none focus:ring-2 focus:ring-yellow-500"
+    aria-label="Dismiss Onboarding"
+  >Got it!</button>
 </div>
 {% endif %}
 
-<!-- Floating AI Concierge Tooltip -->
-<div id="ai-concierge-tip" class="fixed z-[9999] bottom-24 right-12 bg-yellow-400 text-black px-3 py-2 rounded-xl font-bold shadow-lg text-xs pointer-events-none opacity-0 transition-all"
-     style="transition: opacity 0.3s, transform 0.3s;">
-  👋 Need help? Click here to chat with AI!
+<!-- AI Concierge Tooltip -->
+<div id="ai-concierge-tip" class="fixed bottom-24 right-12 bg-yellow-400 text-black px-3 py-2 rounded-xl text-xs shadow-lg opacity-0 transform translate-y-2 transition-all">
+  👋 Click the chat icon for AI support!
 </div>
 
 <script>
-  // ---- Confetti on First Open (uses CDN for zero-config) ----
-  function launchConfetti() {
-    import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm').then(({ default: confetti }) => {
-      confetti({
-        particleCount: 80,
-        spread: 80,
-        origin: { y: 0.7 }
-      });
-    }).catch(()=>{});
+  function launchConfetti(){
+    import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm')
+      .then(({default: confetti})=>confetti({particleCount:60,spread:80,origin:{y:0.6}}))
+      .catch(()=>{});
   }
-
-  // ---- Show AI Concierge Tooltip on first onboarding only ----
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const aiTip = document.getElementById('ai-concierge-tip');
-      aiTip.style.opacity = 1;
-      aiTip.style.transform = 'translateY(-12px) scale(1.04)';
-      setTimeout(() => {
-        aiTip.style.opacity = 0;
-        aiTip.style.transform = '';
-      }, 4200);
-    }, 2000);
+  function dismissOnboarding(){
+    fetch('{{ url_for("admin.dismiss_onboarding") }}',{method:'POST',headers:{'X-CSRFToken':'{{ csrf_token() }}','Content-Type':'application/json'},body:JSON.stringify({dismissed:true})});
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    setTimeout(()=>{
+      const tip=document.getElementById('ai-concierge-tip');
+      tip.style.opacity=1; tip.style.transform='translateY(0)';
+      setTimeout(()=>{tip.style.opacity=0; tip.style.transform='translateY(2rem)';},4000);
+    },1500);
   });
-
-  // ---- Analytics (track onboarding dismissed) ----
-  function dismissOnboarding() {
-    fetch('{{ url_for("admin.dismiss_onboarding") }}', {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": "{{ csrf_token() }}",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ dismissed: true }),
-    }).catch((err) => console.error("Failed to dismiss onboarding:", err));
-    // Optional: send custom analytics event here if window.analytics present
-    if(window.analytics) window.analytics.track && window.analytics.track('admin_onboarding_dismissed');
-  }
 </script>
+
 <style>
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px);}
-    to   { opacity: 1; transform: translateY(0);}
+  /* Fade-in animation */
+  @keyframes fadeIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+  .animate-fade-in { animation:fadeIn 0.5s ease both; }
+
+  /* Tooltip Styles */
+  #ai-concierge-tip { pointer-events:none; }
+
+  /* Focus state for the popover */
+  #admin-onboarding-popover:focus { outline-offset:4px; }
+
+  /* Animated confetti when onboarding steps are completed */
+  @keyframes confetti-pop {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
   }
-  .animate-fade-in { animation: fadeIn 0.35s cubic-bezier(.44,2,.19,1) forwards; }
-  #admin-onboarding-popover:focus { outline: 3px solid #facc15; }
-  #ai-concierge-tip { pointer-events: none; }
+  .animate-confetti-pop { animation: confetti-pop 0.5s ease-out; }
 </style>
 

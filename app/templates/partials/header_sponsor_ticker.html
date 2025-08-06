@@ -3,13 +3,42 @@
 
 <div
   id="sponsor-ticker"
-  class="w-full bg-yellow-800/90 text-yellow-100 text-xs md:text-sm py-1 px-3 overflow-hidden whitespace-nowrap animate-marquee font-semibold"
+  class="w-full bg-yellow-800/90 text-yellow-100 text-xs md:text-sm py-1 px-3 overflow-hidden whitespace-nowrap font-semibold"
   role="marquee"
+  aria-live="polite" 
+  aria-atomic="true"
   aria-label="Sponsor ticker"
 >
   🌟 Thanks to our amazing sponsors: 
-  <span class="mx-2">Gold’s Gym</span> • 
-  <span class="mx-2">Eastside Dental</span> • 
-  <span class="mx-2">TechBridge Austin</span> • 
-  <span class="mx-2">Coach Carter Foundation</span>
+  <span class="sponsor-item mx-2">Gold’s Gym</span> • 
+  <span class="sponsor-item mx-2">Eastside Dental</span> • 
+  <span class="sponsor-item mx-2">TechBridge Austin</span> • 
+  <span class="sponsor-item mx-2">Coach Carter Foundation</span>
 </div>
+
+<style>
+  /* Smooth and continuous marquee animation */
+  @keyframes marquee-scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  #sponsor-ticker {
+    display: flex;
+    animation: marquee-scroll 15s linear infinite;
+  }
+
+  .sponsor-item {
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 1rem; /* Adding spacing between sponsors */
+  }
+
+  /* Optional: Responsive adjustments for small screens */
+  @media (max-width: 768px) {
+    #sponsor-ticker {
+      animation-duration: 20s; /* Slower scrolling on smaller screens */
+    }
+  }
+</style>
+

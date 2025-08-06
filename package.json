@@ -45,6 +45,7 @@
   "svgo:all": "svgo -f app/static/images --recursive --config=svgo.config.json",
   "scripts": {
     "//": "💡 FUNDCHAMPS SaaS — Elite NPM Scripts: lint, audit, build, watch, deploy, a11y",
+    "test": "echo \"No tests yet\" && exit 0",
     "prepare": "husky",
     "postinstall": "npm run update:browsers || true && npm run audit:deps || true",
     "css:build": "tailwindcss -c tailwind.config.cjs -i app/static/css/input.css -o app/static/css/tailwind.min.css --minify",
