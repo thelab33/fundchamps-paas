@@ -1,12 +1,12 @@
-{# macros/sponsor_card.html #}
+{# ================== macros/sponsor_card.html ================== #}
 {% macro sponsor_card(sponsor, idx) %}
   {% set tier = sponsor.tier | default('default') %}
   {% set tier_styles = {
-    'Platinum': 'border-yellow-400 bg-yellow-300 text-yellow-900',
-    'Gold': 'border-yellow-300 bg-yellow-200 text-yellow-800',
-    'Silver': 'border-yellow-200 bg-yellow-100 text-yellow-700',
-    'Bronze': 'border-orange-300 bg-orange-200 text-orange-900',
-    'default': 'border-indigo-600 bg-indigo-900 text-yellow-300',
+    'Platinum': 'bg-yellow-300 text-yellow-900',
+    'Gold': 'bg-yellow-200 text-yellow-800',
+    'Silver': 'bg-yellow-100 text-yellow-700',
+    'Bronze': 'bg-orange-200 text-orange-900',
+    'default': 'bg-indigo-900 text-yellow-300',
   } %}
   {% set tier_emojis = {
     'Platinum': '🥇',
@@ -29,14 +29,14 @@
     itemscope
     itemtype="https://schema.org/Organization"
     itemprop="sponsor"
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 group relative flex flex-col items-center px-6 py-7 rounded-3xl border-2
-           {{ tier_styles.get(tier, tier_styles['default']) }}
-           hover:scale-105 focus-within:ring-4 focus-within:ring-yellow-400
-           transition duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400"
+    class="group relative flex flex-col items-center px-6 py-7 rounded-3xl shadow-lg
+           focus-visible:ring-4 focus-visible:ring-yellow-400
+           transition-transform duration-300 hover:scale-105
+           {{ tier_styles.get(tier, tier_styles['default']) }}"
   >
     {% if tier == 'Platinum' %}
-      <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 absolute top-2 right-2 pointer-events-none animate-pulse" aria-hidden="true">
-        <svg width="32" height="32" aria-hidden="true" focusable="false" role="img" >
+      <span class="absolute top-2 right-2 pointer-events-none" aria-hidden="true">
+        <svg width="32" height="32" fill="none" aria-hidden="true" focusable="false">
           <circle cx="16" cy="16" r="13" fill="#fde68a" opacity=".7" />
         </svg>
       </span>
@@ -49,48 +49,48 @@
         src="{{ logo_src }}"
         alt="{{ sponsor.name or 'Sponsor' }} logo"
         width="96" height="96"
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 w-24 h-24 mb-4 rounded-full border-4 border-yellow-400 shadow-lg bg-white object-cover transition-transform grayscale group-hover:grayscale-0 group-hover:scale-110"
+        class="w-24 h-24 mb-4 rounded-full bg-white shadow-lg object-cover grayscale transition duration-300 group-hover:grayscale-0 group-hover:scale-110"
         loading="lazy"
         decoding="async"
         itemprop="logo"
       />
     {% if sponsor.url %}</a>{% endif %}
 
-    <div class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 flex flex-col items-center text-center">
+    <div class="flex flex-col items-center text-center">
       <h3
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-xl font-extrabold transition group-hover:text-yellow-600 text-yellow-900/90"
+        class="text-xl font-extrabold text-yellow-900/90 transition group-hover:text-yellow-600"
         itemprop="name"
       >
         {{ sponsor.name or 'Sponsor' }}
         {% if sponsor.is_new %}
-          <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-2 animate-pulse bg-emerald-400/80 text-emerald-900 px-2 py-0.5 rounded-full text-[11px] font-bold" aria-label="New sponsor badge">NEW</span>
+          <span class="ml-2 bg-emerald-400/80 text-emerald-900 px-2 py-0.5 rounded-full text-xs font-bold" aria-label="New sponsor badge">NEW</span>
         {% elif sponsor.is_returning %}
-          <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-2 animate-bounce bg-blue-300/80 text-blue-900 px-2 py-0.5 rounded-full text-[11px] font-bold" aria-label="Returning sponsor badge">Returning</span>
+          <span class="ml-2 bg-blue-300/80 text-blue-900 px-2 py-0.5 rounded-full text-xs font-bold animate-bounce" aria-label="Returning sponsor badge">Returning</span>
         {% endif %}
       </h3>
+
       <span
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-0.5 font-mono text-lg text-yellow-900/80"
+        class="mt-0.5 font-mono text-lg text-yellow-900/80"
         aria-label="Sponsor amount raised"
         itemprop="donation"
       >
-        ${{ sponsor.amount | int |comma | default(0) }}
+        ${{ sponsor.amount | int | comma | default(0) }}
       </span>
-      <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-2">
-        <span
-          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
-            {% if tier == 'Platinum' %}bg-yellow-300 text-yellow-900
-            {% elif tier == 'Gold' %}bg-yellow-200 text-yellow-800
-            {% elif tier == 'Silver' %}bg-yellow-100 text-yellow-700
-            {% elif tier == 'Bronze' %}bg-orange-200 text-orange-900
-            {% else %}bg-indigo-900 text-yellow-300{% endif %}"
-          itemprop="memberOf"
-        >
-          {{ tier_emojis.get(tier, '🏆') }} {{ tier if tier != 'default' else 'Champion' }}
-        </span>
+
+      <span class="mt-2 inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
+                   {% if tier == 'Platinum' %}bg-yellow-300 text-yellow-900
+                   {% elif tier == 'Gold' %}bg-yellow-200 text-yellow-800
+                   {% elif tier == 'Silver' %}bg-yellow-100 text-yellow-700
+                   {% elif tier == 'Bronze' %}bg-orange-200 text-orange-900
+                   {% else %}bg-indigo-900 text-yellow-300{% endif %}"
+            itemprop="memberOf"
+      >
+        {{ tier_emojis.get(tier, '🏆') }} {{ tier if tier != 'default' else 'Champion' }}
       </span>
+
       {% if sponsor.description %}
         <p
-          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-2 max-w-xs text-sm text-zinc-700"
+          class="mt-2 max-w-xs text-sm text-zinc-700"
           aria-label="Sponsor description"
           itemprop="description"
         >{{ sponsor.description }}</p>
@@ -100,7 +100,7 @@
     <div
       id="tooltip-{{ idx }}"
       role="tooltip"
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 pointer-events-none absolute left-1/2 bottom-[-2.3rem] translate-x-[-50%] rounded-xl bg-black/90 px-3 py-1 text-xs text-yellow-200 opacity-0 transition-all duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+      class="pointer-events-none absolute left-1/2 bottom-[-2.3rem] -translate-x-1/2 rounded-xl bg-black/90 px-3 py-1 text-xs text-yellow-200 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
       aria-hidden="true"
     >
       {{ sponsor.tooltip or sponsor.description or 'Thanks for supporting us!' }}
@@ -111,18 +111,18 @@
 {# ================== Sponsor Spotlight Section ================== #}
 <section
   id="sponsor-spotlight"
-  class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 relative z-20 my-20 px-4 sm:px-8 max-w-6xl mx-auto"
+  class="relative z-20 my-20 px-4 sm:px-8 max-w-6xl mx-auto"
   role="region"
   tabindex="-1"
   aria-labelledby="sponsor-spotlight-heading"
 >
   <h2
     id="sponsor-spotlight-heading"
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mb-10 text-center text-4xl font-extrabold bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-shine"
+    class="mb-10 text-center text-4xl font-extrabold bg-gradient-to-r from-yellow-400 via-amber-200 to-yellow-400 bg-clip-text text-transparent drop-shadow-xl animate-shine"
   >
     🏆 Sponsor Spotlight Wall
     <span
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 block mt-2 text-base font-semibold text-yellow-300/80 animate-fade-in"
+      class="block mt-2 text-base font-semibold text-yellow-300/80 animate-fade-in"
       aria-live="polite"
       aria-atomic="true"
     >
@@ -132,7 +132,7 @@
 
   <!-- Top Sponsors (up to 4 premium slots) -->
   <div
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 justify-center"
+    class="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 justify-center"
     role="list"
     aria-label="Top Sponsors"
   >
@@ -144,17 +144,18 @@
     {% set needed = 4 - (sponsors_sorted|length) %}
     {% for _ in range(needed if needed > 0 else 0) %}
       <div
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 flex min-w-[200px] h-[255px] flex-col items-center justify-center rounded-3xl border-2 border-dashed border-yellow-400/40 bg-zinc-900/60 text-yellow-300/80 shadow-inner"
+        class="flex min-w-[200px] h-[255px] flex-col items-center justify-center rounded-3xl border-2 border-dashed border-yellow-400 bg-zinc-900/60 text-yellow-300/80 shadow-inner"
         role="listitem"
         tabindex="0"
         aria-label="Available sponsorship spot"
       >
-        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 text-2xl" aria-hidden="true">✨</span>
-        <span class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-4 text-center font-bold">This spot is waiting for you!</span>
+        <span class="text-2xl" aria-hidden="true">✨</span>
+        <span class="mt-4 text-center font-bold">This spot is waiting for you!</span>
         <button
           onclick="openSponsorModal()"
-          class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-4 rounded-full bg-yellow-400 px-6 py-2 font-extrabold text-black shadow-lg transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400"
+          class="mt-4 rounded-full bg-yellow-400 px-6 py-2 font-extrabold text-black shadow-lg transition hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           aria-label="Become a Sponsor"
+          type="button"
         >
           🌟 Become a Sponsor
         </button>
@@ -164,7 +165,7 @@
 
   <!-- Ribbon: ALL sponsor logos (FOMO, even if not top 4) -->
   <div
-    class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 mt-12 mb-2 flex flex-wrap justify-center gap-4"
+    class="mt-12 mb-2 flex flex-wrap justify-center gap-4"
     aria-label="All sponsor logos"
   >
     {% for sponsor in sponsors_sorted[:8] %}
@@ -176,15 +177,16 @@
         src="{{ logo_src }}"
         alt="{{ sponsor.name or 'Sponsor' }} logo"
         title="{{ sponsor.name or 'Sponsor' }}"
-        class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 h-16 w-16 rounded-full border-2 border-yellow-300 bg-white object-cover shadow-inner grayscale transition duration-300 hover:grayscale-0"
+        class="h-16 w-16 rounded-full bg-white object-cover shadow-inner grayscale transition duration-300 hover:grayscale-0"
         loading="lazy"
         decoding="async"
       />
     {% endfor %}
     <span
-      class="animate-pulse shadow-gold-glow focus-visible:ring-2 ring-yellow-400 ml-3 inline-flex items-center rounded-full border border-yellow-400/40 bg-zinc-800 px-3 py-1 text-xs font-bold text-yellow-200 shadow"
+      class="ml-3 inline-flex items-center rounded-full bg-zinc-800 px-3 py-1 text-xs font-bold text-yellow-200 shadow"
     >
       + Your Brand Here
     </span>
   </div>
 </section>
+

@@ -1,6 +1,6 @@
 {# =================== Elite Program Stats + Events Calendar Partial =================== #}
 
-{# --- Defensive defaults (never error, always works with or without passed context) --- #}
+{# Defensive defaults #}
 {% set stats = stats if stats is defined and stats else [
     {'label': 'GPA Avg', 'value': 3.5},
     {'label': 'Student-Athletes', 'value': 22},
@@ -11,7 +11,6 @@
     {'date': '2025-07-20', 'name': 'AAU Tournament', 'location': 'East Austin Gym', 'time': '10:00 AM', 'is_upcoming': True, 'opponent': 'All Stars', 'result': '', 'highlight': 'Opening tourney!', 'sponsor': None, 'type': 'Tournament'},
     {'date': '2025-07-22', 'name': 'Team Practice', 'location': 'East Austin Gym', 'time': '5:00 PM', 'is_upcoming': False, 'opponent': 'Scrimmage', 'result': 'W', 'highlight': 'Strong win', 'sponsor': 'Austin Realty', 'type': 'Practice'}
 ] %}
-{% set months = months if months is defined and months else ['2025-07', '2025-08'] %}
 
 <section
   id="program-stats-and-calendar"
@@ -20,13 +19,23 @@
   tabindex="-1"
   aria-labelledby="program-calendar-heading"
 >
+
   <!-- 🎯 Stats Grid -->
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center mb-12" data-aos="fade-up" data-aos-delay="100">
+  <div
+    class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-center mb-12"
+    data-aos="fade-up" data-aos-delay="100"
+  >
     {% for stat in stats %}
-      <div class="text-lg font-semibold text-yellow-300 opacity-90">
-        <span class="block text-4xl font-extrabold text-yellow-400 counter"
-              data-target="{{ stat.value if stat is mapping and 'value' in stat else 0 }}">0</span>
-        <p class="mt-2 text-sm text-white">
+      <div
+        class="text-lg font-semibold text-yellow-300 opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 rounded transition"
+        tabindex="0"
+        aria-label="{{ stat.label }}: {{ stat.value }}"
+      >
+        <span
+          class="block text-4xl font-extrabold text-yellow-400 counter"
+          data-target="{{ stat.value if stat is mapping and 'value' in stat else 0 }}"
+        >0</span>
+        <p class="mt-2 text-sm text-white select-text">
           {{ stat.label if stat is mapping and 'label' in stat else stat|string }}
         </p>
       </div>
@@ -35,54 +44,68 @@
 
   <!-- 🗓️ Calendar Section -->
   <div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl sm:text-4xl font-extrabold text-yellow-300 text-center mb-6" id="program-calendar-heading">
+    <h2
+      id="program-calendar-heading"
+      class="text-3xl sm:text-4xl font-extrabold text-yellow-300 text-center mb-6"
+    >
       📅 Upcoming Events &amp; Schedule
     </h2>
-    <div class="bg-zinc-800 p-6 rounded-xl shadow-xl">
-      <div class="overflow-x-auto">
-        <table class="min-w-full table-auto text-left text-sm text-zinc-100" aria-describedby="program-calendar-heading">
-          <thead>
-            <tr class="bg-yellow-400 text-zinc-900">
-              <th class="px-4 py-2">Date</th>
-              <th class="px-4 py-2">Event</th>
-              <th class="px-4 py-2">Location</th>
-              <th class="px-4 py-2">Time</th>
-              <th class="px-4 py-2">Result</th>
-              <th class="px-4 py-2">Sponsor</th>
+
+    <div class="bg-zinc-800 p-6 rounded-xl shadow-xl overflow-x-auto">
+      <table
+        class="min-w-full table-auto text-left text-sm text-zinc-100"
+        aria-describedby="program-calendar-heading"
+      >
+        <thead>
+          <tr class="bg-yellow-400 text-zinc-900 select-none">
+            <th class="px-4 py-2">Date</th>
+            <th class="px-4 py-2">Event</th>
+            <th class="px-4 py-2">Location</th>
+            <th class="px-4 py-2">Time</th>
+            <th class="px-4 py-2">Result</th>
+            <th class="px-4 py-2">Sponsor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in events %}
+            {% set row_classes = [
+              'transition-colors',
+              event.is_upcoming and 'bg-yellow-400/10 text-yellow-200 font-semibold',
+              'W' in event.result and 'bg-green-500/10 text-green-100',
+              'L' in event.result and 'bg-red-500/10 text-red-100',
+              not (event.is_upcoming or 'W' in event.result or 'L' in event.result) and 'bg-zinc-900'
+            ] | select | join(' ') %}
+            <tr class="{{ row_classes }}">
+              <td class="px-4 py-2 whitespace-nowrap">{{ event.date|replace('-', '/') }}</td>
+              <td class="px-4 py-2">{{ event.name or event.opponent }}</td>
+              <td class="px-4 py-2">{{ event.location }}</td>
+              <td class="px-4 py-2">{{ event.time }}</td>
+              <td class="px-4 py-2" aria-label="Event result">
+                {% if 'W' in event.result %}🟢 Win
+                {% elif 'L' in event.result %}🔴 Loss
+                {% elif event.is_upcoming %}🟡 Upcoming
+                {% else %}—{% endif %}
+              </td>
+              <td class="px-4 py-2">
+                {% if event.sponsor %}
+                  <span class="font-bold text-yellow-300/80 select-text">
+                    {{ event.sponsor }}
+                    {% if event.sponsor in ['VIP Sponsor', 'Gold’s Gym', 'Platinum Partner'] %}
+                      <span class="ml-1 text-yellow-200 bg-yellow-600/30 rounded px-2 py-0.5 text-xs align-middle font-bold select-none">
+                        VIP
+                      </span>
+                    {% endif %}
+                  </span>
+                {% else %}
+                  <span class="text-zinc-400/60 select-none">—</span>
+                {% endif %}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {% for event in events %}
-              <tr class="{% if event.is_upcoming %}bg-yellow-400/10 text-yellow-200 font-bold{% elif 'W' in event.result %}bg-green-500/10 text-green-100{% elif 'L' in event.result %}bg-red-500/10 text-red-100{% else %}bg-zinc-900{% endif %}">
-                <td class="px-4 py-2 whitespace-nowrap">{{ event.date|replace("-", "/") }}</td>
-                <td class="px-4 py-2">{{ event.name or event.opponent }}</td>
-                <td class="px-4 py-2">{{ event.location }}</td>
-                <td class="px-4 py-2">{{ event.time }}</td>
-                <td class="px-4 py-2">
-                  {% if 'W' in event.result %}🟢 Win
-                  {% elif 'L' in event.result %}🔴 Loss
-                  {% elif event.is_upcoming %}🟡 Upcoming
-                  {% else %}—{% endif %}
-                </td>
-                <td class="px-4 py-2">
-                  {% if event.sponsor %}
-                    <span class="font-bold text-yellow-300/80">
-                      {{ event.sponsor }}
-                      {% if event.sponsor in ['VIP Sponsor', 'Gold’s Gym', 'Platinum Partner'] %}
-                        <span class="ml-1 text-yellow-200 bg-yellow-600/30 rounded px-2 py-0.5 text-xs align-middle font-bold">VIP</span>
-                      {% endif %}
-                    </span>
-                  {% else %}
-                    <span class="text-zinc-400/60">—</span>
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+          {% endfor %}
+        </tbody>
+      </table>
       <div class="mt-4 text-center">
-        <a href="/calendar" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-2 px-6 rounded-full shadow-lg transition-all duration-300">
+        <a href="/calendar" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-zinc-900 font-bold py-2 px-6 rounded-full shadow-lg transition-all duration-300 focus-visible:ring-2 focus-visible:ring-yellow-400">
           View Full Calendar
         </a>
       </div>
@@ -91,16 +114,22 @@
 </section>
 
 <script>
-  // SaaS-grade animated stat counters
-  document.querySelectorAll(".counter").forEach(function(counter) {
-    let target = parseFloat(counter.dataset.target) || 0;
-    let isInt = Number.isInteger(target);
-    let n = 0, step = Math.max(target / 38, 1);
+  // Animated stat counters — silky smooth, performant
+  document.querySelectorAll(".counter").forEach((counter) => {
+    const target = parseFloat(counter.dataset.target) || 0;
+    const isInt = Number.isInteger(target);
+    let current = 0;
+    const step = Math.max(target / 38, 1);
+
     function animate() {
-      n += step;
-      if ((step > 0 && n >= target) || (step < 0 && n <= target)) n = target;
-      counter.textContent = isInt ? Math.round(n) : n.toFixed(1);
-      if (n !== target) requestAnimationFrame(animate);
+      current += step;
+      if ((step > 0 && current >= target) || (step < 0 && current <= target)) {
+        current = target;
+      }
+      counter.textContent = isInt ? Math.round(current) : current.toFixed(1);
+      if (current !== target) {
+        requestAnimationFrame(animate);
+      }
     }
     animate();
   });

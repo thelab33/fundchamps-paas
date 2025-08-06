@@ -5,7 +5,7 @@
     {% set stats_defaults = { 'players': 16, 'honor_roll': 11, 'tournaments': 12, 'years': 3 } %}
     {% set stat_labels = { 'players': 'Players Enrolled', 'honor_roll': 'Honor Roll Scholars', 'tournaments': 'Tournaments Played', 'years': 'Years Running' } %}
     {% for key, label in stat_labels.items() %}
-      <div class="stat-card flex flex-col items-center justify-center bg-zinc-900/80 rounded-2xl p-6 shadow-lg border border-yellow-300/10 relative group shadow-gold-glow transition-all duration-300 hover:scale-105" tabindex="0">
+      <div class="stat-card flex flex-col items-center justify-center bg-zinc-900/80 rounded-2xl p-6 shadow-lg   relative group shadow-gold-glow transition-all duration-300 hover:scale-105" tabindex="0">
         <span class="stat-confetti absolute -top-5 left-1/2 -translate-x-1/2 text-2xl select-none pointer-events-none transition-opacity duration-500 shadow-gold-glow transition-all duration-300 hover:scale-105" style="opacity: 0;">🎉</span>
         <span class="counter text-4xl sm:text-5xl font-black text-yellow-400 drop-shadow shadow-gold-glow transition-all duration-300 hover:scale-105" data-target="{{ stats[key] if stats is defined and stats[key] is defined else stats_defaults[key] }}">0</span>
         <div class="label mt-2 text-base sm:text-lg text-yellow-200 font-semibold text-center shadow-gold-glow transition-all duration-300 hover:scale-105">{{ label }}</div>

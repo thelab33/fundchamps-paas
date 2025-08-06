@@ -1,4 +1,4 @@
-{# ================== About Us + Testimonials + Story Modal (Unified Elite Section) ================= #}
+{# --- Unified Elite Section: About, Testimonials & Story Modal --- #}
 {% set player_team = team.team_name if team and team.team_name is defined else 'Connect ATX Elite' %}
 {% set team_league = team.league if team and team.league is defined else 'AAU' %}
 {% set team_region = team.region if team and team.region is defined else 'Austin, TX' %}
@@ -15,7 +15,7 @@
   {"quote": "Family means showing up, believing in each other, and making sure no one is left behind. That’s what we do — on the court, and off.", "author": "Coach Angel Rodriguez"}
 ] %}
 
-{# ----- Story Modal Configs ----- #}
+{# Story Modal Config #}
 {% set video_poster = team.hero_image if team and team.hero_image else url_for('static', filename='images/team-rings.jpg') %}
 {% set video_src = team.story_video if team and team.story_video else url_for('static', filename='fundchamps-story.mp4') %}
 {% set youtube_id = team.youtube_id if team and team.youtube_id else 'dQw4w9WgXcQ' %}
@@ -23,7 +23,7 @@
 
 <section
   id="about-families"
-  class="relative py-16 px-3 sm:px-6 max-w-6xl mx-auto bg-gradient-to-b from-zinc-950 via-black to-zinc-950 text-white rounded-2xl shadow-gold-glow ring-2 ring-yellow-400/15 overflow-hidden"
+  class="relative py-20 px-4 sm:px-8 max-w-7xl mx-auto bg-gradient-to-b from-zinc-950 via-black to-zinc-950 text-white rounded-3xl shadow-lg shadow-yellow-600/30 ring-2 ring-yellow-400/20 overflow-hidden"
   itemscope
   itemtype="https://schema.org/SportsTeam"
   aria-labelledby="about-main-heading"
@@ -33,109 +33,109 @@
   <meta itemprop="areaServed" content="{{ team_region }}" />
   <meta itemprop="memberOf" content="{{ team_league }}" />
 
-  <!-- Watermark Images, Mobile Aware -->
+  {# Decorative Watermark Images #}
   <img
     src="{{ img_src }}"
     alt=""
     aria-hidden="true"
-    class="absolute left-0 top-8 w-16 md:w-24 opacity-40 pointer-events-none select-none blur-[2px] rounded-lg"
+    class="absolute left-6 top-12 w-20 md:w-28 opacity-30 pointer-events-none select-none blur-sm rounded-lg"
   />
   <img
     src="{{ img_src }}"
     alt=""
     aria-hidden="true"
-    class="absolute right-0 bottom-8 w-12 md:w-20 opacity-30 pointer-events-none select-none blur-[1.5px] rounded-md"
+    class="absolute right-6 bottom-12 w-16 md:w-24 opacity-20 pointer-events-none select-none blur-sm rounded-md"
   />
 
   <h2
     id="about-main-heading"
-    class="text-3xl sm:text-4xl font-extrabold text-center bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-200 bg-clip-text text-transparent animate-shine drop-shadow-xl mb-10"
+    class="text-4xl md:text-5xl font-extrabold text-center bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-200 bg-clip-text text-transparent animate-shine drop-shadow-xl mb-14"
   >
     About {{ player_team }} — Our Mission &amp; Voices
   </h2>
 
-  <div class="relative z-10 flex flex-col lg:flex-row items-center gap-10">
-    <!-- About Card -->
-    <div class="flex-1 max-w-xl mx-auto text-center space-y-7">
-      <ul class="flex flex-wrap justify-center gap-2 mb-2" aria-label="Team attributes">
-        <li
-          class="inline-flex items-center px-3 py-1 rounded-full bg-black/80 border border-yellow-400/30 text-yellow-200 font-bold text-xs uppercase shadow-sm select-none"
-        >
+  <div class="relative z-10 flex flex-col lg:flex-row items-start gap-16">
+
+    {# --- About Card --- #}
+    <article class="flex-1 max-w-xl mx-auto text-center lg:text-left space-y-8">
+      <ul class="flex flex-wrap justify-center lg:justify-start gap-3 mb-4" aria-label="Team attributes">
+        <li class="inline-flex items-center px-4 py-1.5 rounded-full bg-black/80 text-yellow-200 font-bold text-sm uppercase shadow-sm select-none">
           {{ player_team }}
         </li>
-        <li
-          class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-300/75 text-yellow-900 font-semibold text-xs uppercase shadow-sm select-none"
-        >
+        <li class="inline-flex items-center px-4 py-1.5 rounded-full bg-yellow-300/80 text-yellow-900 font-semibold text-sm uppercase shadow-sm select-none">
           {{ team_league }} Proud
         </li>
-        <li
-          class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-900/70 text-yellow-100 font-semibold text-xs uppercase shadow-sm select-none"
-        >
+        <li class="inline-flex items-center px-4 py-1.5 rounded-full bg-indigo-900/80 text-yellow-100 font-semibold text-sm uppercase shadow-sm select-none">
           Community Powered
         </li>
       </ul>
-      <p class="text-base sm:text-lg font-semibold text-white/90 leading-normal max-w-lg mx-auto">
+      <p class="text-lg md:text-xl font-semibold text-white/90 leading-relaxed max-w-md mx-auto lg:mx-0">
         <strong class="text-yellow-400">{{ player_team }}</strong> isn’t just a team — it’s a
         <span class="text-yellow-200 font-extrabold">family movement</span> in
-        <span class="text-amber-200">{{ team_region }}</span> where kids and parents find a second
-        home.
-        <span class="block mt-1">
+        <span class="text-amber-200">{{ team_region }}</span> where kids and parents find a second home.
+        <br />
+        <span class="mt-3 block">
           We build <span class="text-yellow-400">teamwork</span>,
           <span class="text-yellow-300">respect</span>, and
           <span class="text-amber-300">championship character</span> for life.
         </span>
       </p>
-      <div class="bg-zinc-900/80 rounded-xl p-4 shadow-md text-base text-white/80">
+      <div class="bg-zinc-900/90 rounded-2xl p-6 shadow-md text-base text-white/80 max-w-md mx-auto lg:mx-0">
         Founded by the <strong class="text-yellow-300">{{ founder_last }}</strong> family, our
-        <strong class="text-yellow-200">{{ team_league }}</strong> program began as a dad’s dream
-        for his son — and grew into a thriving community.<br />
-        <span class="block mt-1 text-amber-200 font-bold">
-          Coaches, volunteers, and sponsors shape every student’s journey — every child matters
-          here.
+        <strong class="text-yellow-200">{{ team_league }}</strong> program began as a dad’s dream for his son — and grew into a thriving community.
+        <br />
+        <span class="mt-2 block text-amber-200 font-bold leading-tight">
+          Coaches, volunteers, and sponsors shape every student’s journey — every child matters here.
         </span>
       </div>
-      <!-- Story Modal Open Button (Keep in About column) -->
-      <div class="mt-4">
+
+      {# Story Modal Trigger #}
+      <div class="mt-8">
         <button
           id="story-btn"
-          class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 px-7 py-3 text-base md:text-lg font-extrabold text-black shadow-lg transition hover:scale-105 focus-visible:ring-4 focus-visible:ring-yellow-300 animate-pulse"
+          class="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 px-8 py-4 text-lg font-extrabold text-black shadow-lg hover:scale-105 focus-visible:ring-4 focus-visible:ring-yellow-300 transition-transform animate-pulse"
           aria-haspopup="dialog"
           aria-controls="story-modal"
         >
-          ▶️ <span>Watch Our Story</span>
+          ▶️ <span>Watch Our Story</span>
         </button>
       </div>
-    </div>
+    </article>
 
-    <!-- Testimonials Card -->
-    <div class="flex-1 w-full max-w-xl mx-auto mt-10 lg:mt-0" role="region" aria-label="Testimonials">
+    {# --- Testimonials Card --- #}
+    <section
+      class="flex-1 max-w-xl mx-auto mt-12 lg:mt-0"
+      role="region"
+      aria-label="Testimonials"
+      tabindex="0"
+    >
       <h3
-        class="mb-5 text-2xl sm:text-3xl font-extrabold text-center bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-xl"
+        class="mb-8 text-3xl font-extrabold text-center bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent drop-shadow-xl"
       >
         💬 What Families Say
       </h3>
-      <div id="testimonial-carousel" class="relative" tabindex="0" aria-live="polite" aria-atomic="true">
+      <div id="testimonial-carousel" class="relative" aria-live="polite" aria-atomic="true">
         <figure
-          class="bg-zinc-900/90 rounded-2xl shadow-xl px-6 py-7 text-center min-h-[165px] transition-all"
+          class="bg-zinc-900/90 rounded-3xl shadow-2xl px-8 py-10 text-center min-h-[180px] transition-all"
         >
           <blockquote
             id="carousel-quote"
-            class="mb-2 text-lg font-semibold italic text-yellow-100 leading-normal"
+            class="mb-4 text-xl font-semibold italic text-yellow-100 leading-relaxed"
             aria-label="Testimonial quote"
           ></blockquote>
-          <figcaption id="carousel-author" class="font-bold text-yellow-300 text-xs" aria-label="Testimonial author"></figcaption>
+          <figcaption id="carousel-author" class="font-bold text-yellow-300 text-base" aria-label="Testimonial author"></figcaption>
           <img
             src="{{ rings_img }}"
             alt=""
             aria-hidden="true"
-            class="mx-auto mt-3 h-10 w-10 rounded-full border border-yellow-400/30 object-cover opacity-70 shadow-inner"
+            class="mx-auto mt-5 h-12 w-12 rounded-full object-cover opacity-70 shadow-inner"
           />
         </figure>
 
-        <nav class="mt-3 flex justify-center gap-2" aria-label="Select testimonial">
+        <nav class="mt-6 flex justify-center gap-3" aria-label="Select testimonial">
           {% for i in range(testimonials|length) %}
           <button
-            class="dot h-2 w-2 rounded-full bg-yellow-300/70 transition-colors"
+            class="dot h-3 w-3 rounded-full bg-yellow-300/70 transition-colors focus-visible:ring-2 focus-visible:ring-yellow-300"
             data-idx="{{ i }}"
             aria-label="Show testimonial {{ i + 1 }}"
             {% if not i %} aria-current="true" {% else %} tabindex="-1" {% endif %}
@@ -145,7 +145,7 @@
 
         <button
           id="copy-quote"
-          class="absolute right-2 bottom-2 text-xs text-yellow-300 underline hover:text-yellow-200 transition focus-visible:ring-2 focus-visible:ring-yellow-300 bg-black/50 px-3 py-1 rounded-lg"
+          class="absolute right-6 bottom-6 text-sm text-yellow-300 underline hover:text-yellow-200 transition focus-visible:ring-2 focus-visible:ring-yellow-300 bg-black/50 px-4 py-2 rounded-xl"
           aria-label="Copy quote to clipboard"
         >
           Copy Quote
@@ -153,40 +153,40 @@
 
         <span
           id="copy-toast"
-          class="pointer-events-none fixed bottom-7 left-1/2 -translate-x-1/2 rounded-xl bg-yellow-400 px-3 py-1 font-bold text-black opacity-0 shadow-md"
+          class="pointer-events-none fixed bottom-10 left-1/2 -translate-x-1/2 rounded-2xl bg-yellow-400 px-4 py-2 font-bold text-black opacity-0 shadow-md transition-opacity duration-300"
           >Copied!</span
         >
       </div>
-    </div>
+    </section>
   </div>
 </section>
 
-{# ---------- Modal is OUTSIDE section for perfect DOM ---------- #}
+{# Story Modal OUTSIDE for better layering #}
 <dialog
   id="story-modal"
-  class="fixed inset-0 z-[12000] hidden items-center justify-center bg-black/80 backdrop-blur-lg transition-opacity duration-200"
+  class="fixed inset-0 z-[12000] hidden items-center justify-center bg-black/90 backdrop-blur-lg transition-opacity duration-200"
   aria-modal="true"
   aria-labelledby="story-title"
   role="dialog"
 >
   <div
     id="story-box"
-    class="relative w-[98vw] max-w-2xl scale-95 opacity-0 rounded-2xl border-2 border-yellow-400/60 bg-black/95 shadow-2xl p-3 md:p-6 transition-all duration-300"
+    class="relative w-[95vw] max-w-3xl scale-95 opacity-0 rounded-3xl bg-black/95 shadow-2xl p-6 md:p-10 transition-all duration-300 focus:outline-none"
     role="document"
     tabindex="0"
   >
     <button
       id="story-close"
-      class="absolute top-3 right-3 text-3xl text-yellow-200 hover:text-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-300"
+      class="absolute top-5 right-5 text-4xl text-yellow-200 hover:text-yellow-300 focus-visible:ring-4 focus-visible:ring-yellow-300 rounded-lg"
       aria-label="Close story modal"
     >
       ×
     </button>
     <h2
       id="story-title"
-      class="mb-2 text-center text-xl md:text-2xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent drop-shadow animate-shine"
+      class="mb-4 text-center text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent drop-shadow animate-shine"
     >
-      Our Story: On &amp; Off the Court
+      Our Story: On &amp; Off the Court
     </h2>
 
     {% set tabs = [
@@ -194,11 +194,12 @@
       {'id':'kvue', 'label':'📺 KVUE News'},
       {'id':'yt', 'label':'🏀 YouTube'}
     ] %}
-    <nav class="mb-3 flex flex-wrap justify-center gap-2 md:gap-4" aria-label="Video sources" role="tablist">
+    <nav class="mb-6 flex flex-wrap justify-center gap-4 md:gap-6" aria-label="Video sources" role="tablist">
       {% for t in tabs %}
       <button
         id="tab-{{ t.id }}"
-        class="tab-btn rounded-full py-1.5 px-4 font-semibold text-sm shadow transition focus-visible:ring-2 focus-visible:ring-yellow-300 {% if loop.first %}bg-yellow-400 text-black{% else %}bg-zinc-800 text-yellow-300{% endif %}"
+        class="tab-btn rounded-full py-2 px-6 font-semibold text-base shadow transition focus-visible:ring-4 focus-visible:ring-yellow-300
+          {% if loop.first %}bg-yellow-400 text-black{% else %}bg-zinc-800 text-yellow-300{% endif %}"
         data-idx="{{ loop.index0 }}"
         role="tab"
         aria-controls="panel-{{ t.id }}"
@@ -213,194 +214,182 @@
     <div
       id="panel-{{ t.id }}"
       role="tabpanel"
-      class="panel {% if not loop.first %}hidden{% endif %} w-full max-w-xl aspect-video mx-auto"
+      class="panel {% if not loop.first %}hidden{% endif %} w-full max-w-3xl aspect-video mx-auto rounded-2xl overflow-hidden focus:outline-none"
       aria-labelledby="tab-{{ t.id }}"
       tabindex="0"
     >
       {% if t.id == 'myvideo' %}
-      <video
-        controls
-        poster="{{ video_poster }}"
-        class="h-full w-full rounded-xl border-2 border-yellow-300 bg-black"
-      >
+      <video controls poster="{{ video_poster }}" class="h-full w-full bg-black rounded-2xl">
         <source src="{{ video_src }}" type="video/mp4" />
         Sorry, your browser doesn’t support embedded videos.
       </video>
       {% elif t.id == 'kvue' %}
-      <iframe
-        src="{{ kvue_url }}"
-        class="h-full w-full rounded-xl border-2 border-yellow-300"
-        allowfullscreen
-      ></iframe>
+      <iframe src="{{ kvue_url }}" class="h-full w-full rounded-2xl" allowfullscreen></iframe>
       {% else %}
-      <iframe
-        src="https://www.youtube.com/embed/{{ youtube_id }}"
-        class="h-full w-full rounded-xl border-2 border-yellow-300"
-        allowfullscreen
-      ></iframe>
+      <iframe src="https://www.youtube.com/embed/{{ youtube_id }}" class="h-full w-full rounded-2xl" allowfullscreen></iframe>
       {% endif %}
     </div>
     {% endfor %}
 
-    <p class="mt-4 text-center text-xs text-zinc-300">
+    <p class="mt-6 text-center text-xs text-zinc-400 select-none">
       <strong>{{ player_team }}</strong> &nbsp;|&nbsp; Family-run · Community-powered · Champions rising
     </p>
   </div>
 </dialog>
 
 <script type="module" defer>
-  (() => {
-    // -- Testimonials Carousel Logic --
-    const testimonials = {{ testimonials|tojson|safe }};
-    const quoteEl = document.getElementById('carousel-quote');
-    const authorEl = document.getElementById('carousel-author');
-    const dots = [...document.querySelectorAll('.dot')];
-    let idx = 0, intervalId = null;
+(() => {
+  // --- Testimonials Carousel Logic ---
+  const testimonials = {{ testimonials|tojson|safe }};
+  const quoteEl = document.getElementById('carousel-quote');
+  const authorEl = document.getElementById('carousel-author');
+  const dots = [...document.querySelectorAll('.dot')];
+  let idx = 0, intervalId = null;
 
-    function showTestimonial(i) {
-      idx = i;
-      quoteEl.textContent = '“' + testimonials[idx].quote + '”';
-      authorEl.textContent = '— ' + testimonials[idx].author;
-      dots.forEach((d, j) => {
-        d.setAttribute('aria-current', j === i ? 'true' : 'false');
-        d.tabIndex = j === i ? 0 : -1;
-        d.classList.toggle('bg-yellow-400', j === i);
-        d.classList.toggle('bg-yellow-300/70', j !== i);
-      });
-    }
-
-    dots.forEach((btn, i) => {
-      btn.addEventListener('click', () => showTestimonial(i));
-      btn.addEventListener('keydown', e => {
-        if (['Enter', ' '].includes(e.key)) {
-          e.preventDefault();
-          showTestimonial(i);
-        }
-      });
+  function showTestimonial(i) {
+    idx = i;
+    quoteEl.textContent = '“' + testimonials[idx].quote + '”';
+    authorEl.textContent = '— ' + testimonials[idx].author;
+    dots.forEach((d, j) => {
+      d.setAttribute('aria-current', j === i ? 'true' : 'false');
+      d.tabIndex = j === i ? 0 : -1;
+      d.classList.toggle('bg-yellow-400', j === i);
+      d.classList.toggle('bg-yellow-300/70', j !== i);
     });
+  }
 
-    function startAutoAdvance() {
-      intervalId = setInterval(() => {
-        showTestimonial((idx + 1) % testimonials.length);
-      }, 7000);
-    }
-
-    function stopAutoAdvance() {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
-
-    const carousel = document.getElementById('testimonial-carousel');
-    carousel.addEventListener('mouseenter', stopAutoAdvance);
-    carousel.addEventListener('mouseleave', startAutoAdvance);
-    carousel.addEventListener('focusin', stopAutoAdvance);
-    carousel.addEventListener('focusout', startAutoAdvance);
-
-    // Copy-to-clipboard for quote text
-    const copyBtn = document.getElementById('copy-quote');
-    const copyToast = document.getElementById('copy-toast');
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(quoteEl.textContent + ' ' + authorEl.textContent);
-      copyToast.style.opacity = '1';
-      setTimeout(() => (copyToast.style.opacity = '0'), 1300);
-      copyBtn.focus();
-    });
-
-    showTestimonial(0);
-    startAutoAdvance();
-
-    // -- Story Modal Logic --
-    const modal = document.getElementById('story-modal');
-    const box = document.getElementById('story-box');
-    const openBtn = document.getElementById('story-btn');
-    const closeBtn = document.getElementById('story-close');
-    let lastFocus = null;
-
-    const toggleAnim = show => {
-      box.classList.toggle('scale-95', !show);
-      box.classList.toggle('opacity-0', !show);
-      box.classList.toggle('scale-100', show);
-      box.classList.toggle('opacity-100', show);
-    };
-
-    const openModal = () => {
-      lastFocus = document.activeElement;
-      modal.classList.remove('hidden');
-      modal.showModal?.();
-      toggleAnim(true);
-      document.body.style.overflow = 'hidden';
-      openBtn.setAttribute('aria-expanded', 'true');
-      box.focus();
-    };
-
-    const closeModal = () => {
-      toggleAnim(false);
-      setTimeout(() => {
-        modal.close?.();
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
-        openBtn.setAttribute('aria-expanded', 'false');
-        lastFocus?.focus();
-      }, 150);
-    };
-
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => {
-      if (e.target === modal) closeModal();
-    });
-    window.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
-    });
-
-    // Focus trap for accessibility inside modal
-    modal.addEventListener('keydown', e => {
-      if (e.key !== 'Tab') return;
-      const focusables = modal.querySelectorAll('button,[href],input,[tabindex]:not([tabindex="-1"])');
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
+  dots.forEach((btn, i) => {
+    btn.addEventListener('click', () => showTestimonial(i));
+    btn.addEventListener('keydown', e => {
+      if (['Enter', ' '].includes(e.key)) {
+        e.preventDefault();
+        showTestimonial(i);
       }
     });
+  });
 
-    // Tabs: click or arrow keys to navigate
-    const tabs = [...modal.querySelectorAll('.tab-btn')];
-    const panels = [...modal.querySelectorAll('.panel')];
+  function startAutoAdvance() {
+    intervalId = setInterval(() => {
+      showTestimonial((idx + 1) % testimonials.length);
+    }, 7000);
+  }
 
-    function activateTab(i) {
-      tabs.forEach((tab, idx) => {
-        const selected = idx === i;
-        tab.setAttribute('aria-selected', selected);
-        tab.tabIndex = selected ? 0 : -1;
-        tab.classList.toggle('bg-yellow-400', selected);
-        tab.classList.toggle('text-black', selected);
-        tab.classList.toggle('bg-zinc-800', !selected);
-        tab.classList.toggle('text-yellow-300', !selected);
-        panels[idx].classList.toggle('hidden', !selected);
-      });
-      panels[i].focus();
-    }
+  function stopAutoAdvance() {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
 
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => activateTab(i));
-      tab.addEventListener('keydown', e => {
-        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const carousel = document.getElementById('testimonial-carousel');
+  carousel.addEventListener('mouseenter', stopAutoAdvance);
+  carousel.addEventListener('mouseleave', startAutoAdvance);
+  carousel.addEventListener('focusin', stopAutoAdvance);
+  carousel.addEventListener('focusout', startAutoAdvance);
+
+  // Copy-to-clipboard for quote text
+  const copyBtn = document.getElementById('copy-quote');
+  const copyToast = document.getElementById('copy-toast');
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(quoteEl.textContent + ' ' + authorEl.textContent);
+    copyToast.style.opacity = '1';
+    setTimeout(() => (copyToast.style.opacity = '0'), 1300);
+    copyBtn.focus();
+  });
+
+  showTestimonial(0);
+  startAutoAdvance();
+
+  // --- Story Modal Logic ---
+  const modal = document.getElementById('story-modal');
+  const box = document.getElementById('story-box');
+  const openBtn = document.getElementById('story-btn');
+  const closeBtn = document.getElementById('story-close');
+  let lastFocus = null;
+
+  const toggleAnim = show => {
+    box.classList.toggle('scale-95', !show);
+    box.classList.toggle('opacity-0', !show);
+    box.classList.toggle('scale-100', show);
+    box.classList.toggle('opacity-100', show);
+  };
+
+  const openModal = () => {
+    lastFocus = document.activeElement;
+    modal.classList.remove('hidden');
+    modal.showModal?.();
+    toggleAnim(true);
+    document.body.style.overflow = 'hidden';
+    openBtn.setAttribute('aria-expanded', 'true');
+    box.focus();
+  };
+
+  const closeModal = () => {
+    toggleAnim(false);
+    setTimeout(() => {
+      modal.close?.();
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+      openBtn.setAttribute('aria-expanded', 'false');
+      lastFocus?.focus();
+    }, 150);
+  };
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+  });
+
+  // Focus trap inside modal
+  modal.addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const focusables = modal.querySelectorAll('button,[href],input,[tabindex]:not([tabindex="-1"])');
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
         e.preventDefault();
-        const dir = e.key === 'ArrowRight' ? 1 : -1;
-        const next = (i + dir + tabs.length) % tabs.length;
-        activateTab(next);
-        tabs[next].focus();
-      });
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  // Tabs: click or arrow keys navigation
+  const tabs = [...modal.querySelectorAll('.tab-btn')];
+  const panels = [...modal.querySelectorAll('.panel')];
+
+  function activateTab(i) {
+    tabs.forEach((tab, idx) => {
+      const selected = idx === i;
+      tab.setAttribute('aria-selected', selected);
+      tab.tabIndex = selected ? 0 : -1;
+      tab.classList.toggle('bg-yellow-400', selected);
+      tab.classList.toggle('text-black', selected);
+      tab.classList.toggle('bg-zinc-800', !selected);
+      tab.classList.toggle('text-yellow-300', !selected);
+      panels[idx].classList.toggle('hidden', !selected);
     });
-  })();
+    panels[i].focus();
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activateTab(i));
+    tab.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
+      const next = (i + dir + tabs.length) % tabs.length;
+      activateTab(next);
+      tabs[next].focus();
+    });
+  });
+})();
 </script>
 

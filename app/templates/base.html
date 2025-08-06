@@ -5,24 +5,24 @@
   class="no-js scroll-smooth antialiased bg-zinc-950 text-white font-sans{% if team and team.body_class %} {{ team.body_class }}{% endif %}"
 >
 <head>
-  <meta name="theme-color" content="#facc15"> 
-  <meta property="og:type" content="website"> 
-  <meta property="og:site_name" content="Connect ATX Elite"> 
-  <meta name="twitter:card" content="summary_large_image">
-  {# ── Meta & SEO ─────────────────────────────────────────────────────────── #}
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <!-- Updated viewport meta with viewport-fit=cover -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="theme-color" content="{{ team.theme_color|default('#facc15', true) }}" />
   <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="{{ team.theme_color|default('#facc15', true) }}" />
+
   <link rel="canonical" href="{{ request.url_root|trim('/') }}" />
 
+  <title>{% block title %}{{ team.team_name|default('Connect ATX Elite', true) }}{% endblock %}</title>
+
+  {# SEO Meta Description #}
   <meta
     name="description"
     content="{{ team.meta_description|default('Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.', true) }}"
   />
 
-  {# ── Open Graph / Twitter ──────────────────────────────────────────────── #}
+  {# Open Graph / Twitter Cards #}
   {% set _raw_og = team.og_image if team and team.og_image else 'images/logo.avif' %}
   {% set ogimg = _raw_og if _raw_og.startswith('http') else url_for('static', filename=_raw_og) %}
   <meta property="og:type" content="website" />
@@ -36,10 +36,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:creator" content="{{ team.twitter_handle|default('@ConnectATXElite', true) }}" />
 
-  <title>{% block title %}{{ team.team_name|default('Connect ATX Elite', true) }}{% endblock %}</title>
-
-  {# ── PWA & Icons ───────────────────────────────────────────────────────── #}
-  {# <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest', v=asset_version) }}" /> #}
+  {# Favicon & Apple Touch Icon #}
   <link
     rel="icon"
     type="image/png"
@@ -53,19 +50,21 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  {# ── Performance / Preconnect (keep only what you use) ─────────────────── #}
+  {# Performance: Preconnect to critical origins #}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  {# <link rel="preconnect" href="https://js.stripe.com" /> #}
   <link rel="preconnect" href="https://api.stripe.com" />
 
-  {# ── Fonts (self-host later for strict CSP) ────────────────────────────── #}
+  {# Fonts: Google Fonts (self-host when possible) #}
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
     rel="stylesheet"
   />
+  {# Preload key font and team logo image for faster initial render #}
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" crossorigin="anonymous" />
+  <link rel="preload" href="{{ url_for('static', filename=team.logo if team and team.logo else 'images/logo.webp') }}" as="image" type="image/webp" />
 
-  {# ── Styles: preload + main CSS (cache-busted via asset_version) ───────── #}
+  {# Stylesheets: preload + main CSS #}
   <link
     rel="preload"
     href="{{ url_for('static', filename='css/tailwind.min.css', v=asset_version) }}"
@@ -77,33 +76,53 @@
     media="all"
   />
 
-  {# Dev-only: expose input.css to verify Tailwind content scanning #}
+  {# Dev-only CSS for Tailwind content scanning verification #}
   {% if app_env != 'production' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css', v=asset_version) }}">
   {% endif %}
 
-  {# Team-specific custom CSS (per-team theme overrides) #}
+  {# Per-team custom CSS overrides #}
   {% if team and team.custom_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css, v=asset_version) }}">
   {% endif %}
 
-  {# Page-specific <head> hooks #}
-  <meta name="theme-color" content="#facc15"> 
-  <meta property="og:type" content="website"> 
-  <meta property="og:site_name" content="Connect ATX Elite"> 
-  <meta name="twitter:card" content="summary_large_image">
+  {# Structured Data JSON-LD for SEO #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsTeam",
+    "name": "{{ team.team_name|default('Connect ATX Elite') }}",
+    "url": "{{ request.url_root }}",
+    "logo": "{{ url_for('static', filename=team.logo if team and team.logo else 'images/logo.webp') }}",
+    "sport": "Basketball",
+    "memberOf": {
+      "@type": "SportsOrganization",
+      "name": "AAU"
+    },
+    "sameAs": [
+      "{{ team.facebook or '' }}",
+      "{{ team.twitter or '' }}",
+      "{{ team.instagram or '' }}"
+    ]
+  }
+  </script>
+
+  {# Placeholder for page-specific head extensions #}
   {% block head_extra %}{% endblock %}
 </head>
 
 <body
   class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col{% if team and team.body_class %} {{ team.body_class }}{% endif %}"
+  role="document"
+  aria-live="polite"
+  aria-busy="false"
 >
-  {# JS capability toggle (use nonce/CSP if enforced) #}
+  {# JS capability indicator: remove no-js, add js class #}
   <script>
-    (function(d){d.documentElement.classList.remove('no-js');d.documentElement.classList.add('js');})(document);
+    (function(d){ d.documentElement.classList.remove('no-js'); d.documentElement.classList.add('js'); })(document);
   </script>
 
-  {# === Accessible Skip Link === #}
+  {# Accessible Skip Link for keyboard users #}
   <a
     href="#main-content"
     class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50"
@@ -112,14 +131,39 @@
     Skip to main content
   </a>
 
-  {# === Header & Announcement === #}
+  {# Dark Mode Toggle Button (bottom-left fixed) #}
+  <button
+    id="dark-mode-toggle"
+    aria-label="Toggle dark mode"
+    class="fixed bottom-6 left-6 z-50 rounded-full bg-yellow-400 p-3 shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+  >
+    🌙
+  </button>
+
+  {# Loading Spinner Overlay #}
+  <div
+    id="page-loader"
+    class="fixed inset-0 flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-50"
+  >
+    <svg
+      class="animate-spin h-12 w-12 text-yellow-400"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+    </svg>
+  </div>
+
+  {# Header & Announcement Bar #}
   {% block announcement %}{% endblock %}
   {% include 'partials/header_and_announcement.html' ignore missing %}
 
-  {# === HERO (optional per-page) === #}
+  {# Optional per-page hero block #}
   {% block hero %}{% endblock %}
 
-  {# === Main Content === #}
+  {# Main page content #}
   <main
     id="main-content"
     role="main"
@@ -130,34 +174,75 @@
     {% block content %}{% endblock %}
   </main>
 
-  {# === Footer === #}
+  {# Footer #}
   {% include 'partials/footer.html' ignore missing %}
 
-  {# === Global Modals & Popups === #}
+  {# Global modals & popups #}
   {% block global_modals %}
     {% include 'partials/newsletter.html' ignore missing %}
   {% endblock %}
 
-  {# ── Scripts (deferred, ordered, cache-busted) ─────────────────────────── #}
+  {# Pre-script hooks #}
   {% block pre_scripts %}{% endblock %}
 
-  {# Prefer self-hosted vendor scripts in /static/js/vendor for privacy/CSP #}
-  {# <script src="{{ url_for('static', filename='js/vendor/htmx.min.js', v=asset_version) }}" defer></script> #}
-  {# <script src="{{ url_for('static', filename='js/vendor/alpinejs.min.js', v=asset_version) }}" defer></script> #}
-  {# <script src="{{ url_for('static', filename='js/vendor/socket.io.min.js', v=asset_version) }}" defer></script> #}
-  {# <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script> #}
+  {# Vendor scripts (prefer self-hosted for privacy) #}
+  {# Example: <script src="{{ url_for('static', filename='js/vendor/htmx.min.js', v=asset_version) }}" defer></script> #}
 
+  {# Main JS bundle #}
   <script src="{{ url_for('static', filename='js/main.js', v=asset_version) }}" defer></script>
 
+  {# Dark mode toggle script #}
+  <script>
+    const dmToggle = document.getElementById('dark-mode-toggle');
+    dmToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    (function(){
+      const saved = localStorage.getItem('theme');
+      if(saved === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+
+  {# Loading spinner show/hide helpers #}
+  <script>
+    window.showLoader = () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.remove('opacity-0', 'pointer-events-none');
+    };
+    window.hideLoader = () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.add('opacity-0', 'pointer-events-none');
+    };
+  </script>
+
+  {# Page-specific scripts #}
   {% block scripts %}
-    {# Example (only if you actually include AOS): #}
+    {# Example AOS init if included globally: #}
     {# <script defer>
       document.addEventListener('DOMContentLoaded',function(){ if(window.AOS){ AOS.init({ once:true, duration:600 }); } });
     </script> #}
   {% endblock %}
+
+  {# Post-script hooks #}
   {% block post_scripts %}{% endblock %}
 </body>
 </html>
 
-<script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.umd.js"></script>
-<div class="w-full text-center py-2 bg-gradient-to-r from-yellow-900 via-yellow-800 to-yellow-900 text-yellow-100 text-xs font-semibold tracking-wide shadow-inner select-none">🏅 Trusted by 500+ Families · AAU Gold Certified · Austin, TX</div>
+{# Trusted badge bar fixed outside HTML for flexibility #}
+<div
+  class="w-full text-center py-2 bg-gradient-to-r from-yellow-900 via-yellow-800 to-yellow-900 text-yellow-100 text-xs font-semibold tracking-wide shadow-inner select-none"
+>
+  🏅 Trusted by 500+ Families · AAU Gold Certified · Austin, TX
+</div>
+
+{# Optional countup.js inclusion if you want #}
+<script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.umd.js" defer></script>
+

@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="flex flex-col gap-20 max-w-6xl mx-auto w-full px-4 sm:px-8">
+<div class="flex flex-col gap-20 max-w-6xl mx-auto w-full px-4 sm:px-8" role="main">
 
   {% set page_sections = [
     {
@@ -24,9 +24,9 @@
       "partial": "partials/tiers.html"
     },
     {
-      "id": "sponsor-wall",
-      "label": _("Sponsor Wall"),
-      "partial": "partials/sponsor_wall.html"
+      "id": "digital-hub",
+      "label": _("digital hub"),
+      "partial": "partials/digital_hub.html"
     },
     {
       "id": "program-stats-calendar",
@@ -40,25 +40,26 @@
     },
   ] %}
 
-  {# ---- Canonical Section Renderer ---- #}
+  {# ---- Canonical Section Renderer: semantic, accessible, scalable ---- #}
   {% for section in page_sections %}
     <section
       id="{{ section.id }}"
       aria-labelledby="{{ section.id }}-heading"
       class="pb-16 scroll-mt-20"
       role="region"
+      tabindex="-1"
     >
       <h2 id="{{ section.id }}-heading" class="sr-only">{{ section.label }}</h2>
       {% include section.partial ignore missing %}
     </section>
   {% endfor %}
 
-  {# --- (Optional) Floating CTA / Announce bar / Extra --- #}
+  {# --- (Optional) Floating CTA / Announcement Bar / Extra Content --- #}
   {% block extra_cta %}
-    {# Use this block for conversion banners, floating CTAs, A/B tests, etc. #}
+    {# Use this block for sticky banners, promo offers, A/B tests, or seasonal announcements #}
   {% endblock %}
 
-  {# --- ADMIN ONBOARDING (visible only to admin) --- #}
+  {# --- Admin Onboarding Popover (secured to admins only) --- #}
   {% if current_user and current_user.is_authenticated and current_user.is_admin %}
     <div id="admin-onboarding" class="relative z-40">
       {% include "partials/admin_onboarding_popover.html" ignore missing %}

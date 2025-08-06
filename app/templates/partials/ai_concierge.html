@@ -19,14 +19,12 @@
   tabindex="-1"
 >
   <div
-    class="relative flex flex-col w-full max-w-md rounded-2xl bg-zinc-900 border-2 border-yellow-400/40 shadow-2xl overflow-hidden scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out"
+    class="relative flex flex-col w-full max-w-md rounded-2xl bg-zinc-900 -2 shadow-2xl overflow-hidden scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out"
     style="min-width: 330px"
     role="document"
   >
     <!-- Modal Header -->
-    <header
-      class="flex items-center gap-3 py-4 px-6 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 border-b border-yellow-300/30"
-    >
+    <header class="flex items-center gap-3 py-4 px-6 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 -b">
       <span class="text-2xl" aria-hidden="true">🤖</span>
       <h3 id="ai-modal-title" class="flex-1 text-xl font-extrabold text-zinc-900">AI Concierge</h3>
       <button
@@ -37,7 +35,7 @@
       >×</button>
     </header>
 
-    <!-- Chat Log (Role="log" for SRs) -->
+    <!-- Chat Log (Role="log" for screen readers) -->
     <section
       id="ai-chat-log"
       class="flex-1 overflow-y-auto max-h-[50vh] p-5 bg-black/5 text-yellow-200"
@@ -58,18 +56,18 @@
 
     <!-- Shortcuts Tooltip -->
     <div
-      class="px-5 py-2 text-xs text-yellow-300 bg-yellow-900/30 text-center select-none border-t border-yellow-400/20"
+      class="px-5 py-2 text-xs text-yellow-300 bg-yellow-900/30 text-center select-none -t"
       role="tooltip"
       aria-label="Keyboard shortcuts"
     >
-      Press <kbd class="rounded border border-yellow-300 px-1">ESC</kbd> to close,
-      <kbd class="rounded border border-yellow-300 px-1">Cmd/Ctrl + /</kbd> to open chat.
+      Press <kbd class="rounded px-1">ESC</kbd> to close,
+      <kbd class="rounded px-1">Cmd/Ctrl + /</kbd> to open chat.
     </div>
 
     <!-- Composer -->
     <form
       id="ai-chat-form"
-      class="flex gap-2 p-4 border-t border-yellow-300/10 bg-zinc-900"
+      class="flex gap-2 p-4 -t bg-zinc-900"
       autocomplete="off"
       aria-label="Send message to AI Concierge"
       novalidate
@@ -83,7 +81,7 @@
         autocomplete="off"
         placeholder="Type your question…"
         aria-required="true"
-        class="flex-1 rounded-lg border border-yellow-400/20 bg-zinc-800 px-4 py-2 text-yellow-100 focus:ring-2 focus:ring-yellow-400 outline-none"
+        class="flex-1 rounded-lg bg-zinc-800 px-4 py-2 text-yellow-100 focus:ring-2 focus:ring-yellow-400 outline-none"
         aria-live="polite"
         aria-atomic="true"
       />
@@ -137,7 +135,6 @@
 </style>
 
 <script type="module">
-  // --- Modal Logic, A11y, and Confetti (SaaS-level polish) ---
   const dlg = document.getElementById('ai-concierge');
   const btn = document.getElementById('ai-concierge-btn');
   const inputEl = document.getElementById('ai-chat-input');
@@ -145,11 +142,10 @@
   const typingEl = document.getElementById('typing-indicator');
   const sendBtn = document.getElementById('ai-send-btn');
 
-  // Escape HTML
   const escapeHtml = (str) =>
     str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
-  // Restore session chat
+  // Restore chat history from sessionStorage
   let chatHistory = JSON.parse(sessionStorage.getItem('aiChatHistory') || '[]');
   if (chatHistory.length) {
     logEl.innerHTML = '';
@@ -163,12 +159,12 @@
     logEl.scrollTop = logEl.scrollHeight;
   }
 
-  // Button enable/disable
+  // Enable send button only when input has value
   inputEl.addEventListener('input', () => {
     sendBtn.disabled = !inputEl.value.trim();
   });
 
-  // Modal open/close (with a11y)
+  // Open modal with accessibility and animation
   function openAIModal() {
     if (!dlg.open) dlg.showModal();
     dlg.classList.remove('closed');
@@ -176,6 +172,9 @@
     btn.setAttribute('aria-expanded', 'true');
     setTimeout(() => inputEl.focus(), 150);
   }
+  btn.onclick = openAIModal;
+
+  // Close modal, revert focus and scroll locking
   function closeAIModal() {
     dlg.classList.add('closed');
     setTimeout(() => {
@@ -185,29 +184,28 @@
       btn.focus();
     }, 180);
   }
-  btn.onclick = openAIModal;
 
-  // Bulletproof: close modal with ANY [data-close] button or backdrop click
+  // Close modal on any [data-close] button or backdrop click
   dlg.addEventListener('click', (e) => {
-    if (e.target.closest('[data-close]') || e.target === dlg) {
-      closeAIModal();
-    }
+    if (e.target.closest('[data-close]') || e.target === dlg) closeAIModal();
   });
+
+  // Close modal on ESC
   dlg.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeAIModal();
   });
 
-  // Focus trap
+  // Focus trap inside modal
   dlg.addEventListener('keydown', (e) => {
     if (e.key !== 'Tab') return;
     const focusable = dlg.querySelectorAll('button, [tabindex]:not([tabindex="-1"]), input, textarea, select, a, [role="button"]');
     if (!focusable.length) return;
-    const first = focusable[0], last = focusable[focusable.length-1];
+    const first = focusable[0], last = focusable[focusable.length - 1];
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
 
-  // Confetti sparkle animation on AI reply
+  // Confetti animation on AI reply
   function launchConfetti() {
     const confettiCount = 16, colors = ['#FBBF24','#FACC15','#FFD700','#FFC107','#FFEB3B'];
     const rect = dlg.getBoundingClientRect();
@@ -229,7 +227,7 @@
     }
   }
 
-  // Form handler (AI chat)
+  // Handle chat submission and update log
   document.getElementById('ai-chat-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = inputEl.value.trim();

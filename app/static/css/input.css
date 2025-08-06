@@ -1,11 +1,6 @@
 /* ========================================================================== */
-
 /* FundChamps Tailwind Input — Elite SaaS Edition                             */
-
-/* Next-level form UX: Gold accents • Modern dark mode • Floating labels      */
-
-/* Conversion-Driven • A11y-First • Silicon Valley polish                     */
-
+/* Gold accent only where you want it: pop, focus, badge, not global borders  */
 /* ========================================================================== */
 
 /* ==== Tailwind core (do not remove) ==== */
@@ -14,9 +9,7 @@
 @tailwind utilities;
 
 /* ---------------------------------------- */
-
 /* Design Tokens & Globals (via @layer base) */
-
 /* ---------------------------------------- */
 @layer base {
   :root {
@@ -26,16 +19,16 @@
     --brand-glass: rgb(250 204 21 / 12%);
     --input-bg: #18181b;
     --input-bg-dark: #121212;
-    --input-border: rgb(250 204 21 / 40%);
-    --input-border-dark: rgb(250 204 21 / 60%);
+    --input-border: #333;  /* <- SAFE: neutral border, no yellow by default */
+    --input-border-dark: #222;
     --input-text: #facc15;
     --input-text-dark: #fffacd;
     --input-error: #dc2626;
     --input-success: #16a34a;
     --input-helper: rgb(250 204 21 / 67%);
     --input-helper-error: rgb(220 38 38 / 80%);
+    --focus-ring: var(--brand-gold);
   }
-
   .dark {
     --input-bg: var(--input-bg-dark);
     --input-border: var(--input-border-dark);
@@ -45,9 +38,7 @@
 }
 
 /* ---------------------------------------- */
-
 /* Inputs: Elite UX + A11y (via @layer components) */
-
 /* ---------------------------------------- */
 @layer components {
   .input-group {
@@ -55,14 +46,12 @@
     position: relative;
   }
 
-  /* Autofill (high specificity, always above focus state) */
   input:-webkit-autofill,
   textarea:-webkit-autofill,
   select:-webkit-autofill {
     box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
     -webkit-text-fill-color: var(--input-text) !important;
   }
-
   input:disabled,
   textarea:disabled,
   select:disabled {
@@ -73,15 +62,13 @@
   .input-group textarea,
   .input-group select {
     background-color: var(--input-bg);
-    border: 2px solid var(--input-border);
+    border: 2px solid var(--input-border); /* <- always NEUTRAL by default */
     color: var(--input-text);
     font-size: 1rem;
     line-height: 1.4;
     padding-top: 1.45rem;
-
     @apply w-full rounded-xl p-3 font-medium shadow-inner transition-colors duration-200 ease-in-out;
   }
-
   .input-group textarea {
     max-height: 300px;
     min-height: 44px;
@@ -89,22 +76,21 @@
     resize: none;
   }
 
-  /* Focus + Focus-visible states (merge for polish) */
+  /* Focus + Focus-visible: Only gold on actual focus, never base */
   .input-group input:focus,
   .input-group textarea:focus,
   .input-group select:focus {
     background-color: #232320;
-    border-color: var(--brand-gold);
+    border-color: var(--focus-ring);    /* <- gold border only on focus! */
     box-shadow: 0 0 0 3px rgb(250 204 21 / 18%);
     outline: none;
   }
-
   .input-group input:focus-visible,
   .input-group textarea:focus-visible,
   .input-group select:focus-visible {
     animation: pulse-glow 1.3s infinite alternate;
-    box-shadow: 0 0 12px var(--brand-gold);
-    outline: 3px solid var(--brand-gold);
+    box-shadow: 0 0 12px var(--focus-ring);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
   }
 
@@ -122,14 +108,13 @@
     user-select: none;
     z-index: 10;
   }
-
   .input-group input:focus + label,
   .input-group input:not(:placeholder-shown) + label,
   .input-group textarea:focus + label,
   .input-group textarea:not(:placeholder-shown) + label,
   .input-group select:focus + label,
   .input-group select:not([value='']) + label {
-    color: var(--brand-gold);
+    color: var(--focus-ring);
     font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -152,7 +137,6 @@
     border-color: var(--input-error);
     box-shadow: 0 0 0 3px rgb(220 38 38 / 30%);
   }
-
   .input-group input[data-valid='true'],
   .input-group textarea[data-valid='true'],
   .input-group select[data-valid='true'] {
@@ -168,7 +152,6 @@
     margin-top: 0.28rem;
     user-select: none;
   }
-
   .input-helper.error {
     color: var(--input-helper-error);
     font-weight: 700;
@@ -190,7 +173,6 @@
     transition: opacity 0.2s;
     z-index: 11;
   }
-
   .input-group input[type='text']:focus ~ .input-clear,
   .input-group input[type='text']:hover ~ .input-clear,
   .input-group input[type='email']:focus ~ .input-clear,
@@ -205,7 +187,6 @@
   .skeleton-input {
     margin-bottom: 1.2rem;
     min-height: 44px;
-
     @apply bg-zinc-700 rounded-xl animate-pulse w-full h-10;
   }
 
@@ -221,10 +202,9 @@
     pointer-events: none;
     position: relative;
   }
-
   .btn-loading::after {
     animation: spin 1.1s linear infinite;
-    border: 2.7px solid var(--brand-gold);
+    border: 2.7px solid var(--focus-ring);
     border-radius: 9999px;
     border-top: 2.7px solid #fff;
     content: '';
@@ -238,31 +218,25 @@
 }
 
 /* ---------------------------------------- */
-
 /* Utilities: Micro-interactions            */
-
 /* ---------------------------------------- */
 @layer utilities {
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .focus-trap {
     border-radius: 0.5rem;
-    box-shadow: 0 0 9px var(--brand-gold);
+    box-shadow: 0 0 9px var(--focus-ring);
     outline: none !important;
   }
 }
 
 /* ---------------------------------------- */
-
 /* Responsive, Reduced Motion, A11y         */
-
 /* ---------------------------------------- */
 @media (pointer: coarse) {
   .input-group input,
@@ -272,7 +246,6 @@
     min-height: 44px;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -283,9 +256,7 @@
 }
 
 /* ---------------------------------------- */
-
 /* UI/UX Micro-interactions & Animations    */
-
 /* ---------------------------------------- */
 
 /* Fundraising tooltip */
@@ -305,7 +276,6 @@
   width: 16rem;
   z-index: 1000;
 }
-
 .fundraising-meter:focus-within #fundraising-tip,
 .fundraising-meter:hover #fundraising-tip {
   opacity: 1;
@@ -323,7 +293,6 @@
   background-size: 200% 100%;
   border-radius: 0.5rem;
 }
-
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
@@ -344,7 +313,6 @@
   right: 20px;
   z-index: 15000;
 }
-
 @keyframes fade-in-out {
   0%,100% { opacity: 0; transform: translateY(20px);}
   10%,90% { opacity: 1; transform: translateY(0);}
@@ -363,7 +331,6 @@
   margin-right: 0.25rem;
   padding: 0.2rem 0.5rem;
 }
-
 @keyframes pop-in {
   from { opacity: 0; transform: scale(0.7);}
   to   { opacity: 1; transform: scale(1);}
@@ -375,14 +342,12 @@
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.25s ease;
 }
-
 .tier-card:focus,
 .tier-card:hover {
   box-shadow: 0 8px 24px var(--brand-gold);
   outline: none;
   transform: translateY(-4px);
 }
-
 .tier-popover {
   background-color: var(--brand-gold);
   border-radius: 0.5rem;
@@ -409,9 +374,8 @@
 @keyframes spin {
   to { transform: rotate(360deg);}
 }
-
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 4px var(--brand-gold);}
-  100% { box-shadow: 0 0 20px var(--brand-gold);}
+  0% { box-shadow: 0 0 4px var(--focus-ring);}
+  100% { box-shadow: 0 0 20px var(--focus-ring);}
 }
 

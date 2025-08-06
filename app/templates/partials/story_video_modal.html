@@ -13,7 +13,7 @@
 </div>
 
 <dialog id="fundchamps-storyModal" role="dialog"
-  class="p-0 rounded-3xl overflow-hidden shadow-2xl bg-black/95 backdrop-blur-lg max-w-3xl w-full mx-auto border-4 border-yellow-400/70 transition-all scale-95 opacity-0"
+  class="p-0 rounded-3xl overflow-hidden shadow-2xl bg-black/95 backdrop-blur-lg max-w-3xl w-full mx-auto -4  transition-all scale-95 opacity-0"
   aria-modal="true" aria-hidden="true" aria-labelledby="fundchamps-storyModalTitle">
   <button type="button" class="absolute top-4 right-4 text-white text-4xl hover:text-yellow-300 focus:ring-2 ring-yellow-300 z-50" onclick="closeModal()" aria-label="Close dialog">×</button>
   <div class="flex flex-col items-center p-6 animate-fade-in-down">
@@ -37,16 +37,16 @@
     </div>
     <!-- Video Panels -->
     <div id="fundchamps-panel-myvideo" role="tabpanel" class="w-full max-w-2xl aspect-video mx-auto block">
-      <video controls poster="{{ video_poster }}" class="rounded-xl border-4 border-yellow-300 shadow-lg w-full h-auto bg-black">
+      <video controls poster="{{ video_poster }}" class="rounded-xl -4  shadow-lg w-full h-auto bg-black">
         <source src="{{ video_src }}" type="video/mp4" />
         Sorry, your browser doesn’t support embedded videos.
       </video>
     </div>
     <div id="fundchamps-panel-kvue" role="tabpanel" class="w-full max-w-2xl aspect-video mx-auto hidden">
-      <iframe src="{{ kvue_url }}" width="100%" height="360" allowfullscreen class="border-2 border-yellow-300 rounded-xl"></iframe>
+      <iframe src="{{ kvue_url }}" width="100%" height="360" allowfullscreen class="-2  rounded-xl"></iframe>
     </div>
     <div id="fundchamps-panel-youtube" role="tabpanel" class="w-full max-w-2xl aspect-video mx-auto hidden">
-      <iframe src="https://www.youtube.com/embed/{{ youtube_id }}" width="100%" height="360" allowfullscreen class="border-2 border-yellow-300 rounded-xl"></iframe>
+      <iframe src="https://www.youtube.com/embed/{{ youtube_id }}" width="100%" height="360" allowfullscreen class="-2  rounded-xl"></iframe>
     </div>
     <div class="mt-5 text-xs text-zinc-300 text-center">
       <strong>{{ team.team_name if team.team_name else "FundChamps" }}</strong> | Family-run. Community-powered. Champions rising.

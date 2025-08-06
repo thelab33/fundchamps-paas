@@ -10,7 +10,7 @@
   x-init="setTimeout(() => { launchConfetti(); }, 400)"
   x-show="open"
   x-transition.opacity.duration.400ms
-  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black/95 p-6 text-yellow-100 shadow-lg border-2 border-yellow-400/30 animate-fade-in focus:outline-none ring-2 ring-yellow-400/10"
+  class="fixed bottom-8 right-8 z-50 max-w-xs rounded-2xl bg-black/95 p-6 text-yellow-100 shadow-lg -2  animate-fade-in focus:outline-none ring-2 ring-yellow-400/10"
   @keydown.escape.window="open = false; dismissOnboarding()"
   style="backdrop-filter: blur(2px);"
 >
@@ -21,21 +21,21 @@
     <li class="flex items-center gap-2">
       <button type="button" class="text-green-400" x-on:click="steps[0]=true" :aria-checked="steps[0]" aria-label="Step 1: Visit Dashboard">
         <span x-show="steps[0]" class="inline-block w-5 h-5">✔️</span>
-        <span x-show="!steps[0]" class="inline-block w-5 h-5 border-2 border-yellow-400 rounded-full"></span>
+        <span x-show="!steps[0]" class="inline-block w-5 h-5 -2  rounded-full"></span>
       </button>
       <span :class="steps[0] ? 'line-through text-green-300' : ''">Visit your Dashboard</span>
     </li>
     <li class="flex items-center gap-2">
       <button type="button" class="text-green-400" x-on:click="steps[1]=true" :aria-checked="steps[1]" aria-label="Step 2: Invite Sponsors">
         <span x-show="steps[1]" class="inline-block w-5 h-5">✔️</span>
-        <span x-show="!steps[1]" class="inline-block w-5 h-5 border-2 border-yellow-400 rounded-full"></span>
+        <span x-show="!steps[1]" class="inline-block w-5 h-5 -2  rounded-full"></span>
       </button>
       <span :class="steps[1] ? 'line-through text-green-300' : ''">Invite sponsors to your program</span>
     </li>
     <li class="flex items-center gap-2">
       <button type="button" class="text-green-400" x-on:click="steps[2]=true" :aria-checked="steps[2]" aria-label="Step 3: Import Contacts">
         <span x-show="steps[2]" class="inline-block w-5 h-5">✔️</span>
-        <span x-show="!steps[2]" class="inline-block w-5 h-5 border-2 border-yellow-400 rounded-full"></span>
+        <span x-show="!steps[2]" class="inline-block w-5 h-5 -2  rounded-full"></span>
       </button>
       <span :class="steps[2] ? 'line-through text-green-300' : ''">Import your team contacts</span>
     </li>

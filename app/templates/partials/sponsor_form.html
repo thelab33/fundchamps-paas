@@ -22,14 +22,14 @@
     </label>
     {% if form is defined and form.name is defined %}
       {{ form.name(
-        class_="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition",
+        class_="w-full rounded-lg  px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition",
         id="donor-name"
       ) }}
       {% if form.name.errors %}
         <p class="text-red-600 text-xs mt-1">{{ form.name.errors[0] }}</p>
       {% endif %}
     {% else %}
-      <input type="text" name="name" id="donor-name" required class="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition" placeholder="Your Name or Company" />
+      <input type="text" name="name" id="donor-name" required class="w-full rounded-lg  px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition" placeholder="Your Name or Company" />
     {% endif %}
   </div>
 
@@ -40,14 +40,14 @@
     </label>
     {% if form is defined and form.email is defined %}
       {{ form.email(
-        class_="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition",
+        class_="w-full rounded-lg  px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition",
         id="donor-email"
       ) }}
       {% if form.email.errors %}
         <p class="text-red-600 text-xs mt-1">{{ form.email.errors[0] }}</p>
       {% endif %}
     {% else %}
-      <input type="email" name="email" id="donor-email" required class="w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition" placeholder="your@email.com" />
+      <input type="email" name="email" id="donor-email" required class="w-full rounded-lg  px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition" placeholder="your@email.com" />
     {% endif %}
   </div>
 
@@ -60,12 +60,12 @@
       <span class="absolute left-3 top-2 text-yellow-400 font-bold">$</span>
       {% if form is defined and form.amount is defined %}
         {{ form.amount(
-          class_="pl-7 w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition font-bold text-lg",
+          class_="pl-7 w-full rounded-lg  px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition font-bold text-lg",
           min="5", step="1", placeholder="50", id="donation-amount"
         ) }}
       {% else %}
         <input type="number" min="5" step="1" name="amount" id="donation-amount"
-          class="pl-7 w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition font-bold text-lg"
+          class="pl-7 w-full rounded-lg  px-4 py-2 focus:outline-none focus:ring focus:ring-yellow-400/50 transition font-bold text-lg"
           placeholder="50" required />
       {% endif %}
     </div>

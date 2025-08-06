@@ -70,7 +70,7 @@ endblock %} {% block content %}
       </thead>
       <tbody>
         {% for s in sponsors %}
-        <tr class="border-b border-zinc-700 hover:bg-yellow-50/10">
+        <tr class="-b -zinc-700 hover:bg-yellow-50/10">
           <td class="p-2 font-bold">{{ s.name }}</td>
           <td class="p-2">{{ s.email or "-" }}</td>
           <td class="p-2 text-gold font-bold">
@@ -127,7 +127,7 @@ endblock %} {% block content %}
       </thead>
       <tbody>
         {% for t in transactions %}
-        <tr class="border-b border-zinc-700 hover:bg-yellow-50/10">
+        <tr class="-b -zinc-700 hover:bg-yellow-50/10">
           <td class="p-2">{{ t.sponsor.name }}</td>
           <td class="p-2 text-gold font-bold">
             ${{ "%.2f"|format(t.amount) }}
