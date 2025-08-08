@@ -1,10 +1,48 @@
-<!-- back_to_top.html partial -->
-<button 
-  id="back-to-top" 
-  class="fixed bottom-4 right-4 p-3 bg-yellow-400 text-white rounded-full shadow-md focus:outline-none"
-  onclick="window.scrollTo({top: 0, behavior: 'smooth'});"
-  aria-label="Scroll to top"
+<!-- back_to_top.html partial — Elite SaaS Polish -->
+<button
+  id="back-to-top"
+  class="fixed bottom-6 right-6 z-[99] p-3 rounded-full bg-yellow-400 text-black text-2xl shadow-2xl ring-2 ring-yellow-300 transition-all duration-300 hover:bg-yellow-300 hover:scale-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-400 opacity-0 pointer-events-none"
+  aria-label="Back to top"
+  type="button"
+  tabindex="0"
 >
-  ↑
+  <span aria-hidden="true">↑</span>
+  <span class="sr-only">Scroll to top</span>
 </button>
+
+<script>
+  // Show/hide logic on scroll, focus support, accessibility
+  (function() {
+    const btn = document.getElementById('back-to-top');
+    let visible = false;
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 350 && !visible) {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        visible = true;
+      } else if (window.scrollY <= 350 && visible) {
+        btn.style.opacity = '0';
+        btn.style.pointerEvents = 'none';
+        visible = false;
+      }
+    });
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      }
+    });
+  })();
+</script>
+
+<style>
+  #back-to-top {
+    box-shadow: 0 4px 32px 0 rgba(251,191,36,0.18), 0 2px 8px 0 #0003;
+    /* Subtle bounce animation on show */
+    transition: opacity 0.28s cubic-bezier(.4,0,.2,1), transform 0.22s;
+  }
+  #back-to-top:active {
+    transform: scale(0.95);
+  }
+</style>
 

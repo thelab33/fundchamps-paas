@@ -1,11 +1,8 @@
-// tailwind.config.cjs
+// tailwind.config.cjs — FundChamps SaaS / Starforge Elite Edition
 const plugin = require('tailwindcss/plugin');
-const {
-  zinc, yellow, black, white, red, blue, emerald, amber, indigo, orange, pink,
-  transparent, sky, slate, gray, neutral, stone,
-} = require('tailwindcss/colors');
+const colors = require('tailwindcss/colors');
 
-// Safe loader so missing plugins never crash builds
+// -- Helper: safe plugin loader (no crash on missing plugin)
 const noop = plugin(() => {});
 const safe = (name) => {
   try { return require(name); }
@@ -14,8 +11,10 @@ const safe = (name) => {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // 1️⃣ Enable dark mode (class-based)
   darkMode: 'class',
 
+  // 2️⃣ Scan all relevant templates & code (super comprehensive)
   content: [
     './app/templates/**/*.{html,jinja,jinja2}',
     './app/templates/partials/**/*.{html,jinja,jinja2}',
@@ -27,20 +26,25 @@ module.exports = {
     './app/static/data/**/*.{json,txt}',
   ],
 
+  // 3️⃣ Safelist: Dynamic & Jinja classes, dark modes, gold glass/glow, etc.
   safelist: [
+    // Base backgrounds & text
     'bg-zinc-950', 'bg-zinc-900', 'bg-black', 'bg-yellow-400', 'text-yellow-400',
-    'rounded-xl', 'rounded-2xl', 'sr-only',
-    'shadow-gold-glow', 'shadow-xl-gold',
+    'rounded-xl', 'rounded-2xl', 'sr-only', 'shadow-gold-glow', 'shadow-xl-gold',
+    // Animations
     { pattern: /^animate-(kenburns|bounce-in|fade-in|sparkle|shine|spin(-reverse-slow|-slow)?)$/ },
+    // Gradients, color utilities, spacing, etc.
     {
       pattern:
         /^(from|via|to)-(yellow|zinc|black|white|amber|blue|red|emerald|indigo|orange|pink|sky|slate|gray|neutral|stone)-(50|100|200|300|400|500|600|700|800|900|950)(\/[0-9]{1,3})?$/
     },
+    // UI utility classes
     { pattern: /^(bg|text|border|ring|opacity|rounded|z|p[trblxy]?|m[trblxy]?|gap|font|tracking|h-|w-)/ },
-    { pattern: /^z-\d+$/ },
-    { pattern: /^z-\[\d+\]$/ },
+    { pattern: /^z-\d+$/ },           // z-index utility
+    { pattern: /^z-\[\d+\]$/ },       // custom z-index
   ],
 
+  // 4️⃣ THEME: Extend for luxury, brand, and glass
   theme: {
     container: {
       center: true,
@@ -49,22 +53,22 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'Montserrat', 'Roboto', 'Segoe UI', 'Arial', 'sans-serif'],
+        sans: [
+          'Inter', 'Montserrat', 'Roboto', 'Segoe UI', 'Arial', 'sans-serif'
+        ],
       },
       colors: {
-        zinc, yellow, black, white, red, blue, emerald, amber, indigo, orange, pink,
-        transparent, sky, slate, gray, neutral, stone,
-
-        // Elite brand colors
+        ...colors,
+        // FundChamps / Elite palette — always extendable per team/tenant
         brand: {
-          gold: '#d4af37',           // refined gold
-          goldLight: '#c99a2c',      // lighter amber for hovers
+          gold: '#d4af37',          // refined gold
+          goldLight: '#c99a2c',     // lighter for hover
           amber: {
-            400: '#b8860b',          // amber shades for shadows, focus rings
+            400: '#b8860b',
             500: '#a97406',
             600: '#8c6703',
           },
-          slate: '#09090b',          // deep dark base
+          slate: '#09090b',
           glass: 'rgba(250, 204, 21, 0.12)',
           inputBg: '#18181b',
           inputBgDark: '#121212',
@@ -77,7 +81,7 @@ module.exports = {
           inputHelper: 'rgba(250, 204, 21, 0.67)',
           inputHelperError: 'rgba(220, 38, 38, 0.8)',
         },
-
+        // Easy imports for global classes and Jinja
         primary: '#facc15',
         'primary-gold': '#fbbf24',
         'primary-yellow': '#fde68a',
@@ -108,8 +112,7 @@ module.exports = {
           '0%': { opacity: 0, transform: 'translateY(30px)' },
           '100%': { opacity: 1, transform: 'none' },
         },
-
-        // New pulse-glow for brand gold
+        // Elite pulse for focus
         'pulse-glow': {
           '0%': { boxShadow: '0 0 4px #b8860b' },
           '100%': { boxShadow: '0 0 20px #b8860b' },
@@ -132,8 +135,6 @@ module.exports = {
         shine: 'shine 2.1s linear infinite',
         sparkle: 'sparkle 1.3s ease-in-out infinite',
         'fade-in': 'fade-in 1.5s cubic-bezier(.39,.575,.565,1) both',
-
-        // New animations
         'pulse-glow': 'pulse-glow 1.3s infinite alternate',
         'pop-in': 'pop-in 0.5s ease forwards',
         'spin-slow': 'spin 12s linear infinite',
@@ -168,17 +169,15 @@ module.exports = {
     },
   },
 
+  // 5️⃣ PLUGINS: Official, Community, and Custom Utility Variants
   plugins: [
-    // Official plugins (loaded safely)
     safe('@tailwindcss/forms'),
     safe('@tailwindcss/typography'),
     safe('@tailwindcss/aspect-ratio'),
     safe('@tailwindcss/line-clamp'),
+    safe('tailwindcss-animate'), // Animations for pro polish
 
-    // Animations: use community plugin (you installed it)
-    safe('tailwindcss-animate'),
-
-    // Elite UX utilities & variants
+    // UX/ARIA/State utility classes — extend as needed!
     plugin(function ({ addUtilities, addVariant, theme }) {
       addUtilities(
         {
@@ -200,7 +199,7 @@ module.exports = {
         },
         ['responsive', 'hover', 'focus', 'focus-visible']
       );
-
+      // Supercharged variants (expand for ARIA, state, hocus, etc.)
       addVariant('hocus', ['&:hover', '&:focus']);
       addVariant('supports-hover', '@media (hover: hover)');
       addVariant('aria-current', '&[aria-current="page"]');
@@ -211,8 +210,10 @@ module.exports = {
     }),
   ],
 
+  // 6️⃣ Core Plugins: Preflight on for best browser baseline
   corePlugins: { preflight: true },
 
+  // 7️⃣ Future-proof
   future: {
     hoverOnlyWhenSupported: true,
     optimizeUniversalDefaults: true,

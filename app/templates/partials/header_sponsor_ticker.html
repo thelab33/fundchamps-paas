@@ -1,54 +1,81 @@
-{# Live Sponsor Ticker (Optional) #}
-{# You can connect this to HTMX or Socket.IO later for real-time sponsor scrolling #}
+{# ===========================
+   ELITE SPONSOR TICKER BAR
+   ===========================
+   • Accessible marquee, real FOMO copy
+   • Dynamic or static sponsors
+   • Easily extend to HTMX/Socket.IO
+   • Polished animation & responsive
+#}
 
 <div
   id="sponsor-ticker"
-  class="w-full bg-yellow-800/90 text-yellow-100 text-xs md:text-sm py-1 px-3 overflow-hidden whitespace-nowrap font-semibold"
+  class="relative z-40 w-full bg-gradient-to-r from-yellow-900/90 via-yellow-800/95 to-yellow-900/80 text-yellow-100 text-xs md:text-sm py-1.5 px-4 overflow-hidden whitespace-nowrap font-bold tracking-wide shadow-md ring-2 ring-yellow-300/30 rounded-b-2xl border-b-2 border-yellow-500/30"
   role="marquee"
-  aria-live="polite" 
+  aria-live="polite"
   aria-atomic="true"
   aria-label="Sponsor ticker"
 >
-  🌟 Thanks to our amazing sponsors: 
-  <span class="sponsor-item mx-2">Gold’s Gym</span> • 
-  <span class="sponsor-item mx-2">Eastside Dental</span> • 
-  <span class="sponsor-item mx-2">TechBridge Austin</span> • 
-  <span class="sponsor-item mx-2">Coach Carter Foundation</span>
+  <span class="mr-2 animate-pulse select-none" aria-hidden="true">🌟</span>
+  <span class="font-semibold">Thanks to our amazing sponsors:</span>
+  <span id="ticker-track" class="inline-flex items-center ml-3 gap-2">
+    {% set sponsors_list = sponsors if sponsors is defined else [
+      {"name": "Gold’s Gym", "url": "#"},
+      {"name": "Eastside Dental", "url": "#"},
+      {"name": "TechBridge Austin", "url": "#"},
+      {"name": "Coach Carter Foundation", "url": "#"}
+    ] %}
+    {% for sponsor in sponsors_list %}
+      <a
+        href="{{ sponsor.url or '#' }}"
+        class="sponsor-item mx-2 transition hover:text-yellow-400 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded"
+        target="_blank"
+        rel="noopener"
+      >{{ sponsor.name }}</a>
+      {% if not loop.last %}
+        <span aria-hidden="true" class="opacity-70 mx-1">•</span>
+      {% endif %}
+    {% endfor %}
+  </span>
 </div>
 
 <style>
-  /* Smooth and continuous marquee animation */
   @keyframes marquee-scroll {
-    0% { transform: translateX(100%); }
+    0%   { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
   }
 
-  #sponsor-ticker {
-    display: flex;
-    animation: marquee-scroll 15s linear infinite;
+  #sponsor-ticker #ticker-track {
+    min-width: 100%;
+    display: inline-flex;
+    animation: marquee-scroll 17s linear infinite;
+    will-change: transform;
+  }
+
+  @media (max-width: 768px) {
+    #sponsor-ticker #ticker-track {
+      animation-duration: 24s;
+    }
+    #sponsor-ticker {
+      font-size: 0.88rem;
+      padding-left: 0.6rem;
+      padding-right: 0.6rem;
+    }
+    .sponsor-item {
+      margin-right: 0.7rem;
+    }
   }
 
   .sponsor-item {
     display: inline-block;
     white-space: nowrap;
-    margin-right: 1rem; /* Adding spacing between sponsors */
-  }
-
-  /* Optional: Responsive adjustments for small screens */
-  @media (max-width: 768px) {
-    #sponsor-ticker {
-      animation-duration: 20s; /* Slower scrolling on smaller screens */
-    }
-
-    .sponsor-item {
-      margin-right: 0.75rem; /* Slightly reduced spacing on small screens */
-    }
-  }
-
-  /* Optional: Styling for hover effects (if applicable) */
-  .sponsor-item:hover {
-    text-decoration: underline;
-    cursor: pointer;
+    margin-right: 1rem;
+    padding: 0 0.25rem;
+    transition: color 0.2s, text-decoration 0.2s;
   }
 </style>
+
+<script>
+  // Optional: Restart animation on sponsor list update (future HTMX)
+  // No JS needed for vanilla CSS loop, but you can extend here!
+</script>
 

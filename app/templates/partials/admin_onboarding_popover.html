@@ -1,47 +1,57 @@
 {% if current_user.is_authenticated and current_user.is_admin and not session.get('onboarded') %}
 <div
   id="admin-onboarding-popover"
-  x-data="{ open: true, steps: Array(3).fill(false) }"
+  x-data="adminOnboardPopover()"
+  x-init="init()"
   x-show="open"
+  x-trap="open"
   x-transition.opacity.duration.500ms
   @keydown.window.escape="open=false; dismissOnboarding()"
   role="dialog"
   aria-modal="true"
   aria-labelledby="onboard-title"
   tabindex="-1"
-  class="fixed bottom-8 right-8 max-w-sm bg-black/90 text-yellow-100 p-6 rounded-2xl shadow-2xl ring-1 ring-yellow-400/20 animate-fade-in focus:outline-none"
+  class="fixed bottom-8 right-8 max-w-sm w-full bg-black/90 text-yellow-100 p-6 rounded-2xl shadow-2xl ring-1 ring-yellow-400/20 animate-fade-in z-[9999] focus:outline-none"
   style="backdrop-filter:blur(4px);"
-  x-init="setTimeout(launchConfetti,400)"
 >
-  <h3 id="onboard-title" class="text-2xl font-extrabold text-yellow-300 mb-4 drop-shadow-lg">Welcome, Admin!</h3>
+  <h3 id="onboard-title" class="text-2xl font-extrabold text-yellow-300 mb-4 drop-shadow-lg flex items-center gap-2">
+    <span class="animate-wiggle text-3xl">🎯</span> Welcome, Admin!
+  </h3>
 
   <!-- Onboarding Steps -->
   <ol class="space-y-3 mb-4 text-sm" aria-label="Onboarding Steps">
-    <template x-for="(step, i) in ['Visit Dashboard','Invite Sponsors','Import Contacts']" :key="i">
+    <template x-for="(step, i) in stepLabels" :key="i">
       <li class="flex items-start gap-2">
         <button
           type="button"
-          class="mt-1 w-6 h-6 flex-none rounded-full border-2 border-yellow-300 text-yellow-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          :class="steps[i] ? 'bg-green-400 border-green-400 text-white' : ''"
-          @click="steps[i]=true"
           :aria-checked="steps[i]"
           role="checkbox"
+          tabindex="0"
+          @click="toggleStep(i)"
+          @keydown.enter.prevent="toggleStep(i)"
+          @keydown.space.prevent="toggleStep(i)"
+          class="mt-1 w-6 h-6 flex-none rounded-full border-2 border-yellow-300 text-yellow-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-black/40"
+          :class="steps[i] ? 'bg-green-400 border-green-400 text-white animate-confetti-pop' : ''"
         >
-          <span x-show="steps[i]">✔️</span>
+          <span x-show="steps[i]" class="select-none transition-all duration-300">✔️</span>
         </button>
-        <span :class="steps[i] ? 'line-through text-green-300' : ''" class="flex-1">{{ step }}</span>
+        <span
+          :class="steps[i] ? 'line-through text-green-300' : ''"
+          class="flex-1 select-text transition-all duration-200"
+          x-text="step"
+        ></span>
       </li>
     </template>
   </ol>
 
   <!-- Quick Actions -->
   <div class="space-y-2 mb-4">
-    <a href="/dashboard" @click="steps[0]=true" class="block text-center bg-yellow-400 text-black font-bold py-2 rounded-lg hover:bg-yellow-300 transition">Dashboard</a>
-    <a href="/admin/invite" @click="steps[1]=true" class="block text-center bg-yellow-300 text-black font-semibold py-2 rounded-lg hover:bg-yellow-200 transition">Invite Sponsors</a>
-    <a href="/admin/import" @click="steps[2]=true" class="block text-center bg-yellow-200 text-black font-semibold py-2 rounded-lg hover:bg-yellow-100 transition">Import Contacts</a>
+    <a href="/dashboard" @click="stepQuick(0)" class="block text-center bg-yellow-400 text-black font-bold py-2 rounded-lg hover:bg-yellow-300 transition" tabindex="0">Dashboard</a>
+    <a href="/admin/invite" @click="stepQuick(1)" class="block text-center bg-yellow-300 text-black font-semibold py-2 rounded-lg hover:bg-yellow-200 transition" tabindex="0">Invite Sponsors</a>
+    <a href="/admin/import" @click="stepQuick(2)" class="block text-center bg-yellow-200 text-black font-semibold py-2 rounded-lg hover:bg-yellow-100 transition" tabindex="0">Import Contacts</a>
   </div>
 
-  <p class="text-xs text-yellow-400 mb-4">💡 Need help? Use the AI Concierge (💬) at any time.</p>
+  <p class="text-xs text-yellow-400 mb-4 select-none" id="ai-concierge-desc">💡 Need help? Use the AI Concierge (<span aria-label="chat icon">💬</span>) at any time.</p>
 
   <button
     @click="open=false; dismissOnboarding()"
@@ -52,44 +62,88 @@
 {% endif %}
 
 <!-- AI Concierge Tooltip -->
-<div id="ai-concierge-tip" class="fixed bottom-24 right-12 bg-yellow-400 text-black px-3 py-2 rounded-xl text-xs shadow-lg opacity-0 transform translate-y-2 transition-all">
+<div
+  id="ai-concierge-tip"
+  class="fixed bottom-24 right-12 bg-yellow-400 text-black px-3 py-2 rounded-xl text-xs shadow-lg opacity-0 transform translate-y-2 transition-all z-[9999]"
+  aria-live="polite"
+  aria-atomic="true"
+  role="status"
+  style="pointer-events:none;"
+>
   👋 Click the chat icon for AI support!
 </div>
 
 <script>
-  function launchConfetti(){
-    import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm')
-      .then(({default: confetti})=>confetti({particleCount:60,spread:80,origin:{y:0.6}}))
-      .catch(()=>{});
+function adminOnboardPopover() {
+  return {
+    open: true,
+    stepLabels: ['Visit Dashboard','Invite Sponsors','Import Contacts'],
+    steps: [false, false, false],
+    init() {
+      // Restore progress
+      const saved = localStorage.getItem('adminOnboardSteps');
+      if (saved) this.steps = JSON.parse(saved);
+      // Watch and persist steps, fire confetti on new completion
+      this.$watch('steps', (steps, oldSteps) => {
+        localStorage.setItem('adminOnboardSteps', JSON.stringify(steps));
+        // Confetti only on NEW completion
+        for (let i=0; i<steps.length; i++) {
+          if (steps[i] && !oldSteps[i]) launchConfetti();
+        }
+        // Dismiss if all complete
+        if (steps.every(s => s)) {
+          setTimeout(() => {
+            this.open = false;
+            dismissOnboarding();
+            setTimeout(() => launchConfetti(), 300);
+          }, 500);
+        }
+      }, {deep:true});
+    },
+    toggleStep(i) { this.steps[i] = !this.steps[i]; },
+    stepQuick(i) { this.steps[i] = true; },
   }
-  function dismissOnboarding(){
-    fetch('{{ url_for("admin.dismiss_onboarding") }}',{method:'POST',headers:{'X-CSRFToken':'{{ csrf_token() }}','Content-Type':'application/json'},body:JSON.stringify({dismissed:true})});
-  }
-  document.addEventListener('DOMContentLoaded',()=>{
-    setTimeout(()=>{
-      const tip=document.getElementById('ai-concierge-tip');
-      tip.style.opacity=1; tip.style.transform='translateY(0)';
-      setTimeout(()=>{tip.style.opacity=0; tip.style.transform='translateY(2rem)';},4000);
-    },1500);
+}
+function launchConfetti() {
+  import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/+esm')
+    .then(({ default: confetti }) =>
+      confetti({ particleCount: 60, spread: 80, origin: { y: 0.6 } })
+    ).catch(()=>{});
+}
+function dismissOnboarding() {
+  fetch('{{ url_for("admin.dismiss_onboarding") }}', {
+    method: 'POST',
+    headers: { 'X-CSRFToken': '{{ csrf_token() }}', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ dismissed: true })
   });
+  localStorage.removeItem('adminOnboardSteps');
+}
+// AI Concierge Tip Reveal
+document.addEventListener('DOMContentLoaded', () => {
+  const tip = document.getElementById('ai-concierge-tip');
+  setTimeout(() => {
+    tip.style.opacity = 1;
+    tip.style.transform = 'translateY(0)';
+    setTimeout(() => {
+      tip.style.opacity = 0;
+      tip.style.transform = 'translateY(2rem)';
+    }, 4000);
+  }, 1500);
+});
 </script>
 
 <style>
-  /* Fade-in animation */
-  @keyframes fadeIn { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
-  .animate-fade-in { animation:fadeIn 0.5s ease both; }
-
-  /* Tooltip Styles */
-  #ai-concierge-tip { pointer-events:none; }
-
-  /* Focus state for the popover */
-  #admin-onboarding-popover:focus { outline-offset:4px; }
-
-  /* Animated confetti when onboarding steps are completed */
-  @keyframes confetti-pop {
-    0% { opacity: 0; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1); }
-  }
-  .animate-confetti-pop { animation: confetti-pop 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px);} to { opacity: 1; transform: translateY(0);} }
+.animate-fade-in { animation: fadeIn 0.5s ease both;}
+@keyframes confetti-pop { 0% { opacity: 0; transform: scale(0.8);} 100% { opacity: 1; transform: scale(1); } }
+.animate-confetti-pop { animation: confetti-pop 0.5s ease-out;}
+@keyframes wiggle { 0%,100% { transform: rotate(-10deg);} 50% { transform: rotate(10deg);} }
+.animate-wiggle { animation: wiggle 1.3s infinite;}
+#ai-concierge-tip { pointer-events: none;}
+#admin-onboarding-popover:focus { outline-offset: 4px; }
+@media (max-width: 640px) {
+  #admin-onboarding-popover { right: 0.5rem; left: 0.5rem; bottom: 2rem; max-width: 96vw;}
+  #ai-concierge-tip { right: 0.5rem; left: unset;}
+}
 </style>
 

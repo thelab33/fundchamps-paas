@@ -1,3 +1,4 @@
+{# === Pro-Polished Footer Partial — FundChamps Elite Edition === #}
 {% set now_year = now.year if now is defined else 2025 %}
 {% set footer_logo = team.footer_logo_url if team and team.footer_logo_url else url_for('static', filename='images/logo.webp') %}
 {% set raised = stats.raised if stats is defined and stats.raised is defined else 0 %}
@@ -8,57 +9,28 @@
   id="site-footer"
   role="contentinfo"
   tabindex="-1"
-  class="relative mt-16 bg-gradient-to-t from-black via-zinc-900 to-transparent py-14 px-3 sm:px-8 text-center text-sm text-zinc-400 select-none shadow-gold-glow overflow-hidden"
+  class="relative bg-gradient-to-t from-black via-zinc-900 to-transparent py-8 sm:py-10 px-3 sm:px-8 text-center text-sm text-zinc-400 select-none shadow-gold-glow overflow-hidden border-t border-yellow-400/10"
 >
-  <!-- Watermark logo for trust/brand -->
+  <!-- Watermark logo -->
   <div class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-10">
-    <img
-      src="{{ footer_logo }}"
-      alt=""
-      class="h-56 sm:h-80 mx-auto blur-[2px] grayscale"
-      aria-hidden="true"
-      loading="lazy"
-      decoding="async"
-    />
+    <img src="{{ footer_logo }}" alt="" class="h-56 sm:h-80 mx-auto blur-[2px] grayscale" aria-hidden="true" loading="lazy" decoding="async" />
   </div>
 
-  <!-- A11y skip-link -->
-  <a
-    href="#main"
-    class="sr-only focus:not-sr-only absolute left-2 top-2 z-50 rounded bg-yellow-300 px-3 py-1 font-semibold text-black shadow-lg"
-    tabindex="0"
-  >
-    Skip to Main
-  </a>
+  <!-- Skip link for accessibility -->
+  <a href="#main" class="sr-only focus:not-sr-only absolute left-2 top-2 z-50 rounded bg-yellow-300 px-3 py-1 font-semibold text-black shadow-lg" tabindex="0">Skip to Main</a>
 
-  <div class="relative z-10 container mx-auto grid gap-12 md:grid-cols-3">
+  <div class="relative z-10 container mx-auto grid gap-10 md:grid-cols-3">
     <!-- 1️⃣ Brand & Socials -->
     <section aria-label="Team brand and social links" class="flex flex-col items-center gap-2">
-      <img
-        src="{{ footer_logo }}"
-        alt="{{ team.team_name or 'FundChamps' }} logo"
-        class="h-14 w-14 mb-2 rounded-full bg-white shadow-xl"
-        loading="lazy"
-        decoding="async"
-      />
-      <h3
-        class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-2xl font-black text-transparent drop-shadow animate-shine"
-      >
+      <img src="{{ footer_logo }}" alt="{{ team.team_name or 'FundChamps' }} logo" class="h-14 w-14 mb-2 rounded-full bg-white shadow-xl" loading="lazy" decoding="async" />
+      <h3 class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400 bg-clip-text text-2xl font-black text-transparent drop-shadow animate-shine">
         {{ team.team_name or 'FundChamps' }}
       </h3>
-      <p class="text-xs opacity-90 select-text">
-        {{ team.division or 'AAU 12U' }} &nbsp;|&nbsp; {{ team.location or 'Austin, TX' }}
-      </p>
+      <p class="text-xs opacity-90 select-text">{{ team.division or 'AAU 12U' }} &nbsp;|&nbsp; {{ team.location or 'Austin, TX' }}</p>
       <p class="text-xs text-yellow-300/70 select-text">© {{ now_year }}</p>
       <nav class="mt-1 flex gap-3" aria-label="Social media links">
         {% if team and team.instagram %}
-          <a
-            href="{{ team.instagram }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition"
-          >
+          <a href="{{ team.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="6" stroke-width="2" />
               <circle cx="12" cy="12" r="5" stroke-width="2" />
@@ -67,13 +39,7 @@
           </a>
         {% endif %}
         {% if team and team.facebook %}
-          <a
-            href="{{ team.facebook }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-            class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition"
-          >
+          <a href="{{ team.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="6" stroke-width="2" />
               <path d="M16 8h-2a2 2 0 0 0-2 2v2h4l-1 4h-3v4" stroke-width="2" />
@@ -81,13 +47,7 @@
           </a>
         {% endif %}
         {% if team and team.twitter %}
-          <a
-            href="{{ team.twitter }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitter / X"
-            class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition"
-          >
+          <a href="{{ team.twitter }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" class="hover:text-yellow-300 focus-visible:ring-2 ring-yellow-300 transition">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="6" stroke-width="2" />
               <path d="M7 17L17 7M7 7l10 10" stroke-width="2" />
@@ -106,40 +66,18 @@
         aria-valuemax="100"
         class="h-5 w-full max-w-xs overflow-hidden rounded-full bg-zinc-800 shadow-inner"
       >
-        <div
-          id="footer-bar"
-          style="width:{{ pct }}%;"
-          class="h-full bg-gradient-to-r from-yellow-400 to-amber-300 transition-[width] duration-700"
-        ></div>
+        <div id="footer-bar" style="width:{{ pct }}%;" class="h-full bg-gradient-to-r from-yellow-400 to-amber-300 transition-[width] duration-700"></div>
       </div>
       <p id="footer-status" class="font-semibold text-yellow-400 select-text">
         ${{ '{:,}'.format(raised) }} of ${{ '{:,}'.format(goal) }} raised
         {% if raised >= goal %}
-          <span
-            class="ml-2 animate-pop text-xl"
-            id="footer-confetti"
-            aria-label="Goal reached celebration"
-            role="img"
-          >🎉</span>
+          <span class="ml-2 animate-pop text-xl" id="footer-confetti" aria-label="Goal reached celebration" role="img">🎉</span>
         {% endif %}
       </p>
-      <nav
-        class="mt-2 flex flex-wrap justify-center gap-3 text-yellow-200"
-        aria-label="Contact and donation quick links"
-      >
+      <nav class="mt-2 flex flex-wrap justify-center gap-3 text-yellow-200" aria-label="Contact and donation quick links">
         <a class="hover:underline" href="mailto:{{ team.email or 'arodgps@gmail.com' }}">📧 Email</a>
-        <a
-          class="hover:underline"
-          href="{{ team.website or 'https://www.connectatxelite.com' }}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >🌐 Website</a>
-        <a
-          class="font-bold hover:underline"
-          href="{{ team.paypal or 'https://www.paypal.com/donate/your-link' }}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >💸 Donate</a>
+        <a class="hover:underline" href="{{ team.website or 'https://www.connectatxelite.com' }}" target="_blank" rel="noopener noreferrer">🌐 Website</a>
+        <a class="font-bold hover:underline" href="{{ team.paypal or 'https://www.paypal.com/donate/your-link' }}" target="_blank" rel="noopener noreferrer">💸 Donate</a>
       </nav>
     </section>
 
@@ -150,21 +88,14 @@
       <p id="next-event" aria-live="polite" aria-atomic="true" class="mt-1">
         Next Tournament: <span id="next-event-text" aria-live="polite">Loading…</span>
       </p>
-      <button
-        type="button"
-        onclick="openSupporters()"
-        class="mt-1 text-xs text-yellow-400 underline transition hover:text-yellow-200 focus-visible:outline focus-visible:outline-2 rounded"
-        aria-label="View all supporters"
-      >
-        View All Supporters
-      </button>
+      <button type="button" onclick="openSupporters()" class="mt-1 text-xs text-yellow-400 underline transition hover:text-yellow-200 focus-visible:outline focus-visible:outline-2 rounded" aria-label="View all supporters">View All Supporters</button>
     </section>
   </div>
 
   <!-- 🎉 Supporter ticker -->
   <div
     id="supporter-ticker"
-    class="relative mx-auto mt-10 max-w-2xl overflow-x-auto whitespace-nowrap text-center text-base text-yellow-200 font-semibold rounded-lg bg-black/30 py-2 px-3 shadow-inner glassy"
+    class="relative mx-auto mt-7 max-w-2xl overflow-x-auto whitespace-nowrap text-center text-base text-yellow-200 font-semibold rounded-lg bg-black/30 py-2 px-3 shadow-inner glassy"
     tabindex="0"
     aria-label="Recent supporters"
   >
@@ -197,15 +128,8 @@
     class="fixed inset-0 z-[9999] hidden h-full w-full items-center justify-center bg-black/80 backdrop-blur"
   >
     <div class="relative w-full max-w-lg rounded-xl bg-zinc-950 p-8 shadow-xl">
-      <button
-        type="button"
-        class="absolute right-2 top-2 text-xl text-yellow-300 hover:text-red-500 focus:outline-2 rounded"
-        aria-label="Close supporters modal"
-        onclick="closeSupporters()"
-      >×</button>
-      <h3 id="supporters-title" class="mb-4 text-2xl font-extrabold text-yellow-400">
-        🏆 All Supporters
-      </h3>
+      <button type="button" class="absolute right-2 top-2 text-xl text-yellow-300 hover:text-red-500 focus:outline-2 rounded" aria-label="Close supporters modal" onclick="closeSupporters()">×</button>
+      <h3 id="supporters-title" class="mb-4 text-2xl font-extrabold text-yellow-400">🏆 All Supporters</h3>
       <ul class="max-h-80 overflow-y-auto text-base text-yellow-100" tabindex="0">
         {% if all_supporters %}
           {% for s in all_supporters %}
@@ -220,7 +144,7 @@
   </dialog>
 </footer>
 
-<!-- Mobile sticky donate/cta (only on small screens) -->
+<!-- Mobile sticky donate CTA -->
 <a
   href="{{ team.paypal or '#donate' }}"
   class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] px-7 py-3 bg-yellow-400 text-black font-black rounded-full shadow-lg ring-2 ring-yellow-300 text-base lg:hidden animate-bounce-in focus-visible:ring-4 focus-visible:ring-yellow-300"
@@ -229,6 +153,21 @@
 >
   💸 Donate Now
 </a>
+
+<style>
+  .animate-shine {
+    background: linear-gradient(270deg, #fbbf24, #fde68a, #fbbf24);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: subtle-shine 6s ease infinite;
+  }
+  @keyframes subtle-shine { 0%,100% { background-position: 0%; } 50% { background-position: 100%; } }
+  .animate-pop { animation: pop 0.4s cubic-bezier(.55,1.5,.7,1.1) both; }
+  @keyframes pop { 0% { transform: scale(0.7); } 100% { transform: scale(1.15); } }
+  .glassy { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%);}
+</style>
 
 <script>
   // Next event countdown

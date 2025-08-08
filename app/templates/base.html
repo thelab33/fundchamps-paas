@@ -18,7 +18,7 @@
   <title>{% block title %}{{ team.team_name|default('Connect ATX Elite', true) }}{% endblock %}</title>
   <meta name="description" content="{{ team.meta_description|default('Connect ATX Elite — Family-run AAU basketball building future leaders in East Austin.', true) }}" />
 
-  <!-- OG / Twitter Meta -->
+  {# Open Graph & Twitter Cards #}
   {% set _raw_og = team.og_image if team and team.og_image else 'images/logo.avif' %}
   {% set ogimg = _raw_og if _raw_og.startswith('http') else url_for('static', filename=_raw_og) %}
   <meta property="og:type" content="website" />
@@ -34,27 +34,27 @@
   <meta name="twitter:description" content="{{ team.og_description|default('Support our basketball journey and invest in our next generation of leaders.', true) }}" />
   <meta name="twitter:image" content="{{ ogimg }}" />
 
-  <!-- Favicon & PWA icons -->
+  {# Favicon & Apple Icons #}
   <link rel="icon" type="image/png" sizes="32x32" href="{{ (team and team.favicon) and url_for('static', filename=team.favicon, v=asset_version) or url_for('static', filename='images/favicon.png', v=asset_version) }}" />
   <link rel="apple-touch-icon" href="{{ (team and team.apple_icon) and url_for('static', filename=team.apple_icon, v=asset_version) or url_for('static', filename='images/logo.avif', v=asset_version) }}" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <!-- Preconnects & Performance -->
+  {# Preconnects & Prefetch for performance #}
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://api.stripe.com" />
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://api.stripe.com" />
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  {# Google Fonts - Inter #}
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" crossorigin="anonymous" />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" crossorigin="anonymous" />
 
-  <!-- Preload critical logo -->
+  {# Preload critical logo #}
   <link rel="preload" href="{{ url_for('static', filename=team.logo if team and team.logo else 'images/logo.webp') }}" as="image" type="image/webp" />
 
-  <!-- Stylesheets -->
+  {# Tailwind CSS Styles #}
   <link rel="preload" href="{{ url_for('static', filename='css/tailwind.min.css', v=asset_version) }}" as="style" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.min.css', v=asset_version) }}" media="all" />
   {% if app_env != 'production' %}
@@ -64,7 +64,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/' ~ team.custom_css, v=asset_version) }}">
   {% endif %}
 
-  <!-- SEO: JSON-LD -->
+  {# JSON-LD Structured Data #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -88,60 +88,78 @@
   {% block head_extra %}{% endblock %}
 </head>
 
-<body class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col{% if team and team.body_class %} {{ team.body_class }}{% endif %}"
-      role="document"
-      aria-live="polite"
-      aria-busy="false"
-      x-data="{ dark: localStorage.getItem('theme') === 'dark' }"
+<body
+  class="bg-zinc-950 text-white font-sans antialiased min-h-screen flex flex-col{% if team and team.body_class %} {{ team.body_class }}{% endif %}"
+  role="document"
+  aria-live="polite"
+  aria-busy="false"
+  x-data="{ dark: localStorage.getItem('theme') === 'dark' }"
 >
   <script>
-    (function(d){ d.documentElement.classList.remove('no-js'); d.documentElement.classList.add('js'); })(document);
+    (function(d) {
+      d.documentElement.classList.remove('no-js');
+      d.documentElement.classList.add('js');
+    })(document);
   </script>
 
   <a href="#main-content" class="sr-only focus:not-sr-only absolute top-2 left-2 bg-yellow-400 text-black font-semibold px-3 py-1 rounded-lg z-50" tabindex="0">Skip to main content</a>
 
   <!-- Dark Mode Toggle -->
   <button id="dark-mode-toggle" aria-label="Toggle dark mode"
-    class="fixed bottom-6 left-6 z-50 rounded-full bg-yellow-400 p-3 shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-300">
+    class="fixed bottom-6 left-6 z-50 rounded-full bg-yellow-400 p-3 shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+  >
     <span aria-hidden="true" class="block text-lg">🌙</span>
     <span class="sr-only">Toggle dark mode</span>
   </button>
 
-  <!-- Page Loader -->
+  <!-- Page Loader Overlay -->
   <div id="page-loader"
     class="fixed inset-0 flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 z-50"
-    aria-label="Loading" aria-live="polite">
+    aria-label="Loading" aria-live="polite"
+  >
     <svg class="animate-spin h-12 w-12 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
     </svg>
   </div>
 
-  {% block announcement %}{% endblock %}
+  {# === ANNOUNCEMENT BAR: SPONSOR TICKER (Elite, always on top) === #}
+  {% block announcement %}
+    {% include "partials/header_sponsor_ticker.html" ignore missing %}
+  {% endblock %}
+
   {% include 'partials/header_and_announcement.html' ignore missing %}
   {% block hero %}{% endblock %}
 
-  <main id="main-content" role="main" tabindex="-1"
-        class="min-h-[60vh] flex flex-col gap-14 max-w-6xl w-full mx-auto px-2 sm:px-8 pt-6"
-        style="scroll-margin-top: 80px;">
+  <main
+    id="main-content"
+    role="main"
+    tabindex="-1"
+    class="min-h-[60vh] flex flex-col gap-14 max-w-6xl w-full mx-auto px-2 sm:px-8 pt-6"
+    style="scroll-margin-top: 80px;"
+  >
     {% block content %}{% endblock %}
   </main>
 
   {% include 'partials/footer.html' ignore missing %}
+
+  {# === GLOBAL MODALS: Donation Modal + Newsletter === #}
   {% block global_modals %}
+    {% include 'partials/donation_modal.html' ignore missing %}
     {% include 'partials/newsletter.html' ignore missing %}
   {% endblock %}
+
   {% block pre_scripts %}{% endblock %}
 
   <script src="{{ url_for('static', filename='js/main.js', v=asset_version) }}" defer></script>
-  <!-- Enhanced dark mode, loader logic -->
+
   <script>
-    // Toggle dark mode and persist in localStorage
+    // Dark Mode Toggle and Persistence
     (function() {
       const btn = document.getElementById('dark-mode-toggle');
       btn.addEventListener('click', () => {
         const html = document.documentElement;
-        if(html.classList.contains('dark')) {
+        if (html.classList.contains('dark')) {
           html.classList.remove('dark');
           localStorage.setItem('theme', 'light');
         } else {
@@ -149,13 +167,13 @@
           localStorage.setItem('theme', 'dark');
         }
       });
-      // Load theme preference
-      if(localStorage.getItem('theme') === 'dark') {
+      // Apply stored theme on load
+      if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
       }
     })();
 
-    // Page loader (window.showLoader/hideLoader)
+    // Page loader control
     window.showLoader = () => {
       const loader = document.getElementById('page-loader');
       loader.classList.remove('opacity-0', 'pointer-events-none');
@@ -165,6 +183,7 @@
       loader.classList.add('opacity-0', 'pointer-events-none');
     };
   </script>
+
   {% block scripts %}{% endblock %}
   {% block post_scripts %}{% endblock %}
 </body>
