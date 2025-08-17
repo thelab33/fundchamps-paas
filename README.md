@@ -1,32 +1,17 @@
-# Connect ATX Elite
+# 🏆 FundChamps PaaS
 
-Production-ready Flask app for Connect ATX Elite, featuring:
-- Modular app factory pattern
-- SQLAlchemy ORM & migrations
-- Flask-SocketIO for realtime
-- TailwindCSS & modular partials
-- Clean blueprints for API, SMS, and more
-
-## Quickstart
-
-1. Install requirements  
-   `pip install -r requirements.txt`
-
-2. Run migrations  
-   `flask db init && flask db migrate -m "init" && flask db upgrade`
-
-3. Run server  
-   `python run.py`
-
-4. For SocketIO in prod, use:  
-   `gunicorn -k eventlet -w 1 run:app`
+FundChamps is a **PaaS-ready platform** for youth programs, nonprofits, and community teams.  
+It provides **fundraising, memberships, sponsors, and tenant-ready onboarding** — out of the box.
 
 ---
 
-## Folder Structure
+## 🚀 Quickstart
 
-See `/app` for all source code, `/migrations` for Alembic migrations, `/tests` for pytest unit tests.
+```bash
+# clone the repo
+git clone git@github.com:thelab33/fundchamps-paas.git
+cd fundchamps-paas
 
----
+# run with docker compose
+docker compose up --build
 
-*Happy Hacking!* 🚀
